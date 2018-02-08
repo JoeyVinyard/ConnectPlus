@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -9,6 +10,10 @@ import { ListComponent } from './list/list.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NavComponent } from './nav/nav.component';
 
+import { ROUTES } from './app.routes';
+import { SplashComponent } from './splash/splash.component';
+import { UserComponent } from './user/user.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,10 +22,13 @@ import { NavComponent } from './nav/nav.component';
     MapComponent,
     ListComponent,
     SettingsComponent,
-    NavComponent
+    NavComponent,
+    SplashComponent,
+    UserComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(ROUTES)
   ],
   providers: [],
   bootstrap: [AppComponent]
