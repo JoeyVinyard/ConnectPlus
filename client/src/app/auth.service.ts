@@ -11,7 +11,7 @@ export class AuthService {
 
   }
   login(){
-  	this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  	this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());//Creates popup, will be replaced later
   }
   logout(){
   	this.af.Auth.auth.signOut();
