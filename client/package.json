@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "angular-particle": "^1.0.4",
     "core-js": "^2.4.1",
     "foundation-sites": "^6.4.4-rc1",
     "rxjs": "^5.4.2",
