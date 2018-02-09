@@ -1,0 +1,48 @@
+body{
+    background-color: #004E7F;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+#mainNav{
+    background-color: #f9f9f9;
+    width: 100%;
+    height: 20%;
+    display: block;
+    align-content: center;
+    display: block;
+    border-radius: 0px 0px 25px 25px;
+
+}
+
+#navLogo{
+    align-content: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#invisible{
+   visibility: hidden;
+}
+
+.logButton{
+    padding: 0.5rem;
+    font-size: 2rem;
+    color: #0076BB;
+    background-color: transparent;
+    border-radius: 25px;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    margin-right: 10%;
+    margin-left: 50%;
+    border-color: #0076BB;
+    border: 2px solid #0076BB;
+    display: block;
+    align-content: right;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.logButton:hover{
+    background-color: #0076BB;
+    color: white;
+}
