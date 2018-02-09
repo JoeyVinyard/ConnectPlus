@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+html *{
+	font-family: 'Roboto Condensed', sans-serif;
+}
+
+body{
+    background-color: #004E7F;
+}

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { ParticlesModule } from 'angular-particle';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { SignupComponent } from './signup/signup.component';
@@ -28,6 +29,7 @@ import { UserComponent } from './user/user.component';
   ],
   imports: [
     BrowserModule,
+    ParticlesModule,
     RouterModule.forRoot(ROUTES)
   ],
   providers: [],
