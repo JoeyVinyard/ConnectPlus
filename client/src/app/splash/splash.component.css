@@ -1,0 +1,10 @@
+body{
+    background-color: #004E7F;
+}
+
+#welcome{
+    font-size: 5rem;
+    color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+}
