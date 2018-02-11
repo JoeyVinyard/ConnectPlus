@@ -9,10 +9,13 @@ import { AuthService } from '../services/auth.service';
 export class SignupComponent implements OnInit {
 
   constructor(private auth: AuthService) {
-  	// auth.signup('vinyardjoseph@gmail.com', 'bucket1');
+  	auth.signup('vinyardjoseph@gmail.com', 'bucket1').then((user) => {
+  		console.log(user);
+  	}).catch((err) => {
+  		console.error(err);
+  	})
   }
 
   ngOnInit() {
   }
-
 }
