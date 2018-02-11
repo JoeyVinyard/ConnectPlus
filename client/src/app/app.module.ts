@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ParticlesModule } from 'angular-particle';
 import { RouterModule, Routes } from '@angular/router';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppComponent } from './app.component';
 import { SignupComponent } from './signup/signup.component';
@@ -10,16 +14,14 @@ import { MapComponent } from './map/map.component';
 import { ListComponent } from './list/list.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NavComponent } from './nav/nav.component';
-
-import { ROUTES } from './app.routes';
 import { SplashComponent } from './splash/splash.component';
 import { UserComponent } from './user/user.component';
 
-import { AngularFireModule } from 'angularfire2';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFireStorageModule } from 'angularfire2/storage';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { environment } from '../environments/environment';
+import { AuthService } from './services/auth.service'
+
+
+import { fbConfig } from '../environments/firebase.config';
+import { ROUTES } from './app.routes';
 
 @NgModule({
   declarations: [
@@ -36,14 +38,15 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     ParticlesModule,
-    RouterModule.forRoot(ROUTES)
-     AngularFireModule.initializeApp(environment.firebase, 'ConnecPlus'), 
+    RouterModule.forRoot(ROUTES),
+    AngularFireModule.initializeApp(fbConfig, 'ConnecPlus'), 
     AngularFirestoreModule, 
     AngularFireAuthModule,
-    auth features,
     AngularFireStorageModule
   ],
-  providers: [],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

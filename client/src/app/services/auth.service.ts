@@ -1,21 +1,19 @@
- import { Injectable } from '@angular/core';
- import { Component } from '@angular/core';
- import { AngularFireAuth } from 'angularfire2/auth';
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth'
 
- @Injectable()
- export class AuthService {
+@Injectable()
+export class AuthService {
+	signup(email, password){
+		console.log(email,password);
+	}
+	login(email, password){
 
-   constructor(private afAuth: AngularFireAuth) { 
+	}
+	logout(){
+		this.afAuth.auth.signOut();
+	}
+	constructor(private afAuth: AngularFireAuth) { 
 
-   }
-   signup(email, password){
+	}
 
-   }
-   login(email, password){
-   	//We return a promise here because it is async
-   	// return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-   }
-   logout(){
-   	this.afAuth.auth.signOut();
-   }
 }
