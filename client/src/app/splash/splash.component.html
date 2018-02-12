@@ -1,6 +1,39 @@
 <particles [params]="myParams" [style]="myStyle" [width]="width" [height]="height"></particles>
-<div class="row" id="mainNav">
-	<div class="medium-12 medium-centered column">
-		<p id="welcome">Welcome to Connec+</p>
-	</div>
+
+<div class="row" id="mainDiv">
+	<div class="medium-12 medium-centered column" id="welcomeDiv">
+    <!-- <p id="welcome">Welcome to Connec+</p> -->
+    <div class="medium-6 column" id="messageDiv">
+        <p class="unselectable" id="message">Connect with the world around you</p>
+        <button class="button">Login</button>
+        <button class="button">Signup</button>
+    </div>
+    <div class="medium-6 column">
+        <img src="../../assets/phoneView.png" id="mockup">
+    </div>
+  </div>
+
+  <div class="medium-12 medium-centered column" id="firstSection">
+      <!-- <div class="medium-4 column">
+        <p>Section 1</p>
+      </div>
+      <div class="medium-4 column">
+        <p>Section 2</p>
+      </div>
+      <div class="medium-4 column">
+        <p>Section 3</p>
+      </div> -->
+      <p id="firstTitle">How it Works</p>
+      <button class="button" id="downButton">⇩</button>
+      <p id="connectMessage">Connect current social media to your Connec+ Account</p>
+
+      <div class="rounded-social-buttons">
+          <a class="social-button facebook"></a>
+          <a class="social-button instagram"></a>
+          <a class="social-button linkedin"></a>
+          <a class="social-button blackboard"></a>
+      </div>
+
+      
+  </div>
 </div>
