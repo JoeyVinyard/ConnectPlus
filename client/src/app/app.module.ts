@@ -19,7 +19,6 @@ import { UserComponent } from './user/user.component';
 
 import { AuthService } from './services/auth.service'
 
-
 import { fbConfig } from '../environments/firebase.config';
 import { ROUTES } from './app.routes';
 
