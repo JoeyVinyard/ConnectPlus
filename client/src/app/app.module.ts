@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule }   from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { ParticlesModule } from 'angular-particle';
 import { RouterModule, Routes } from '@angular/router';
@@ -37,6 +38,7 @@ import { ROUTES } from './app.routes';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     ParticlesModule,
     RouterModule.forRoot(ROUTES),
     AngularFireModule.initializeApp(fbConfig, 'ConnecPlus'), 
