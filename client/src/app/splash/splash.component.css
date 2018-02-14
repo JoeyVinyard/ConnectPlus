@@ -58,6 +58,10 @@
     background-color: #0076BB;
 }
 
+#downArrow{
+    size: 4rem;
+}
+
 #mockup{
     width: 50%;
     height: auto;
