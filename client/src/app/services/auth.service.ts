@@ -24,6 +24,10 @@ export class AuthService {
 		return this.afAuth.auth.createUserWithEmailAndPassword(email,password);	
 	}
 
+	resetpassowrd(email){
+		return this.afAuth.auth.sendPasswordResetEmail(email);
+	}
+
 	constructor(private afAuth: AngularFireAuth) {
 		this.afAuth.auth.onAuthStateChanged((user) => {
 			this.user = user;
