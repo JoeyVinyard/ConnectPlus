@@ -7,6 +7,8 @@ import { SignupComponent } from './signup/signup.component';
 import { SplashComponent } from './splash/splash.component';
 import { UserComponent } from './user/user.component';
 
+import { AuthGuard } from './services/auth-guard.service';
+
 export const ROUTES: Routes = [
 	{
 		path: "",
@@ -14,15 +16,18 @@ export const ROUTES: Routes = [
 	},
 	{
 		path: "list",
-		component: ListComponent
+		component: ListComponent,
+		canActivate: [AuthGuard]
 	},
 	{
 		path: "map",
-		component: MapComponent
+		component: MapComponent,
+		canActivate: [AuthGuard]
 	},
 	{
 		path: "settings",
-		component: SettingsComponent
+		component: SettingsComponent,
+		canActivate: [AuthGuard]
 	},
 	{
 		path: "signin",
@@ -34,10 +39,12 @@ export const ROUTES: Routes = [
 	},
 	{
 		path: "user",
-		component: UserComponent
+		component: UserComponent,
+		canActivate: [AuthGuard]
 	},
 	{
 		path: "user/:id",
-		component: UserComponent
+		component: UserComponent,
+		canActivate: [AuthGuard]
 	}
 ];
