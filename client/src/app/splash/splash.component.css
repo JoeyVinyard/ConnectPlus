@@ -118,7 +118,7 @@
 #mapView{
     width: 75%;
     display: block;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     padding: 1rem;
 }
 
