@@ -17,7 +17,8 @@ import { NavComponent } from './nav/nav.component';
 import { SplashComponent } from './splash/splash.component';
 import { UserComponent } from './user/user.component';
 
-import { AuthService } from './services/auth.service'
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './services/auth-guard.service'
 
 import { fbConfig } from '../environments/firebase.config';
 import { ROUTES } from './app.routes';
@@ -44,6 +45,7 @@ import { ROUTES } from './app.routes';
     AngularFireStorageModule
   ],
   providers: [
+    AuthGuard,
     AuthService
   ],
   bootstrap: [AppComponent]
