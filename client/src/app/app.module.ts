@@ -23,6 +23,7 @@ import { AuthGuard } from './services/auth-guard.service'
 
 import { fbConfig } from '../environments/firebase.config';
 import { ROUTES } from './app.routes';
+import { CreateProfileComponent } from './create-profile/create-profile.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ROUTES } from './app.routes';
     SettingsComponent,
     NavComponent,
     SplashComponent,
-    UserComponent
+    UserComponent,
+    CreateProfileComponent
   ],
   imports: [
     BrowserModule,
