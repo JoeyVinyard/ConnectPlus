@@ -1,7 +1,10 @@
-export const particlesConfig = {
-	height: 100,
-	width: 100,
-	params: {
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class ParticlesConfigService {
+	height = 100;
+	width = 100;
+	params = {
 		"particles": {
 			"number": {
 				"value": 202,
@@ -110,8 +113,8 @@ export const particlesConfig = {
 			}
 		},
 		"retina_detect": true
-	},
-	style: {
+	};
+	style = {
 		'position': 'fixed',
 		'width': '100%',
 		'height': '100%',
@@ -120,5 +123,7 @@ export const particlesConfig = {
 		'left': 0,
 		'right': 0,
 		'bottom': 0,
-	}
+	};
+	constructor() { }
+
 }

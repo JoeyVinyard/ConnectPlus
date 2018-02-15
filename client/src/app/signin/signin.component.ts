@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { particlesConfig } from '../services/particles';
+import { ParticlesConfigService } from '../services/particles-config.service';
 
 @Component({
   selector: 'app-signin',
@@ -63,9 +63,7 @@ errors = {
 	}
 
 
-	constructor() {
-		this.particlesConfig = particlesConfig;
-	}
+	constructor(public pConfig: ParticlesConfigService) {}
 
 	ngOnInit() {}
 

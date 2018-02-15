@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { particlesConfig } from '../services/particles';
+import { ParticlesConfigService } from '../services/particles-config.service';
 
 @Component({
   selector: 'app-splash',
@@ -8,11 +8,7 @@ import { particlesConfig } from '../services/particles';
 })
 export class SplashComponent implements OnInit {
 
-	particlesConfig;
-
-	constructor() {
-		this.particlesConfig = particlesConfig;
-	}
+	constructor(public pConfig: ParticlesConfigService) {}
 
 	ngOnInit() {}
 
