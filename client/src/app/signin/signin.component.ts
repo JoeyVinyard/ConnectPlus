@@ -9,6 +9,7 @@ import { particlesConfig } from '../services/particles';
 export class SigninComponent implements OnInit {
 
 	particlesConfig;
+	
 
 	constructor() {
 		this.particlesConfig = particlesConfig;
