@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { ListComponent } from './list/list.component';
 import { MapComponent } from './map/map.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -13,6 +14,11 @@ export const ROUTES: Routes = [
 	{
 		path: "",
 		component: SplashComponent
+	},
+	{
+		path: "create",
+		component: CreateProfileComponent,
+		canActivate: [AuthGuard]
 	},
 	{
 		path: "list",
