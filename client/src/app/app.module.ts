@@ -17,6 +17,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { NavComponent } from './nav/nav.component';
 import { SplashComponent } from './splash/splash.component';
 import { UserComponent } from './user/user.component';
+import { ResetpasswordComponent} from './resetpassword/resetpassword.component';
 
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service'
@@ -36,7 +37,8 @@ import { CreateProfileComponent } from './create-profile/create-profile.componen
     NavComponent,
     SplashComponent,
     UserComponent,
-    CreateProfileComponent
+    CreateProfileComponent,
+    ResetpasswordComponent
   ],
   imports: [
     BrowserModule,
