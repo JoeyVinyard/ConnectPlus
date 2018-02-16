@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ParticlesConfigService } from '../services/particles-config.service';
 
@@ -29,7 +30,7 @@ export class SignupComponent implements OnInit {
 			return;
 		}
 		this.auth.signup(this.model.email, this.model.password).then((user) => {
-			//Success, redirect user to next page
+			this.router.navigateByUrl("create");
 		}).catch((err) => {
 			this.submitted = false;
 			this.submitted = false;
@@ -63,7 +64,7 @@ export class SignupComponent implements OnInit {
 		return noErr;
 	}
 
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService) {}
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router) {}
 
 	ngOnInit() {}
 }

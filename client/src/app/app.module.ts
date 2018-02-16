@@ -45,6 +45,7 @@ import { CreateProfileComponent } from './create-profile/create-profile.componen
     BrowserModule,
     FormsModule,
     ParticlesModule,
+    RouterModule,
     RouterModule.forRoot(ROUTES),
     AngularFireModule.initializeApp(fbConfig, 'ConnecPlus'), 
     AngularFirestoreModule, 

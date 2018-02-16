@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
 
@@ -27,7 +28,7 @@ export class SigninComponent implements OnInit {
 			return;
 		}
 		this.auth.login(this.model.email, this.model.password).then((user) => {
-			//Success, redirect user to next page
+			this.router.navigateByUrl("map");
 		}).catch((err) => {
 			this.submitted = false;
 			this.submitted = false;
@@ -60,7 +61,7 @@ export class SigninComponent implements OnInit {
 		return noErr;
 	}
 
-	constructor(public pConfig: ParticlesConfigService) {}
+	constructor(public pConfig: ParticlesConfigService, private auth: AuthService, private router: Router) {}
 
 	ngOnInit() {}
 

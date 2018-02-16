@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
-import { particlesConfig } from '../services/particles';
 
 @Component({
   selector: 'app-resetpassword',
@@ -10,7 +9,7 @@ import { particlesConfig } from '../services/particles';
 })
 export class ResetpasswordComponent implements OnInit {
  
-	constructor(public pConfig: ParticlesConfigService) {}
+	constructor(public pConfig: ParticlesConfigService, private auth: AuthService) {}
 
 errors = {
 		email: "",
