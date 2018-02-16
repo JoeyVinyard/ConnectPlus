@@ -24,7 +24,7 @@ export class AuthService {
 		return this.afAuth.auth.createUserWithEmailAndPassword(email,password);	
 	}
 
-	resetpassowrd(email){
+	resetpassword(email){
 		return this.afAuth.auth.sendPasswordResetEmail(email);
 	}
 

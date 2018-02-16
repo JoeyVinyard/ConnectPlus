@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ParticlesConfigService } from '../services/particles-config.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: 'app-signin',
-  templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.css']
+	selector: 'app-signin',
+	templateUrl: './signin.component.html',
+	styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
-
-
-errors = {
+	
+	errors = {
 		email: "",
 		password: "",
-		confpass: ""
 	}
 	model = {
 		email: "",
 		password: "",
-		confpass: ""
 	}
 	particlesConfig;
 	submitted = false;
@@ -28,15 +26,15 @@ errors = {
 			this.submitted = false;
 			return;
 		}
-/*		this.auth.login(this.model.email, this.model.password).then((user) => {
+		this.auth.login(this.model.email, this.model.password).then((user) => {
 			//Success, redirect user to next page
 		}).catch((err) => {
 			this.submitted = false;
 			this.submitted = false;
-			if(err.code == "auth/email-already-in-use")
-				this.errors.email = "Email already in use!"
+			if(err.code == "auth/invalid-email" || err.code == "auth/wrong-password"||err.code == "auth/user-not-found"||err.code == "auth/user-disabled")
+				this.errors.email = "Email and/or password is invalid!"
 		})
-*/	}	
+	}	
 
 
 
@@ -61,7 +59,6 @@ errors = {
 		console.log(this.errors, noErr);
 		return noErr;
 	}
-
 
 	constructor(public pConfig: ParticlesConfigService) {}
 
