@@ -31,8 +31,8 @@ export class SigninComponent implements OnInit {
 		}).catch((err) => {
 			this.submitted = false;
 			this.submitted = false;
-			if(err.code == "auth/email-already-in-use")
-				this.errors.email = "Email already in use!"
+			if(err.code == "auth/invalid-email" || err.code == "auth/wrong-password"||err.code == "auth/user-not-found"||err.code == "auth/user-disabled")
+				this.errors.email = "Email and/or password is invalid!"
 		})
 	}	
 
