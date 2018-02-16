@@ -8,18 +8,17 @@
 				<div class="form-group">
 					<label for="name"><font color="white">Email:</font></label>
 					<input class="textInput" type="text" name="email" [(ngModel)]="model.email">
-					<small class="form-error">{{errors.email}}</small>
-					<p class="error">{{errors.email}}</p> 
+					<p id="emailError" class="error">{{errors.email}}</p> 
 				</div>
 				<div class="form-group">
 					<label for="name"><font color="white">Password:</font></label>
 					<input class="textInput" type="password" name="password" [(ngModel)]="model.password">
-					<p class="error">{{errors.password}}</p>
+					<p id="passError" class="error">{{errors.password}}</p>
 				</div>
 				<div class="form-group">
 					<label for="name"><font color="white">Confirm Password:</font></label>
 					<input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.confpass">
-					<p class="error">{{errors.confpass}}</p>
+					<p id="confError" class="error">{{errors.confpass}}</p>
 				</div>
 
 				<button [disabled]="submitted" class="button">Create Account</button>

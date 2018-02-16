@@ -59,7 +59,7 @@ export class SignupComponent implements OnInit {
 			if(this.errors[key])
 				noErr = false;
 		})
-		console.log(this.errors, noErr);
+		// console.log(this.errors, noErr);
 		return noErr;
 	}
 
