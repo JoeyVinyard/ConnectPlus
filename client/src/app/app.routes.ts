@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
+import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 import { ListComponent } from './list/list.component';
 import { MapComponent } from './map/map.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -29,6 +30,10 @@ export const ROUTES: Routes = [
 		path: "map",
 		component: MapComponent,
 		canActivate: [AuthGuard]
+	},
+	{
+		path: "reset",
+		component: ResetpasswordComponent
 	},
 	{
 		path: "settings",
