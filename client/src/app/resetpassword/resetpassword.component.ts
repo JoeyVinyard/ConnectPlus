@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
 import { particlesConfig } from '../services/particles';
 
@@ -8,6 +9,8 @@ import { particlesConfig } from '../services/particles';
   styleUrls: ['./resetpassword.component.css']
 })
 export class ResetpasswordComponent implements OnInit {
+ 
+	constructor(public pConfig: ParticlesConfigService) {}
 
 errors = {
 		email: "",
@@ -52,11 +55,6 @@ submit(){
 		})
 		console.log(this.errors, noErr);
 		return noErr;
-	}
-
-
-	constructor(private auth: AuthService) {
-		this.particlesConfig = particlesConfig;
 	}
 
 	ngOnInit() {}

@@ -1,4 +1,4 @@
-<particles [params]="particlesConfig.params" [style]="particlesConfig.style" [width]="particlesConfig.width" [height]="particlesConfig.height"></particles>
+<particles [params]="pConfig.params" [style]="pConfig.style" [width]="pConfig.width" [height]="pConfig.height"></particles>
 
 <div class="row" id="mainDiv">
 	<div class="medium-12 medium-centered column" id="welcomeDiv">
@@ -8,18 +8,17 @@
 				<div class="form-group">
 					<label for="name"><font color="white">Email:</font></label>
 					<input class="textInput" type="text" name="email" [(ngModel)]="model.email">
-					<small class="form-error">{{errors.email}}</small>
-					<p class="error">{{errors.email}}</p> 
+					<p id="emailError" class="error">{{errors.email}}</p> 
 				</div>
 				<div class="form-group">
 					<label for="name"><font color="white">Password:</font></label>
 					<input class="textInput" type="password" name="password" [(ngModel)]="model.password">
-					<p class="error">{{errors.password}}</p>
+					<p id="passError" class="error">{{errors.password}}</p>
 				</div>
 				<div class="form-group">
 					<label for="name"><font color="white">Confirm Password:</font></label>
 					<input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.confpass">
-					<p class="error">{{errors.confpass}}</p>
+					<p id="confError" class="error">{{errors.confpass}}</p>
 				</div>
 
 				<button class="button" routerLink="/create" routerLinkActive="active">Create Account</button>

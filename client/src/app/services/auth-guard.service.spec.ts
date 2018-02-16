@@ -1,15 +1,21 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { AuthGuardService } from './auth-guard.service';
+import { AuthGuard } from './auth-guard.service';
+import { AuthService } from './auth.service';
+import { AngularFireAuth } from 'angularfire2/auth'
+import { AngularFireModule } from 'angularfire2';
 
-describe('AuthGuardService', () => {
+import { fbConfig } from '../../environments/firebase.config';
+
+describe('AuthGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AuthGuardService]
+      providers: [AuthGuard, AuthService, AngularFireAuth],
+      imports: [ AngularFireModule.initializeApp(fbConfig, 'ConnecPlus') ]
     });
   });
 
-  it('should be created', inject([AuthGuardService], (service: AuthGuardService) => {
+  it('should be created', inject([AuthGuard], (service: AuthGuard) => {
     expect(service).toBeTruthy();
   }));
 });

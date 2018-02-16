@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { particlesConfig } from '../services/particles';
+import { ParticlesConfigService } from '../services/particles-config.service';
 
 @Component({
 	selector: 'app-signup',
@@ -59,13 +59,11 @@ export class SignupComponent implements OnInit {
 			if(this.errors[key])
 				noErr = false;
 		})
-		console.log(this.errors, noErr);
+		// console.log(this.errors, noErr);
 		return noErr;
 	}
 
-	constructor(private auth: AuthService) {
-		this.particlesConfig = particlesConfig;
-	}
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService) {}
 
 	ngOnInit() {}
 }

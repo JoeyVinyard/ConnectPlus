@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
-import { particlesConfig } from '../services/particles';
 
 @Component({
 	selector: 'app-signin',
@@ -60,10 +60,7 @@ export class SigninComponent implements OnInit {
 		return noErr;
 	}
 
-
-	constructor(private auth: AuthService) {
-		this.particlesConfig = particlesConfig;
-	}
+	constructor(public pConfig: ParticlesConfigService) {}
 
 	ngOnInit() {}
 
