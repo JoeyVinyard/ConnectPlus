@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { particlesConfig } from '../services/particles';
 
 @Component({
   selector: 'app-create-profile',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateProfileComponent implements OnInit {
 
-  constructor() { }
+  particlesConfig;
+
+	constructor() {
+		this.particlesConfig = particlesConfig;
+	}
+
 
   ngOnInit() {
   }

@@ -1,3 +1,41 @@
-<p>
-  create-profile works!
-</p>
+<particles [params]="particlesConfig.params" [style]="particlesConfig.style" [width]="particlesConfig.width" [height]="particlesConfig.height"></particles>
+
+<div id="mainDiv">
+  <div class="row">
+    <div class="medium-12 medium-centered column">
+      <div class="medium-6 medium-centered column" id="topText">
+          <p id="header">You're almost there!</p>
+          <p id="subtext">Tell us more about you below so you can easily match those around you</p>
+      </div>
+      <div class="medium-3"></div>
+      <div id="basicInfo">
+        <div class="medium-4 column">
+          <p>Image goes here</p>
+        </div>
+        <div class="medium-8 column">
+          <p>Basic info goes here</p>
+        </div>
+      </div>
+      <div id="socialIcons" class="icons">
+          <p id="iconSubtext">Connect current social media to your Connec+ Account</p>
+          <div class="medium-3 column">
+              <a class="social-icon-button facebook"><i class="fa fa-facebook" aria-hidden="true"></i><span></span></a>
+              <p>Facebook</p>
+          </div>
+          <div class="medium-3 column">
+            <a class="social-icon-button instagram"><i class="fa fa-instagram"></i><span></span></a>
+            <p>Instagram</p>
+          </div>
+          <div class="medium-3 column">
+            <a class="social-icon-button linkedin"><i class="fa fa-linkedin"></i><span></span></a>
+            <p>Linkedin</p>
+          </div>
+          <div class="medium-3 column">
+            <a class="social-icon-button blackboard"><i class="fa fa-pencil-square-o"></i><span></span></a>
+            <p>Blackboard</p>
+          </div>
+      </div>
+    </div>
+  </div>
+
+</div>
