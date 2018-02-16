@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { NavComponent } from './nav.component';
 
@@ -22,4 +23,7 @@ describe('NavComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should load logo', () => {
+    expect(fixture.debugElement.query(By.css('#navLogo'))).toBeTruthy();
+  })
 });
