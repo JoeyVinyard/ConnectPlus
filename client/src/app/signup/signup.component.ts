@@ -34,7 +34,7 @@ export class SignupComponent implements OnInit {
 		}).catch((err) => {
 			this.submitted = false;
 			this.submitted = false;
-			if(err.code == "auth/invalid-user-token")
+			if(err.code == "auth/invalid-user-token" || err.code == "auth/email-already-in-use" || err.code == "auth/invalid-email" )
 				this.errors.email = "Email already in use!"
 		})
 	}	
