@@ -1,0 +1,28 @@
+#mainDiv{
+    height: 100%;
+    width: 100%;
+}
+
+#title{
+	margin-top: 1.5rem;
+	font-size: 2rem;
+	color: white;
+    margin-left: 5.25rem;
+}
+
+.mapbackground{
+    background: white;
+    color: white;
+    border-radius: 25px;
+    height: 500px !important;
+    width: 95%;
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-left: 2rem;
+}
+
+#box{
+	font-size:150px;
+	padding-left:15px;
+	border:1px solid white;
+}
