@@ -30,13 +30,17 @@ export class SignupComponent implements OnInit {
 			return;
 		}
 		this.auth.signup(this.model.email, this.model.password).then((user) => {
-			this.router.navigateByUrl("create");
+			// this.auth.emailver(user).then(() => {
+			// 	this.router.navigateByUrl("map");
+			// }).catch((err) => {
+			// 	console.error(err);
+			// })
 		}).catch((err) => {
 			this.submitted = false;
 			this.submitted = false;
 			if(err.code == "auth/invalid-user-token" || err.code == "auth/email-already-in-use" || err.code == "auth/invalid-email" )
 				this.errors.email = "Email already in use!"
-		})
+		});
 	}	
 	verify(){
 		Object.keys(this.errors).forEach((key)=>{

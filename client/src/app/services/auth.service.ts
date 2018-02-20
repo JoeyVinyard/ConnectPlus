@@ -17,16 +17,25 @@ export class AuthService {
 	login(email, password): Promise<any>{
 		return this.afAuth.auth.signInWithEmailAndPassword(email,password);
 	}
-	logout(){
+	logout(): Promise<any>{
 		return this.afAuth.auth.signOut();
 	}
 	signup(email, password): Promise<any>{
+
 		return this.afAuth.auth.createUserWithEmailAndPassword(email,password);	
+	}
+	emailver(user: User): Promise<any>{
+		return this.user.sendEmailVerification();
+	}
+	deleteUser(user:User): Promise<any>{
+		return this.user.delete();
 	}
 
 	resetpassword(email){
 		return this.afAuth.auth.sendPasswordResetEmail(email);
 	}
+
+
 
 	constructor(private afAuth: AngularFireAuth) {
 		this.afAuth.auth.onAuthStateChanged((user) => {
