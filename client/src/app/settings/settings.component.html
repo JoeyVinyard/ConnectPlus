@@ -1,3 +1,124 @@
-<p>
-  settings works!
-</p>
+<particles [params]="pConfig.params" [style]="pConfig.style" [width]="pConfig.width" [height]="pConfig.height"></particles>
+
+<div id="MainDiv">
+  <div clas="row">
+    <div class="medium-12 medium-centered column">
+      <div id="header">
+        <p>Settings</p>
+        <!-- Change password, Name, Age, Etc -->
+      </div>
+
+      <div id="accountDetails">
+        <p class="topText">General</p>
+
+        <div class="medium-4 column">
+            <img id="profileIcon" src="../../assets/profileicon.ico"/><br>
+            <button id="addProfile" class="button">Change Profile Picture</button>
+          </div>
+          <div class="medium-8 column">
+            <p id="formTitle">First Name:</p>
+            <input class="textInput" type="text" name="firstName">
+            <p id="formTitle">Last Name:</p>
+            <input class="textInput" type="text" name="lastName">
+            <p id="formTitle">Gender:</p>
+            <select id="gender">
+                <option selected="true" disabled="disabled">Please select an option</option>    
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <p id="formTitle">Age:</p>
+            <input class="textInput" type="number" name="age" min="0" max="100" id="age">
+
+            <p id="formTitle">New Password:</p>
+            <input class="textInput" type="password" name="newPassword">
+            <p id="formTitle">Confirm New Password:</p>
+            <input class="textInput" type="password" name="confirmNewPassword">
+           </div>
+           
+
+           <button class="button saveButton">Save Changes</button>
+      </div>
+
+      <div id="socialMedia">
+          <p class="topText">Social Connections</p>
+
+          <div class="medium-3 column">
+              <a class="social-icon-button facebook"><i class="fa fa-facebook" aria-hidden="true"></i><span></span></a>
+              <p>Facebook</p>
+          </div>
+          <div class="medium-3 column">
+            <a class="social-icon-button instagram"><i class="fa fa-instagram"></i><span></span></a>
+            <p>Instagram</p>
+          </div>
+          <div class="medium-3 column">
+            <a class="social-icon-button linkedin"><i class="fa fa-linkedin"></i><span></span></a>
+            <p>Linkedin</p>
+          </div>
+          <div class="medium-3 column">
+            <a class="social-icon-button blackboard"><i class="fa fa-pencil-square-o"></i><span></span></a>
+            <p>Blackboard</p>
+          </div>
+      </div>
+
+      <div id="interests">
+          <p class="topText">Interests</p>
+
+          <div class="medium-4 column" id="sportSection">
+              <p class="subText">Sports</p>
+                  <input id="sports1" type="checkbox"><label for="sports1">Football</label>
+                  <input id="sports2" type="checkbox"><label for="sports2">Basketball</label><br>
+                  <input id="sports3" type="checkbox"><label for="sports3">Ice Hockey</label>
+                  <input id="sports4" type="checkbox"><label for="sports4">Baseball</label><br>
+                  <input id="sports5" type="checkbox"><label for="sports5">Soccer</label>
+                  <input id="sports6" type="checkbox"><label for="sports6">Boxing</label><br>
+                  <input id="sports7" type="checkbox"><label for="sports7">Tennis</label>
+                  <input id="sports8" type="checkbox"><label for="sports8">Golf</label><br>
+                  <input id="sports9" type="checkbox"><label for="sports9">Volleyball</label>
+                  <input id="sports10" type="checkbox"><label for="sports10">Swimming</label><br>
+              
+            </div>
+    
+            <div class="medium-4 column" id="musicSection">
+              <p class="subText">Music</p>
+                <input id="music1" type="checkbox"><label for="music1">Rock</label>
+                <input id="music2" type="checkbox"><label for="music2">R&B/Hip-Hop</label><br>
+                <input id="music3" type="checkbox"><label for="music3">Pop</label>
+                <input id="music4" type="checkbox"><label for="music4">Country</label><br>
+                <input id="music5" type="checkbox"><label for="music5">Classical</label>
+                <input id="music6" type="checkbox"><label for="music6">Jazz</label><br>
+                <input id="music7" type="checkbox"><label for="music7">EDM</label>
+                <input id="music8" type="checkbox"><label for="music8">K-Pop</label><br>
+                <input id="music9" type="checkbox"><label for="music9">Christian/Gospel</label>
+                <input id="music10" type="checkbox"><label for="music10">Latin</label><br>
+            </div>
+    
+            <div class="medium-4 column" id="foodSection">
+              <p class="subText">Food</p>
+                <input id="food1" type="checkbox"><label for="food1">American</label>
+                <input id="food2" type="checkbox"><label for="food2">Mexican</label><br>
+                <input id="food3" type="checkbox"><label for="food3">Italian</label>
+                <input id="food4" type="checkbox"><label for="food4">Thai</label><br>
+                <input id="food5" type="checkbox"><label for="food5">Chinese</label>
+                <input id="food6" type="checkbox"><label for="food6">Cuban</label><br>
+                <input id="food7" type="checkbox"><label for="food7">Indian</label>
+                <input id="food8" type="checkbox"><label for="food8">Soul Food</label><br>
+                <input id="food9" type="checkbox"><label for="food9">Greek</label>
+                <input id="food10" type="checkbox"><label for="food10">Korean</label><br>
+            </div>
+
+            <button class="button saveButton">Save Changes</button>
+    
+      </div>
+
+      <div id="deleteAccount">
+          <p class="topText">Delete Account</p>
+
+          <div class="medium-8 column">
+              <p id="formTitle">Please confirm your password:</p>
+              <input class="textInput" type="password" name="confirmPassword">
+          </div>
+          <button class="button saveButton">Delete Account</button>
+      </div>
+    </div>
+  </div>
+</div>

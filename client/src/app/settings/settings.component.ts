@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class SettingsComponent implements OnInit {
 
-
+	constructor(public pConfig: ParticlesConfigService) {}
 /*
 errors = {
 		email: "",
@@ -65,7 +65,6 @@ if(!this.model.email )
 
 	ngOnInit() {}
 */
-constructor() { }
 
   ngOnInit() {
   }

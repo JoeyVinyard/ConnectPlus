@@ -1,0 +1,240 @@
+.mainDiv{
+    align-content: center;
+    display: block;
+}
+
+.topText{
+    font-size: 2rem;
+    color:#004E7F;
+    margin-bottom: 0px;
+}
+
+.subText{
+    font-size: 1.5rem;
+    color:#004E7F;
+    margin-bottom: 0px;
+}
+
+.saveButton{
+    margin-top: 0.25rem;
+    padding: 1rem;
+    font-size: 1rem;
+    background: transparent;
+    color: #004E7F;
+    border: #004E7F solid 2px;
+    border-radius: 25px;
+}
+
+.saveButton:hover{
+    background-color: rgba(0, 118, 187, 0.75);
+    color: white;
+}
+
+#header{
+    text-align: center;
+    width: auto !important;
+    height: auto !important;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 2px solid white;
+    border-radius: 25px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    font-size: 3rem;
+    color:#004E7F;
+    margin-bottom: 0px;
+}
+
+#accountDetails{
+    text-align: center;
+    width: auto !important;
+    height: auto !important;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 2px solid white;
+    border-radius: 25px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    overflow: auto;
+}
+
+#profileIcon{
+    width: 50%;
+    margin-top:1rem;
+    margin-bottom: 1rem;
+}
+
+#addProfile{
+    background: transparent;
+    border: #004E7F solid 2px;
+    color: #004E7F;
+    border-radius: 25px;
+}
+
+#addProfile:hover{
+    background: rgba(0, 118, 187, 0.75);
+    color: white;
+}
+
+#formTitle{
+    text-align: left !important;
+    margin-bottom: 0px;
+    color: #004E7F;
+}
+
+#gender #age{
+    width: 50%;
+}
+
+.textInput{
+    background: rgba(255, 255, 255, 0.6);
+    border: #004E7F solid 2px;
+    border-radius: 25px;
+}
+
+#gender{
+  background: rgba(255, 255, 255, 0.6);
+  border: #004E7F solid 2px;
+  border-radius: 25px;
+}
+
+#socialMedia{
+    text-align: center;
+    width: auto !important;
+    height: auto !important;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 2px solid white;
+    border-radius: 25px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    overflow: auto;
+
+}
+
+.social-icon-button {
+    border-radius: 3.6rem;
+    width: 3.6rem;
+    height: 3.6rem;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    font-size: 2rem;
+    background: none;
+    /* padding: 1rem; */
+    margin-top: 1rem;
+  }
+  
+  .social-icon-button + .social-icon-button {
+    margin-left: 0.25rem;
+  }
+  
+  .social-icon-button .fa {
+    background: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    z-index: 1;
+    line-height: 3.6rem;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .social-icon-button span {
+    display: block;
+    border-radius: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .social-icon-button:hover .fa {
+    color: #fefefe;
+  }
+  
+  .social-icon-button:hover span {
+    display: block;
+    border-radius: 3.6rem;
+    width: 3.6rem;
+    height: 3.6rem;
+  }
+  
+  .social-icon-button.instagram {
+    color: #8a3ab9;
+  }
+  
+  .social-icon-button.instagram span {
+    background-color: #8a3ab9;
+  }
+  
+  .social-icon-button.linkedin {
+    color: #0077B5;
+  }
+  
+  .social-icon-button.linkedin span {
+    background-color: #0077B5;
+  }
+  
+  .social-icon-button.facebook {
+    color: #3b5998;
+  }
+  
+  .social-icon-button.facebook span {
+    background-color: #3b5998;
+  }
+
+  .social-icon-button.blackboard{
+    color: #000000;
+  }
+  
+  .social-icon-button.blackboard span {
+    background-color: #000000;
+  }
+
+  .social-icon-button.interest{
+    color: gray;
+  }
+  
+  .social-icon-button.interest span {
+    background-color: gray;
+  }
+
+  .social-icon-button.arrow{
+    color: #004E7F;
+  }
+  
+  .social-icon-button.arrow span {
+    background-color: #004E7F;
+  }
+
+#interests{
+    text-align: center;
+    width: auto !important;
+    height: auto !important;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 2px solid white;
+    border-radius: 25px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    overflow: auto;
+}
+
+
+#deleteAccount{
+    text-align: center;
+    width: auto !important;
+    height: auto !important;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 2px solid white;
+    border-radius: 25px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    overflow: auto;
+    float: center;
+}

@@ -178,7 +178,7 @@
   }
 
   #addProfile:hover{
-      background: #004E7F;
+      background: rgba(0, 118, 187, 0.75);
       color: white;
   }
 
@@ -220,9 +220,6 @@
     text-align: center;
     width: auto !important;
     height: auto !important;
-    /* background-color: rgba(255, 255, 255, 0.8); */
-    /* border: 2px solid white; */
-    /* border-radius: 25px; */
     margin-top: 1rem;
     margin-bottom: 1rem;
     overflow: auto;
@@ -241,29 +238,6 @@
   #createSubmit:hover{
     background-color: rgba(0, 118, 187, 0.75);
     color: white;
-}
-
-.checkboxl{
-    float: left;
-    margin-left: 10%;
-    text-align: center !important;
-}
-
-.checkboxr{
-    float: right;
-    margin-right: 10%;
-}
-
-#sportSection{
-
-}
-
-#musicSection{
-
-}
-
-#foodSection{
-
 }
 
 #checkLabel{
