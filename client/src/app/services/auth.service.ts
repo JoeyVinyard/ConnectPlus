@@ -30,6 +30,9 @@ export class AuthService {
 	deleteUser(user:User): Promise<any>{
 		return this.user.delete();
 	}
+	// signout(user:User): Promise<any>{
+	// 	return this.user.signOut();
+	// }
 
 	resetpassword(email){
 		return this.afAuth.auth.sendPasswordResetEmail(email);
