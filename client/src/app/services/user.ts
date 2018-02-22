@@ -2,8 +2,11 @@ export class User {
 
 	public firstName: String;
 	public lastName: String;
+	public newPass: String;
+	public conNewPass: String;
 
 	public age: Number;
+
 
 	public sports1: Boolean;
 	public sports2: Boolean;

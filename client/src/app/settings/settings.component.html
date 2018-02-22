@@ -3,6 +3,7 @@
 <div id="MainDiv">
   <div clas="row">
     <div class="medium-12 medium-centered column">
+       <form (ngSubmit)="submit()" #signupForm="ngForm">
       <div id="header">
         <p>Settings</p>
         <!-- Change password, Name, Age, Etc -->
@@ -17,22 +18,22 @@
           </div>
           <div class="medium-8 column">
             <p id="formTitle">First Name:</p>
-            <input class="textInput" type="text" name="firstName">
+            <input class="textInput" type="text" name="firstName" [(ngModel)]="model.user.firstName">
             <p id="formTitle">Last Name:</p>
-            <input class="textInput" type="text" name="lastName">
+            <input class="textInput" type="text" name="lastName" [(ngModel)]="model.user.lastName">
             <p id="formTitle">Gender:</p>
-            <select id="gender">
-                <option selected="true" disabled="disabled">Please select an option</option>    
+            <select id="gender" ng-model="model.user.gender">
+                <option selected="true" disabled="disabled" >Please select an option</option>    
                 <option value="male">Male</option>
                 <option value="female">Female</option>
             </select>
             <p id="formTitle">Age:</p>
-            <input class="textInput" type="number" name="age" min="0" max="100" id="age">
+            <input class="textInput" type="number" name="age" min="0" max="100" id="age" [(ngModel)]="model.user.age">
 
             <p id="formTitle">New Password:</p>
-            <input class="textInput" type="password" name="newPassword">
+            <input class="textInput" type="password" name="newPassword" [(ngModel)]="model.user.newPass">
             <p id="formTitle">Confirm New Password:</p>
-            <input class="textInput" type="password" name="confirmNewPassword">
+            <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.user.conNewPass">
            </div>
            
 
@@ -119,6 +120,7 @@
           </div>
           <button class="button saveButton">Delete Account</button>
       </div>
+       </form>
     </div>
   </div>
 </div>
