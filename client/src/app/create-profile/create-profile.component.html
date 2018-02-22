@@ -3,6 +3,8 @@
 <div id="mainDiv">
   <div class="row">
     <div class="medium-12 medium-centered column">
+      <form (ngSubmit)="submit()" #signupForm="ngForm">
+
         <div class="medium-3" id="invisible">.</div>
       <div class="medium-6 medium-centered column" id="topText">
           <p id="header">You're almost there!</p>
@@ -19,9 +21,9 @@
         </div>
         <div class="medium-8 column">
           <p id="formTitle">First Name:</p>
-          <input class="textInput" type="text" name="firstName">
+          <input class="textInput" type="text" name="firstName" [(ngModel)]="model.user.firstName">
           <p id="formTitle">Last Name:</p>
-          <input class="textInput" type="text" name="lastName">
+          <input class="textInput" type="text" name="lastName" [(ngModel)]="model.user.lastName">
           <p id="formTitle">Gender:</p>
           <select id="gender">
               <option selected="true" disabled="disabled">Please select an option</option>    
@@ -29,7 +31,7 @@
               <option value="female">Female</option>
           </select>
           <p id="formTitle">Age:</p>
-          <input class="textInput" type="number" name="age" min="0" max="100" id="age">
+          <input class="textInput" type="number" name="age" min="0" max="100" id="age" [(ngModel)]="model.user.age">
          </div>
       </div>
 
@@ -104,10 +106,11 @@
       </div>
 
       <div id="subBox">
-          <button class="button" id="createSubmit">Let me in</button>
+          <button class="button" routerLinkActive="active" id="createSubmit">Let me in</button>
         </div>
-
+   </form>
     </div>
+
   </div>
 
 </div>
