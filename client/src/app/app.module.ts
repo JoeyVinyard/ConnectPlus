@@ -26,6 +26,8 @@ import { ParticlesConfigService } from './services/particles-config.service';
 import { fbConfig } from '../environments/firebase.config';
 import { ROUTES } from './app.routes';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
+import { FacebookModule } from 'ngx-facebook';
+
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { CreateProfileComponent } from './create-profile/create-profile.componen
     AngularFireModule.initializeApp(fbConfig, 'ConnecPlus'), 
     AngularFirestoreModule, 
     AngularFireAuthModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    FacebookModule.forRoot()
   ],
   providers: [
     AuthGuard,

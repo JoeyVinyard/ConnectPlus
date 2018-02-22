@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { ParticlesConfigService } from '../services/particles-config.service';
-
+import { User } from '../services/user';
+import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
 @Component({
   selector: 'app-create-profile',
   templateUrl: './create-profile.component.html',
@@ -9,41 +12,25 @@ import { ParticlesConfigService } from '../services/particles-config.service';
 export class CreateProfileComponent implements OnInit {
 
 	model = {
-		sports1: false, 
-		sports2: false, 
-		sports3: false, 
-		sports4: false, 
-		sports5: false, 
-		sports6: false, 
-		sports7: false, 
-		sports8: false, 
-		sports9: false, 
-		sports10: false, 
-
-		music1:false,
-		music2:false,
-		music3:false,
-		music4:false,
-		music5:false,
-		music6:false,
-		music7:false,
-		music8:false,
-		music9:false,
-		music10:false,
-
-		food1:false,
-		food2:false,
-		food3:false,
-		food4:false,
-		food5:false,
-		food6:false,
-		food7:false,
-		food8:false,
-		food9:false,
-		food10:false
+		user: User
 	}
 
+	particlesConfig;
+	submitted = false;
 
+ 
+
+
+
+
+
+submit(){
+	
+			console.log(this.model);
+			
+
+	
+	}	
 
 // database = firebase.database();
 //  user = firebase.auth().currentUser;
@@ -55,10 +42,118 @@ export class CreateProfileComponent implements OnInit {
 //     birthdate : birthdate
 //   });
 // }
+constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService) {
+	fb.init({
+      appId: '146089319399243',
+      version: 'v2.12'
+    });
+	console.log("yay?")
+this.auth.isAuthed().then((user) => {
+    console.log("Authed:",user)
+});
+		
+	}
+
+	login() {
+    this.fb.login()
+      .then((res: LoginResponse) => {
+        console.log('Logged in', res);
+      })
+      .catch(this.handleError);
+  }
+
+  /**
+   * Login with additional permissions/options
+   */
+/*   linkFacebook() {
+   	const promise = new Promise((resolve, reject) => {
+   		const loginOptions: LoginOptions = {
+      enable_profile_selector: true,
+      return_scopes: true,
+      scope: 'public_profile,user_friends,email,pages_show_list'
+    };
 
 
+    this.fb.login(loginOptions)
+      .then((res: LoginResponse) => {
+        console.log('Logged in', res);
+      }).then(() => {
+      	this.fb.api('/me/friends')
+      .then((res: any) => {
+        console.log('Got the users friends', res);
+      })
+      .catch(this.handleError);
+      })
+      .catch(this.handleError);
 
-	constructor(public pConfig: ParticlesConfigService) {}
+      resolve();
+  }
+  
+   }*/
+
+  loginWithOptions() {
+
+    const loginOptions: LoginOptions = {
+      enable_profile_selector: true,
+      return_scopes: true,
+      scope: 'public_profile,user_friends,email,pages_show_list'
+    };
+
+
+    this.fb.login(loginOptions)
+      .then((res: LoginResponse) => {
+        console.log('Logged in', res);
+      }).then(() => {
+      	this.fb.api('/me/friends')
+      .then((res: any) => {
+        console.log('Got the users friends', res);
+      })
+      })
+      .catch(this.handleError);
+
+      
+      /*Need to make a promise to make sure the previous call runs before the next call, not sure how to do that yet, will ask joey tomorrow */
+   /* setTimeout(this.fb.api('/me/friends')
+      .then((res: any) => {
+        console.log('Got the users friends', res);
+      })
+      .catch(this.handleError), 1000);*/
+      
+  }
+
+  getLoginStatus() {
+    this.fb.getLoginStatus()
+      .then(console.log.bind(console))
+      .catch(console.error.bind(console));
+  }
+
+
+  /**
+   * Get the user's profile
+   */
+  getProfile() {
+    this.fb.api('/me')
+      .then((res: any) => {
+        console.log('Got the users profile', res);
+      })
+      .catch(this.handleError);
+  }
+
+
+  /**
+   * Get the users friends
+   */
+  getFriends() {
+    this.fb.api('/me/friends')
+      .then((res: any) => {
+        console.log('Got the users friends', res);
+      })
+      .catch(this.handleError);
+  }
+
+  private handleError(error) {
+    console.error('Error processing action', error);
+  }
 
 
   ngOnInit() {

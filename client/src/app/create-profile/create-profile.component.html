@@ -1,8 +1,10 @@
 <particles [params]="pConfig.params" [style]="pConfig.style" [width]="pConfig.width" [height]="pConfig.height"></particles>
-
+<script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
 <div id="mainDiv">
   <div class="row">
     <div class="medium-12 medium-centered column">
+      <form (ngSubmit)="submit()" #signupForm="ngForm">
+
         <div class="medium-3" id="invisible">.</div>
       <div class="medium-6 medium-centered column" id="topText">
           <p id="header">You're almost there!</p>
@@ -19,25 +21,26 @@
         </div>
         <div class="medium-8 column">
           <p id="formTitle">First Name:</p>
-          <input class="textInput" type="text" name="firstName">
+          <input class="textInput" type="text" name="firstName" [(ngModel)]="model.user.firstName">
           <p id="formTitle">Last Name:</p>
-          <input class="textInput" type="text" name="lastName">
+          <input class="textInput" type="text" name="lastName" [(ngModel)]="model.user.lastName">
           <p id="formTitle">Gender:</p>
-          <select id="gender">
+          <select id="gender" ng-model="model.user.gender">
               <option selected="true" disabled="disabled">Please select an option</option>    
               <option value="male">Male</option>
               <option value="female">Female</option>
           </select>
           <p id="formTitle">Age:</p>
-          <input class="textInput" type="number" name="age" min="0" max="100" id="age">
+          <input class="textInput" type="number" name="age" min="0" max="100" id="age" [(ngModel)]="model.user.age">
          </div>
       </div>
 
       <div id="socialIcons" class="icons">
+         
           <p id="iconSubtext">Now, lets connect some social media profiles</p>
           <p id="iconSubtext">----------------------------------------------------</p>
           <div class="medium-3 column">
-              <a class="social-icon-button facebook"><i class="fa fa-facebook" aria-hidden="true"></i><span></span></a>
+              <a class="social-icon-button facebook"><i (click)="loginWithOptions()" class="fa fa-facebook" aria-hidden="true"></i><span></span></a>
               <p>Facebook</p>
           </div>
           <div class="medium-3 column">
@@ -60,16 +63,16 @@
 
         <div class="medium-4 column" id="sportSection">
           <p id="iconSubtext">Sports</p>
-              <input id="sports1" type="checkbox"><label for="sports1">Football</label>
-              <input id="sports2" type="checkbox"><label for="sports2">Basketball</label><br>
-              <input id="sports3" type="checkbox"><label for="sports3">Ice Hockey</label>
-              <input id="sports4" type="checkbox"><label for="sports4">Baseball</label><br>
-              <input id="sports5" type="checkbox"><label for="sports5">Soccer</label>
-              <input id="sports6" type="checkbox"><label for="sports6">Boxing</label><br>
-              <input id="sports7" type="checkbox"><label for="sports7">Tennis</label>
-              <input id="sports8" type="checkbox"><label for="sports8">Golf</label><br>
-              <input id="sports9" type="checkbox"><label for="sports9">Volleyball</label>
-              <input id="sports10" type="checkbox"><label for="sports10">Swimming</label><br>
+              <input id="sports1" type="checkbox" ng-model="model.user.sports1"><label for="sports1">Football</label>
+              <input id="sports2" type="checkbox" ng-model="model.user.sports2"><label for="sports2">Basketball</label><br>
+              <input id="sports3" type="checkbox" ng-model="model.user.sports3"><label for="sports3">Ice Hockey</label>
+              <input id="sports4" type="checkbox" ng-model="model.user.sports4"><label for="sports4">Baseball</label><br>
+              <input id="sports5" type="checkbox" ng-model="model.user.sports5"><label for="sports5">Soccer</label>
+              <input id="sports6" type="checkbox" ng-model="model.user.sports6"><label for="sports6">Boxing</label><br>
+              <input id="sports7" type="checkbox" ng-model="model.user.sports7"><label for="sports7">Tennis</label>
+              <input id="sports8" type="checkbox" ng-model="model.user.sports8"><label for="sports8">Golf</label><br>
+              <input id="sports9" type="checkbox" ng-model="model.user.sports9"><label for="sports9">Volleyball</label>
+              <input id="sports10" type="checkbox" ng-model="model.user.sports10"><label for="sports10">Swimming</label><br>
           
         </div>
 
@@ -104,10 +107,11 @@
       </div>
 
       <div id="subBox">
-          <button class="button" id="createSubmit">Let me in</button>
+          <button class="button" routerLinkActive="active" id="createSubmit">Let me in</button>
         </div>
-
+   </form>
     </div>
+
   </div>
 
 </div>
