@@ -1,5 +1,5 @@
 <particles [params]="pConfig.params" [style]="pConfig.style" [width]="pConfig.width" [height]="pConfig.height"></particles>
-
+<script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
 <div id="mainDiv">
   <div class="row">
     <div class="medium-12 medium-centered column">
@@ -36,6 +36,9 @@
       </div>
 
       <div id="socialIcons" class="icons">
+         <button (click)="loginWithOptions()" class="btn btn-lg btn-primary btn-block">
+         Login with Options
+         </button>
           <p id="iconSubtext">Now, lets connect some social media profiles</p>
           <p id="iconSubtext">----------------------------------------------------</p>
           <div class="medium-3 column">

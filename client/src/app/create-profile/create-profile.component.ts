@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
-
+import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
 @Component({
   selector: 'app-create-profile',
   templateUrl: './create-profile.component.html',
@@ -42,15 +42,84 @@ submit(){
 //     birthdate : birthdate
 //   });
 // }
-
-
-
-constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router) {
+constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService) {
+	fb.init({
+      appId: '146089319399243',
+      version: 'v2.12'
+    });
+	console.log("yay?")
 this.auth.isAuthed().then((user) => {
     console.log("Authed:",user)
 });
 		
 	}
+
+	login() {
+    this.fb.login()
+      .then((res: LoginResponse) => {
+        console.log('Logged in', res);
+      })
+      .catch(this.handleError);
+  }
+
+  /**
+   * Login with additional permissions/options
+   */
+  loginWithOptions() {
+
+    const loginOptions: LoginOptions = {
+      enable_profile_selector: true,
+      return_scopes: true,
+      scope: 'public_profile,user_friends,email,pages_show_list'
+    };
+
+    this.fb.login(loginOptions)
+      .then((res: LoginResponse) => {
+        console.log('Logged in', res);
+      })
+      .catch(this.handleError);
+
+    this.fb.api('/me/friends')
+      .then((res: any) => {
+        console.log('Got the users friends', res);
+      })
+      .catch(this.handleError);
+
+  }
+
+  getLoginStatus() {
+    this.fb.getLoginStatus()
+      .then(console.log.bind(console))
+      .catch(console.error.bind(console));
+  }
+
+
+  /**
+   * Get the user's profile
+   */
+  getProfile() {
+    this.fb.api('/me')
+      .then((res: any) => {
+        console.log('Got the users profile', res);
+      })
+      .catch(this.handleError);
+  }
+
+
+  /**
+   * Get the users friends
+   */
+  getFriends() {
+    this.fb.api('/me/friends')
+      .then((res: any) => {
+        console.log('Got the users friends', res);
+      })
+      .catch(this.handleError);
+  }
+
+  private handleError(error) {
+    console.error('Error processing action', error);
+  }
 
 
   ngOnInit() {
