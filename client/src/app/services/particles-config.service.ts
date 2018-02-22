@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FacebookLogin } from './facebook-request'
 
 @Injectable()
 export class ParticlesConfigService {
@@ -124,6 +125,11 @@ export class ParticlesConfigService {
 		'right': 0,
 		'bottom': 0,
 	};
-	constructor() { }
+	constructor() {
+	 
+	 
+
+
+	}
 
 }

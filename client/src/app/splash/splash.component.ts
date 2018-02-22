@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ParticlesConfigService } from '../services/particles-config.service';
+import {FacebookLogin } from '../services/facebook-request';
 
 @Component({
   selector: 'app-splash',
@@ -8,7 +9,9 @@ import { ParticlesConfigService } from '../services/particles-config.service';
 })
 export class SplashComponent implements OnInit {
 
-	constructor(public pConfig: ParticlesConfigService) {}
+	constructor(public pConfig: ParticlesConfigService, public facebookLogin: FacebookLogin) {
+		//facebookLogin.login();
+	}
 
 	ngOnInit() {}
 
