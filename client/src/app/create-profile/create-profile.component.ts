@@ -29,7 +29,6 @@ submit(){
 			console.log(this.model);
 			
 
- 				
 	
 	}	
 
