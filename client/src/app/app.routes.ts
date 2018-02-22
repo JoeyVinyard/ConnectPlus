@@ -9,7 +9,11 @@ import { SignupComponent } from './signup/signup.component';
 import { SplashComponent } from './splash/splash.component';
 import { UserComponent } from './user/user.component';
 
+
 import { AuthGuard } from './services/auth-guard.service';
+
+
+export class AppModule { }
 
 export const ROUTES: Routes = [
 	{
