@@ -78,7 +78,7 @@ this.auth.isAuthed().then((user) => {
         console.log('Logged in', res);
       })
       .catch(this.handleError);
-
+      /*Need to make a promise to make sure the previous call runs before the next call, not sure how to do that yet, will ask joey tomorrow */
     this.fb.api('/me/friends')
       .then((res: any) => {
         console.log('Got the users friends', res);
