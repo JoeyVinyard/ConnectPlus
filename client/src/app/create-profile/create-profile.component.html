@@ -36,13 +36,11 @@
       </div>
 
       <div id="socialIcons" class="icons">
-         <button (click)="loginWithOptions()" class="btn btn-lg btn-primary btn-block">
-         Login with Options
-         </button>
+         
           <p id="iconSubtext">Now, lets connect some social media profiles</p>
           <p id="iconSubtext">----------------------------------------------------</p>
           <div class="medium-3 column">
-              <a class="social-icon-button facebook"><i class="fa fa-facebook" aria-hidden="true"></i><span></span></a>
+              <a class="social-icon-button facebook"><i (click)="loginWithOptions()" class="fa fa-facebook" aria-hidden="true"></i><span></span></a>
               <p>Facebook</p>
           </div>
           <div class="medium-3 column">

@@ -65,6 +65,8 @@ this.auth.isAuthed().then((user) => {
   /**
    * Login with additional permissions/options
    */
+
+
   loginWithOptions() {
 
     const loginOptions: LoginOptions = {
@@ -73,18 +75,21 @@ this.auth.isAuthed().then((user) => {
       scope: 'public_profile,user_friends,email,pages_show_list'
     };
 
+
     this.fb.login(loginOptions)
       .then((res: LoginResponse) => {
         console.log('Logged in', res);
       })
       .catch(this.handleError);
+
+      
       /*Need to make a promise to make sure the previous call runs before the next call, not sure how to do that yet, will ask joey tomorrow */
-    this.fb.api('/me/friends')
+   /* setTimeout(this.fb.api('/me/friends')
       .then((res: any) => {
         console.log('Got the users friends', res);
       })
-      .catch(this.handleError);
-
+      .catch(this.handleError), 1000);*/
+      return this.getFriends();
   }
 
   getLoginStatus() {
