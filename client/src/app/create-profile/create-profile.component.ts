@@ -96,7 +96,7 @@ this.auth.isAuthed().then((user) => {
     const loginOptions: LoginOptions = {
       enable_profile_selector: true,
       return_scopes: true,
-      scope: 'public_profile,user_friends,email,pages_show_list'
+      scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
     };
 
 
@@ -104,9 +104,10 @@ this.auth.isAuthed().then((user) => {
       .then((res: LoginResponse) => {
         console.log('Logged in', res);
       }).then(() => {
-      	this.fb.api('/me/friends')
+      	this.fb.api('/me/taggable_friends')
       .then((res: any) => {
         console.log('Got the users friends', res);
+
       })
       })
       .catch(this.handleError);
