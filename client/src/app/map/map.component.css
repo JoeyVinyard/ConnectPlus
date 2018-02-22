@@ -15,14 +15,36 @@
     color: white;
     border-radius: 25px;
     height: 500px !important;
-    width: 95%;
+    width: 100%;
     text-align: center;
-    margin-bottom: 2rem;
-    margin-left: 2rem;
+    margin-bottom: -3rem;
 }
 
-#box{
-	font-size:150px;
-	padding-left:15px;
-	border:1px solid white;
+/*.userpic{
+	background: gray;
+	color: white;
+	border-radius: 50%;
+	width: 125px;
+	height: 125px;
+	margin-left: 34rem;
+}
+*/
+.userpic{
+	width: 5rem;
+	height: 5rem;
+}
+
+.userpic .fa{
+	line-height: 7rem;
+}
+
+.bottombox{
+	background: white;
+	color: white;
+    border-radius: 25px;
+    height: 100px;
+	width: 100%;
+	margin-top: -3rem;
+	z-index: -1;
+	position: relative;
 }
