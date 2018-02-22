@@ -4,7 +4,7 @@ export class User {
 	public lastName: String;
 	public newPass: String;
 	public conNewPass: String;
-
+	public gender: String;
 	public age: Number;
 
 
