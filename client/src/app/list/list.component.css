@@ -95,12 +95,10 @@
 	height: auto;
 
 	display: block;
-
 	float: left;
 
 	z-index: 10;
 	pointer-events:none; 
-
 }
 
 #userpic{
@@ -142,10 +140,10 @@
 	margin: 0px;
 }
 
-
-
-
-
+#userNameDiv{
+	padding: 0px;
+	margin: 0px;
+}
 #moodStatusDiv{
 	text-align: left;
 	padding: 0px;
@@ -159,7 +157,6 @@
 	position: relative;
     z-index: 100;
 
-	
 }
 
 .mapButton{
