@@ -10,6 +10,16 @@
         <!-- Change password, Name, Age, Etc -->
       </div>
 
+      <div id="invisibilityDiv">
+          <p class="topText">Set Invisibility</p>
+          <div class="switch">
+              <input class="switch-input" id="defaultSwitch" type="checkbox" name="defaultSwitch">
+              <label class="switch-paddle" for="defaultSwitch">
+                <span class="show-for-sr">Default Switch</span>
+              </label>
+            </div>
+      </div>
+
       <div id="accountDetails">
         <p class="topText">General</p>
 
@@ -132,7 +142,7 @@
           <p class="topText">Delete Account</p>
           <div class="medium-8 column">
               <p id="formTitle">Please confirm your password:</p>
-              <input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.user.conNewPass">
+              <input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.user.deletePassword">
           </div>
           <button class="button saveButton">Delete Account</button>
       </div>

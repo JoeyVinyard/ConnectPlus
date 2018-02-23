@@ -45,6 +45,27 @@
     margin-bottom: 0px;
 }
 
+#invisibilityDiv{
+  text-align: center;
+  width: auto !important;
+  height: auto !important;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid white;
+  border-radius: 25px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  overflow: auto;
+}
+
+.switch{
+  border-radius: 25px;
+}
+
+.switch input:checked ~ .switch-paddle{
+  background: #0076BB;
+}
+
+
 #accountDetails{
     text-align: center;
     width: auto !important;

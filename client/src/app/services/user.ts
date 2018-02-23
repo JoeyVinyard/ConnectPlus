@@ -10,6 +10,8 @@ export class User {
 	public newPass: string;
 	public conNewPass: string;
 	public gender: string;
+	public deletePassword: string;
+
 	public age: Number;
 	public newEmail: string;
 

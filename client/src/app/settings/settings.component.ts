@@ -19,7 +19,6 @@ export class SettingsComponent implements OnInit {
 	model = {
 		password: "",
 		user: new User(),
-		deletePassword: ""
 	}
 
 	particlesConfig;
@@ -82,10 +81,17 @@ export class SettingsComponent implements OnInit {
 
 	del(){
 
+<<<<<<< HEAD
 		this.auth.reauthenticate(this.model.deletePassword).then((credential) => {
 			this.auth.deleteUser();	
 			this.model.deletePassword = "";
 		})
+=======
+	this.auth.reauthenticate(this.model.user.deletePassword).then((credential) => {
+		this.auth.deleteUser();	
+		this.model.user.deletePassword = "";
+	})
+>>>>>>> 24786e3af0f6c43641d61a0b0ec2f1a278b6fade
 	}
 
 

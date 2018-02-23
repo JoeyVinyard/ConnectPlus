@@ -22,8 +22,67 @@
     height: 60vh;
     width: 100%;
     text-align: center;
-    margin-bottom: -50px;
+	margin-bottom: -50px;
+	overflow: scroll;
+
 }
+
+#innerDiv{
+	width: 100% !important;
+	margin: 0px;
+	padding: 0px;
+}
+
+#userDiv{
+	padding: 0px;
+	margin: 0px;
+	float: left;
+	border: 2px solid white;
+	border-radius: 25px;
+	background: rgba(255, 255, 255, 0.5);
+}
+
+#userDivInfo{
+	float: left;
+}
+
+#userNameSmall{
+	font-size: 1.5vw;
+	color: #004E7F;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+}
+
+#lowerText{
+	font-size: 1vw;
+	color: #0076BB;
+	float: left;
+
+	padding: 0px;
+	margin: 0px;
+}
+
+#userDivImg{
+	margin: 0px;
+	padding: 0px;
+	width: 25%;
+	height: auto;
+	float: left;
+}
+
+#listUser{
+	width: 25%;
+	float: left;
+	padding-left: 0.5rem;
+	padding-top: 0.25rem;
+	padding-bottom: 0.25rem;
+	/* margin: 0.5rem; */
+
+	pointer-events: none;
+}
+
+
 
 #invisible{
 	visibility: hidden;
@@ -36,8 +95,10 @@
 	height: auto;
 
 	display: block;
-
 	float: left;
+
+	z-index: 10;
+	pointer-events:none; 
 }
 
 #userpic{
@@ -58,9 +119,10 @@
 	position: relative;
 
 	margin-top: -50px;
-	z-index: -1;
+	z-index: 0;
 
 	float: left;
+	pointer-events:auto; 
 }
 
 #userName{
@@ -74,22 +136,6 @@
 	font-size: 2vw;
 	color: #0076BB;
 	float: left;
-	padding: 0px;
-	margin: 0px;
-}
-
-#userNameSmall{
-	font-size: 2vw;
-	color: #004E7F;
-	float: left;
-	padding: 0px;
-	margin: 0px;
-}
-#lowerText{
-	font-size: 1vw;
-	color: #0076BB;
-	float: left;
-
 	padding: 0px;
 	margin: 0px;
 }
@@ -111,7 +157,6 @@
 	position: relative;
     z-index: 100;
 
-	
 }
 
 .mapButton{
@@ -128,4 +173,15 @@
 .mapButton:hover{
     background-color: rgba(0, 118, 187, 0.75);
     color: white;
+}
+
+#settingsDiv{
+	align-content: center !important;
+	text-align: center;
+}
+
+#settingsButton{
+	float: center;
+	align-content: center;
+	margin-top: 0.5rem;
 }
