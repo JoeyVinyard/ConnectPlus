@@ -23,7 +23,7 @@ export class DatabaseService {
 		// 		"Video Games",
 		// 		"Airplanes",
 		// 		"Sexual things",
-		// 		"Women"
+		// 		"Men"
 		// 	]
 		// }
 		this.http.post("http://localhost:3000/create", JSON.stringify(user), this.httpOptions).subscribe();

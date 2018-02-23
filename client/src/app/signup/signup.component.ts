@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ParticlesConfigService } from '../services/particles-config.service';
+import { User } from '../services/user';
+import { DatabaseService } from '../services/database.service'
+
 
 @Component({
 	selector: 'app-signup',
@@ -14,11 +17,10 @@ export class SignupComponent implements OnInit {
 		email: "",
 		password: "",
 		confpass: ""
+		
 	}
 	model = {
-		email: "",
-		password: "",
-		confpass: ""
+		user:new User(),
 	}
 	particlesConfig;
 	submitted = false;
@@ -29,9 +31,8 @@ export class SignupComponent implements OnInit {
 			this.submitted = false;
 			return;
 		}
-		this.auth.signup(this.model.email, this.model.password).then((user) => {
+		this.auth.signup(this.model.user.email, this.model.user.password).then((user) => {
 			 //this.auth.emailver(user).then(() => { //idk if email is working
-			 	
  				this.router.navigateByUrl("create");
 			// }).catch((err) => {
 	//		 	console.error(err);
@@ -49,15 +50,15 @@ export class SignupComponent implements OnInit {
 		})
 		
 		//Sanitize input here
-		if(!this.model.email || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.email))
+		if(!this.model.user.email || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.user.email))
 			this.errors.email = "Please provide a valid email.";
-		if(!this.model.password)
+		if(!this.model.user.password)
 			this.errors.password = "Please enter your password.";
-		else if(this.model.password.length<6)
+		else if(this.model.user.password.length<6)
 			this.errors.password = "Password must be at least 6 characters long."
-		if(!this.model.confpass)
+		if(!this.model.user.confpass)
 			this.errors.confpass = "Please confirm your password.";
-		if(this.model.password != this.model.confpass && !this.errors.password && !this.errors.confpass)
+		if(this.model.user.password != this.model.user.confpass && !this.errors.password && !this.errors.confpass)
 			this.errors.confpass = "Passwords must match!";
 
 		var noErr = true;
@@ -69,7 +70,7 @@ export class SignupComponent implements OnInit {
 		return noErr;
 	}
 
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router) {}
+	constructor(private dataS: DatabaseService, private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router) {}
 
 	ngOnInit() {}
 }

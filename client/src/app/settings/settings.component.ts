@@ -18,7 +18,6 @@ export class SettingsComponent implements OnInit {
 	model = {
 		password: "",
 		user: new User(),
-		deletePassword: ""
 	}
 
 	particlesConfig;
@@ -76,9 +75,9 @@ submit(){
 del(){
 		console.log(this.model);
 
-	this.auth.reauthenticate(this.model.deletePassword).then((credential) => {
+	this.auth.reauthenticate(this.model.user.deletePassword).then((credential) => {
 		this.auth.deleteUser();	
-		this.model.deletePassword = "";
+		this.model.user.deletePassword = "";
 	})
 	}
 
