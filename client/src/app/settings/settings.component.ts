@@ -17,7 +17,7 @@ export class SettingsComponent implements OnInit {
 	}
 	model = {
 		user: new User(),
-		password: ""
+		deletePassword: ""
 		
 	}
 
@@ -29,14 +29,17 @@ submit(){
 		console.log(this.model);
 
 
-		if(this.model.user.newPass && this.model.user.conNewPass){
+		if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
 					var changepass = this.model.user.newPass;
 		
 				this.auth.getUser().then((user) => {
 					console.log(user);
 					user.updatePassword(this.model.user.newPass).then(function() {
 						  // Update successful.
-						  console.log("password updated");
+						//  console.log("password updated");
+						this.model.user.newPass = "";
+						this.model.user.conNewPass = "";
+
 						}).catch(function(error) {
 						  // An error happened.
 						});
@@ -52,7 +55,8 @@ submit(){
 			user.updateEmail(this.model.user.newEmail).then(function() {
 						console.log(user);
 					  // Update successful.
-					   console.log("password email");
+					  // console.log("password email");
+					this.model.user.newEmail = "";
 
 					}).catch(function(error) {
 					  // An error happened.
@@ -70,7 +74,7 @@ submit(){
 del(){
 		console.log(this.model);
 
-	this.auth.reauthenticate(this.model.password).then((credential) => {
+	this.auth.reauthenticate(this.model.deletePassword).then((credential) => {
 		this.auth.deleteUser();	
 	})
 	}
