@@ -1,41 +1,116 @@
 #mainDiv{
-    height: 100%;
-    width: 100%;
+    align-content: center;
+    display: block;
 }
 
 #title{
-	margin-top: 1.5rem;
-	font-size: 2rem;
+	/* font-size: 2rem; */
+	font-size: 2vw;
 	color: white;
-    margin-left: 5.25rem;
+	width: auto;
+	height: auto !important; 
+	text-align: center;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
 }
 
-.mapbackground{
-    background: white;
-    color: white;
+#mapView{
+    background: lightgray;
+	color: white;
+	border: 2px solid white;
     border-radius: 25px;
-    height: 500px !important;
+    height: 60vh;
     width: 100%;
     text-align: center;
-    margin-bottom: -3rem;
+    margin-bottom: -50px;
 }
 
-.userpic{
-	/*background: gray;
-	color: white;
-	border-radius: 50%;*/
-	width: 50px;
-	height: 50px;
-	/*padding-left: 5rem !important;*/
+#invisible{
+	visibility: hidden;
 }
 
-.bottombox{
+#iconDiv{
+	align-content: center;
+	position: relative;
+	width: 100%;
+	height: auto;
+
+	display: block;
+
+	float: left;
+}
+
+#userpic{
+	width: 11%;
+	height: 11%;
+	margin-left: 44.5%;
+	border: 4px solid white;
+	border-radius: 50%;
+	
+}
+
+#userView{
 	background: white;
 	color: white;
     border-radius: 25px;
-    height: 100px;
+    height: 30vh;
 	width: 100%;
-	margin-top: -3rem;
-	z-index: -1;
 	position: relative;
+
+	margin-top: -50px;
+	z-index: -1;
+
+	float: left;
+}
+
+#userName{
+	font-size: 3vw;
+	color: #004E7F;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+}
+#moodStatus{
+	font-size: 2vw;
+	color: #0076BB;
+	float: left;
+
+	padding: 0px;
+	margin: 0px;
+}
+
+#userNameDiv{
+	padding: 0px;
+	margin: 0px;
+}
+#moodStatusDiv{
+	text-align: left;
+	padding: 0px;
+	margin-top: -40px;
+}
+
+#toggleDiv{
+	text-align: right !important;
+	float: right;
+
+	position: relative;
+    z-index: 100;
+
+	
+}
+
+.mapButton{
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 1rem;
+    background: transparent;
+    color: #004E7F;
+    border: #004E7F solid 2px;
+	border-radius: 25px;
+	
+}
+
+.mapButton:hover{
+    background-color: rgba(0, 118, 187, 0.75);
+    color: white;
 }
