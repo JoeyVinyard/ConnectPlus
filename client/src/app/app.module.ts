@@ -7,7 +7,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-
+import { AgmCoreModule } from '@agm/core';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
@@ -56,7 +56,10 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFirestoreModule, 
     AngularFireAuthModule,
     AngularFireStorageModule,
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAYPFjyBz7atRsbr5GyJtlRiBLpu6hcD0A'
+    })
   ],
   providers: [
     AuthGuard,

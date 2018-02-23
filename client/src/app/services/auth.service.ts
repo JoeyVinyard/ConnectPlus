@@ -15,6 +15,13 @@ export class AuthService {
 			});
 		});
 	}
+	getUser(): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.afAuth.authState.subscribe((user) => {
+				resolve(user);
+			})
+		})
+	}
 	login(email, password): Promise<any>{
 		return this.afAuth.auth.signInWithEmailAndPassword(email,password);
 	}
@@ -28,12 +35,11 @@ export class AuthService {
 	emailver(user: User): Promise<any>{
 		return user.sendEmailVerification();
 	}
+
 	deleteUser(): Promise<any>{
 		return this.user.delete();
 	}
-	// signout(user:User): Promise<any>{
-	// 	return this.user.signOut();
-	// }
+
 
 	resetpassword(email){
 		return this.afAuth.auth.sendPasswordResetEmail(email);

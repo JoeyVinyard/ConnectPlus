@@ -9,6 +9,12 @@
 
 }
 
+#google_translate_element{
+    background: transparent;
+    width: 75%;
+    /* border: 2px solid blue; */
+}
+
 #navLogo{
     align-content: center;
     display: block;

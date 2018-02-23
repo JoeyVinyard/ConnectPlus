@@ -6,7 +6,7 @@ export class User {
 	public conNewPass: String;
 	public gender: String;
 	public age: Number;
-
+	public newEmail: String;
 
 	public sports1: Boolean;
 	public sports2: Boolean;
