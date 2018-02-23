@@ -24,7 +24,7 @@
     text-align: center;
 	margin-bottom: -50px;
 	overflow: scroll;
-	
+
 }
 
 #innerDiv{
@@ -78,6 +78,8 @@
 	padding-top: 0.25rem;
 	padding-bottom: 0.25rem;
 	/* margin: 0.5rem; */
+
+	pointer-events: none;
 }
 
 
@@ -95,6 +97,7 @@
 	display: block;
 
 	float: left;
+
 }
 
 #userpic{
