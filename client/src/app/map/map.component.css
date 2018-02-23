@@ -15,7 +15,7 @@
 }
 
 #mapView{
-    background: lightgray;
+    background: white;
 	color: white;
 	border: 2px solid white;
     border-radius: 25px;
@@ -120,4 +120,9 @@
 #settingsButton{
 	float: center;
 	align-content: center;
+}
+
+agm-map {
+  height: 100%;
+  width: 100%;
 }
