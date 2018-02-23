@@ -30,11 +30,11 @@ export class SignupComponent implements OnInit {
 			return;
 		}
 		this.auth.signup(this.model.email, this.model.password).then((user) => {
-			// this.auth.emailver(user).then(() => {
-			// 	this.router.navigateByUrl("map");
+			 //this.auth.emailver(user).then(() => { //idk if email is working
+ 				this.router.navigateByUrl("create");
 			// }).catch((err) => {
-			// 	console.error(err);
-			// })
+	//		 	console.error(err);
+	//		 })
 		}).catch((err) => {
 			this.submitted = false;
 			this.submitted = false;

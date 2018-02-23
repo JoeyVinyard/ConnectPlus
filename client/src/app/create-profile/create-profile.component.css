@@ -178,7 +178,7 @@
   }
 
   #addProfile:hover{
-      background: #004E7F;
+      background: rgba(0, 118, 187, 0.75);
       color: white;
   }
 
@@ -215,3 +215,31 @@
     margin-bottom: 1rem;
     overflow: auto;
   }
+
+  #subBox{
+    text-align: center;
+    width: auto !important;
+    height: auto !important;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    overflow: auto;
+  }
+
+  #createSubmit{
+      margin-top: 0.25rem;
+      padding: 1rem;
+      font-size: 2rem;
+      background: transparent;
+      color: white;
+      border: white solid 2px;
+      border-radius: 50px;
+  }
+
+  #createSubmit:hover{
+    background-color: rgba(0, 118, 187, 0.75);
+    color: white;
+}
+
+#checkLabel{
+    text-align: left;
+}
