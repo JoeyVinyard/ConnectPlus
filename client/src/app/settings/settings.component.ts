@@ -16,9 +16,9 @@ export class SettingsComponent implements OnInit {
 		email: "",
 	}
 	model = {
+		password: "",
 		user: new User(),
 		deletePassword: ""
-		
 	}
 
 	particlesConfig;
