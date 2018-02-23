@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
 import { User } from '../services/user';
+//import { User } from 'firebase';
 
 @Component({
   selector: 'app-settings',
@@ -16,7 +17,7 @@ errors = {
 		email: "",
 	}
 	model = {
-		user: User
+	//	user: User
 	}
 
 	particlesConfig;
@@ -41,6 +42,37 @@ submit(){
 
 	}	
 
+
+// changePasscode(){
+// 		var user = firebase.auth().currentUser;
+// 		var newPassword = getASecureRandomPassword();
+
+// 		user.updatePassword(newPassword).then(function() {
+// 		  // Update successful.
+// 		}).catch(function(error) {
+// 		  // An error happened.
+// 		});
+
+
+// }
+
+
+
+
+del(){
+
+var user = firebase.auth().currentUser;
+
+
+		user.delete().then(function() {
+		  // User deleted.
+		}).catch(function(error) {
+		  // An error happened.
+		});
+	this.router.navigateByUrl("map");
+
+
+}
 
 
 // 	verify(){

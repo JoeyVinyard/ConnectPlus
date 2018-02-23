@@ -25,10 +25,10 @@ export class AuthService {
 		return this.afAuth.auth.createUserWithEmailAndPassword(email,password);	
 	}
 	emailver(user: User): Promise<any>{
-		return this.user.sendEmailVerification();
+		return user.sendEmailVerification();
 	}
 	deleteUser(user:User): Promise<any>{
-		return this.user.delete();
+		return user.delete();
 	}
 	// signout(user:User): Promise<any>{
 	// 	return this.user.signOut();

@@ -111,7 +111,8 @@
             <button class="button saveButton">Save Changes</button>
     
       </div>
-
+      </form>
+       <form (ngSubmit)="del()" #signupForm="ngForm">
       <div id="deleteAccount">
           <p class="topText">Delete Account</p>
 
@@ -119,9 +120,10 @@
               <p id="formTitle">Please confirm your password:</p>
               <input class="textInput" type="password" name="confirmPassword">
           </div>
-          <button class="button saveButton">Delete Account</button>
+          <button class="button saveButton" routerLinkActive="active" >Delete Account</button>
       </div>
-       </form>
+      </form>
+ 
     </div>
   </div>
 </div>
