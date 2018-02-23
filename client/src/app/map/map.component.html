@@ -4,7 +4,12 @@
         	<p class="unselectable" id="title">Explore the World Around You!</p>
     	</div>
     	
-    	<div class="medium-12 column" id="mapView"></div>
+    	<div class="medium-12 column" id="mapView">
+    		<agm-map [latitude]="lat" [longitude]="lng">
+    			<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+    		</agm-map>
+    		
+    	</div>
 
     	<!-- <div class="medium-4 column" id="invisible">I</div> -->
     	<div class="medium-12 column" id="iconDiv">
