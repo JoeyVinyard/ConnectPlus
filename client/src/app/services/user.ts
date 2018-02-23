@@ -5,6 +5,8 @@ export class User {
 	public password: String;
 	public confpass: String;
 
+	deletePassword: String;
+
 	public firstName: String;
 	public lastName: String;
 	public newPass: String;
