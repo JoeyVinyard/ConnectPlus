@@ -95,8 +95,6 @@
 
 	position: relative;
     z-index: 100;
-
-	
 }
 
 .mapButton{
@@ -113,4 +111,13 @@
 .mapButton:hover{
     background-color: rgba(0, 118, 187, 0.75);
     color: white;
+}
+
+#settingsDiv{
+	align-content: center !important;
+}
+
+#settingsButton{
+	float: center;
+	align-content: center;
 }
