@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
+import { DatabaseService } from '../services/database.service';
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
 @Component({
   selector: 'app-create-profile',
@@ -12,24 +13,15 @@ import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBV
 export class CreateProfileComponent implements OnInit {
 
 	model = {
-		user: User
+		//user: User,
+    user: new User()
 	}
 
 	particlesConfig;
 	submitted = false;
 
- 
-
-
-
-
-
 submit(){
-	
-			console.log(this.model);
-			
-
-	
+			this.db.createUser(this.model.user);
 	}	
 
 // database = firebase.database();
@@ -42,7 +34,7 @@ submit(){
 //     birthdate : birthdate
 //   });
 // }
-constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService) {
+constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
 	fb.init({
       appId: '146089319399243',
       version: 'v2.12'

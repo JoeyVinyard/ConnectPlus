@@ -7,17 +7,17 @@
 			<form (ngSubmit)="submit()" #signupForm="ngForm">
 				<div class="form-group">
 					<label for="name"><font color="white">Email:</font></label>
-					<input class="textInput" type="text" name="email" [(ngModel)]="model.email">
+					<input class="textInput" type="text" name="email" [(ngModel)]="model.user.email">
 					<p id="emailError" class="error">{{errors.email}}</p> 
 				</div>
 				<div class="form-group">
 					<label for="name"><font color="white">Password:</font></label>
-					<input class="textInput" type="password" name="password" [(ngModel)]="model.password">
+					<input class="textInput" type="password" name="password" [(ngModel)]="model.user.password">
 					<p id="passError" class="error">{{errors.password}}</p>
 				</div>
 				<div class="form-group">
 					<label for="name"><font color="white">Confirm Password:</font></label>
-					<input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.confpass">
+					<input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.user.confpass">
 					<p id="confError" class="error">{{errors.confpass}}</p>
 				</div>
 

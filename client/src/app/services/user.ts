@@ -1,5 +1,10 @@
 export class User {
 
+	
+	public email: string;
+	public password: String;
+	public confpass: String;
+
 	public firstName: String;
 	public lastName: String;
 	public newPass: String;
