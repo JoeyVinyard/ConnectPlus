@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth'
 import { User } from 'firebase';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class AuthService {
@@ -27,8 +28,8 @@ export class AuthService {
 	emailver(user: User): Promise<any>{
 		return user.sendEmailVerification();
 	}
-	deleteUser(user:User): Promise<any>{
-		return user.delete();
+	deleteUser(): Promise<any>{
+		return this.user.delete();
 	}
 	// signout(user:User): Promise<any>{
 	// 	return this.user.signOut();
@@ -38,6 +39,10 @@ export class AuthService {
 		return this.afAuth.auth.sendPasswordResetEmail(email);
 	}
 
+	reauthenticate(password){
+		return this.user.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(this.user.email, password));
+		//return this.user.reauthenticateWithCredential(this.afAuth.auth.EmailAuthProvider.credential(this.user.email, password));
+	}
 
 
 	constructor(private afAuth: AngularFireAuth) {

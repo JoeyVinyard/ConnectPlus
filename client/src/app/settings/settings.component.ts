@@ -17,7 +17,8 @@ errors = {
 		email: "",
 	}
 	model = {
-	//	user: User
+		password: ""
+		user: User
 	}
 
 	particlesConfig;
@@ -61,15 +62,11 @@ submit(){
 
 del(){
 
-var user = firebase.auth().currentUser;
+	this.auth.reauthenticate(this.model.password).then((credential) => {
+		this.auth.deleteUser();	
+	})
+	
 
-
-		user.delete().then(function() {
-		  // User deleted.
-		}).catch(function(error) {
-		  // An error happened.
-		});
-	this.router.navigateByUrl("map");
 
 
 }
