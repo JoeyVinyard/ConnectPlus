@@ -55,5 +55,5 @@ describe('NavComponent', () => {
   });
   it('should load logo', () => {
     expect(fixture.debugElement.query(By.css('#navLogo'))).toBeTruthy();
-  })
+  });
 });

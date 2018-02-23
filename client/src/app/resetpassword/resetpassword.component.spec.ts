@@ -1,3 +1,4 @@
+import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ResetpasswordComponent } from './resetpassword.component';
@@ -60,4 +61,16 @@ describe('ResetpasswordComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should load form', () => {
+    expect(fixture.debugElement.query(By.css('form'))).toBeTruthy();
+  });
+  it('should load particles', () => {
+    expect(fixture.debugElement.query(By.css('particles'))).toBeTruthy();
+  });
+  it('should load error field', () => {
+    expect(fixture.debugElement.query(By.css('.error'))).toBeTruthy();
+  });
+  it('should load button', () => {
+    expect(fixture.debugElement.query(By.css('button'))).toBeTruthy();
+  })
 });

@@ -17,10 +17,19 @@ describe('AuthService', () => {
   it('should be created', inject([AuthService], (service: AuthService) => {
     expect(service).toBeTruthy();
   }));
-  it('should load auth functions', inject([AuthService], (service: AuthService) => {
-  	expect(service.isAuthed).toBeTruthy();
-  	expect(service.login).toBeTruthy();
-  	expect(service.signup).toBeTruthy();
-  	expect(service.logout).toBeTruthy();
+  it('should load isAuthed function', inject([AuthService], (service: AuthService) => {
+    expect(service.isAuthed).toBeTruthy();
+  }));
+  it('should load login function', inject([AuthService], (service: AuthService) => {
+    expect(service.login).toBeTruthy();
+  }));
+  it('should load signup function', inject([AuthService], (service: AuthService) => {
+    expect(service.signup).toBeTruthy();
+  }));
+  it('should load logout function', inject([AuthService], (service: AuthService) => {
+    expect(service.logout).toBeTruthy();
+  }));
+  it('should load getUser function', inject([AuthService], (service: AuthService) => {
+    expect(service.getUser).toBeTruthy();
   }));
 });

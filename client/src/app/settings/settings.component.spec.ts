@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { SettingsComponent } from './settings.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -68,4 +69,10 @@ describe('SettingsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should load form', () => {
+    expect(fixture.debugElement.query(By.css('form'))).toBeTruthy();
+  });
+  it('should load inputs', () => {
+    expect(fixture.debugElement.queryAll(By.css('input')).length).toEqual(38);
+  })
 });
