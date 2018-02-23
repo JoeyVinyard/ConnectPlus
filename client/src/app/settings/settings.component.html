@@ -23,7 +23,7 @@
             <p id="formTitle">Last Name:</p>
             <input class="textInput" type="text" name="lastName" [(ngModel)]="model.user.lastName">
             <p id="formTitle">Gender:</p>
-            <select id="gender" ng-model="model.user.gender">
+            <select id="gender" name="gender" [(ngModel)]="model.user.gender">
                 <option selected="true" disabled="disabled" >Please select an option</option>    
                 <option value="male">Male</option>
                 <option value="female">Female</option>
