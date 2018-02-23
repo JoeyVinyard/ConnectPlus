@@ -3,7 +3,7 @@
 <div id="MainDiv">
   <div clas="row">
     <div class="medium-12 medium-centered column">
-       <form (ngSubmit)="submit()" #signupForm="ngForm">
+      <form (ngSubmit)="submit()" #signupForm="ngForm">
       <div id="header">
         <p>Settings</p>
         <!-- Change password, Name, Age, Etc -->
@@ -110,18 +110,30 @@
             </div>
 
             <button class="button saveButton">Save Changes</button>
-    
+      </div>
+
+      <!-- <div id="feedbackSection">
+        <p class="topText">Submit Feedback</p>
+        <textarea rows="4" cols="50"></textarea>
+        <button class="button saveButton">Submit</button>
+      </div> -->
+      <div id="feedbackSection">
+          <p class="topText">Submit Feedback</p>
+          <div class="medium-12 column">
+              <textarea class="textInput" rows="4" cols="50"></textarea>
+          </div>
+          <button class="button saveButton">Submit</button>
       </div>
       </form>
-       <form (ngSubmit)="del()" #signupForm="ngForm">
+
+      <form (ngSubmit)="del()" #signupForm="ngForm">
       <div id="deleteAccount">
           <p class="topText">Delete Account</p>
-
           <div class="medium-8 column">
               <p id="formTitle">Please confirm your password:</p>
               <input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.deletePassword">
           </div>
-          <button class="button saveButton" routerLinkActive="active" >Delete Account</button>
+          <button class="button saveButton">Delete Account</button>
       </div>
       </form>
  
