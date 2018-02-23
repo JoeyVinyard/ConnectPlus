@@ -25,6 +25,43 @@
     margin-bottom: -50px;
 }
 
+#innerDiv{
+	width: 100% !important;
+}
+
+#userDiv{
+	padding: 0px;
+	margin: 0px;
+	float: left;
+	border: 2px solid white;
+	border-radius: 25px;
+	background: rgba(255, 255, 255, 0.5);
+}
+
+#userNameSmall{
+	font-size: 1.5vw;
+	color: #004E7F;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+}
+
+#lowerText{
+	font-size: 1vw;
+	color: #0076BB;
+	float: left;
+
+	padding: 0px;
+	margin: 0px;
+}
+
+#listUser{
+	width:100%;
+	float: left;
+	padding: 0;
+	margin: 0;
+}
+
 #invisible{
 	visibility: hidden;
 }
@@ -79,26 +116,10 @@
 	margin: 0px;
 }
 
-#userNameSmall{
-	font-size: 2vw;
-	color: #004E7F;
-	float: left;
-	padding: 0px;
-	margin: 0px;
-}
-#lowerText{
-	font-size: 1vw;
-	color: #0076BB;
-	float: left;
 
-	padding: 0px;
-	margin: 0px;
-}
 
-#userNameDiv{
-	padding: 0px;
-	margin: 0px;
-}
+
+
 #moodStatusDiv{
 	text-align: left;
 	padding: 0px;
