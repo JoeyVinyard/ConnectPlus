@@ -21,12 +21,14 @@ import { ResetpasswordComponent} from './resetpassword/resetpassword.component';
 
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service'
+import { DatabaseService } from './services/database.service';
 import { ParticlesConfigService } from './services/particles-config.service';
 
 import { fbConfig } from '../environments/firebase.config';
 import { ROUTES } from './app.routes';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { FacebookModule } from 'ngx-facebook';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -45,6 +47,7 @@ import { FacebookModule } from 'ngx-facebook';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     ParticlesModule,
     RouterModule,
@@ -58,6 +61,7 @@ import { FacebookModule } from 'ngx-facebook';
   providers: [
     AuthGuard,
     AuthService,
+    DatabaseService,
     ParticlesConfigService
   ],
   bootstrap: [AppComponent]

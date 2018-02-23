@@ -17,7 +17,7 @@ errors = {
 		email: "",
 	}
 	model = {
-		password: ""
+		password: "",
 		user: User
 	}
 
