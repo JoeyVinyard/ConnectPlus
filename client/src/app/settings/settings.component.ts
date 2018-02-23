@@ -30,15 +30,17 @@ submit(){
 
 
 		if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
-					var changepass = this.model.user.newPass;
-		
+				
+				var changepass = this.model.user.newPass;
+						this.model.user.newPass = ""
+						this.model.user.conNewPass = ""
 				this.auth.getUser().then((user) => {
 					console.log(user);
-					user.updatePassword(this.model.user.newPass).then(function() {
+					user.updatePassword(changepass).then(function() {
 						  // Update successful.
 						//  console.log("password updated");
-						this.model.user.newPass = "";
-						this.model.user.conNewPass = "";
+						
+						console.log("hello",this.model.user.conNewPass);
 
 						}).catch(function(error) {
 						  // An error happened.
@@ -47,16 +49,16 @@ submit(){
 
 		}
 		if(this.model.user.newEmail){
-			var changepass = this.model.user.newPass;
-		
+			var changeemail = this.model.user.newEmail;
+		this.model.user.newEmail = "";
 			this.auth.getUser().then((user) => {
 				//var user = firebase.auth().currentUser;
 
-			user.updateEmail(this.model.user.newEmail).then(function() {
+			user.updateEmail(changeemail).then(function() {
 						console.log(user);
 					  // Update successful.
 					  // console.log("password email");
-					this.model.user.newEmail = "";
+					
 
 					}).catch(function(error) {
 					  // An error happened.
@@ -76,6 +78,7 @@ del(){
 
 	this.auth.reauthenticate(this.model.deletePassword).then((credential) => {
 		this.auth.deleteUser();	
+		this.model.deletePassword = "";
 	})
 	}
 
