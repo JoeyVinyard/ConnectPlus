@@ -98,6 +98,9 @@
 
 	float: left;
 
+	z-index: 10;
+	pointer-events:none; 
+
 }
 
 #userpic{
@@ -118,9 +121,10 @@
 	position: relative;
 
 	margin-top: -50px;
-	z-index: -1;
+	z-index: 0;
 
 	float: left;
+	pointer-events:auto; 
 }
 
 #userName{
@@ -172,4 +176,15 @@
 .mapButton:hover{
     background-color: rgba(0, 118, 187, 0.75);
     color: white;
+}
+
+#settingsDiv{
+	align-content: center !important;
+	text-align: center;
+}
+
+#settingsButton{
+	float: center;
+	align-content: center;
+	margin-top: 0.5rem;
 }
