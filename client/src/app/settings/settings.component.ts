@@ -16,7 +16,9 @@ export class SettingsComponent implements OnInit {
 		email: "",
 	}
 	model = {
-		user: new User()
+		user: new User(),
+		password: ""
+		
 	}
 
 	particlesConfig;
@@ -24,6 +26,20 @@ export class SettingsComponent implements OnInit {
 
 
 submit(){
+
+		console.log(this.model);
+	}	
+
+
+
+
+del(){
+
+	this.auth.reauthenticate(this.model.password).then((credential) => {
+		this.auth.deleteUser();	
+	})
+	
+
 
 					console.log(this.model);
 
@@ -60,6 +76,7 @@ submit(){
 
 
 	}	
+
 
 	
 constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router) {
