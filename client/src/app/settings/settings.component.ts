@@ -24,24 +24,9 @@ export class SettingsComponent implements OnInit {
 	particlesConfig;
 	submitted = false;
 
-
 submit(){
 
 		console.log(this.model);
-	}	
-
-
-
-
-del(){
-
-	this.auth.reauthenticate(this.model.password).then((credential) => {
-		this.auth.deleteUser();	
-	})
-	
-
-
-					console.log(this.model);
 
 
 		if(this.model.user.newPass && this.model.user.conNewPass){
@@ -51,6 +36,7 @@ del(){
 					console.log(user);
 					user.updatePassword(this.model.user.newPass).then(function() {
 						  // Update successful.
+						  console.log("password updated");
 						}).catch(function(error) {
 						  // An error happened.
 						});
@@ -66,6 +52,8 @@ del(){
 			user.updateEmail(this.model.user.newEmail).then(function() {
 						console.log(user);
 					  // Update successful.
+					   console.log("password email");
+
 					}).catch(function(error) {
 					  // An error happened.
 					});
@@ -74,8 +62,22 @@ del(){
 
 
 
-
 	}	
+
+
+
+
+del(){
+		console.log(this.model);
+
+	this.auth.reauthenticate(this.model.password).then((credential) => {
+		this.auth.deleteUser();	
+	})
+	}
+
+					
+
+		
 
 
 	
