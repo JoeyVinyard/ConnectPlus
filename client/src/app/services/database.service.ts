@@ -28,6 +28,9 @@ export class DatabaseService {
 		// }
 		this.http.post("http://localhost:3000/create", JSON.stringify(user), this.httpOptions).subscribe();
 	}
+	updateUser(user: User){
+		this.http.post("http://localhost:3000/update", JSON.stringify(user), this.httpOptions).subscribe();
+	}
 
 	constructor(private http: HttpClient) {}
 

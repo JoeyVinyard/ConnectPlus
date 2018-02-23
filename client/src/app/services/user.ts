@@ -1,17 +1,17 @@
 export class User {
 
-	
+	public uid: String;
 	public email: string;
-	public password: String;
-	public confpass: String;
+	public password: string;
+	public confpass: string;
 
-	public firstName: String;
-	public lastName: String;
-	public newPass: String;
-	public conNewPass: String;
-	public gender: String;
+	public firstName: string;
+	public lastName: string;
+	public newPass: string;
+	public conNewPass: string;
+	public gender: string;
 	public age: Number;
-	public newEmail: String;
+	public newEmail: string;
 
 	public sports1: Boolean;
 	public sports2: Boolean;

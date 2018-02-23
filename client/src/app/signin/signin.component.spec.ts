@@ -1,16 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { SigninComponent } from './signin.component';
 
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
+import { DatabaseService } from '../services/database.service'
 import { AuthGuard } from '../services/auth-guard.service';
 import { AngularFireAuth } from 'angularfire2/auth'
+import { User } from '../services/user';
 
 import { ParticlesModule } from 'angular-particle';
 import { FormsModule }   from '@angular/forms';
+
+let DatabaseServiceStub = {
+  createUser(user: User){},
+  updateUser(user: User){}
+}
 
 let AuthServiceStub = {
   isAuthed(){
@@ -55,9 +62,10 @@ describe('SigninComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SigninComponent ],
-      imports: [ ParticlesModule, FormsModule ],
+      imports: [ ParticlesModule, FormsModule, RouterTestingModule ],
      providers: [ {provide: AuthService, useValue: AuthServiceStub},
-                      {provide: AuthGuard, useValue: AuthGuardStub}
+                      {provide: AuthGuard, useValue: AuthGuardStub},
+                      {provide: DatabaseService, useValue: DatabaseServiceStub}
                       , AngularFireAuth, ParticlesConfigService ]
     })
     .compileComponents();

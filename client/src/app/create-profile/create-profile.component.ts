@@ -6,150 +6,153 @@ import { User } from '../services/user';
 import { DatabaseService } from '../services/database.service';
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
 @Component({
-  selector: 'app-create-profile',
-  templateUrl: './create-profile.component.html',
-  styleUrls: ['./create-profile.component.css']
+	selector: 'app-create-profile',
+	templateUrl: './create-profile.component.html',
+	styleUrls: ['./create-profile.component.css']
 })
 export class CreateProfileComponent implements OnInit {
 
 	model = {
-		//user: User,
-    user: new User()
+	user: new User()
 	}
 
 	particlesConfig;
 	submitted = false;
 
-submit(){
+	submit(){
+		this.auth.getUser().then((user) => {
+			this.model.user.uid = user.uid;
+			console.log(this.model.user);
 			this.db.createUser(this.model.user);
+		})
 	}	
 
-// database = firebase.database();
-//  user = firebase.auth().currentUser;
+	// database = firebase.database();
+	//  user = firebase.auth().currentUser;
 
-// writeUserData(user, name, email, birthdate) {
-//   firebase.database().ref('users/' + user).set({
-//     username: name,
-//     email: email,
-//     birthdate : birthdate
-//   });
-// }
-constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
-	fb.init({
-      appId: '146089319399243',
-      version: 'v2.12'
-    });
-	console.log("yay?")
-this.auth.isAuthed().then((user) => {
-    console.log("Authed:",user)
-});
-		
+	// writeUserData(user, name, email, birthdate) {
+	//   firebase.database().ref('users/' + user).set({
+	//     username: name,
+	//     email: email,
+	//     birthdate : birthdate
+	//   });
+	// }
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
+		fb.init({
+			appId: '146089319399243',
+			version: 'v2.12'
+		});
+		console.log("yay?")
+		this.auth.isAuthed().then((user) => {
+			console.log("Authed:",user)
+		});
+
 	}
 
 	login() {
-    this.fb.login()
-      .then((res: LoginResponse) => {
-        console.log('Logged in', res);
-      })
-      .catch(this.handleError);
-  }
+		this.fb.login()
+		.then((res: LoginResponse) => {
+			console.log('Logged in', res);
+		})
+		.catch(this.handleError);
+	}
 
-  /**
-   * Login with additional permissions/options
-   */
-/*   linkFacebook() {
-   	const promise = new Promise((resolve, reject) => {
-   		const loginOptions: LoginOptions = {
-      enable_profile_selector: true,
-      return_scopes: true,
-      scope: 'public_profile,user_friends,email,pages_show_list'
-    };
-
-
-    this.fb.login(loginOptions)
-      .then((res: LoginResponse) => {
-        console.log('Logged in', res);
-      }).then(() => {
-      	this.fb.api('/me/friends')
-      .then((res: any) => {
-        console.log('Got the users friends', res);
-      })
-      .catch(this.handleError);
-      })
-      .catch(this.handleError);
-
-      resolve();
-  }
-  
-   }*/
-
-  loginWithOptions() {
-
-    const loginOptions: LoginOptions = {
-      enable_profile_selector: true,
-      return_scopes: true,
-      scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
-    };
+	/**
+	* Login with additional permissions/options
+	*/
+	/*   linkFacebook() {
+	const promise = new Promise((resolve, reject) => {
+	const loginOptions: LoginOptions = {
+	enable_profile_selector: true,
+	return_scopes: true,
+	scope: 'public_profile,user_friends,email,pages_show_list'
+	};
 
 
-    this.fb.login(loginOptions)
-      .then((res: LoginResponse) => {
-        console.log('Logged in', res);
-      }).then(() => {
-      	this.fb.api('/me/taggable_friends')
-      .then((res: any) => {
-        console.log('Got the users friends', res);
+	this.fb.login(loginOptions)
+	.then((res: LoginResponse) => {
+	console.log('Logged in', res);
+	}).then(() => {
+	this.fb.api('/me/friends')
+	.then((res: any) => {
+	console.log('Got the users friends', res);
+	})
+	.catch(this.handleError);
+	})
+	.catch(this.handleError);
 
-      })
-      })
-      .catch(this.handleError);
+	resolve();
+	}
 
-      
-      /*Need to make a promise to make sure the previous call runs before the next call, not sure how to do that yet, will ask joey tomorrow */
-   /* setTimeout(this.fb.api('/me/friends')
-      .then((res: any) => {
-        console.log('Got the users friends', res);
-      })
-      .catch(this.handleError), 1000);*/
-      
-  }
+	}*/
 
-  getLoginStatus() {
-    this.fb.getLoginStatus()
-      .then(console.log.bind(console))
-      .catch(console.error.bind(console));
-  }
+	loginWithOptions() {
+
+		const loginOptions: LoginOptions = {
+			enable_profile_selector: true,
+			return_scopes: true,
+			scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
+		};
 
 
-  /**
-   * Get the user's profile
-   */
-  getProfile() {
-    this.fb.api('/me')
-      .then((res: any) => {
-        console.log('Got the users profile', res);
-      })
-      .catch(this.handleError);
-  }
+		this.fb.login(loginOptions)
+		.then((res: LoginResponse) => {
+			console.log('Logged in', res);
+		}).then(() => {
+			this.fb.api('/me/taggable_friends')
+			.then((res: any) => {
+				console.log('Got the users friends', res);
+
+			})
+		})
+		.catch(this.handleError);
 
 
-  /**
-   * Get the users friends
-   */
-  getFriends() {
-    this.fb.api('/me/friends')
-      .then((res: any) => {
-        console.log('Got the users friends', res);
-      })
-      .catch(this.handleError);
-  }
+		/*Need to make a promise to make sure the previous call runs before the next call, not sure how to do that yet, will ask joey tomorrow */
+	/* setTimeout(this.fb.api('/me/friends')
+	.then((res: any) => {
+	console.log('Got the users friends', res);
+	})
+	.catch(this.handleError), 1000);*/
 
-  private handleError(error) {
-    console.error('Error processing action', error);
-  }
+	}
+
+	getLoginStatus() {
+		this.fb.getLoginStatus()
+		.then(console.log.bind(console))
+		.catch(console.error.bind(console));
+	}
 
 
-  ngOnInit() {
-  }
+	/**
+	* Get the user's profile
+	*/
+	getProfile() {
+		this.fb.api('/me')
+		.then((res: any) => {
+			console.log('Got the users profile', res);
+		})
+		.catch(this.handleError);
+	}
+
+
+	/**
+	* Get the users friends
+	*/
+	getFriends() {
+		this.fb.api('/me/friends')
+		.then((res: any) => {
+			console.log('Got the users friends', res);
+		})
+		.catch(this.handleError);
+	}
+
+	private handleError(error) {
+		console.error('Error processing action', error);
+	}
+
+
+	ngOnInit() {
+	}
 
 }
