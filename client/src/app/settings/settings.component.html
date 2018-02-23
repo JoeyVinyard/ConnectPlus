@@ -29,8 +29,9 @@
                 <option value="female">Female</option>
             </select>
             <p id="formTitle">Age:</p>
-            <input class="textInput" type="number" name="age" min="0" max="100" id="age" [(ngModel)]="model.user.age">
-
+            <input class="textInput" type="number" name="age" min="0" max="1000" d="age" [(ngModel)]="model.user.age">
+            <p id="formTitle">New Email:</p>
+            <input class="textInput" type="text" name="email" [(ngModel)]="model.user.email">
             <p id="formTitle">New Password:</p>
             <input class="textInput" type="password" name="newPassword" [(ngModel)]="model.user.newPass">
             <p id="formTitle">Confirm New Password:</p>
