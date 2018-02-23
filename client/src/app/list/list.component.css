@@ -22,11 +22,15 @@
     height: 60vh;
     width: 100%;
     text-align: center;
-    margin-bottom: -50px;
+	margin-bottom: -50px;
+	overflow: scroll;
+	
 }
 
 #innerDiv{
 	width: 100% !important;
+	margin: 0px;
+	padding: 0px;
 }
 
 #userDiv{
@@ -36,6 +40,10 @@
 	border: 2px solid white;
 	border-radius: 25px;
 	background: rgba(255, 255, 255, 0.5);
+}
+
+#userDivInfo{
+	float: left;
 }
 
 #userNameSmall{
@@ -55,12 +63,24 @@
 	margin: 0px;
 }
 
-#listUser{
-	width:100%;
+#userDivImg{
+	margin: 0px;
+	padding: 0px;
+	width: 25%;
+	height: auto;
 	float: left;
-	padding: 0;
-	margin: 0;
 }
+
+#listUser{
+	width: 25%;
+	float: left;
+	padding-left: 0.5rem;
+	padding-top: 0.25rem;
+	padding-bottom: 0.25rem;
+	/* margin: 0.5rem; */
+}
+
+
 
 #invisible{
 	visibility: hidden;
