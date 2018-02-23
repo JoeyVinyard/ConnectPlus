@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
 import { User } from '../services/user';
-//import { User } from 'firebase';
 
 @Component({
   selector: 'app-settings',
@@ -13,11 +12,11 @@ import { User } from '../services/user';
 export class SettingsComponent implements OnInit {
 
 
-errors = {
+	errors = {
 		email: "",
 	}
 	model = {
-	//	user: User
+		user: new User()
 	}
 
 	particlesConfig;
@@ -25,77 +24,42 @@ errors = {
 
 
 submit(){
-		// this.submitted = true;
-		// if(!this.verify()){
-		// 	this.submitted = false;
-		// 	return;
-		// }
 
-		// firebase.auth().onAuthStateChanged(function(user) {
-		// 	this.auth.deleteUser(user).then(() => {
-		// 		this.router.navigateByUrl("map");
-		// 	}).catch((err) => {
-		// 		console.error(err);
-		// 	})
-		// });
 					console.log(this.model);
 
-	}	
 
-
-// changePasscode(){
-// 		var user = firebase.auth().currentUser;
-// 		var newPassword = getASecureRandomPassword();
-
-// 		user.updatePassword(newPassword).then(function() {
-// 		  // Update successful.
-// 		}).catch(function(error) {
-// 		  // An error happened.
-// 		});
-
-
-// }
-
-
-
-
-del(){
-
-var user = firebase.auth().currentUser;
-
-
-		user.delete().then(function() {
-		  // User deleted.
-		}).catch(function(error) {
-		  // An error happened.
-		});
-	this.router.navigateByUrl("map");
-
-
-}
-
-
-// 	verify(){
-// 		Object.keys(this.errors).forEach((key)=>{
-// 			this.errors[key] = null;
-// 		})
-
-
-
-// if(!this.model.email )
-// 			this.errors.email = "Please enter your email.";
-// 		else if(!(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.email))
-// 			this.errors.email = "Please provide a valid email.";
+		if(this.model.user.newPass && this.model.user.conNewPass){
+					var changepass = this.model.user.newPass;
 		
+				this.auth.getUser().then((user) => {
+					console.log(user);
+					user.updatePassword(this.model.user.newPass).then(function() {
+						  // Update successful.
+						}).catch(function(error) {
+						  // An error happened.
+						});
+				});
 
-// 		var noErr = true;
-// 		Object.keys(this.errors).forEach((key)=>{
-// 			if(this.errors[key])
-// 				noErr = false;
-// 		})
-// 		console.log(this.errors, noErr);
-// 		return noErr;
-// 	}
+		}
+		if(this.model.user.newEmail){
+			var changepass = this.model.user.newPass;
+		
+			this.auth.getUser().then((user) => {
+				//var user = firebase.auth().currentUser;
+
+			user.updateEmail(this.model.user.newEmail).then(function() {
+						console.log(user);
+					  // Update successful.
+					}).catch(function(error) {
+					  // An error happened.
+					});
+			});
+		}
+
+
+
+
+	}	
 
 	
 constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router) {
