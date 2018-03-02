@@ -11,6 +11,7 @@ const requestHandler = (request, response) => {
 	response.setHeader("Access-Control-Allow-Origin", request.headers.origin);
 	response.setHeader('Access-Control-Allow-Headers', 'content-type');
 	routeFunction(request,response);
+	res.end();
 }
 
 var routeHandler = {
@@ -24,16 +25,14 @@ var routeHandler = {
 		});
 		request.on('end', function () {
 			var data = JSON.parse(body);
-			if(!data){
+			if(!data || !data.uid){
 				res.statusCode = 400;
-				res.end();
+				return;
 			}
-			firebase.database().ref("users").push(data).then(() => {
+			firebase.database().ref("users/"+data.uid).set(data).then(() => {
 				res.statusCode = 200;
-				res.end();
 			}).catch((err) => {
 				res.statusCode = 400;
-				res.end();
 			})
 		});
 	},
@@ -47,21 +46,15 @@ var routeHandler = {
 		});
 		request.on('end', function () {
 			var data = JSON.parse(body);
-			if(!data){
+			if(!data || !data.uid){
 				res.statusCode = 400;
-				res.end();
+				return;
 			}
-			firebase.database().ref("users").orderByChild("uid").equalTo(data.uid).on("value", (snapshot) => {
-				console.log(snapshot.ref.toString());
-				res.end();
-			});
-			// firebase.database().ref("users").orderByChild("uid").equalTo(data.uid).ref.update(data).then(() => {
-			// 	res.statusCode = 200;
-			// 	res.end();
-			// }).catch((err) => {
-			// 	res.statusCode = 400;
-			// 	res.end();
-			// })
+			firebase.database().ref("users/"+data.uid).update(data).then(() => {
+				res.statusCode = 200;
+			}).catch((err) => {
+				res.statusCode = 400;
+			})
 		});
 	}
 }
