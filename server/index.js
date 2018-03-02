@@ -87,11 +87,38 @@ var routeHandler = {
 		var uid = urlData[1];
 		firebase.database().ref("users/"+uid).once("value").then((s) => {
 			res.statusCode=200;
-			res.end(JSON.stringify(s));
+			res.end(JSON.stringify(s.val()));
 			return;
 		}).catch((err) => {
 			console.error(err);
 		});
+	},
+	getUsers: function(req, res, urlData){
+		if(!urlData || !urlData[1]){
+			res.statusCode = 400;
+			res.end();
+			return;
+		}
+		var uids = urlData[1].split("&");
+		firebase.database().ref("users").once("value").then((s) => {
+			var data = [];
+			uids.forEach((uid) => {
+				if(s.val()[uid])
+					data.push(s.val()[uid]);
+			})
+			if(data.length == 0){
+				res.statusCode = 400;
+				res.end();
+			}
+			res.statusCode = 200;
+			res.end(JSON.stringify(data));
+		})
+	},
+	getAllUsers: function(req, res, urlData){
+		firebase.database().ref("users").once("value").then((s) => {
+			res.statusCode = 200;
+			res.end(JSON.stringify(s.val()));
+		})
 	}
 }
 
