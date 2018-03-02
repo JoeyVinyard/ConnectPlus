@@ -7,54 +7,90 @@ firebase.initializeApp(config.fbConfig);
 firebase.auth().signInWithEmailAndPassword("admin@connectpl.us", config.password);
 
 const requestHandler = (request, response) => {
-	var routeFunction = routeHandler[request.url.substring(1)];
+	var parsedUrl = request.url.substring(1).split('/');
+	var routeFunction = routeHandler[parsedUrl[0]];
 	response.setHeader("Access-Control-Allow-Origin", request.headers.origin);
 	response.setHeader('Access-Control-Allow-Headers', 'content-type');
-	routeFunction(request,response);
-	res.end();
+	routeFunction(request,response, parsedUrl);
 }
 
 var routeHandler = {
-	create: function(request, res){
+	createUser: function(req, res, urlData){
 		var body = "";
-		request.on('data', function (data) {
+		req.on('data', function (data) {
 			body += data;
 			if(body.length > 1e6){ 
-				request.connection.destroy();
+				req.connection.destroy();
 			}
 		});
-		request.on('end', function () {
+		req.on('end', function () {
 			var data = JSON.parse(body);
 			if(!data || !data.uid){
 				res.statusCode = 400;
+				res.end();
 				return;
 			}
 			firebase.database().ref("users/"+data.uid).set(data).then(() => {
 				res.statusCode = 200;
 			}).catch((err) => {
+				console.error(err);
 				res.statusCode = 400;
+				res.end();
 			})
 		});
 	},
-	update: function(request, res){
+	updateUser: function(req, res, urlData){
 		var body = "";
-		request.on('data', function (data) {
+		req.on('data', function (data) {
 			body += data;
 			if(body.length > 1e6){ 
-				request.connection.destroy();
+				req.connection.destroy();
 			}
 		});
-		request.on('end', function () {
+		req.on('end', function () {
 			var data = JSON.parse(body);
 			if(!data || !data.uid){
 				res.statusCode = 400;
+				res.end();
 				return;
 			}
 			firebase.database().ref("users/"+data.uid).update(data).then(() => {
 				res.statusCode = 200;
 			}).catch((err) => {
+				console.error(err);
 				res.statusCode = 400;
+				res.end();
 			})
+		});
+	},
+	deleteUser: function(req, res, urlData){
+		if(!urlData || !urlData[1]){
+			res.statusCode = 400;
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		firebase.database().ref("users/"+uid).remove().then(() => {
+			res.statusCode = 200;
+		}).catch((err) => {
+			res.statusCode = 400;
+			res.end();
+			console.error(err);
+		})
+	},
+	getUser: function(req, res, urlData){
+		if(!urlData || !urlData[1]){
+			res.statusCode = 400;
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		firebase.database().ref("users/"+uid).once("value").then((s) => {
+			res.statusCode=200;
+			res.end(JSON.stringify(s));
+			return;
+		}).catch((err) => {
+			console.error(err);
 		});
 	}
 }
