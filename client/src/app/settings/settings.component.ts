@@ -78,8 +78,8 @@ export class SettingsComponent implements OnInit {
 		if(this.model.user.newPass != this.model.user.conNewPass && !this.errors.oldPass && !this.errors.conPass)
 			this.errors.conPass = "Passwords must match!";
 		if((this.model.user.newPass ==this.model.user.oldPass || this.model.user.oldPass == this.model.user.conNewPass)&& !this.errors.oldPass && !this.errors.conPass){
-			this.errors.newPass = "why are you changing it to the same?";
-			this.errors.conPass = "hello pick something different";
+			this.errors.newPass = "Please pick a different password";
+			this.errors.conPass = "Please pick a different password";
 		}
 
 		var noErr = true;
