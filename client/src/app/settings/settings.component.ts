@@ -77,6 +77,36 @@ export class SettingsComponent implements OnInit {
 	}	
 
 changeemail(){
+console.log(this.model);
+	this.auth.reauthenticate(this.model.user.password).then((credential) => {
+		//this.auth.deleteUser();	
+		//this.model.user.deletePassword = "";
+	
+		if(this.model.user.newEmail){
+			var changeemail = this.model.user.newEmail;
+			this.model.user.newEmail = "";
+			this.model.user.password = "";
+			this.auth.getUser().then((user) => {
+				//var user = firebase.auth().currentUser;
+
+				user.updateEmail(changeemail).then(function() {
+					console.log(user);
+					  // Update successful.
+					  // console.log("password email");
+
+
+					}).catch(function(error) {
+					  // An error happened.
+					});
+				});
+		}else{
+			this.auth.getUser().then((user) => {
+				console.log(this.model);
+				this.model.user.uid = user.uid;
+				this.db.updateUser(this.model.user);
+			})
+		}
+	})
 
 }
 
