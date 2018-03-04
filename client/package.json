@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/platform-server": "^5.0.0",
     "@angular/router": "^5.0.0",
+    "angular-linkedin-sdk": "^0.1.7",
     "angular-particle": "^1.0.4",
     "angularfire2": "^5.0.0-rc.5-next",
     "core-js": "^2.4.1",
