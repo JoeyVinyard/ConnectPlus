@@ -30,34 +30,34 @@ export class SettingsComponent implements OnInit {
 
 	
 
-changeemail(){
-console.log(this.model);
-	this.auth.reauthenticate(this.model.user.password).then((credential) => {
-	
-		if(this.model.user.newEmail){
-			var changeemail = this.model.user.newEmail;
-			this.model.user.newEmail = "";
-			this.model.user.password = "";
-			this.auth.getUser().then((user) => {
+	changeemail(){
+		console.log(this.model);
+		this.auth.reauthenticate(this.model.user.password).then((credential) => {
+			
+			if(this.model.user.newEmail){
+				var changeemail = this.model.user.newEmail;
+				this.model.user.newEmail = "";
+				this.model.user.password = "";
+				this.auth.getUser().then((user) => {
 
-				user.updateEmail(changeemail).then(function() {
-					console.log(user);
+					user.updateEmail(changeemail).then(function() {
+						console.log(user);
 					  // Update successful.
 
 					}).catch(function(error) {
 					  // An error happened.
 					});
 				});
-		}else{
-			this.auth.getUser().then((user) => {
-				console.log(this.model);
-				this.model.user.uid = user.uid;
-				this.db.updateUser(this.model.user);
-			})
-		}
-	})
+			}else{
+				this.auth.getUser().then((user) => {
+					console.log(this.model);
+					this.model.user.uid = user.uid;
+					this.db.updateUser(this.model.user);
+				})
+			}
+		})
 
-}
+	}
 
 
 
@@ -93,51 +93,51 @@ console.log(this.model);
 
 
 
-changepass(){
-	console.log(this.model);
-if(!this.verifyPass()){
-this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
-	
-		if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
+	changepass(){
+		console.log(this.model);
+		if(!this.verifyPass()){
+			this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
+				
+				if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
 
-			var changepass = this.model.user.newPass;
-			this.model.user.newPass = "";
-			this.model.user.conNewPass = "";
-			this.model.user.oldPass = "";
-			
-			this.auth.getUser().then((user) => {
-				console.log(user);
-				user.updatePassword(changepass).then(function() {
+					var changepass = this.model.user.newPass;
+					this.model.user.newPass = "";
+					this.model.user.conNewPass = "";
+					this.model.user.oldPass = "";
+					
+					this.auth.getUser().then((user) => {
+						console.log(user);
+						user.updatePassword(changepass).then(function() {
 						  // Update successful.
-						
-						console.log("hello",this.model.user.conNewPass);
+						  
+						  console.log("hello",this.model.user.conNewPass);
 
-					}).catch(function(error) {
+						}).catch(function(error) {
 						  // An error happened.
 						});
-				});
-		}
-		else{
-			this.auth.getUser().then((user) => {
-				console.log(this.model);
-				this.model.user.uid = user.uid;
-				this.db.updateUser(this.model.user);
-			})
-		}
-		}).catch((err) => {
+					});
+				}
+				else{
+					this.auth.getUser().then((user) => {
+						console.log(this.model);
+						this.model.user.uid = user.uid;
+						this.db.updateUser(this.model.user);
+					})
+				}
+			}).catch((err) => {
 				this.errors.oldPass = "No.";
-		});
-}
+			});
+		}
 
-}
+	}
 
 
 	del(){
 
-	this.auth.reauthenticate(this.model.user.deletePassword).then((credential) => {
-		this.auth.deleteUser();	
-		this.model.user.deletePassword = "";
-	})
+		this.auth.reauthenticate(this.model.user.deletePassword).then((credential) => {
+			this.auth.deleteUser();	
+			this.model.user.deletePassword = "";
+		})
 	}
 	
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService,) {
@@ -184,24 +184,24 @@ this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
 
 	logout_facebook(){
 		this.fb.getLoginStatus()
-      .then(res=>{
-        if(res && res.status === 'connected'){
-        	console.log("Logging out")
-          this.fb.logout()
+		.then(res=>{
+			if(res && res.status === 'connected'){
+				console.log("Logging out")
+				this.fb.logout()
 
-            .then(res=>{console.log(res)})
-            .catch(this.handleError);
-        }
-      }).catch(this.handleError);
+				.then(res=>{console.log(res)})
+				.catch(this.handleError);
+			}
+		}).catch(this.handleError);
 
-      this.getLoginStatus();
+		this.getLoginStatus();
 	}
 
 	getLoginStatus() {
-    this.fb.getLoginStatus()
-      .then(console.log.bind(console))
-      .catch(console.error.bind(console));
-  }
+		this.fb.getLoginStatus()
+		.then(console.log.bind(console))
+		.catch(console.error.bind(console));
+	}
 
 	ngOnInit() {}
 
