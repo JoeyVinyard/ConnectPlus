@@ -65,10 +65,14 @@
 
               <p id="formTitle">Old Password:</p>
               <input class="textInput" type="password" name="oldPassword" [(ngModel)]="model.user.oldPass">
+              <p id="passError" class="error">{{errors.oldPass}}</p>
               <p id="formTitle">New Password:</p>
               <input class="textInput" type="password" name="newPassword" [(ngModel)]="model.user.newPass">
+              <p id="passError" class="error">{{errors.newPass}}</p>
               <p id="formTitle">Confirm New Password:</p>
               <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.user.conNewPass">
+              <p id="passError" class="error">{{errors.conPass}}</p>
+
              
              <button class="button saveButton">Save Changes</button>
       </form>

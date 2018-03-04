@@ -15,6 +15,9 @@ export class SettingsComponent implements OnInit {
 
 	errors = {
 		email: "",
+		newPass: "",
+		oldPass: "",
+		conPass: ""
 	}
 	model = {
 		password: "",
@@ -55,17 +58,51 @@ console.log(this.model);
 
 }
 
+
+
+	verifyPass(){
+		Object.keys(this.errors).forEach((key)=>{
+			this.errors[key] = null;
+		})
+		
+		//Sanitize input here
+		if(!this.model.user.oldPass)
+			this.errors.oldPass = "Please enter your password.";
+		if(!this.model.user.newPass)
+			this.errors.newPass = "Please enter your password.";
+		else if(this.model.user.newPass.length<6)
+			this.errors.newPass = "Password must be at least 6 characters long."
+		if(!this.model.user.conNewPass)
+			this.errors.conPass = "Please confirm your password.";
+		if(this.model.user.newPass != this.model.user.conNewPass && !this.errors.oldPass && !this.errors.conPass)
+			this.errors.conPass = "Passwords must match!";
+		if((this.model.user.newPass ==this.model.user.oldPass || this.model.user.oldPass == this.model.user.conNewPass)&& !this.errors.oldPass && !this.errors.conPass){
+			this.errors.newPass = "why are you changing it to the same?";
+			this.errors.conPass = "hello pick something different";
+		}
+
+		var noErr = true;
+		Object.keys(this.errors).forEach((key)=>{
+			if(this.errors[key])
+				noErr = false;
+		})
+		// console.log(this.errors, noErr);
+		return noErr;
+	}
+
+
+
 changepass(){
 	console.log(this.model);
-
+if(!this.verifyPass()){
 this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
 	
 		if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
 
 			var changepass = this.model.user.newPass;
-			this.model.user.newPass = ""
-			this.model.user.conNewPass = ""
-			this.model.user.oldPass = ""
+			this.model.user.newPass = "";
+			this.model.user.conNewPass = "";
+			this.model.user.oldPass = "";
 			
 			this.auth.getUser().then((user) => {
 				console.log(user);
@@ -86,7 +123,11 @@ this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
 				this.db.updateUser(this.model.user);
 			})
 		}
-		})
+		}).catch((err) => {
+				this.errors.oldPass = "No.";
+		});
+}
+
 }
 
 
