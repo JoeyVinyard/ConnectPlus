@@ -5,6 +5,7 @@ import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
 import { DatabaseService } from '../services/database.service';
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
+import { LinkedInService} from 'angular-linkedin-sdk';
 @Component({
 	selector: 'app-create-profile',
 	templateUrl: './create-profile.component.html',

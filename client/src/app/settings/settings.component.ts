@@ -178,7 +178,7 @@ export class SettingsComponent implements OnInit {
 			}else{
 				console.log("Attempted to login when already logged in. We probably want to display an error message here");
 			}
-		}
+		})
 
 	}
 
@@ -198,10 +198,12 @@ export class SettingsComponent implements OnInit {
 	}
 
 	getLoginStatus() {
-		this.fb.getLoginStatus()
-		.then(console.log.bind(console))
-		.catch(console.error.bind(console));
-	}
+   
+    this.fb.getLoginStatus()
+      .then(console.log.bind(console))
+      .catch(console.error.bind(console));
+  }
+
 
 	ngOnInit() {}
 
