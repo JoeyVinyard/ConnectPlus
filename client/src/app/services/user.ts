@@ -9,6 +9,7 @@ export class User {
 	public lastName: string;
 	public newPass: string;
 	public conNewPass: string;
+	public oldPass: string;
 	public gender: string;
 	public deletePassword: string;
 

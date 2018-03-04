@@ -53,22 +53,26 @@
 
       <div id="security" class="medium-12 medium-centered column">
           <p class="topText">Security</p>
-
+ <form (ngSubmit)="changeemail()" #signupForm="ngForm">
               <p id="formTitle">New Email:</p>
               <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.user.newEmail">
               <p id="formTitle">Password:</p>
-              <input class="textInput" type="password" name="password" [(ngModel)]="model.user.newPass">
+              <input class="textInput" type="password" name="password" [(ngModel)]="model.user.password">
 
               <button class="button saveButton">Save Changes</button>
+</form>
+ <form (ngSubmit)="changepass()" #signupForm="ngForm">
 
               <p id="formTitle">Old Password:</p>
-              <input class="textInput" type="password" name="oldPassword" [(ngModel)]="model.user.newPass">
+              <input class="textInput" type="password" name="oldPassword" [(ngModel)]="model.user.oldPass">
               <p id="formTitle">New Password:</p>
               <input class="textInput" type="password" name="newPassword" [(ngModel)]="model.user.newPass">
               <p id="formTitle">Confirm New Password:</p>
               <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.user.conNewPass">
              
              <button class="button saveButton">Save Changes</button>
+      </form>
+
         </div>
 
       <div id="socialMedia">

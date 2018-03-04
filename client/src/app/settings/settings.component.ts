@@ -76,7 +76,47 @@ export class SettingsComponent implements OnInit {
 
 	}	
 
+changeemail(){
 
+}
+
+changepass(){
+	console.log(this.model);
+
+this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
+		//this.auth.deleteUser();	
+	//	this.model.user.deletePassword = "";
+	
+		if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
+
+			var changepass = this.model.user.newPass;
+			this.model.user.newPass = ""
+			this.model.user.conNewPass = ""
+			this.model.user.oldPass = ""
+			
+			this.auth.getUser().then((user) => {
+				console.log(user);
+				user.updatePassword(changepass).then(function() {
+						  // Update successful.
+						//  console.log("password updated");
+						
+						console.log("hello",this.model.user.conNewPass);
+
+					}).catch(function(error) {
+						  // An error happened.
+						});
+				});
+
+		}
+		else{
+			this.auth.getUser().then((user) => {
+				console.log(this.model);
+				this.model.user.uid = user.uid;
+				this.db.updateUser(this.model.user);
+			})
+		}
+		})
+}
 
 
 	del(){
