@@ -4,6 +4,7 @@ import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
 import { DatabaseService } from '../services/database.service';
 import { User } from '../services/user';
+import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
 
 @Component({
 	selector: 'app-settings',
@@ -139,11 +140,72 @@ this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
 	})
 	}
 	
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService) {
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService,) {
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 		});	
+
+		fb.init({
+			appId: '146089319399243',
+			version: 'v2.12',
+			cookie: true
+		});
+		
 	}
+
+	link_facebook(){
+		const loginOptions: LoginOptions = {
+			enable_profile_selector: true,
+			return_scopes: true,
+			scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
+		};
+
+		/*todo: Check if loggedin already */
+		this.fb.getLoginStatus()
+		.then(res=>{
+			if(res && res.status === 'unknown'){
+				this.fb.login(loginOptions)
+				.then((res: LoginResponse) => {
+					console.log('Logged in', res);
+				}).then(() => {
+					this.fb.api('/me/taggable_friends')
+					.then((res: any) => {
+						console.log('Got the users friends', res);
+
+					})
+				})
+				.catch(this.handleError);
+			}else{
+				console.log("Attempted to login when already logged in. We probably want to display an error message here");
+			}
+		}
+
+	}
+
+	logout_facebook(){
+		this.fb.getLoginStatus()
+      .then(res=>{
+        if(res && res.status === 'connected'){
+        	console.log("Logging out")
+          this.fb.logout()
+
+            .then(res=>{console.log(res)})
+            .catch(this.handleError);
+        }
+      }).catch(this.handleError);
+
+      this.getLoginStatus();
+	}
+
+	getLoginStatus() {
+    this.fb.getLoginStatus()
+      .then(console.log.bind(console))
+      .catch(console.error.bind(console));
+  }
+
 	ngOnInit() {}
 
+	private handleError(error) {
+		console.error('Error processing action', error);
+	}
 }
