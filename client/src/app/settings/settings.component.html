@@ -43,6 +43,7 @@
                 <option selected="true" disabled="disabled" >Please select an option</option>    
                 <option value="male">Male</option>
                 <option value="female">Female</option>
+                <option value="female">Other</option>
             </select>
             <p id="formTitle">Age:</p>
             <input class="textInput" type="number" name="age" min="0" max="1000" d="age" [(ngModel)]="model.user.age">
@@ -50,18 +51,18 @@
 
            <button class="button saveButton">Save Changes</button>
       </div>
-</form>
+
       <div id="security" class="medium-12 medium-centered column">
           <p class="topText">Security</p>
-          <form (ngSubmit)="changeemail()" #signupForm="ngForm"></form>
+ <form (ngSubmit)="changeemail()" #signupForm="ngForm">
               <p id="formTitle">New Email:</p>
               <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.user.newEmail">
               <p id="formTitle">Password:</p>
               <input class="textInput" type="password" name="password" [(ngModel)]="model.user.password">
 
               <button class="button saveButton">Save Changes</button>
-          </form>
-          <form (ngSubmit)="changepass()" #signupForm="ngForm">
+</form>
+ <form (ngSubmit)="changepass()" #signupForm="ngForm">
 
               <p id="formTitle">Old Password:</p>
               <input class="textInput" type="password" name="oldPassword" [(ngModel)]="model.user.oldPass">
@@ -75,7 +76,7 @@
 
              
              <button class="button saveButton">Save Changes</button>
-          </form>
+      </form>
 
         </div>
 
@@ -84,19 +85,40 @@
 
           <div class="medium-3 column">
               <a class="social-icon-button facebook"><i class="fa fa-facebook" aria-hidden="true"></i><span></span></a>
-              <p>Facebook</p>
+              <!-- <p>Facebook</p> -->
           </div>
           <div class="medium-3 column">
             <a class="social-icon-button instagram"><i class="fa fa-instagram"></i><span></span></a>
-            <p>Instagram</p>
+            <!-- <p>Instagram</p> -->
           </div>
           <div class="medium-3 column">
             <a class="social-icon-button linkedin"><i class="fa fa-linkedin"></i><span></span></a>
-            <p>Linkedin</p>
+            <!-- <p>Linkedin</p> -->
           </div>
           <div class="medium-3 column">
             <a class="social-icon-button blackboard"><i class="fa fa-pencil-square-o"></i><span></span></a>
-            <p>Blackboard</p>
+            <!-- <p>Blackboard</p> -->
+          </div>
+
+          <div class="medium-3 column social-expanded" id="face-exp">
+              <p>Facebook</p>
+              <button class="button socialButton" id="face-con">Connect</button>
+              <button class="button socialButton" id="face-dis">Disconnect</button>
+          </div>
+          <div class="medium-3 column social-expanded" id="insta-exp">
+              <p>Instagram</p>
+              <button class="button socialButton" id="insta-con">Connect</button>
+              <button class="button socialButton" id="intsa-dis">Disconnect</button>
+          </div>
+          <div class="medium-3 column social-expanded" id="link-exp">
+              <p>LinkedIn</p>
+              <button class="button socialButton" id="link-con">Connect</button>
+              <button class="button socialButton" id="link-dis">Disconnect</button>
+          </div>
+          <div class="medium-3 column social-expanded" id="black-exp">
+              <p>Blackboard</p>
+              <button class="button socialButton" id="black-con">Connect</button>
+              <button class="button socialButton" id="black-dis">Disconnect</button>
           </div>
       </div>
 
@@ -161,7 +183,7 @@
           </div>
           <button class="button saveButton">Submit</button>
       </div>
-      
+      </form>
 
       <form (ngSubmit)="del()" #signupForm="ngForm">
       <div id="deleteAccount">
@@ -185,5 +207,4 @@
     $(this).siblings().removeClass('is-active');
     $(this).addClass('is-active');
   });
-
 </script>

@@ -188,6 +188,41 @@
 
 }
 
+.social-expanded{
+  border: 2px solid white;
+  border-radius: 25px;
+  color: white;
+  font-weight: bold;
+}
+
+#face-exp{
+  background-color: rgba(59, 89, 152, 0.8);
+}
+
+#insta-exp{
+  background-color: rgba(138, 58, 185, 0.8);
+}
+
+#link-exp{
+  background-color: rgba(0, 119, 181, 0.8);
+}
+
+#black-exp{
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.socialButton{
+  background-color: rgba(255, 255, 255, 0.5);
+  color: white;
+  border: 2px solid white;
+  border-radius: 25px;
+}
+
+.socialButton:hover{
+  background-color: white;
+  color: black;
+}
+
 .social-icon-button {
     border-radius: 3.6rem;
     width: 3.6rem;
