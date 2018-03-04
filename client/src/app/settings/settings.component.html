@@ -11,13 +11,18 @@
       </div>
 
       <div id="invisibilityDiv">
-          <p class="topText">Set Invisibility</p>
-          <div class="switch">
-              <input class="switch-input" id="defaultSwitch" type="checkbox" name="defaultSwitch">
-              <label class="switch-paddle" for="defaultSwitch">
-                <span class="show-for-sr">Default Switch</span>
-              </label>
-            </div>
+          <p class="topText">Set Visibility</p>
+              
+              <div class="mobile-app-toggle" data-mobile-app-toggle>
+                <button class="button is-active">Invisible</button>
+                <button class="button">Invisible for 4 hours</button>
+                <button class="button">Invisible for 12 hours</button>
+                <button class="button">Invisible for 1 day</button>
+                <button class="button">Visibile</button>
+
+              </div>
+
+              <button class="button saveButton">Submit</button>
       </div>
 
       <div id="accountDetails">
@@ -166,3 +171,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  $('[data-mobile-app-toggle] .button').click(function () {
+    $(this).siblings().removeClass('is-active');
+    $(this).addClass('is-active');
+  });
+
+</script>
