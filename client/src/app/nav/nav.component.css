@@ -12,9 +12,14 @@
 #google_translate_element{
     background: transparent;
     width: 75%;
-    /* border: 2px solid blue; */
     margin-top: 1rem;
+    margin-right: 0px;
+    padding: 0px;
 }
+
+/* .goog-te-gadget-simple{
+    background-color: blue;
+} */
 
 #navLogo{
     align-content: center;
