@@ -24,76 +24,21 @@ export class SettingsComponent implements OnInit {
 	particlesConfig;
 	submitted = false;
 
-	submit(){
-
-		console.log(this.model);
-
-
-		if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
-
-			var changepass = this.model.user.newPass;
-			this.model.user.newPass = ""
-			this.model.user.conNewPass = ""
-			this.auth.getUser().then((user) => {
-				console.log(user);
-				user.updatePassword(changepass).then(function() {
-						  // Update successful.
-						//  console.log("password updated");
-						
-						console.log("hello",this.model.user.conNewPass);
-
-					}).catch(function(error) {
-						  // An error happened.
-						});
-				});
-
-		}
-		if(this.model.user.newEmail){
-			var changeemail = this.model.user.newEmail;
-			this.model.user.newEmail = "";
-			this.auth.getUser().then((user) => {
-				//var user = firebase.auth().currentUser;
-
-				user.updateEmail(changeemail).then(function() {
-					console.log(user);
-					  // Update successful.
-					  // console.log("password email");
-
-
-					}).catch(function(error) {
-					  // An error happened.
-					});
-				});
-		}else{
-			this.auth.getUser().then((user) => {
-				console.log(this.model);
-				this.model.user.uid = user.uid;
-				this.db.updateUser(this.model.user);
-			})
-		}
-
-
-
-	}	
+	
 
 changeemail(){
 console.log(this.model);
 	this.auth.reauthenticate(this.model.user.password).then((credential) => {
-		//this.auth.deleteUser();	
-		//this.model.user.deletePassword = "";
 	
 		if(this.model.user.newEmail){
 			var changeemail = this.model.user.newEmail;
 			this.model.user.newEmail = "";
 			this.model.user.password = "";
 			this.auth.getUser().then((user) => {
-				//var user = firebase.auth().currentUser;
 
 				user.updateEmail(changeemail).then(function() {
 					console.log(user);
 					  // Update successful.
-					  // console.log("password email");
-
 
 					}).catch(function(error) {
 					  // An error happened.
@@ -114,8 +59,6 @@ changepass(){
 	console.log(this.model);
 
 this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
-		//this.auth.deleteUser();	
-	//	this.model.user.deletePassword = "";
 	
 		if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
 
@@ -128,7 +71,6 @@ this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
 				console.log(user);
 				user.updatePassword(changepass).then(function() {
 						  // Update successful.
-						//  console.log("password updated");
 						
 						console.log("hello",this.model.user.conNewPass);
 
@@ -136,7 +78,6 @@ this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
 						  // An error happened.
 						});
 				});
-
 		}
 		else{
 			this.auth.getUser().then((user) => {
@@ -156,21 +97,12 @@ this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
 		this.model.user.deletePassword = "";
 	})
 	}
-
-
-
-
-
-
 	
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService) {
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
-		});
-		
+		});	
 	}
 	ngOnInit() {}
-
-
 
 }
