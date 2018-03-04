@@ -1,6 +1,7 @@
 .mainDiv{
     align-content: center;
     display: block;
+    float: center;
 }
 
 .topText{

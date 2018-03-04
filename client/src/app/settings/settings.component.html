@@ -41,14 +41,7 @@
             </select>
             <p id="formTitle">Age:</p>
             <input class="textInput" type="number" name="age" min="0" max="1000" d="age" [(ngModel)]="model.user.age">
-            <p id="formTitle">New Email:</p>
-            <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.user.newEmail">
-            <p id="formTitle">New Password:</p>
-            <input class="textInput" type="password" name="newPassword" [(ngModel)]="model.user.newPass">
-            <p id="formTitle">Confirm New Password:</p>
-            <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.user.conNewPass">
            </div>
-           
 
            <button class="button saveButton">Save Changes</button>
       </div>
@@ -161,6 +154,8 @@
       <div id="deleteAccount">
           <p class="topText">Delete Account</p>
           <div class="medium-8 column">
+              <p id="formTitle">Please confirm your Email:</p>
+              <input class="textInput" type="text" name="confirmEmail" [(ngModel)]="model.user.newEmail">
               <p id="formTitle">Please confirm your password:</p>
               <input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.user.deletePassword">
           </div>
