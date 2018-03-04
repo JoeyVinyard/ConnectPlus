@@ -56,35 +56,17 @@ export class CreateProfileComponent implements OnInit {
 		})
 		.catch(this.handleError);
 	}
+   logout(){
+     this.fb.getLoginStatus()
+      .then(res=>{
+        if(res && res.status == 'connected'){
+          this.fb.logout()
+            .then(res=>{console.log(res)})
+            .catch(this.handleError);
+        }
+      }).catch(this.handleError);
 
-	/**
-	* Login with additional permissions/options
-	*/
-	/*   linkFacebook() {
-	const promise = new Promise((resolve, reject) => {
-	const loginOptions: LoginOptions = {
-	enable_profile_selector: true,
-	return_scopes: true,
-	scope: 'public_profile,user_friends,email,pages_show_list'
-	};
-
-
-	this.fb.login(loginOptions)
-	.then((res: LoginResponse) => {
-	console.log('Logged in', res);
-	}).then(() => {
-	this.fb.api('/me/friends')
-	.then((res: any) => {
-	console.log('Got the users friends', res);
-	})
-	.catch(this.handleError);
-	})
-	.catch(this.handleError);
-
-	resolve();
-	}
-
-	}*/
+   }
 
 	loginWithOptions() {
 
