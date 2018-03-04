@@ -19,8 +19,12 @@
                 <button class="button">Invisible for 12 hours</button>
                 <button class="button">Invisible for 1 day</button>
                 <button class="button">Visibile</button>
-
-              </div>
+              </div><script type="text/javascript">
+                  $('[data-mobile-app-toggle] .button').click(function () {
+                    $(this).siblings().removeClass('is-active');
+                    $(this).addClass('is-active');
+                  });
+                </script>
 
               <button class="button saveButton">Submit</button>
       </div>
@@ -209,10 +213,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $('[data-mobile-app-toggle] .button').click(function () {
-    $(this).siblings().removeClass('is-active');
-    $(this).addClass('is-active');
-  });
-</script>
