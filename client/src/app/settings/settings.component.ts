@@ -178,7 +178,7 @@ this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
 			}else{
 				console.log("Attempted to login when already logged in. We probably want to display an error message here");
 			}
-		}
+		})
 
 	}
 
@@ -198,6 +198,7 @@ this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
 	}
 
 	getLoginStatus() {
+    
     this.fb.getLoginStatus()
       .then(console.log.bind(console))
       .catch(console.error.bind(console));
