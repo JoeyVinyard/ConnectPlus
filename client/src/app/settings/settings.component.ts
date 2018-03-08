@@ -104,7 +104,7 @@ export class SettingsComponent implements OnInit {
 				if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
 
 					var changepass = this.model.user.newPass;
-				
+					
 					
 					this.auth.getUser().then((user) => {
 						console.log(user);
@@ -124,6 +124,10 @@ export class SettingsComponent implements OnInit {
 						});
 					});
 										this.errors.changePassMess = "password change worked!!!";
+										this.model.user.newPass = "" ;
+										this.model.user.conNewPass = "";
+										this.model.user.oldPass = "";
+
 
 				}
 				else{
@@ -135,12 +139,12 @@ export class SettingsComponent implements OnInit {
 				}
 			}).catch((err) => {
 				this.errors.newPass = "";
-
 				this.errors.conPass = "";
-
 				this.errors.oldPass = "Please enter your password.";
 				this.errors.changePassMess = "Password Change Failed";
-
+this.model.user.newPass = "" ;
+										this.model.user.conNewPass = "";
+										this.model.user.oldPass = "";
 			});
 		}
 
