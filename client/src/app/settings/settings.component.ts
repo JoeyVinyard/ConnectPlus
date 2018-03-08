@@ -28,11 +28,34 @@ export class SettingsComponent implements OnInit {
 	model = {
 		password: "",
 		user: new User(),
+		// user = firebase.auth().currentUser;
+
 	}
 	
 
 	particlesConfig;
 	submitted = false;
+
+
+
+updateInfo(){
+
+console.log(this.model);
+
+this.auth.getUser().then((user) => {
+			//this.model.user.uid = user.uid;
+			this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
+				//this.router.navigateByUrl('map');
+			}).catch((err)=>{
+				console.error(err);
+				//Form rejected for some reason
+			})
+		})
+
+}
+
+
 
 	verifyEmail(){
 		Object.keys(this.errors).forEach((key)=>{
@@ -255,7 +278,35 @@ export class SettingsComponent implements OnInit {
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService,) {
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
+			this.model.user.uid = user.uid;
 		});	
+
+
+//////try///
+
+this.auth.getUser().then((user) => {
+			this.model.user.uid = user.uid;
+		//	this.model.user.firstName = user.uid.firstName;
+			//console.log("this is what i found ", uid.firstName);
+			this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
+				//this.router.navigateByUrl('map');
+			}).catch((err)=>{
+				console.error(err);
+				//Form rejected for some reason
+			})
+		})
+
+
+
+//////try^^^/////
+
+
+
+
+
+
+
 
 		fb.init({
 			appId: '146089319399243',
@@ -264,6 +315,13 @@ export class SettingsComponent implements OnInit {
 		});
 		
 	}
+
+
+
+
+
+
+
 
 	link_facebook(){
 		const loginOptions: LoginOptions = {
