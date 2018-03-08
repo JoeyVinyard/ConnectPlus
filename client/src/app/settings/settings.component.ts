@@ -80,8 +80,8 @@ export class SettingsComponent implements OnInit {
 
 					});
 				});
-				//	this.model.user.newEmail = "";
-				//	this.model.user.password = "";
+				this.model.user.newEmail = "";
+					this.model.user.password = "";
 					this.errors.changeEmailMess = "Email Change Successful"
 				}
 				else{
@@ -94,14 +94,14 @@ export class SettingsComponent implements OnInit {
 			}).catch((err) => {
 				this.errors.changeEmailMess = "Email Change Failed";
 				this.errors.pass = "Please enter your password.";
-				//this.model.user.password = "";
+				this.model.user.password = "";
 
 			});
 		}
 		else{
 			this.errors.changeEmailMess = "Email Change Failed";
-			//this.model.user.newEmail = "";
-		//	this.model.user.password = "";
+			this.model.user.newEmail = "";
+			this.model.user.password = "";
 		}
 
 	}
