@@ -14,7 +14,7 @@ import { LinkedInService} from 'angular-linkedin-sdk';
 export class CreateProfileComponent implements OnInit {
 
 	model = {
-	user: new User()
+		user: new User()
 	}
 
 	particlesConfig;
@@ -45,14 +45,13 @@ export class CreateProfileComponent implements OnInit {
 	// }
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
 		fb.init({
-      appId: '146089319399243',
-      version: 'v2.12'
-    });
-    
+			appId: '146089319399243',
+			version: 'v2.12'
+		});
+
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 		});
-
 	}
 
 	login() {
@@ -63,28 +62,28 @@ export class CreateProfileComponent implements OnInit {
 		.catch(this.handleError);
 	}
 
-  
+
 
 	loginWithOptions() {
 
 		const loginOptions: LoginOptions = {
-      enable_profile_selector: true,
-      return_scopes: true,
-      scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
-    };
+			enable_profile_selector: true,
+			return_scopes: true,
+			scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
+		};
 
 
-    this.fb.login(loginOptions)
-    .then((res: LoginResponse) => {
-      console.log('Logged in', res);
-    }).then(() => {
-      this.fb.api('/me/taggable_friends')
-      .then((res: any) => {
-        console.log('Got the users friends', res);
+		this.fb.login(loginOptions)
+		.then((res: LoginResponse) => {
+			console.log('Logged in', res);
+		}).then(() => {
+			this.fb.api('/me/taggable_friends')
+			.then((res: any) => {
+				console.log('Got the users friends', res);
 
-      })
-    })
-    .catch(this.handleError);
+			})
+		})
+		.catch(this.handleError);
 
 
 		/*Need to make a promise to make sure the previous call runs before the next call, not sure how to do that yet, will ask joey tomorrow */
@@ -94,13 +93,13 @@ export class CreateProfileComponent implements OnInit {
 	})
 	.catch(this.handleError), 1000);*/
 
-	}
+}
 
-	getLoginStatus() {
-		this.fb.getLoginStatus()
-		.then(console.log.bind(console))
-		.catch(console.error.bind(console));
-	}
+getLoginStatus() {
+	this.fb.getLoginStatus()
+	.then(console.log.bind(console))
+	.catch(console.error.bind(console));
+}
 
 
 	/**
@@ -127,8 +126,8 @@ export class CreateProfileComponent implements OnInit {
 	}
 
 	private handleError(error) {
-    console.error('Error processing action', error);
-  }
+		console.error('Error processing action', error);
+	}
 
 
 	ngOnInit() {

@@ -13,6 +13,7 @@ var responseForm = {
 
 const requestHandler = (request, response) => {
 	var parsedUrl = request.url.substring(1).split('/');
+	console.log(parsedUrl);
 	var routeFunction = routeHandler[parsedUrl[0]];
 	response.setHeader("Access-Control-Allow-Origin", request.headers.origin, 'always');
 	response.setHeader('Access-Control-Allow-Headers', 'content-type');
@@ -95,6 +96,7 @@ var routeHandler = {
 		}
 		var uid = urlData[1];
 		firebase.database().ref("users/"+uid).remove().then(() => {
+			console.log("finsihed");
 			res.statusCode = 200;
 			responseBody.payload = true;
 			res.write(JSON.stringify(responseBody));

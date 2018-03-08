@@ -23,9 +23,31 @@ export class DatabaseService {
 			});
 		})
 	}
-	updateUser(user: User){
+	updateUser(user: User): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.post("http://localhost:3000/updateUser", JSON.stringify(user), this.httpOptions).subscribe((data) => {
+				if(data)
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
+	deleteUser(user: User): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.delete("http://localhost:3000/deleteUser/"+user.uid, this.httpOptions).subscribe((data) => {
+				console.log(data);
+				if(data)
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
+	getUser(uid: String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/getUser/"+uid, this.httpOptions).subscribe((data) => {
+				console.log(data);
 				if(data)
 					resolve(data["payload"]);
 				else
