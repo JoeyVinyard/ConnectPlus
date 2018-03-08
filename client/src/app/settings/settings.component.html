@@ -61,9 +61,12 @@
             <form (ngSubmit)="changeemail()" #signupForm="ngForm">
               <p id="formTitle">New Email:</p>
               <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.user.newEmail">
+              <p class="error">{{errors.newEmail}}</p>  
               <p id="formTitle">Password:</p>
               <input class="textInput" type="password" name="password" [(ngModel)]="model.user.password">
+              <p class="error">{{errors.pass}}</p>  
 
+            <p class="error">{{errors.changeEmailMess}}</p>  
               <button class="button saveButton">Save Changes</button>
             </form>
             <form (ngSubmit)="changepass()" #signupForm="ngForm">

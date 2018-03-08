@@ -16,11 +16,14 @@ export class SettingsComponent implements OnInit {
 
 	errors = {
 		email: "",
+		pass: "",
+		newEmail:"",
 		newPass: "",
 		oldPass: "",
 		conPass: "", 
 		cred: "",
-		changePassMess: ""
+		changePassMess: "",
+		changeEmailMess: ""
 	}
 	model = {
 		password: "",
@@ -31,34 +34,75 @@ export class SettingsComponent implements OnInit {
 	particlesConfig;
 	submitted = false;
 
-	
+	verifyEmail(){
+		Object.keys(this.errors).forEach((key)=>{
+			this.errors[key] = null;
+		})
+		var noErr = true;
+		//Sanitize input here
+		if(!this.model.user.newEmail || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.user.newEmail)){
+
+			this.errors.newEmail = "Please provide a valid email.";
+							noErr = false;
+
+		}
+
+
+		
+		Object.keys(this.errors).forEach((key)=>{
+			if(this.errors[key])
+				noErr = false;
+		})
+		// console.log(this.errors, noErr);
+		return noErr;
+	}
 
 	changeemail(){
 		console.log(this.model);
-		this.auth.reauthenticate(this.model.user.password).then((credential) => {
-			
-			if(this.model.user.newEmail){
-				var changeemail = this.model.user.newEmail;
-				this.model.user.newEmail = "";
-				this.model.user.password = "";
-				this.auth.getUser().then((user) => {
+		if(this.verifyEmail()){
+			this.auth.reauthenticate(this.model.user.password).then((credential) => {
 
-					user.updateEmail(changeemail).then(function() {
-						console.log(user);
+				if(this.model.user.newEmail){
+					var changeemail = this.model.user.newEmail;
+
+					this.auth.getUser().then((user) => {
+
+						user.updateEmail(changeemail).then(function() {
+							console.log(user);
 					  // Update successful.
 
-					}).catch(function(error) {
+					}).catch((err) => {
 					  // An error happened.
+					  // this.model.user.password = "";
+					  this.errors.changeEmailMess = "Email Change Failed";
+					  if(err.code == "auth/invalid-user-token" || err.code == "auth/email-already-in-use" || err.code == "auth/invalid-email" )
+							this.errors.newEmail = "Email already in use!";
+
 					});
 				});
-			}else{
-				this.auth.getUser().then((user) => {
-					console.log(this.model);
-					this.model.user.uid = user.uid;
-					this.db.updateUser(this.model.user);
-				})
-			}
-		})
+				//	this.model.user.newEmail = "";
+				//	this.model.user.password = "";
+					this.errors.changeEmailMess = "Email Change Successful"
+				}
+				else{
+					this.auth.getUser().then((user) => {
+						console.log(this.model);
+						this.model.user.uid = user.uid;
+						this.db.updateUser(this.model.user);
+					})
+				}
+			}).catch((err) => {
+				this.errors.changeEmailMess = "Email Change Failed";
+				this.errors.pass = "Please enter your password.";
+				//this.model.user.password = "";
+
+			});
+		}
+		else{
+			this.errors.changeEmailMess = "Email Change Failed";
+			//this.model.user.newEmail = "";
+		//	this.model.user.password = "";
+		}
 
 	}
 
