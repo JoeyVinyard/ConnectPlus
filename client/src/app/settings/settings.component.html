@@ -78,7 +78,7 @@
               <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.user.conNewPass">
               <p id="passError" class="error">{{errors.conPass}}</p>
 
-             
+            <p class="error">{{errors.changePassMess}}</p>  
              <button class="button saveButton">Save Changes</button>
           </form>
 
@@ -202,7 +202,7 @@
           <p class="topText">Delete Account <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></p>
           <div class="medium-8 column">
               <p id="formTitle">Please confirm your Email:</p>
-              <input class="textInput" type="text" name="confirmEmail" [(ngModel)]="model.user.newEmail">
+              <input class="textInput" type="text" name="confirmEmail" [(ngModel)]="model.user.email">
               <p id="formTitle">Please confirm your password:</p>
               <input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.user.deletePassword">
           </div>

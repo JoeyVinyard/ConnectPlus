@@ -19,12 +19,14 @@ export class SettingsComponent implements OnInit {
 		newPass: "",
 		oldPass: "",
 		conPass: "", 
-		cred: ""
+		cred: "",
+		changePassMess: ""
 	}
 	model = {
 		password: "",
 		user: new User(),
 	}
+	
 
 	particlesConfig;
 	submitted = false;
@@ -108,9 +110,11 @@ export class SettingsComponent implements OnInit {
 					
 					this.auth.getUser().then((user) => {
 						console.log(user);
+						console.log(this.model);
 						user.updatePassword(changepass).then(function() {
 						  // Update successful.
-						  
+						  this.errors.changePassMess = "password change worked!!!";
+						  console.log("hello",this.model.user.conNewPass);
 						  console.log("hello",this.model.user.conNewPass);
 
 						}).catch(function(error) {
@@ -127,22 +131,50 @@ export class SettingsComponent implements OnInit {
 				}
 			}).catch((err) => {
 				this.errors.oldPass = "No.";
+				this.errors.changePassMess = "password did not change!!!";
+
 			});
 		}
 
 	}
 
 
-	del(){
+del(){
 
 		this.auth.reauthenticate(this.model.user.deletePassword).then((credential) => {
-			this.auth.deleteUser();	
-			this.model.user.deletePassword = "";
+				this.auth.deleteUser();	
+				this.model.user.deletePassword = "";
+				this.model.user.email = "";
 		}).catch((err) => {
+			this.errors.cred = "Incorrect Email and/or Password";
+			this.model.user.deletePassword = "";
+		});
+	}
+	
+
+
+/* not working idk why
+	del(){
+		this.auth.reauthenticate(this.model.user.deletePassword).then((credential)  => {
+
+			this.auth.reauthenticate(this.model.user.email).then((credential) => {
+				this.auth.deleteUser();	
+				this.model.user.deletePassword = "";
+				this.model.user.email = "";
+			}).catch((err) => {
 				this.errors.cred = "Incorrect Email and/or Password";
 				this.model.user.deletePassword = "";
 			});
+
+
+		}).catch((err) => {
+			this.errors.cred = "Incorrect Email and/or Password";
+			this.model.user.deletePassword = "";
+		});
+
+
 	}
+*/
 	
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService,) {
 		this.auth.isAuthed().then((user) => {
@@ -202,11 +234,11 @@ export class SettingsComponent implements OnInit {
 	}
 
 	getLoginStatus() {
-   
-    this.fb.getLoginStatus()
-      .then(console.log.bind(console))
-      .catch(console.error.bind(console));
-  }
+
+		this.fb.getLoginStatus()
+		.then(console.log.bind(console))
+		.catch(console.error.bind(console));
+	}
 
 
 	ngOnInit() {}
