@@ -123,6 +123,8 @@ export class SettingsComponent implements OnInit {
 							this.errors.changePassMess = "Password Change Failed";
 						});
 					});
+										this.errors.changePassMess = "password change worked!!!";
+
 				}
 				else{
 					this.auth.getUser().then((user) => {
