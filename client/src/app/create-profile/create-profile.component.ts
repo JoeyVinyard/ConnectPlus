@@ -23,8 +23,13 @@ export class CreateProfileComponent implements OnInit {
 	submit(){
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
-			console.log(this.model.user);
-			this.db.createUser(this.model.user);
+			this.db.createUser(this.model.user).then((data) => {
+				console.log(data);
+				this.router.navigateByUrl('map');
+			}).catch((err)=>{
+				console.error(err);
+				//Form rejected for some reason
+			})
 		})
 	}	
 

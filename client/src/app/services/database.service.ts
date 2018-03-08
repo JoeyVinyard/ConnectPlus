@@ -13,23 +13,25 @@ export class DatabaseService {
 		})
 	};
 
-	createUser(user: User){
-		// var tempUser = {
-		// 	firstName: "Joey",
-		// 	lastName: "Vinyard",
-		// 	age: 19,
-		// 	interests: [
-		// 		"Rock Climbing",
-		// 		"Video Games",
-		// 		"Airplanes",
-		// 		"Sexual things",
-		// 		"Men"
-		// 	]
-		// }
-		this.http.post("http://localhost:3000/create", JSON.stringify(user), this.httpOptions).subscribe();
+	createUser(user: User): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.post("http://localhost:3000/createUser", JSON.stringify(user), this.httpOptions).subscribe((data) => {
+				if(data)
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
 	}
 	updateUser(user: User){
-		this.http.post("http://localhost:3000/update", JSON.stringify(user), this.httpOptions).subscribe();
+		return new Promise((resolve, reject) => {
+			this.http.post("http://localhost:3000/updateUser", JSON.stringify(user), this.httpOptions).subscribe((data) => {
+				if(data)
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
 	}
 
 	constructor(private http: HttpClient) {}
