@@ -73,7 +73,7 @@ export class SettingsComponent implements OnInit {
 		if(!this.model.user.oldPass)
 			this.errors.oldPass = "Please enter your password.";
 		if(!this.model.user.newPass)
-			this.errors.newPass = "Please enter your password.";
+			this.errors.newPass = "Please enter your new password.";
 		else if(this.model.user.newPass.length<6)
 			this.errors.newPass = "Password must be at least 6 characters long."
 		if(!this.model.user.conNewPass)
@@ -98,27 +98,29 @@ export class SettingsComponent implements OnInit {
 
 	changepass(){
 		console.log(this.model);
-		if(!this.verifyPass()){
+		if(this.verifyPass()){
 			this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
 				
 				if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
 
 					var changepass = this.model.user.newPass;
-					this.model.user.newPass = "";
-					this.model.user.conNewPass = "";
-					this.model.user.oldPass = "";
+				
 					
 					this.auth.getUser().then((user) => {
 						console.log(user);
 						console.log(this.model);
 						user.updatePassword(changepass).then(function() {
 						  // Update successful.
-						  this.errors.changePassMess = "password change worked!!!";
 						  console.log("hello",this.model.user.conNewPass);
 						  console.log("hello",this.model.user.conNewPass);
 
 						}).catch(function(error) {
-						  // An error happened.
+							this.errors.newPass = "";
+
+							this.errors.conPass = "";
+
+							this.errors.oldPass = "";
+							this.errors.changePassMess = "Password Change Failed";
 						});
 					});
 				}
@@ -130,8 +132,12 @@ export class SettingsComponent implements OnInit {
 					})
 				}
 			}).catch((err) => {
-				this.errors.oldPass = "No.";
-				this.errors.changePassMess = "password did not change!!!";
+				this.errors.newPass = "";
+
+				this.errors.conPass = "";
+
+				this.errors.oldPass = "Please enter your password.";
+				this.errors.changePassMess = "Password Change Failed";
 
 			});
 		}
@@ -139,12 +145,12 @@ export class SettingsComponent implements OnInit {
 	}
 
 
-del(){
+	del(){
 
 		this.auth.reauthenticate(this.model.user.deletePassword).then((credential) => {
-				this.auth.deleteUser();	
-				this.model.user.deletePassword = "";
-				this.model.user.email = "";
+			this.auth.deleteUser();	
+			this.model.user.deletePassword = "";
+			this.model.user.email = "";
 		}).catch((err) => {
 			this.errors.cred = "Incorrect Email and/or Password";
 			this.model.user.deletePassword = "";
@@ -174,7 +180,7 @@ del(){
 
 
 	}
-*/
+	*/
 	
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService,) {
 		this.auth.isAuthed().then((user) => {
