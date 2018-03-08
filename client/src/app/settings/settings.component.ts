@@ -71,11 +71,11 @@ export class SettingsComponent implements OnInit {
 							console.log(user);
 					  // Update successful.
 
-					}).catch((err) => {
+					}).catch(function(error) {
 					  // An error happened.
 					  // this.model.user.password = "";
 					  this.errors.changeEmailMess = "Email Change Failed";
-					  if(err.code == "auth/invalid-user-token" || err.code == "auth/email-already-in-use" || err.code == "auth/invalid-email" )
+					  if(error.code == "auth/invalid-user-token" || error.code == "auth/email-already-in-use" || error.code == "auth/invalid-email" )
 							this.errors.newEmail = "Email already in use!";
 
 					});
@@ -220,6 +220,7 @@ export class SettingsComponent implements OnInit {
 			this.auth.deleteUser();	
 			this.model.user.deletePassword = "";
 			this.model.user.email = "";
+			this.router.navigateByUrl("");
 		}).catch((err) => {
 			this.errors.cred = "Incorrect Email and/or Password";
 			this.model.user.deletePassword = "";
