@@ -38,12 +38,21 @@ export class CreateProfileComponent implements OnInit {
 	//     birthdate : birthdate
 	//   });
 	// }
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService, private li : LinkedInService) {
 		fb.init({
       appId: '146089319399243',
       version: 'v2.12'
     });
     
+    /* this.isUserAuthenticated = this._linkedInService.isUserAuthenticated$;
+  this.isInitialized = this._linkedInService.isInitialized$;
+
+    this.li.isUserAuthenticated$.subscribe({
+      next: (state) => {
+        //Do something here maybe, set variable for authenticated
+      }
+    };*/
+
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 		});
