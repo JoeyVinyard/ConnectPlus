@@ -69,29 +69,23 @@ export class SettingsComponent implements OnInit {
 			this.errors[key] = null;
 		})
 		
-		var noErr = true;
+		
 		//Sanitize input here
 		if(!this.model.user.oldPass && this.model.user.oldPass.length < 6)
-			this.errors.oldPass = "Please enter your password."
-		noErr = false;
+			this.errors.oldPass = "Please enter your password.";
 		if(!this.model.user.newPass)
-			this.errors.newPass = "Please enter your new password."
-		noErr = false;
+			this.errors.newPass = "Please enter your new password.";
 		if(this.model.user.newPass.length<6)
-			this.errors.newPass = "Password must be at least 6 characters long."
-		noErr = false;
+			this.errors.newPass = "Password must be at least 6 characters long.";
 		if(!this.model.user.conNewPass)
-			this.errors.conPass = "Please confirm your password."
-		noErr = false;
+			this.errors.conPass = "Please confirm your password.";
 		if(this.model.user.newPass != this.model.user.conNewPass && !this.errors.oldPass && !this.errors.conPass)
-			this.errors.conPass = "Passwords must match!"
-		noErr = false;
-		if((this.model.user.newPass ==this.model.user.oldPass || this.model.user.oldPass == this.model.user.conNewPass)&& !this.errors.oldPass && !this.errors.conPass){
-			this.errors.newPass = "Please pick a different password";
-			this.errors.conPass = "Please pick a different password";
-			noErr = false;
-		}
-
+			this.errors.conPass = "Passwords must match!";
+		// if((this.model.user.newPass ==this.model.user.oldPass || this.model.user.oldPass == this.model.user.conNewPass)&& !this.errors.oldPass && !this.errors.conPass){
+		// 	this.errors.newPass = "Please pick a different password";
+		// 	this.errors.conPass = "Please pick a different password";
+		// }
+var noErr = true;
 		Object.keys(this.errors).forEach((key)=>{
 			if(this.errors[key])
 				noErr = false;
@@ -111,7 +105,14 @@ export class SettingsComponent implements OnInit {
 
 					var changepass = this.model.user.newPass;
 					
+			if((this.model.user.newPass ==this.model.user.oldPass || this.model.user.oldPass == this.model.user.conNewPass)){
+			this.errors.newPass = "Please pick a different password";
+			this.errors.conPass = "Please pick a different password";
+			this.model.user.newPass = "";
+			this.model.user.conNewPass = "";
+		}
 					
+					else{
 					this.auth.getUser().then((user) => {
 						console.log(user);
 						console.log(this.model);
@@ -133,7 +134,7 @@ export class SettingsComponent implements OnInit {
 					this.model.user.newPass = "" ;
 					this.model.user.conNewPass = "";
 					this.model.user.oldPass = "";
-
+}
 
 				}
 				else{
@@ -154,9 +155,11 @@ export class SettingsComponent implements OnInit {
 			});
 		}
 		else{
+			
 				this.errors.newPass = "";
 				this.errors.conPass = "";
 				this.errors.oldPass = "";
+			
 				this.errors.changePassMess = "Password Change Failed :O";
 				this.model.user.newPass = "" ;
 				this.model.user.conNewPass = "";
