@@ -206,6 +206,7 @@
               <p id="formTitle">Please confirm your password:</p>
               <input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.user.deletePassword">
           </div>
+          <p class="error">{{errors.cred}}</p>  
           <button class="button saveButton">Delete Account</button>
       </div>
       </form>
