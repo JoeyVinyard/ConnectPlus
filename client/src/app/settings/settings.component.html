@@ -31,6 +31,7 @@
 
       <div id="accountDetails">
         <p class="topText">General <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></p>
+          <form (ngSubmit)="updateInfo()" #signupForm="ngForm">
 
         <div class="medium-4 column">
             <!-- <i id="profileIcon" class="fa fa-user-circle"></i> -->
@@ -54,6 +55,8 @@
            </div>
 
            <button class="button saveButton">Save Changes</button>
+            </form>
+
       </div>
 
       <div id="security" class="medium-12 medium-centered column">
@@ -61,9 +64,12 @@
             <form (ngSubmit)="changeemail()" #signupForm="ngForm">
               <p id="formTitle">New Email:</p>
               <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.user.newEmail">
+              <p class="error">{{errors.newEmail}}</p>  
               <p id="formTitle">Password:</p>
               <input class="textInput" type="password" name="password" [(ngModel)]="model.user.password">
+              <p class="error">{{errors.pass}}</p>  
 
+            <p class="error">{{errors.changeEmailMess}}</p>  
               <button class="button saveButton">Save Changes</button>
             </form>
             <form (ngSubmit)="changepass()" #signupForm="ngForm">
@@ -78,7 +84,7 @@
               <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.user.conNewPass">
               <p id="passError" class="error">{{errors.conPass}}</p>
 
-             
+            <p class="error">{{errors.changePassMess}}</p>  
              <button class="button saveButton">Save Changes</button>
           </form>
 
@@ -202,10 +208,11 @@
           <p class="topText">Delete Account <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></p>
           <div class="medium-8 column">
               <p id="formTitle">Please confirm your Email:</p>
-              <input class="textInput" type="text" name="confirmEmail" [(ngModel)]="model.user.newEmail">
+              <input class="textInput" type="text" name="confirmEmail" [(ngModel)]="model.user.email">
               <p id="formTitle">Please confirm your password:</p>
               <input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.user.deletePassword">
           </div>
+          <p class="error">{{errors.cred}}</p>  
           <button class="button saveButton">Delete Account</button>
       </div>
       </form>
