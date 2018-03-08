@@ -85,7 +85,7 @@ export class SettingsComponent implements OnInit {
 		// 	this.errors.newPass = "Please pick a different password";
 		// 	this.errors.conPass = "Please pick a different password";
 		// }
-var noErr = true;
+		var noErr = true;
 		Object.keys(this.errors).forEach((key)=>{
 			if(this.errors[key])
 				noErr = false;
@@ -105,36 +105,37 @@ var noErr = true;
 
 					var changepass = this.model.user.newPass;
 					
-			if((this.model.user.newPass ==this.model.user.oldPass || this.model.user.oldPass == this.model.user.conNewPass)){
-			this.errors.newPass = "Please pick a different password";
-			this.errors.conPass = "Please pick a different password";
-			this.model.user.newPass = "";
-			this.model.user.conNewPass = "";
-		}
+					if((this.model.user.newPass ==this.model.user.oldPass || this.model.user.oldPass == this.model.user.conNewPass)){
+						this.errors.newPass = "Please pick a different password";
+						this.errors.conPass = "Please pick a different password";
+						this.model.user.newPass = "";
+						this.model.user.conNewPass = "";
+					}
 					
 					else{
-					this.auth.getUser().then((user) => {
-						console.log(user);
-						console.log(this.model);
-						user.updatePassword(changepass).then(function() {
+						this.auth.getUser().then((user) => {
+							console.log(user);
+							console.log(this.model);
+							user.updatePassword(changepass).then(function() {
 						  // Update successful.
 						  console.log("hello",this.model.user.conNewPass);
 						  console.log("hello",this.model.user.conNewPass);
 
 						}).catch(function(error) {
 							this.errors.newPass = "";
-
 							this.errors.conPass = "";
-
 							this.errors.oldPass = "";
+							this.model.user.newPass = "" ;
+							this.model.user.conNewPass = "";
+							this.model.user.oldPass = "";
 							this.errors.changePassMess = "Password Change Failed";
 						});
 					});
-					this.errors.changePassMess = "password change worked!!!";
-					this.model.user.newPass = "" ;
-					this.model.user.conNewPass = "";
-					this.model.user.oldPass = "";
-}
+						this.errors.changePassMess = "password change worked!!!";
+						this.model.user.newPass = "" ;
+						this.model.user.conNewPass = "";
+						this.model.user.oldPass = "";
+					}
 
 				}
 				else{
@@ -156,14 +157,14 @@ var noErr = true;
 		}
 		else{
 			
-				this.errors.newPass = "";
-				this.errors.conPass = "";
-				this.errors.oldPass = "";
+			this.errors.newPass = "";
+			this.errors.conPass = "";
+			this.errors.oldPass = "";
 			
-				this.errors.changePassMess = "Password Change Failed :O";
-				this.model.user.newPass = "" ;
-				this.model.user.conNewPass = "";
-				this.model.user.oldPass = "";
+			this.errors.changePassMess = "Password Change Failed";
+			this.model.user.newPass = "" ;
+			this.model.user.conNewPass = "";
+			this.model.user.oldPass = "";
 		}
 
 	}
