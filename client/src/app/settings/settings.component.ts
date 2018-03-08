@@ -18,7 +18,8 @@ export class SettingsComponent implements OnInit {
 		email: "",
 		newPass: "",
 		oldPass: "",
-		conPass: ""
+		conPass: "", 
+		cred: ""
 	}
 	model = {
 		password: "",
@@ -137,7 +138,10 @@ export class SettingsComponent implements OnInit {
 		this.auth.reauthenticate(this.model.user.deletePassword).then((credential) => {
 			this.auth.deleteUser();	
 			this.model.user.deletePassword = "";
-		})
+		}).catch((err) => {
+				this.errors.cred = "Incorrect Email and/or Password";
+				this.model.user.deletePassword = "";
+			});
 	}
 	
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService,) {
