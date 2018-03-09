@@ -53,7 +53,7 @@
             <p id="formTitle">Age:</p>
             <input class="textInput" type="number" name="age" min="0" max="1000" d="age" [(ngModel)]="model.user.age">
            </div>
-
+            <p class="error">{{errors.changeInfoMess}}</p>  
            <button class="button saveButton">Save Changes</button>
             </form>
 
@@ -185,7 +185,7 @@
                 <input id="food9" type="checkbox" name="Greek" [(ngModel)]="model.user.food9"><label for="food9">Greek</label>
                 <input id="food10" type="checkbox" name="Korean" [(ngModel)]="model.user.food10"><label for="food10">Korean</label><br>
             </div>
-
+            <p class="error">{{errors.changeInfoMess}}</p>  
             <button class="button saveButton">Save Changes</button>
       </div>
     </form>f

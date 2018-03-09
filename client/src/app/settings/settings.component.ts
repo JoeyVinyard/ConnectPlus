@@ -47,9 +47,12 @@ export class SettingsComponent implements OnInit {
 			//this.model.user.uid = user.uid;
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
+				this.errors.changeInfoMess = "Your information has been updated!"
 				//this.router.navigateByUrl('map');
 			}).catch((err)=>{
 				console.error(err);
+				this.errors.changeInfoMess = "Your information has NOT been updated!"
+
 				//Form rejected for some reason
 			})
 		});
@@ -283,8 +286,6 @@ export class SettingsComponent implements OnInit {
 		});	
 
 
-//////try///
-
 this.auth.getUser().then((user) => {
 	this.model.user.uid = user.uid;
 	this.model.user.firstName = user.firstName;
@@ -298,11 +299,6 @@ this.auth.getUser().then((user) => {
 	
 
 });
-
-
-
-
-//////try^^^/////
 
 
 
