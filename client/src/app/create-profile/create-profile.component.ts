@@ -166,66 +166,72 @@ login() {
 
 
 
-loginWithOptions() {
-
+link_facebook(){
 	const loginOptions: LoginOptions = {
 		enable_profile_selector: true,
 		return_scopes: true,
 		scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
 	};
+	console.log(this.returnLoginStatus());
+	/*todo: Check if loggedin already */
+	this.fb.getLoginStatus()
+	.then(res=>{
+		if(res && res.status === 'unknown'){
+			this.fb.login(loginOptions)
+			.then((res: LoginResponse) => {
+				console.log('Logged in', res);
+			}).then(() => {
+				this.fb.api('/me/taggable_friends')
+				.then((res: any) => {
+					console.log('Got the users friends', res);
+					this.inFacebook = true;
 
-
-	this.fb.login(loginOptions)
-	.then((res: LoginResponse) => {
-		console.log('Logged in', res);
-	}).then(() => {
-		this.fb.api('/me/taggable_friends')
-		.then((res: any) => {
-			console.log('Got the users friends', res);
-
-		})
+				})
+			})
+			.catch(this.handleError);
+		}else{
+			console.log("Attempted to login when already logged in. We probably want to display an error message here");
+		}
 	})
-	.catch(this.handleError);
 
-
-	/*Need to make a promise to make sure the previous call runs before the next call, not sure how to do that yet, will ask joey tomorrow */
-	/* setTimeout(this.fb.api('/me/friends')
-	.then((res: any) => {
-	console.log('Got the users friends', res);
-	})
-	.catch(this.handleError), 1000);*/
+	console.log(this.inFacebook);
 
 }
 
+logout_facebook(){
+	this.fb.getLoginStatus()
+	.then(res=>{
+		if(res && res.status === 'connected'){
+			console.log("Logging out")
+			this.fb.logout()
+
+			.then(res=>{console.log(res)})
+			.catch(this.handleError);
+			this.inFacebook = false;
+		}
+	}).catch(this.handleError);
+
+	this.getLoginStatus();
+}
+returnLoginStatus(){
+	this.fb.getLoginStatus()
+	.then(res=>{
+		if(res && res.status === 'connected'){
+			console.log(true);
+			return true;
+
+		}else{
+			console.log(false);
+			return false;
+		}
+	})
+}
 getLoginStatus() {
+
 	this.fb.getLoginStatus()
 	.then(console.log.bind(console))
 	.catch(console.error.bind(console));
 }
-
-
-	/**
-	* Get the user's profile
-	*/
-	getProfile() {
-		this.fb.api('/me')
-		.then((res: any) => {
-			console.log('Got the users profile', res);
-		})
-		.catch(this.handleError);
-	}
-
-
-	/**
-	* Get the users friends
-	*/
-	getFriends() {
-		this.fb.api('/me/friends')
-		.then((res: any) => {
-			console.log('Got the users friends', res);
-		})
-		.catch(this.handleError);
-	}
 
 	private handleError(error) {
 		console.error('Error processing action', error);

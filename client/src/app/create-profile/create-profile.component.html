@@ -64,7 +64,7 @@
                       <p>Facebook</p>
                       <div class="socialConnect" [ngClass]="{'none' : !inFacebook, 'visible' : inFacebook && faceShow}"><i class="fa fa-check"></i><p>Connected</p></div>
                       <div class="socialNotConnect" [ngClass]="{'none' : inFacebook, 'visible' : !inFacebook && faceShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
-                      <button  (click)="loginWithOptions()" class="button socialButton"   id="face-con">Connect</button>
+                      <button  (click)="link_facebook()" class="button socialButton"   id="face-con">Connect</button>
                       <button (click)="logout_facebook()" class="button socialButton" id="face-dis">Disconnect</button>
                   </div>
                   <div class="medium-3 column social-expanded" id="insta-exp" [ngClass]="{'hidden' : !instShow, 'visible' : instShow}" >
