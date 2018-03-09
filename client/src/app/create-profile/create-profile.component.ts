@@ -43,8 +43,8 @@ export class CreateProfileComponent implements OnInit {
 	//     birthdate : birthdate
 	//   });
 	// }
-	//constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService, private li : LinkedInService) {
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
+	 constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService, private li : LinkedInService) {
+	//constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
 		fb.init({
 
       appId: '146089319399243',
@@ -61,7 +61,7 @@ export class CreateProfileComponent implements OnInit {
     };*/
 
 		this.auth.isAuthed().then((user) => {
-			console.log("Authed:",user)
+			console.log("Authed:",user);
 		});
 	}
 
