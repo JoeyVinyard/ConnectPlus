@@ -7,6 +7,16 @@
     visibility: hidden;
 }
 
+.hidden{
+  visibility: hidden;
+}
+.visible{
+  visibility: visible;
+}
+.none{
+  display: none;
+}
+
 #topText{
     text-align: center;
     width: auto !important;
@@ -42,17 +52,6 @@
     margin-bottom: 1rem;
     overflow: auto;
 }
-#socialIcons{
-    text-align: center;
-    width: auto !important;
-    height: auto !important;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 2px solid white;
-    border-radius: 25px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    overflow: auto;
-}
 
 #iconSubtext{
     font-size: 2rem;
@@ -61,108 +60,171 @@
 }
 
 
+#socialMedia{
+  text-align: center;
+  width: auto !important;
+  height: auto !important;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid white;
+  border-radius: 25px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  overflow: auto;
+
+}
+
+.social-expanded{
+border: 2px solid white;
+border-radius: 25px;
+color: white;
+font-weight: bold;
+position: relative;
+}
+
+#face-exp{
+background-color: rgba(59, 89, 152, 0.8);
+}
+
+#insta-exp{
+background-color: rgba(138, 58, 185, 0.8);
+}
+
+#link-exp{
+background-color: rgba(0, 119, 181, 0.8);
+}
+
+#black-exp{
+background-color: rgba(0, 0, 0, 0.8);
+}
+
+.socialConnect{
+font-size: 1.5rem;
+margin: 0px;
+padding: 0px;
+color: lightgreen;
+}
+
+.socialNotConnect{
+font-size: 1.5rem;
+margin: 0px;
+padding: 0px;
+color: lightcoral;
+}
+
+.socialButton{
+background-color: rgba(255, 255, 255, 0.5);
+color: white;
+border: 2px solid white;
+border-radius: 25px;
+}
+
+.socialButton:hover{
+background-color: white;
+color: black;
+}
+
 .social-icon-button {
-    border-radius: 3.6rem;
-    width: 3.6rem;
-    height: 3.6rem;
-    position: relative;
-    display: inline-block;
-    text-align: center;
-    font-size: 2rem;
-    background: none;
-    /* padding: 1rem; */
-    margin-top: 1rem;
-  }
-  
-  .social-icon-button + .social-icon-button {
-    margin-left: 0.25rem;
-  }
-  
-  .social-icon-button .fa {
-    background: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-    z-index: 1;
-    line-height: 3.6rem;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .social-icon-button span {
-    display: block;
-    border-radius: 0;
-    width: 0;
-    height: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .social-icon-button:hover .fa {
-    color: #fefefe;
-  }
-  
-  .social-icon-button:hover span {
-    display: block;
-    border-radius: 3.6rem;
-    width: 3.6rem;
-    height: 3.6rem;
-  }
-  
-  .social-icon-button.instagram {
-    color: #8a3ab9;
-  }
-  
-  .social-icon-button.instagram span {
-    background-color: #8a3ab9;
-  }
-  
-  .social-icon-button.linkedin {
-    color: #0077B5;
-  }
-  
-  .social-icon-button.linkedin span {
-    background-color: #0077B5;
-  }
-  
-  .social-icon-button.facebook {
-    color: #3b5998;
-  }
-  
-  .social-icon-button.facebook span {
-    background-color: #3b5998;
-  }
+  border-radius: 3.6rem;
+  width: 3.6rem;
+  height: 3.6rem;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  font-size: 2rem;
+  background: none;
+  /* padding: 1rem; */
+  margin-top: 1rem;
+}
 
-  .social-icon-button.blackboard{
-    color: #000000;
-  }
-  
-  .social-icon-button.blackboard span {
-    background-color: #000000;
-  }
+.social-icon-button + .social-icon-button {
+  margin-left: 0.25rem;
+}
 
-  .social-icon-button.interest{
-    color: gray;
-  }
-  
-  .social-icon-button.interest span {
-    background-color: gray;
-  }
+.social-icon-button .fa {
+  background: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  z-index: 1;
+  line-height: 3.6rem;
+  transition: all 0.3s ease-in-out;
+}
 
-  .social-icon-button.arrow{
-    color: #004E7F;
-  }
-  
-  .social-icon-button.arrow span {
-    background-color: #004E7F;
-  }
+.social-icon-button span {
+  display: block;
+  border-radius: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  transition: all 0.3s ease-in-out;
+}
+
+.social-icon-button:hover .fa {
+  color: #fefefe;
+}
+
+.social-icon-button:hover span {
+  display: block;
+  border-radius: 3.6rem;
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+.social-icon-button.instagram {
+  color: #8a3ab9;
+}
+
+.social-icon-button.instagram span {
+  background-color: #8a3ab9;
+}
+
+.social-icon-button.linkedin {
+  color: #0077B5;
+}
+
+.social-icon-button.linkedin span {
+  background-color: #0077B5;
+}
+
+.social-icon-button.facebook {
+  color: #3b5998;
+}
+
+.social-icon-button.facebook span {
+  background-color: #3b5998;
+}
+
+.social-icon-button.blackboard{
+  color: #000000;
+}
+
+.social-icon-button.blackboard span {
+  background-color: #000000;
+}
+
+.social-icon-button.interest{
+  color: gray;
+}
+
+.social-icon-button.interest span {
+  background-color: gray;
+}
+
+.social-icon-button.arrow{
+  color: #004E7F;
+}
+
+.social-icon-button.arrow span {
+  background-color: #004E7F;
+}
 
   #profileIcon{
       width: 50%;

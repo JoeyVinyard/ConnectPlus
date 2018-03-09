@@ -27,6 +27,33 @@ export class CreateProfileComponent implements OnInit {
 	particlesConfig;
 	submitted = false;
 
+	//Social Media Shows
+	faceShow = false;
+	instShow = false;
+	linkShow = false;
+	blackShow = false;
+
+	//Social Media Connected Vars
+	inFacebook = false;
+	inLinkedIn = false;
+	inBlackboard = false;
+	inInstagra = false;
+
+	toggleDiv(name){
+		if(name == "faceShow"){
+			this.faceShow = !this.faceShow;
+		}
+		else if(name == "instShow"){
+			this.instShow = !this.instShow;
+		}
+		else if(name == "linkShow"){
+			this.linkShow = !this.linkShow;
+		}
+		else if(name == "blackShow"){
+			this.blackShow = !this.blackShow;
+		}
+	}
+
 
 
 	verifyThere(){
