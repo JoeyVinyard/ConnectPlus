@@ -34,9 +34,11 @@ export class MapComponent implements OnInit {
     mood: ""
   }
 
+  MoodStatus = "Mood Status";
+
   moodChange(){
       console.log(this.model);
-
+      this.model.user.moodStatus = this.model.moodStatus;
     this.auth.getUser().then((user) => {
       //this.model.user.uid = user.uid;
       this.db.updateUser(this.model.user).then((data) => {
@@ -79,14 +81,18 @@ export class MapComponent implements OnInit {
       this.model.user.uid = user.uid;
     });  
 
-
     this.auth.getUser().then((user) => {
       this.model.user.uid = user.uid;
       this.db.getUser(user.uid).then((userData) => {
+         this.model.moodStatus = userData.moodStatus;
 
-        this.model.user = userData
+        this.model.user = userData;
         console.log(userData)
       })
+     // this.model.user.fullName = this.model.user.firstName + ' ' + this.model.user.lastName;
+    //  let fullname = this.model.user.firstName + ' ' + this.model.user.lastName;
+     // this.model.user.fullName = this.model.user.firstName;
+
 
 
 

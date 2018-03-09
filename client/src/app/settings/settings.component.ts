@@ -197,6 +197,8 @@ export class SettingsComponent implements OnInit {
 
 		console.log(this.model);
 		if(this.verifyValid()){
+			this.model.user.fullName = this.model.user.firstName + " " + this.model.user.lastName;
+
 			this.auth.getUser().then((user) => {
 			//this.model.user.uid = user.uid;
 			this.db.updateUser(this.model.user).then((data) => {
