@@ -15,17 +15,12 @@
           </p>
         <div id="invisibilityContent" *ngIf="invShow">
             <div class="mobile-app-toggle" data-mobile-app-toggle>
-                <button class="button is-active">Invisible</button>
-                <button class="button">Invisible for 4 hours</button>
-                <button class="button">Invisible for 12 hours</button>
-                <button class="button">Invisible for 1 day</button>
-                <button class="button">Visibile</button>
-              </div><script type="text/javascript">
-                  $('[data-mobile-app-toggle] .button').click(function () {
-                    $(this).siblings().removeClass('is-active');
-                    $(this).addClass('is-active');
-                  });
-                </script>
+                <button class="button" (click)="setVisible(0)" [ngClass]="{' ' : visibility!=0, 'is-active' : visibility==0}">Invisible</button>
+                <button class="button" (click)="setVisible(4)" [ngClass]="{' ' : visibility!=4, 'is-active' : visibility==4}">Invisible for 4 hours</button>
+                <button class="button" (click)="setVisible(12)" [ngClass]="{' ' : visibility!=12, 'is-active' : visibility==12}">Invisible for 12 hours</button>
+                <button class="button" (click)="setVisible(24)" [ngClass]="{' ' : visibility!=24, 'is-active' : visibility==24}">Invisible for 1 day</button>
+                <button class="button" (click)="setVisible(100)" [ngClass]="{' ' : visibility!=100, 'is-active' : visibility==100}">Visibile</button>
+            </div>
 
               <button class="button saveButton">Submit</button>
         </div>

@@ -58,6 +58,9 @@ export class SettingsComponent implements OnInit {
 	inBlackboard = false;
 	inInstagra = false;
 
+	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
+	visibility = 0;
+
 
 	
 
@@ -96,6 +99,10 @@ toggleDiv(name){
 	else if(name == "blackShow"){
 		this.blackShow = !this.blackShow;
 	}
+}
+
+setVisible(number){
+	this.visibility = number;
 }
 
 
