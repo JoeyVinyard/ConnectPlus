@@ -160,8 +160,9 @@
           </div>
 
       </div>
-
+   
       <div id="interests">
+          <form (ngSubmit)="updateInfo()" #signupForm="ngForm">
           <p class="topText">Interests
               <button class="button arrowButton" (click)="toggleDiv('intShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !intShow, 'fa-chevron-up' : intShow}"></i></button>
           </p>
@@ -212,8 +213,9 @@
     
                 <button class="button saveButton">Save Changes</button>
           </div>
-
+        </form>
       </div>
+   
 
       <div id="feedbackSection">
           <p class="topText">Submit Feedback
