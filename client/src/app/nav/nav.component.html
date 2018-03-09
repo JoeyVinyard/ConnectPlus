@@ -19,11 +19,13 @@
                 </button>
                 <div class="dropdown-content">
                     <a href="#" routerLink="/" routerLinkActive="active">Home</a>
-                    <a href="#" routerLink="/signin" routerLinkActive="active">Login</a>
-                    <a href="#" routerLink="/signup" routerLinkActive="active">Signup</a>
-                    <a href="#" routerLink="/settings" routerLinkActive="active">Settings</a>
-                    <a href="#" routerLink="/map" routerLinkActive="active">Map View</a>
-                    <a href="#" routerLink="/list" routerLinkActive="active">List View</a>
+                    
+                    <a routerLink="/signup" routerLinkActive="active" *ngIf="!authed">Signup</a>
+                    <a routerLink="/map" routerLinkActive="active" *ngIf="authed">Map View</a>
+                    <a routerLink="/list" routerLinkActive="active" *ngIf="authed">List View</a>
+                    <a routerLink="/settings" routerLinkActive="active" *ngIf="authed">Settings</a>
+                    <a routerLink="/signin" routerLinkActive="active" *ngIf="!authed">Login</a>
+                    <a *ngIf="authed">Logout</a>
                 </div>
             </div>
         </div>
