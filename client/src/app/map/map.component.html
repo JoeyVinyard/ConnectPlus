@@ -5,7 +5,8 @@
 		</div>
 		
 		<div class="medium-12 column" id="mapView">
-			<agm-map [latitude]="lat" [longitude]="lng">
+			<agm-map [latitude]="lat" [longitude]="lng" [zoomControl]="false" [mapTypeControl]="false" [scaleControl]="false" 
+									[streetViewControl]="false" [rotateControl]="false" [fullscreenControl]="false" [gestureHandling]="none">
 				<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
 			</agm-map>
 			
