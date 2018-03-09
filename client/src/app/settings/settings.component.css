@@ -31,6 +31,12 @@
     color: white;
 }
 
+.arrowButton{
+  background: transparent;
+  color:#004E7F;
+  font-size: 1.5rem;
+}
+
 #header{
     text-align: center;
     width: auto !important;

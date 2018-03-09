@@ -4,16 +4,17 @@
 <div id="MainDiv">
   <div clas="row">
     <div class="medium-12 medium-centered column">
-      <form (ngSubmit)="submit()" #signupForm="ngForm">
       <div id="header">
         <p>Settings</p>
         <!-- Change password, Name, Age, Etc -->
       </div>
 
       <div id="invisibilityDiv">
-          <p class="topText">Set Visibility <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></p>
-              
-              <div class="mobile-app-toggle" data-mobile-app-toggle>
+          <p class="topText">Set Visibility
+              <button class="button arrowButton" (click)="toggleDiv('invShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !invShow, 'fa-chevron-up' : invShow}"></i></button>
+          </p>
+        <div id="invisibilityContent" *ngIf="invShow">
+            <div class="mobile-app-toggle" data-mobile-app-toggle>
                 <button class="button is-active">Invisible</button>
                 <button class="button">Invisible for 4 hours</button>
                 <button class="button">Invisible for 12 hours</button>
@@ -27,195 +28,227 @@
                 </script>
 
               <button class="button saveButton">Submit</button>
+        </div>
+          
       </div>
 
       <div id="accountDetails">
-        <p class="topText">General <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></p>
-          <form (ngSubmit)="updateInfo()" #signupForm="ngForm">
-
-        <div class="medium-4 column">
-            <!-- <i id="profileIcon" class="fa fa-user-circle"></i> -->
-            <img id="profileIcon" src="../../assets/profileicon.ico"/><br>
-            <button id="addProfile" class="button">Change Profile Picture</button>
+        <p class="topText">General 
+            <button class="button arrowButton" (click)="toggleDiv('genShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !genShow, 'fa-chevron-up' : genShow}"></i></button>
+          </p>
+          
+          <div id="general Content" *ngIf="genShow">
+              <form (ngSubmit)="updateInfo()" #signupForm="ngForm">
+              <div class="medium-4 column">
+                  <!-- <i id="profileIcon" class="fa fa-user-circle"></i> -->
+                  <img id="profileIcon" src="../../assets/profileicon.ico"/><br>
+                  <button id="addProfile" class="button">Change Profile Picture</button>
+                </div>
+                <div class="medium-8 column">
+                  <p id="formTitle">First Name:</p>
+                  <input class="textInput" type="text" name="firstName" [(ngModel)]="model.user.firstName">
+                  <p id="formTitle">Last Name:</p>
+                  <input class="textInput" type="text" name="lastName" [(ngModel)]="model.user.lastName">
+                  <p id="formTitle">Gender:</p>
+                  <select id="gender" name="gender" [(ngModel)]="model.user.gender">
+                      <option selected="true" disabled="disabled" >Please select an option</option>    
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="female">Other</option>
+                  </select>
+                  <p id="formTitle">Age:</p>
+                  <input class="textInput" type="number" name="age" min="0" max="1000" d="age" [(ngModel)]="model.user.age">
+                 </div>
+      
+                 <button class="button saveButton">Save Changes</button>
+                  </form>
           </div>
-          <div class="medium-8 column">
-            <p id="formTitle">First Name:</p>
-            <input class="textInput" type="text" name="firstName" [(ngModel)]="model.user.firstName">
-            <p id="formTitle">Last Name:</p>
-            <input class="textInput" type="text" name="lastName" [(ngModel)]="model.user.lastName">
-            <p id="formTitle">Gender:</p>
-            <select id="gender" name="gender" [(ngModel)]="model.user.gender">
-                <option selected="true" disabled="disabled" >Please select an option</option>    
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="female">Other</option>
-            </select>
-            <p id="formTitle">Age:</p>
-            <input class="textInput" type="number" name="age" min="0" max="1000" d="age" [(ngModel)]="model.user.age">
-           </div>
-
-           <button class="button saveButton">Save Changes</button>
-            </form>
 
       </div>
 
       <div id="security" class="medium-12 medium-centered column">
-          <p class="topText">Security <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></p>
-            <form (ngSubmit)="changeemail()" #signupForm="ngForm">
-              <p id="formTitle">New Email:</p>
-              <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.user.newEmail">
-              <p class="error">{{errors.newEmail}}</p>  
-              <p id="formTitle">Password:</p>
-              <input class="textInput" type="password" name="password" [(ngModel)]="model.user.password">
-              <p class="error">{{errors.pass}}</p>  
+          <p class="topText">Security 
+              <button class="button arrowButton" (click)="toggleDiv('secShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !secShow, 'fa-chevron-up' : secShow}"></i></button>
+          </p>
+          <div id="securityContent" *ngIf="secShow">
+              <form (ngSubmit)="changeemail()" #signupForm="ngForm">
+                  <p class="topText">Change Email</p>
 
-            <p class="error">{{errors.changeEmailMess}}</p>  
-              <button class="button saveButton">Save Changes</button>
-            </form>
-            <form (ngSubmit)="changepass()" #signupForm="ngForm">
+                  <p id="formTitle">Current Email:</p>
+                  <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.user.newEmail"> 
+                  <!-- ERROR HANDLING, FIX ngMODEL ABOVE-->
 
-              <p id="formTitle">Old Password:</p>
-              <input class="textInput" type="password" name="oldPassword" [(ngModel)]="model.user.oldPass">
-              <p id="passError" class="error">{{errors.oldPass}}</p>
-              <p id="formTitle">New Password:</p>
-              <input class="textInput" type="password" name="newPassword" [(ngModel)]="model.user.newPass">
-              <p id="passError" class="error">{{errors.newPass}}</p>
-              <p id="formTitle">Confirm New Password:</p>
-              <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.user.conNewPass">
-              <p id="passError" class="error">{{errors.conPass}}</p>
+                  <p id="formTitle">New Email:</p>
+                  <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.user.newEmail">
+                  <p class="error">{{errors.newEmail}}</p>  
 
-            <p class="error">{{errors.changePassMess}}</p>  
-             <button class="button saveButton">Save Changes</button>
-          </form>
+                  <p id="formTitle">Password:</p>
+                  <input class="textInput" type="password" name="password" [(ngModel)]="model.user.password">
+                  <p class="error">{{errors.pass}}</p>  
+    
+                <p class="error">{{errors.changeEmailMess}}</p>  
+                  <button class="button saveButton">Save Changes</button>
+                </form>
+                <form (ngSubmit)="changepass()" #signupForm="ngForm">
+                    <p class="topText">Change Password</p>
+                  <p id="formTitle">Old Password:</p>
+                  <input class="textInput" type="password" name="oldPassword" [(ngModel)]="model.user.oldPass">
+                  <p id="passError" class="error">{{errors.oldPass}}</p>
 
+                  <p id="formTitle">New Password:</p>
+                  <input class="textInput" type="password" name="newPassword" [(ngModel)]="model.user.newPass">
+                  <p id="passError" class="error">{{errors.newPass}}</p>
+
+                  <p id="formTitle">Confirm New Password:</p>
+                  <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.user.conNewPass">
+                  <p id="passError" class="error">{{errors.conPass}}</p>
+    
+                <p class="error">{{errors.changePassMess}}</p>  
+                 <button class="button saveButton">Save Changes</button>
+              </form>
+          </div>
+            
         </div>
 
       <div id="socialMedia">
-          <p class="topText">Social Connections <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></p>
+          <p class="topText">Social Connections
+              <button class="button arrowButton" (click)="toggleDiv('conShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !conShow, 'fa-chevron-up' : conShow}"></i></button>
+          </p>
 
-          <div class="medium-3 column">
-              <a class="social-icon-button facebook"><i class="fa fa-facebook" aria-hidden="true"></i><span></span></a>
-              <!-- <p>Facebook</p> -->
-          </div>
-          <div class="medium-3 column">
-            <a class="social-icon-button instagram"><i class="fa fa-instagram"></i><span></span></a>
-            <!-- <p>Instagram</p> -->
-          </div>
-          <div class="medium-3 column">
-            <a class="social-icon-button linkedin"><i class="fa fa-linkedin"></i><span></span></a>
-            <!-- <p>Linkedin</p> -->
-          </div>
-          <div class="medium-3 column">
-            <a class="social-icon-button blackboard"><i class="fa fa-pencil-square-o"></i><span></span></a>
-            <!-- <p>Blackboard</p> -->
+          <div id="connectionContent" *ngIf="conShow">
+              <div class="medium-3 column">
+                  <a class="social-icon-button facebook"><i class="fa fa-facebook" aria-hidden="true"></i><span></span></a>
+              </div>
+              <div class="medium-3 column">
+                <a class="social-icon-button instagram"><i class="fa fa-instagram"></i><span></span></a>
+              </div>
+              <div class="medium-3 column">
+                <a class="social-icon-button linkedin"><i class="fa fa-linkedin"></i><span></span></a>
+              </div>
+              <div class="medium-3 column">
+                <a class="social-icon-button blackboard"><i class="fa fa-pencil-square-o"></i><span></span></a>
+              </div>
+    
+              <div class="medium-3 column social-expanded" id="face-exp">
+                  <p>Facebook</p>
+                  <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
+                  <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
+                  <button  (click)="link_facebook()" class="button socialButton"   id="face-con">Connect</button>
+                  <button (click)="logout_facebook()" class="button socialButton" id="face-dis">Disconnect</button>
+              </div>
+              <div class="medium-3 column social-expanded" id="insta-exp">
+                  <p>Instagram</p>
+                  <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
+                  <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
+                  <button class="button socialButton" id="insta-con">Connect</button>
+                  <button class="button socialButton" id="intsa-dis">Disconnect</button>
+              </div>
+              <div class="medium-3 column social-expanded" id="link-exp">
+                  <p>LinkedIn</p>
+                  <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
+                  <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
+                  <button class="button socialButton" id="link-con">Connect</button>
+                  <button class="button socialButton" id="link-dis">Disconnect</button>
+              </div>
+              <div class="medium-3 column social-expanded" id="black-exp">
+                  <p>Blackboard</p>
+                  <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
+                  <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
+                  <button class="button socialButton" id="black-con">Connect</button>
+                  <button class="button socialButton" id="black-dis">Disconnect</button>
+              </div>
           </div>
 
-          <div class="medium-3 column social-expanded" id="face-exp">
-              <p>Facebook</p>
-              <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
-              <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
-              <button  (click)="link_facebook()" class="button socialButton"   id="face-con">Connect</button>
-              <button (click)="logout_facebook()" class="button socialButton" id="face-dis">Disconnect</button>
-          </div>
-          <div class="medium-3 column social-expanded" id="insta-exp">
-              <p>Instagram</p>
-              <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
-              <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
-              <button class="button socialButton" id="insta-con">Connect</button>
-              <button class="button socialButton" id="intsa-dis">Disconnect</button>
-          </div>
-          <div class="medium-3 column social-expanded" id="link-exp">
-              <p>LinkedIn</p>
-              <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
-              <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
-              <button class="button socialButton" id="link-con">Connect</button>
-              <button class="button socialButton" id="link-dis">Disconnect</button>
-          </div>
-          <div class="medium-3 column social-expanded" id="black-exp">
-              <p>Blackboard</p>
-              <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
-              <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
-              <button class="button socialButton" id="black-con">Connect</button>
-              <button class="button socialButton" id="black-dis">Disconnect</button>
-          </div>
       </div>
 
       <div id="interests">
-          <p class="topText">Interests <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></p>
+          <p class="topText">Interests
+              <button class="button arrowButton" (click)="toggleDiv('intShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !intShow, 'fa-chevron-up' : intShow}"></i></button>
+          </p>
 
-          <div class="medium-4 column" id="sportSection">
-              <p class="subText">Sports</p>
-                   <input id="sports1" type="checkbox" name="Football" [(ngModel)]="model.user.sports1"><label for="sports1">Football</label>
-                    <input id="sports2" type="checkbox" name="Basketball" [(ngModel)]="model.user.sports2"><label for="sports2">Basketball</label><br>
-                    <input id="sports3" type="checkbox" name="Hockey" [(ngModel)]="model.user.sports3"><label for="sports3">Ice Hockey</label>
-                    <input id="sports4" type="checkbox" name="Baseball" [(ngModel)]="model.user.sports4"><label for="sports4">Baseball</label><br>
-                    <input id="sports5" type="checkbox" name="Soccer" [(ngModel)]="model.user.sports5"><label for="sports5">Soccer</label>
-                    <input id="sports6" type="checkbox" name="Boxing" [(ngModel)]="model.user.sports6"><label for="sports6">Boxing</label><br>
-                    <input id="sports7" type="checkbox" name="Tennis" [(ngModel)]="model.user.sports7"><label for="sports7">Tennis</label>
-                    <input id="sports8" type="checkbox" name="Golf" [(ngModel)]="model.user.sports8"><label for="sports8">Golf</label><br>
-                    <input id="sports9" type="checkbox" name="Volleyball" [(ngModel)]="model.user.sports9"><label for="sports9">Volleyball</label>
-                    <input id="sports10" type="checkbox" name="Swimming" [(ngModel)]="model.user.sports10"><label for="sports10">Swimming</label><br>
-              
-            </div>
+          <div id="interestContent" *ngIf="intShow">
+              <div class="medium-4 column" id="sportSection">
+                  <p class="subText">Sports</p>
+                       <input id="sports1" type="checkbox" name="Football" [(ngModel)]="model.user.sports1"><label for="sports1">Football</label>
+                        <input id="sports2" type="checkbox" name="Basketball" [(ngModel)]="model.user.sports2"><label for="sports2">Basketball</label><br>
+                        <input id="sports3" type="checkbox" name="Hockey" [(ngModel)]="model.user.sports3"><label for="sports3">Ice Hockey</label>
+                        <input id="sports4" type="checkbox" name="Baseball" [(ngModel)]="model.user.sports4"><label for="sports4">Baseball</label><br>
+                        <input id="sports5" type="checkbox" name="Soccer" [(ngModel)]="model.user.sports5"><label for="sports5">Soccer</label>
+                        <input id="sports6" type="checkbox" name="Boxing" [(ngModel)]="model.user.sports6"><label for="sports6">Boxing</label><br>
+                        <input id="sports7" type="checkbox" name="Tennis" [(ngModel)]="model.user.sports7"><label for="sports7">Tennis</label>
+                        <input id="sports8" type="checkbox" name="Golf" [(ngModel)]="model.user.sports8"><label for="sports8">Golf</label><br>
+                        <input id="sports9" type="checkbox" name="Volleyball" [(ngModel)]="model.user.sports9"><label for="sports9">Volleyball</label>
+                        <input id="sports10" type="checkbox" name="Swimming" [(ngModel)]="model.user.sports10"><label for="sports10">Swimming</label><br>
+                  
+                </div>
+        
+                <div class="medium-4 column" id="musicSection">
+                  <p class="subText">Music</p>
+                    <input id="music1" type="checkbox" name="Rock" [(ngModel)]="model.user.music1"><label for="music1">Rock</label>
+                    <input id="music2" type="checkbox" name="R&B" [(ngModel)]="model.user.music2"><label for="music2">R&B/Hip-Hop</label><br>
+                    <input id="music3" type="checkbox" name="Pop" [(ngModel)]="model.user.music3"><label for="music3">Pop</label>
+                    <input id="music4" type="checkbox" name="Country" [(ngModel)]="model.user.music4"><label for="music4">Country</label><br>
+                    <input id="music5" type="checkbox" name="Classical" [(ngModel)]="model.user.music5"><label for="music5">Classical</label>
+                    <input id="music6" type="checkbox" name="Jazz" [(ngModel)]="model.user.music6"><label for="music6">Jazz</label><br>
+                    <input id="music7" type="checkbox" name="EDM" [(ngModel)]="model.user.music7"><label for="music7">EDM</label>
+                    <input id="music8" type="checkbox" name="K-Pop" [(ngModel)]="model.user.music8"><label for="music8">K-Pop</label><br>
+                    <input id="music9" type="checkbox" name="Christian" [(ngModel)]="model.user.music9"><label for="music9">Christian/Gospel</label>
+                    <input id="music10" type="checkbox" name="Latin" [(ngModel)]="model.user.music10"><label for="music10">Latin</label><br>
+                </div>
+        
+                <div class="medium-4 column" id="foodSection">
+                  <p class="subText">Food</p>
+                    <input id="food1" type="checkbox" name="American" [(ngModel)]="model.user.food1"><label for="food1">American</label>
+                    <input id="food2" type="checkbox" name="Mexican" [(ngModel)]="model.user.food2"><label for="food2">Mexican</label><br>
+                    <input id="food3" type="checkbox" name="Italian" [(ngModel)]="model.user.food3"><label for="food3">Italian</label>
+                    <input id="food4" type="checkbox" name="Thai" [(ngModel)]="model.user.food4"><label for="food4">Thai</label><br>
+                    <input id="food5" type="checkbox" name="Chinese" [(ngModel)]="model.user.food5"><label for="food5">Chinese</label>
+                    <input id="food6" type="checkbox" name="Cuban" [(ngModel)]="model.user.food6"><label for="food6">Cuban</label><br>
+                    <input id="food7" type="checkbox" name="Indian"[(ngModel)]="model.user.food7"><label for="food7">Indian</label>
+                    <input id="food8" type="checkbox" name="Soul Food" [(ngModel)]="model.user.food8"><label for="food8">Soul Food</label><br>
+                    <input id="food9" type="checkbox" name="Greek" [(ngModel)]="model.user.food9"><label for="food9">Greek</label>
+                    <input id="food10" type="checkbox" name="Korean" [(ngModel)]="model.user.food10"><label for="food10">Korean</label><br>
+                </div>
     
-            <div class="medium-4 column" id="musicSection">
-              <p class="subText">Music</p>
-                <input id="music1" type="checkbox" name="Rock" [(ngModel)]="model.user.music1"><label for="music1">Rock</label>
-                <input id="music2" type="checkbox" name="R&B" [(ngModel)]="model.user.music2"><label for="music2">R&B/Hip-Hop</label><br>
-                <input id="music3" type="checkbox" name="Pop" [(ngModel)]="model.user.music3"><label for="music3">Pop</label>
-                <input id="music4" type="checkbox" name="Country" [(ngModel)]="model.user.music4"><label for="music4">Country</label><br>
-                <input id="music5" type="checkbox" name="Classical" [(ngModel)]="model.user.music5"><label for="music5">Classical</label>
-                <input id="music6" type="checkbox" name="Jazz" [(ngModel)]="model.user.music6"><label for="music6">Jazz</label><br>
-                <input id="music7" type="checkbox" name="EDM" [(ngModel)]="model.user.music7"><label for="music7">EDM</label>
-                <input id="music8" type="checkbox" name="K-Pop" [(ngModel)]="model.user.music8"><label for="music8">K-Pop</label><br>
-                <input id="music9" type="checkbox" name="Christian" [(ngModel)]="model.user.music9"><label for="music9">Christian/Gospel</label>
-                <input id="music10" type="checkbox" name="Latin" [(ngModel)]="model.user.music10"><label for="music10">Latin</label><br>
-            </div>
-    
-            <div class="medium-4 column" id="foodSection">
-              <p class="subText">Food</p>
-                <input id="food1" type="checkbox" name="American" [(ngModel)]="model.user.food1"><label for="food1">American</label>
-                <input id="food2" type="checkbox" name="Mexican" [(ngModel)]="model.user.food2"><label for="food2">Mexican</label><br>
-                <input id="food3" type="checkbox" name="Italian" [(ngModel)]="model.user.food3"><label for="food3">Italian</label>
-                <input id="food4" type="checkbox" name="Thai" [(ngModel)]="model.user.food4"><label for="food4">Thai</label><br>
-                <input id="food5" type="checkbox" name="Chinese" [(ngModel)]="model.user.food5"><label for="food5">Chinese</label>
-                <input id="food6" type="checkbox" name="Cuban" [(ngModel)]="model.user.food6"><label for="food6">Cuban</label><br>
-                <input id="food7" type="checkbox" name="Indian"[(ngModel)]="model.user.food7"><label for="food7">Indian</label>
-                <input id="food8" type="checkbox" name="Soul Food" [(ngModel)]="model.user.food8"><label for="food8">Soul Food</label><br>
-                <input id="food9" type="checkbox" name="Greek" [(ngModel)]="model.user.food9"><label for="food9">Greek</label>
-                <input id="food10" type="checkbox" name="Korean" [(ngModel)]="model.user.food10"><label for="food10">Korean</label><br>
-            </div>
+                <button class="button saveButton">Save Changes</button>
+          </div>
 
-            <button class="button saveButton">Save Changes</button>
       </div>
 
-      <!-- <div id="feedbackSection">
-        <p class="topText">Submit Feedback</p>
-        <textarea rows="4" cols="50"></textarea>
-        <button class="button saveButton">Submit</button>
-      </div> -->
       <div id="feedbackSection">
-          <p class="topText">Submit Feedback <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></p>
-          <div class="medium-12 column">
-              <textarea class="textInput" rows="4" cols="50"></textarea>
-          </div>
-          <button class="button saveButton">Submit</button>
-      </div>
-      </form>
+          <p class="topText">Submit Feedback
+              <button class="button arrowButton" (click)="toggleDiv('fedShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !fedShow, 'fa-chevron-up' : fedShow}"></i></button>
+          </p>
 
-      <form (ngSubmit)="del()" #signupForm="ngForm">
-      <div id="deleteAccount">
-          <p class="topText">Delete Account <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></p>
-          <div class="medium-8 column">
-              <p id="formTitle">Please confirm your Email:</p>
-              <input class="textInput" type="text" name="confirmEmail" [(ngModel)]="model.user.email">
-              <p id="formTitle">Please confirm your password:</p>
-              <input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.user.deletePassword">
+          <div id="feedbackContent" *ngIf="fedShow">
+              <div class="medium-12 column">
+                  <textarea class="textInput" rows="4" cols="50"></textarea>
+              </div>
+              <button class="button saveButton">Submit</button>
           </div>
-          <p class="error">{{errors.cred}}</p>  
-          <button class="button saveButton">Delete Account</button>
+          
       </div>
-      </form>
+
+      <div id="deleteAccount">
+          <p class="topText">Delete Account
+              <button class="button arrowButton" (click)="toggleDiv('delShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !delShow, 'fa-chevron-up' : delShow}"></i></button>
+          </p>
+
+          <div id="deleteContent" *ngIf="delShow">
+              <form (ngSubmit)="del()" #signupForm="ngForm">
+                  <div class="medium-8 column">
+                      <p id="formTitle">Please confirm your Email:</p>
+                      <input class="textInput" type="text" name="confirmEmail" [(ngModel)]="model.user.email">
+                      <p id="formTitle">Please confirm your password:</p>
+                      <input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.user.deletePassword">
+                  </div>
+                  <p class="error">{{errors.cred}}</p>  
+                  <button class="button saveButton">Delete Account</button>
+                </form>
+          </div>
+
+      </div>
+      
          
     </div>
   </div>

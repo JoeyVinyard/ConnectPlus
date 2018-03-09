@@ -36,6 +36,38 @@ export class SettingsComponent implements OnInit {
 	particlesConfig;
 	submitted = false;
 
+	show = false; //temp
+	invShow = false;
+	genShow = false;
+	secShow = false;
+	conShow = false;
+	intShow = false;
+	fedShow = false;
+	delShow = false;
+
+toggleDiv(name){
+	if(name == "invShow"){
+		this.invShow = !this.invShow;
+	}
+	else if(name == "genShow"){
+		this.genShow = !this.genShow;
+	}
+	else if(name == "secShow"){
+		this.secShow = !this.secShow;
+	}
+	else if(name == "conShow"){
+		this.conShow = !this.conShow;
+	}
+	else if(name == "intShow"){
+		this.intShow = !this.intShow;
+	}
+	else if(name == "fedShow"){
+		this.fedShow = !this.fedShow;
+	}
+	else if(name == "delShow"){
+		this.delShow = !this.delShow;
+	}
+}
 
 
 updateInfo(){
