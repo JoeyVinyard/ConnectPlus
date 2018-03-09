@@ -139,7 +139,7 @@
               <button class="button socialButton" id="black-dis">Disconnect</button>
           </div>
       </div>
-
+    <form (ngSubmit)="updateInfo()" #signupForm="ngForm">
       <div id="interests">
           <p class="topText">Interests <i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></p>
 
@@ -188,6 +188,7 @@
 
             <button class="button saveButton">Save Changes</button>
       </div>
+    </form>f
 
       <!-- <div id="feedbackSection">
         <p class="topText">Submit Feedback</p>
