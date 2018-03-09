@@ -37,7 +37,7 @@ export class SettingsComponent implements OnInit {
 	particlesConfig;
 	submitted = false;
 
-	show = false; //temp
+
 	invShow = false;
 	genShow = false;
 	secShow = false;
@@ -45,6 +45,7 @@ export class SettingsComponent implements OnInit {
 	intShow = false;
 	fedShow = false;
 	delShow = false;
+	
 
 toggleDiv(name){
 	if(name == "invShow"){
