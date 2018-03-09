@@ -25,7 +25,7 @@
                     <a routerLink="/list" routerLinkActive="active" *ngIf="authed">List View</a>
                     <a routerLink="/settings" routerLinkActive="active" *ngIf="authed">Settings</a>
                     <a routerLink="/signin" routerLinkActive="active" *ngIf="!authed">Login</a>
-                    <a *ngIf="authed">Logout</a>
+                    <a (click) = "logout()" *ngIf="authed">Logout</a>
                 </div>
             </div>
         </div>
