@@ -404,7 +404,7 @@ export class SettingsComponent implements OnInit {
 
 
 	del(){
-
+		if(this.model.user.deletePassword && this.model.user.email){
 		this.auth.reauthenticate(this.model.user.deletePassword).then((credential) => {
 			this.auth.deleteUser();	
 			this.model.user.deletePassword = "";
@@ -415,6 +415,9 @@ export class SettingsComponent implements OnInit {
 			this.model.user.deletePassword = "";
 		});
 	}
+		this.errors.cred = "No Email and/or Password entered";
+
+}
 	
 
 
