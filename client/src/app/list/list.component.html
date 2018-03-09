@@ -263,8 +263,23 @@
 				</div>
   
 				<div class="medium-12 column" id="moodStatusDiv">
-					  <p id="moodStatus">Mood Status</p>
+						<p id="moodStatus">Mood Status <i class="fa fa-pencil" id="editMood" (click)="toggleMood()"></i></p>
 				</div>
+
+				<div id="editMood" class="medium-12 column" [ngClass]="{'' : editMood, 'hidden' : !editMood}">
+						<div class="medium-4 column">
+							  <select id="moodSelect" name="mood">
+									  <option value="online">Online</option>
+									  <option value="away">Away</option>
+									  <option value="offline">Offline</option>
+							  </select>
+						</div>
+						<div class="medium-2 column">
+							<button class="button updateMood">Update</button>
+						</div>
+						<div class="medium-6 column"> </div>
+						  
+					</div>
   
 				<div class="medium-12 medium-centered column" id="settingsDiv">
 				  <button class="button mapButton" id="settingsButton" routerLink="/settings" routerLinkActive="active"><i class="fa fa-cogs"></i>	Settings</button>

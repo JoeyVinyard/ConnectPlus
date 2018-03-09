@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListComponent implements OnInit {
 
+  editMood = false;
+
+  toggleMood(){
+    this.editMood = !this.editMood;
+  }
+
   constructor() { }
 
   ngOnInit() {

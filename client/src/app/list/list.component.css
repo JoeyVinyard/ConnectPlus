@@ -3,6 +3,10 @@
     display: block;
 }
 
+.hidden{
+	visibility: hidden;
+}
+
 #title{
 	/* font-size: 2rem; */
 	font-size: 2vw;
@@ -138,6 +142,29 @@
 	float: left;
 	padding: 0px;
 	margin: 0px;
+}
+
+#editMood{
+	cursor: pointer;
+}
+
+#moodSelect{
+	background: transparent;
+	border: 2px solid #0076BB;
+	border-radius: 25px;
+	color: #0076BB;
+}
+
+.updateMood{
+	background: transparent;
+	border: 2px solid #0076BB;
+	border-radius: 25px;
+	color: #0076BB;
+}
+
+.updateMood:hover{
+	color: white;
+	background: #0076BB;
 }
 
 #userNameDiv{
