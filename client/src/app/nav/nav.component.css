@@ -8,6 +8,15 @@
     border-radius: 0px 0px 25px 25px;
 
 }
+.hidden{
+  visibility: hidden;
+}
+.visible{
+  visibility: visible;
+}
+.none{
+  display: none;
+}
 
 #google_translate_element{
     background: transparent;

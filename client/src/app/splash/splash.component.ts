@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { DatabaseService } from '../services/database.service';
+import { LocationService } from '../services/location.service';
 
 import { User } from '../services/user';
 
@@ -30,6 +31,7 @@ export class SplashComponent implements OnInit {
 		}).catch((err) => {
 			console.error(err);
 		})
+
 	}
 
 	ngOnInit() {}

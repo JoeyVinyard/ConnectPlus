@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
 import { DatabaseService } from '../services/database.service';
+import { LocationService } from '../services/location.service';
 
 @Component({
   selector: 'app-list',
@@ -57,8 +58,12 @@ export class ListComponent implements OnInit {
   submitted = false;
 
 
-  constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService ) {
+  constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService ) {
 
+    loc.getLocation().then((l)=> {
+			console.log("User Location:", l);
+    })
+    
     this.auth.isAuthed().then((user) => {
       console.log("Authed:",user)
       this.model.user.uid = user.uid;

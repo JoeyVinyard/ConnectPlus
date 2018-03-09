@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -8,11 +9,19 @@ import { AuthService } from '../services/auth.service';
 })
 export class NavComponent implements OnInit {
 
-  authed: boolean;
+  authed = false;
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private router: Router) {
     this.auth.isAuthed().then((a) => {
+      console.log("Wiener", a);
       this.authed = a;
+    })
+  }
+
+  logout(){
+    this.auth.logout().then(() => {
+      this.router.navigateByUrl("/");
+      console.log("Successful Logout");
     })
   }
 

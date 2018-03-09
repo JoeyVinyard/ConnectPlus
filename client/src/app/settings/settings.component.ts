@@ -25,7 +25,10 @@ export class SettingsComponent implements OnInit {
 		cred: "",
 		changePassMess: "",
 		changeEmailMess: "",
-		changeInfoMess: ""
+		changeInfoMess: "",
+		FnameError:"",
+		LnameError:""
+
 	}
 	model = {
 		password: "",
@@ -65,53 +68,81 @@ export class SettingsComponent implements OnInit {
 
 	
 
-toggleDiv(name){
-	if(name == "invShow"){
-		this.invShow = !this.invShow;
-	}
-	else if(name == "genShow"){
-		this.genShow = !this.genShow;
-	}
-	else if(name == "secShow"){
-		this.secShow = !this.secShow;
-	}
-	else if(name == "conShow"){
-		this.conShow = !this.conShow;
-	}
-	else if(name == "intShow"){
-		this.intShow = !this.intShow;
-	}
-	else if(name == "fedShow"){
-		this.fedShow = !this.fedShow;
-	}
-	else if(name == "delShow"){
-		this.delShow = !this.delShow;
+	toggleDiv(name){
+		if(name == "invShow"){
+			this.invShow = !this.invShow;
+		}
+		else if(name == "genShow"){
+			this.genShow = !this.genShow;
+		}
+		else if(name == "secShow"){
+			this.secShow = !this.secShow;
+		}
+		else if(name == "conShow"){
+			this.conShow = !this.conShow;
+		}
+		else if(name == "intShow"){
+			this.intShow = !this.intShow;
+		}
+		else if(name == "fedShow"){
+			this.fedShow = !this.fedShow;
+		}
+		else if(name == "delShow"){
+			this.delShow = !this.delShow;
+		}
+
+		else if(name == "faceShow"){
+			this.faceShow = !this.faceShow;
+		}
+		else if(name == "instShow"){
+			this.instShow = !this.instShow;
+		}
+		else if(name == "linkShow"){
+			this.linkShow = !this.linkShow;
+		}
+		else if(name == "blackShow"){
+			this.blackShow = !this.blackShow;
+		}
 	}
 
-	else if(name == "faceShow"){
-		this.faceShow = !this.faceShow;
+	setVisible(number){
+		this.visibility = number;
 	}
-	else if(name == "instShow"){
-		this.instShow = !this.instShow;
-	}
-	else if(name == "linkShow"){
-		this.linkShow = !this.linkShow;
-	}
-	else if(name == "blackShow"){
-		this.blackShow = !this.blackShow;
-	}
-}
 
-setVisible(number){
-	this.visibility = number;
-}
+
+
+
+	verifyValid(){
+		Object.keys(this.errors).forEach((key)=>{
+			this.errors[key] = null;
+		})
+		var noErr = true;
+		//Sanitize input here
+		if(this.model.user.firstName && !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.firstName))
+			this.errors.FnameError = "Please provide a valid first name."
+		if(this.model.user.lastName && !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
+			this.errors.LnameError = "Please provide a valid last name."
+
+		Object.keys(this.errors).forEach((key)=>{
+			if(this.errors[key])
+				noErr = false;
+		})
+		// console.log(this.errors, noErr);
+		return noErr;
+	}
+
+
+
+
+
+
 
 
 	updateInfo(){
 
 		console.log(this.model);
-
-		this.auth.getUser().then((user) => {
+		if(this.verifyValid()){
+			this.auth.getUser().then((user) => {
 			//this.model.user.uid = user.uid;
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
@@ -124,7 +155,10 @@ setVisible(number){
 				//Form rejected for some reason
 			})
 		});
-
+		}
+		else{
+			this.errors.changeInfoMess = "Looks like you tried to change your name to something invalid. \nYour information has NOT been updated!"
+		}
 	}
 
 
@@ -142,7 +176,7 @@ setVisible(number){
 
 		}
 		else if(this.model.user.newEmail == this.model.user.currentEmail)
-				this.errors.newEmail = "Please provide differnt email.";
+			this.errors.newEmail = "Please provide differnt email.";
 
 
 
@@ -357,115 +391,115 @@ setVisible(number){
 		});	
 
 
-this.auth.getUser().then((user) => {
-	this.model.user.uid = user.uid;
-	this.model.user.firstName = user.firstName;
+		this.auth.getUser().then((user) => {
+			this.model.user.uid = user.uid;
+			this.model.user.firstName = user.firstName;
 
-	this.db.getUser(user.uid).then((userData) => {
+			this.db.getUser(user.uid).then((userData) => {
 
-		this.model.user = userData
-		console.log(userData)
-	})
-
-	
-
-});
-
-
-
-
-
-
-
-
-fb.init({
-	appId: '146089319399243',
-	version: 'v2.12',
-	cookie: true
-});
-
-this.logout_facebook();
-
-}
-
-
-
-
-
-
-
-
-link_facebook(){
-	const loginOptions: LoginOptions = {
-		enable_profile_selector: true,
-		return_scopes: true,
-		scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
-	};
-	console.log(this.returnLoginStatus());
-	/*todo: Check if loggedin already */
-	this.fb.getLoginStatus()
-	.then(res=>{
-		if(res && res.status === 'unknown'){
-			this.fb.login(loginOptions)
-			.then((res: LoginResponse) => {
-				console.log('Logged in', res);
-			}).then(() => {
-				this.fb.api('/me/taggable_friends')
-				.then((res: any) => {
-					console.log('Got the users friends', res);
-					this.inFacebook = true;
-
-				})
+				this.model.user = userData
+				console.log(userData)
 			})
-			.catch(this.handleError);
-		}else{
-			console.log("Attempted to login when already logged in. We probably want to display an error message here");
-		}
-	})
 
-	console.log(this.inFacebook);
+			
 
-}
-
-logout_facebook(){
-	this.fb.getLoginStatus()
-	.then(res=>{
-		if(res && res.status === 'connected'){
-			console.log("Logging out")
-			this.fb.logout()
-
-			.then(res=>{console.log(res)})
-			.catch(this.handleError);
-			this.inFacebook = false;
-		}
-	}).catch(this.handleError);
-
-	this.getLoginStatus();
-}
-returnLoginStatus(){
-	this.fb.getLoginStatus()
-	.then(res=>{
-		if(res && res.status === 'connected'){
-			console.log(true);
-			return true;
-
-		}else{
-			console.log(false);
-			return false;
-		}
-	})
-}
-getLoginStatus() {
-
-	this.fb.getLoginStatus()
-	.then(console.log.bind(console))
-	.catch(console.error.bind(console));
-}
+		});
 
 
-ngOnInit() {}
 
-private handleError(error) {
-	console.error('Error processing action', error);
-}
+
+
+
+
+
+		fb.init({
+			appId: '146089319399243',
+			version: 'v2.12',
+			cookie: true
+		});
+
+		this.logout_facebook();
+
+	}
+
+
+
+
+
+
+
+
+	link_facebook(){
+		const loginOptions: LoginOptions = {
+			enable_profile_selector: true,
+			return_scopes: true,
+			scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
+		};
+		console.log(this.returnLoginStatus());
+		/*todo: Check if loggedin already */
+		this.fb.getLoginStatus()
+		.then(res=>{
+			if(res && res.status === 'unknown'){
+				this.fb.login(loginOptions)
+				.then((res: LoginResponse) => {
+					console.log('Logged in', res);
+				}).then(() => {
+					this.fb.api('/me/taggable_friends')
+					.then((res: any) => {
+						console.log('Got the users friends', res);
+						this.inFacebook = true;
+
+					})
+				})
+				.catch(this.handleError);
+			}else{
+				console.log("Attempted to login when already logged in. We probably want to display an error message here");
+			}
+		})
+
+		console.log(this.inFacebook);
+
+	}
+
+	logout_facebook(){
+		this.fb.getLoginStatus()
+		.then(res=>{
+			if(res && res.status === 'connected'){
+				console.log("Logging out")
+				this.fb.logout()
+
+				.then(res=>{console.log(res)})
+				.catch(this.handleError);
+				this.inFacebook = false;
+			}
+		}).catch(this.handleError);
+
+		this.getLoginStatus();
+	}
+	returnLoginStatus(){
+		this.fb.getLoginStatus()
+		.then(res=>{
+			if(res && res.status === 'connected'){
+				console.log(true);
+				return true;
+
+			}else{
+				console.log(false);
+				return false;
+			}
+		})
+	}
+	getLoginStatus() {
+
+		this.fb.getLoginStatus()
+		.then(console.log.bind(console))
+		.catch(console.error.bind(console));
+	}
+
+
+	ngOnInit() {}
+
+	private handleError(error) {
+		console.error('Error processing action', error);
+	}
 }
