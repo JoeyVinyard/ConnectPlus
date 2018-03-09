@@ -22,17 +22,22 @@
         <div class="medium-8 column">
           <p id="formTitle">First Name:</p>
           <input class="textInput" type="text" name="firstName" [(ngModel)]="model.user.firstName">
+          <p class="error">{{errors.fName}}</p>  
           <p id="formTitle">Last Name:</p>
           <input class="textInput" type="text" name="lastName" [(ngModel)]="model.user.lastName">
+          <p class="error">{{errors.lName}}</p>  
           <p id="formTitle">Gender:</p>
           <select id="gender" name="gender" [(ngModel)]="model.user.gender">
               <option selected="true" disabled="disabled">Please select an option</option>    
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
-          </select>
+           
+          </select> 
+          <p class="error">{{errors.genderE}}</p>  
           <p id="formTitle">Age:</p>
           <input class="textInput" type="number" name="age" min="0" max="100" id="age" [(ngModel)]="model.user.age">
+          <p class="error">{{errors.ageE}}</p>  
          </div>
       </div>
 
@@ -108,6 +113,7 @@
       </div>
 
       <div id="subBox">
+        <p class="error">{{errors.createError}}</p>  
           <button class="button" routerLinkActive="active" id="createSubmit">Let me in</button>
         </div>
    </form>

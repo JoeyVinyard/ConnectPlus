@@ -16,21 +16,75 @@ export class CreateProfileComponent implements OnInit {
 	model = {
 		user: new User()
 	}
+	errors = {
+		createError: "",
+		fName:"",
+		lName:"",
+		ageE:"",
+		genderE:""
+	}
 
 	particlesConfig;
 	submitted = false;
 
+
+
+	verify(){
+		Object.keys(this.errors).forEach((key)=>{
+			this.errors[key] = null;
+		})
+		var noErr = true;
+		//Sanitize input here
+		if(!this.model.user.firstName)
+			this.errors.fName = "Please enter your first name"
+		if(!this.model.user.lastName)
+			this.errors.lName = "Please enter your last name"
+		if(!this.model.user.age)
+			this.errors.ageE = "Please enter your age"
+		if(!this.model.user.gender)
+			this.errors.genderE = "Please select a gender"
+		if(!(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.firstName))
+			this.errors.fName = "Please provide a valid first name."
+		if(!(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
+			this.errors.lName = "Please provide a valid last name."
+
+		
+		// if(!this.model.user.newEmail || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.user.newEmail)){
+
+		// 	this.errors.newEmail = "Please provide a valid email.";
+		// 	noErr = false;
+
+		// }
+
+
+		
+		Object.keys(this.errors).forEach((key)=>{
+			if(this.errors[key])
+				noErr = false;
+		})
+		// console.log(this.errors, noErr);
+		return noErr;
+	}
+
+
 	submit(){
+if(this.verify()){
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
 			this.db.createUser(this.model.user).then((data) => {
 				console.log(data);
 				this.router.navigateByUrl('map');
 			}).catch((err)=>{
+						this.errors.createError = "profile creation failed"
+
 				console.error(err);
 				//Form rejected for some reason
 			})
 		})
+	}
+	else{
+		this.errors.createError = "profile creation failed"
+	}
 	}	
 
 	// database = firebase.database();
