@@ -12,9 +12,8 @@ import { LocationService } from '../services/location.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-	title: string = 'My first AGM project';
 	lat: number = 40.678418;
-	lng: number = -86.809007;
+	lng: number = -76.809007;
 
   editMood = false;
   editRange = false;
@@ -67,6 +66,8 @@ export class MapComponent implements OnInit {
       auth.getUser().then((u) => {
         db.storeLocation(l, u.uid).then((d) =>{
           console.log(d);
+          this.lat = l.latitude;
+          this.lng = l.longitude;
         }).catch((e) =>{
           console.error(e);
         })

@@ -104,6 +104,17 @@ export class DatabaseService {
 		});
 	}
 
+	getLocation(uid: String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/getLocation/"+uid, this.httpOptions).subscribe((data) => {
+				if(data)
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
+
 	constructor(private http: HttpClient) {}
 
 }

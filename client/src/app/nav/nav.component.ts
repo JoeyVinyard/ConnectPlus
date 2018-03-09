@@ -13,7 +13,6 @@ export class NavComponent implements OnInit {
 
   constructor(private auth: AuthService, private router: Router) {
     this.auth.isAuthed().then((a) => {
-      console.log("Wiener", a);
       this.authed = a;
     })
   }
