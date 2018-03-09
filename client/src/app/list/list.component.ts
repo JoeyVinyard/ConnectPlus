@@ -7,6 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListComponent implements OnInit {
 
+  editMood = false;
+  editRange = false;
+
+  toggleMood(){
+    this.editMood = !this.editMood;
+  }
+
+  toggleRange(){
+    this.editRange = !this.editRange;
+  }
+
   constructor() { }
 
   ngOnInit() {

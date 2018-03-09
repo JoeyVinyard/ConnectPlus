@@ -5,7 +5,7 @@ import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
 import { DatabaseService } from '../services/database.service';
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
-import { LinkedInService} from 'angular-linkedin-sdk';
+/*import { LinkedInService} from 'angular-linkedin-sdk';*/
 @Component({
 	selector: 'app-create-profile',
 	templateUrl: './create-profile.component.html',
@@ -16,21 +16,75 @@ export class CreateProfileComponent implements OnInit {
 	model = {
 		user: new User()
 	}
+	errors = {
+		createError: "",
+		fName:"",
+		lName:"",
+		ageE:"",
+		genderE:""
+	}
 
 	particlesConfig;
 	submitted = false;
 
+
+
+	verify(){
+		Object.keys(this.errors).forEach((key)=>{
+			this.errors[key] = null;
+		})
+		var noErr = true;
+		//Sanitize input here
+		if(!this.model.user.firstName)
+			this.errors.fName = "Please enter your first name"
+		if(!this.model.user.lastName)
+			this.errors.lName = "Please enter your last name"
+		if(!this.model.user.age)
+			this.errors.ageE = "Please enter your age"
+		if(!this.model.user.gender)
+			this.errors.genderE = "Please select a gender"
+		if(!(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.firstName))
+			this.errors.fName = "Please provide a valid first name."
+		if(!(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
+			this.errors.lName = "Please provide a valid last name."
+
+		
+		// if(!this.model.user.newEmail || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.user.newEmail)){
+
+		// 	this.errors.newEmail = "Please provide a valid email.";
+		// 	noErr = false;
+
+		// }
+
+
+		
+		Object.keys(this.errors).forEach((key)=>{
+			if(this.errors[key])
+				noErr = false;
+		})
+		// console.log(this.errors, noErr);
+		return noErr;
+	}
+
+
 	submit(){
+if(this.verify()){
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
 			this.db.createUser(this.model.user).then((data) => {
 				console.log(data);
 				this.router.navigateByUrl('map');
 			}).catch((err)=>{
+						this.errors.createError = "profile creation failed"
+
 				console.error(err);
 				//Form rejected for some reason
 			})
 		})
+	}
+	else{
+		this.errors.createError = "profile creation failed"
+	}
 	}	
 
 	// database = firebase.database();
@@ -43,14 +97,25 @@ export class CreateProfileComponent implements OnInit {
 	//     birthdate : birthdate
 	//   });
 	// }
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
+	 constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService /*, private li : LinkedInService*/) {
+	//constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
 		fb.init({
-			appId: '146089319399243',
-			version: 'v2.12'
-		});
+
+      appId: '146089319399243',
+      version: 'v2.12'
+    });
+    
+    /* this.isUserAuthenticated = this._linkedInService.isUserAuthenticated$;
+  this.isInitialized = this._linkedInService.isInitialized$;
+
+    this.li.isUserAuthenticated$.subscribe({
+      next: (state) => {
+        //Do something here maybe, set variable for authenticated
+      }
+    };*/
 
 		this.auth.isAuthed().then((user) => {
-			console.log("Authed:",user)
+			console.log("Authed:",user);
 		});
 	}
 

@@ -4,6 +4,16 @@
     float: center;
 }
 
+.hidden{
+  visibility: hidden;
+}
+.visible{
+  visibility: visible;
+}
+.none{
+  display: none;
+}
+
 .topText{
     font-size: 2rem;
     color:#004E7F;
@@ -29,6 +39,12 @@
 .saveButton:hover{
     background-color: rgba(0, 118, 187, 0.75);
     color: white;
+}
+
+.arrowButton{
+  background: transparent;
+  color:#004E7F;
+  font-size: 1.5rem;
 }
 
 #header{
@@ -193,6 +209,7 @@
   border-radius: 25px;
   color: white;
   font-weight: bold;
+  position: relative;
 }
 
 #face-exp{

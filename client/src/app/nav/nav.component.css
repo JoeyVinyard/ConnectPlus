@@ -17,15 +17,12 @@
     padding: 0px;
 }
 
-/* .goog-te-gadget-simple{
-    background-color: blue;
-} */
-
 #navLogo{
     align-content: center;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    cursor: pointer;
 }
 
 #invisible{

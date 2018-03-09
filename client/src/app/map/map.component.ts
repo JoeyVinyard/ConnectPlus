@@ -10,7 +10,16 @@ export class MapComponent implements OnInit {
 	lat: number = 40.678418;
 	lng: number = -86.809007;
 
+  editMood = false;
+  editRange = false;
 
+  toggleMood(){
+    this.editMood = !this.editMood;
+  }
+
+  toggleRange(){
+    this.editRange = !this.editRange;
+  }
 
 
   constructor() { }
