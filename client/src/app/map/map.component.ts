@@ -11,9 +11,14 @@ export class MapComponent implements OnInit {
 	lng: number = -86.809007;
 
   editMood = false;
+  editRange = false;
 
   toggleMood(){
     this.editMood = !this.editMood;
+  }
+
+  toggleRange(){
+    this.editRange = !this.editRange;
   }
 
 
