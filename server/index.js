@@ -120,7 +120,6 @@ var routeHandler = {
 		}
 		var uid = urlData[1];
 		firebase.database().ref("users/"+uid).once("value").then((s) => {
-			console.log("user: ", s.val());
 			res.statusCode=200;
 			responseBody.payload = s.val();
 			res.write(JSON.stringify(responseBody));
@@ -210,7 +209,30 @@ var routeHandler = {
 				res.end();
 			})
 		});
-	}
+	},
+	getLocation: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		if(!urlData || !urlData[1]){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		firebase.database().ref("locations/"+uid).once("value").then((s) => {
+			res.statusCode=200;
+			responseBody.payload = s.val();
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}).catch((err) => {
+			res.statusCode = 400;
+			responseBody.err = err;
+			res.write(JSON.stringify(responseBody));
+			res.end()
+		});
+	},
 }
 
 const server = http.createServer(requestHandler);
