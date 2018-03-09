@@ -270,9 +270,8 @@
 	
 				  <div id="editMoodDiv" class="medium-6 column" [ngClass]="{'' : editMood, 'hidden' : !editMood}">
 				  	<form (ngSubmit)="moodChange()" #signupForm="ngForm">
-
 					  <div class="medium-6 column">
-							<select id="moodSelect" name="mood">
+							<select id="moodSelect" name="mood" [(ngModel)]="model.user.moodStatus">
 									<option value="online">Online</option>
 									<option value="away">Away</option>
 									<option value="offline">Offline</option>

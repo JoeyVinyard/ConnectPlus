@@ -113,11 +113,11 @@ export class SettingsComponent implements OnInit {
 		//this.model.user.visability = number;
 
 		
-	
+
 
 	}
 
-clearing(){
+	clearing(){
 
 		this.errors.email = "";
 		this.errors.pass = "";
@@ -132,8 +132,8 @@ clearing(){
 		this.errors.changeInfoMess = "";
 		this.errors.FnameError = "";
 		this.errors.LnameError = "";
-		
-this.auth.getUser().then((user) => {
+
+		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
 			this.model.user.firstName = user.firstName;
 
@@ -147,15 +147,14 @@ this.auth.getUser().then((user) => {
 
 		});
 
-}
+	}
 
 
 
 
-vis(){
-//console.log(this.model);
-this.model.user.visability = this.visibility;
-			this.auth.getUser().then((user) => {
+	vis(){
+		this.model.user.visability = this.visibility
+		this.auth.getUser().then((user) => {
 			//this.model.user.uid = user.uid;
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
@@ -166,11 +165,8 @@ this.model.user.visability = this.visibility;
 				//Form rejected for some reason
 			})
 		});
-		
-	
 
-
-}
+	}
 
 
 
@@ -460,106 +456,94 @@ this.model.user.visability = this.visibility;
 				console.log(userData)
 			})
 
-
-
 		});
 
 	// this.visibility = this.model.user.visability;
 
 
+	fb.init({
+		appId: '146089319399243',
+		version: 'v2.12',
+		cookie: true
+	});
+
+	this.logout_facebook();
+
+}
 
 
 
+link_facebook(){
+	const loginOptions: LoginOptions = {
+		enable_profile_selector: true,
+		return_scopes: true,
+		scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
+	};
+	console.log(this.returnLoginStatus());
+	/*todo: Check if loggedin already */
+	this.fb.getLoginStatus()
+	.then(res=>{
+		if(res && res.status === 'unknown'){
+			this.fb.login(loginOptions)
+			.then((res: LoginResponse) => {
+				console.log('Logged in', res);
+			}).then(() => {
+				this.fb.api('/me/taggable_friends')
+				.then((res: any) => {
+					console.log('Got the users friends', res);
+					this.inFacebook = true;
 
-
-		fb.init({
-			appId: '146089319399243',
-			version: 'v2.12',
-			cookie: true
-		});
-
-		this.logout_facebook();
-
-	}
-
-
-
-
-
-
-
-
-	link_facebook(){
-		const loginOptions: LoginOptions = {
-			enable_profile_selector: true,
-			return_scopes: true,
-			scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
-		};
-		console.log(this.returnLoginStatus());
-		/*todo: Check if loggedin already */
-		this.fb.getLoginStatus()
-		.then(res=>{
-			if(res && res.status === 'unknown'){
-				this.fb.login(loginOptions)
-				.then((res: LoginResponse) => {
-					console.log('Logged in', res);
-				}).then(() => {
-					this.fb.api('/me/taggable_friends')
-					.then((res: any) => {
-						console.log('Got the users friends', res);
-						this.inFacebook = true;
-
-					})
 				})
-				.catch(this.handleError);
-			}else{
-				console.log("Attempted to login when already logged in. We probably want to display an error message here");
-			}
-		})
+			})
+			.catch(this.handleError);
+		}else{
+			console.log("Attempted to login when already logged in. We probably want to display an error message here");
+		}
+	})
 
-		console.log(this.inFacebook);
+	console.log(this.inFacebook);
 
-	}
+}
 
-	logout_facebook(){
-		this.fb.getLoginStatus()
-		.then(res=>{
-			if(res && res.status === 'connected'){
-				console.log("Logging out")
-				this.fb.logout()
+logout_facebook(){
+	this.fb.getLoginStatus()
+	.then(res=>{
+		if(res && res.status === 'connected'){
+			console.log("Logging out")
+			this.fb.logout()
 
-				.then(res=>{console.log(res)})
-				.catch(this.handleError);
-				this.inFacebook = false;
-			}
-		}).catch(this.handleError);
+			.then(res=>{console.log(res)})
+			.catch(this.handleError);
+			this.inFacebook = false;
+		}
+	}).catch(this.handleError);
 
-		this.getLoginStatus();
-	}
-	returnLoginStatus(){
-		this.fb.getLoginStatus()
-		.then(res=>{
-			if(res && res.status === 'connected'){
-				console.log(true);
-				return true;
+	this.getLoginStatus();
+}
+returnLoginStatus(){
+	this.fb.getLoginStatus()
+	.then(res=>{
+		if(res && res.status === 'connected'){
+			console.log(true);
+			return true;
 
-			}else{
-				console.log(false);
-				return false;
-			}
-		})
-	}
-	getLoginStatus() {
+		}else{
+			console.log(false);
+			return false;
+		}
+	})
+}
+getLoginStatus() {
 
-		this.fb.getLoginStatus()
-		.then(console.log.bind(console))
-		.catch(console.error.bind(console));
-	}
+	this.fb.getLoginStatus()
+	.then(console.log.bind(console))
+	.catch(console.error.bind(console));
+}
 
 
-	ngOnInit() {}
+ngOnInit() {}
 
-	private handleError(error) {
-		console.error('Error processing action', error);
-	}
+private handleError(error) {
+	console.error('Error processing action', error);
+}
 }
