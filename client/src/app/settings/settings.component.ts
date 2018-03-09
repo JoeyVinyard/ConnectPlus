@@ -18,6 +18,7 @@ export class SettingsComponent implements OnInit {
 		email: "",
 		pass: "",
 		newEmail:"",
+		currentEmail: "",
 		newPass: "",
 		oldPass: "",
 		conPass: "", 
@@ -140,6 +141,9 @@ setVisible(number){
 			noErr = false;
 
 		}
+		else if(this.model.user.newEmail == this.model.user.currentEmail)
+				this.errors.newEmail = "Please provide differnt email.";
+
 
 
 		
