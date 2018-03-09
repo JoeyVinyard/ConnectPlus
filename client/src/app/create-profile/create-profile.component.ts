@@ -29,7 +29,7 @@ export class CreateProfileComponent implements OnInit {
 
 
 
-	verify(){
+	verifyThere(){
 		Object.keys(this.errors).forEach((key)=>{
 			this.errors[key] = null;
 		})
@@ -43,21 +43,25 @@ export class CreateProfileComponent implements OnInit {
 			this.errors.ageE = "Please enter your age"
 		if(!this.model.user.gender)
 			this.errors.genderE = "Please select a gender"
+		
+		Object.keys(this.errors).forEach((key)=>{
+			if(this.errors[key])
+				noErr = false;
+		})
+		// console.log(this.errors, noErr);
+		return noErr;
+	}
+	verifyValid(){
+		Object.keys(this.errors).forEach((key)=>{
+			this.errors[key] = null;
+		})
+		var noErr = true;
+		//Sanitize input here
 		if(!(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.firstName))
 			this.errors.fName = "Please provide a valid first name."
 		if(!(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
 			this.errors.lName = "Please provide a valid last name."
 
-		
-		// if(!this.model.user.newEmail || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.user.newEmail)){
-
-		// 	this.errors.newEmail = "Please provide a valid email.";
-		// 	noErr = false;
-
-		// }
-
-
-		
 		Object.keys(this.errors).forEach((key)=>{
 			if(this.errors[key])
 				noErr = false;
@@ -68,23 +72,29 @@ export class CreateProfileComponent implements OnInit {
 
 
 	submit(){
-if(this.verify()){
-		this.auth.getUser().then((user) => {
-			this.model.user.uid = user.uid;
-			this.db.createUser(this.model.user).then((data) => {
-				console.log(data);
-				this.router.navigateByUrl('map');
-			}).catch((err)=>{
-						this.errors.createError = "profile creation failed"
+		if(this.verifyThere()){
+			if(this.verifyValid()){
+			this.auth.getUser().then((user) => {
+				this.model.user.uid = user.uid;
+				this.db.createUser(this.model.user).then((data) => {
+					console.log(data);
+					this.router.navigateByUrl('map');
+				}).catch((err)=>{
+					this.errors.createError = "profile creation failed"
 
-				console.error(err);
+					console.error(err);
 				//Form rejected for some reason
 			})
-		})
+			})
 	}
 	else{
-		this.errors.createError = "profile creation failed"
+			this.errors.createError = "Wait a minute...Looks like you put in invalid information!"
+
 	}
+		}
+		else{
+			this.errors.createError = "Wait a minute...Looks like you forgot something!"
+		}
 	}	
 
 	// database = firebase.database();
@@ -97,14 +107,14 @@ if(this.verify()){
 	//     birthdate : birthdate
 	//   });
 	// }
-	 constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService /*, private li : LinkedInService*/) {
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService /*, private li : LinkedInService*/) {
 	//constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
 		fb.init({
 
-      appId: '146089319399243',
-      version: 'v2.12'
-    });
-    
+			appId: '146089319399243',
+			version: 'v2.12'
+		});
+
     /* this.isUserAuthenticated = this._linkedInService.isUserAuthenticated$;
   this.isInitialized = this._linkedInService.isInitialized$;
 
@@ -112,46 +122,46 @@ if(this.verify()){
       next: (state) => {
         //Do something here maybe, set variable for authenticated
       }
-    };*/
+  };*/
 
-		this.auth.isAuthed().then((user) => {
-			console.log("Authed:",user);
-		});
-	}
+  this.auth.isAuthed().then((user) => {
+  	console.log("Authed:",user);
+  });
+}
 
-	login() {
-		this.fb.login()
-		.then((res: LoginResponse) => {
-			console.log('Logged in', res);
+login() {
+	this.fb.login()
+	.then((res: LoginResponse) => {
+		console.log('Logged in', res);
+	})
+	.catch(this.handleError);
+}
+
+
+
+loginWithOptions() {
+
+	const loginOptions: LoginOptions = {
+		enable_profile_selector: true,
+		return_scopes: true,
+		scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
+	};
+
+
+	this.fb.login(loginOptions)
+	.then((res: LoginResponse) => {
+		console.log('Logged in', res);
+	}).then(() => {
+		this.fb.api('/me/taggable_friends')
+		.then((res: any) => {
+			console.log('Got the users friends', res);
+
 		})
-		.catch(this.handleError);
-	}
+	})
+	.catch(this.handleError);
 
 
-
-	loginWithOptions() {
-
-		const loginOptions: LoginOptions = {
-			enable_profile_selector: true,
-			return_scopes: true,
-			scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
-		};
-
-
-		this.fb.login(loginOptions)
-		.then((res: LoginResponse) => {
-			console.log('Logged in', res);
-		}).then(() => {
-			this.fb.api('/me/taggable_friends')
-			.then((res: any) => {
-				console.log('Got the users friends', res);
-
-			})
-		})
-		.catch(this.handleError);
-
-
-		/*Need to make a promise to make sure the previous call runs before the next call, not sure how to do that yet, will ask joey tomorrow */
+	/*Need to make a promise to make sure the previous call runs before the next call, not sure how to do that yet, will ask joey tomorrow */
 	/* setTimeout(this.fb.api('/me/friends')
 	.then((res: any) => {
 	console.log('Got the users friends', res);
