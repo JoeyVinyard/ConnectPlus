@@ -269,6 +269,8 @@
 				  </div>
 	
 				  <div id="editMoodDiv" class="medium-6 column" [ngClass]="{'' : editMood, 'hidden' : !editMood}">
+				  	<form (ngSubmit)="moodChange()" #signupForm="ngForm">
+
 					  <div class="medium-6 column">
 							<select id="moodSelect" name="mood">
 									<option value="online">Online</option>
@@ -279,6 +281,7 @@
 					  <div class="medium-6 column">
 						  <button class="button updateMood">Update</button>
 					  </div>
+					</form>
 				  </div>
 				  
 				  <div class="medium-6 column" [ngClass]="{'' : editRange, 'hidden' : !editRange}">
