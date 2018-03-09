@@ -45,7 +45,7 @@ export class SettingsComponent implements OnInit {
 	intShow = false;
 	fedShow = false;
 	delShow = false;
-
+	loggedInFacebook = false;
 toggleDiv(name){
 	if(name == "invShow"){
 		this.invShow = !this.invShow;
@@ -345,6 +345,8 @@ fb.init({
 	cookie: true
 });
 
+this.logout_facebook();
+
 }
 
 
@@ -360,7 +362,7 @@ link_facebook(){
 		return_scopes: true,
 		scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
 	};
-
+	console.log(this.returnLoginStatus());
 	/*todo: Check if loggedin already */
 	this.fb.getLoginStatus()
 	.then(res=>{
@@ -372,6 +374,7 @@ link_facebook(){
 				this.fb.api('/me/taggable_friends')
 				.then((res: any) => {
 					console.log('Got the users friends', res);
+					this.loggedInFacebook = true;
 
 				})
 			})
@@ -380,6 +383,8 @@ link_facebook(){
 			console.log("Attempted to login when already logged in. We probably want to display an error message here");
 		}
 	})
+
+	console.log(this.loggedInFacebook);
 
 }
 
@@ -392,12 +397,25 @@ logout_facebook(){
 
 			.then(res=>{console.log(res)})
 			.catch(this.handleError);
+			this.loggedInFacebook = false;
 		}
 	}).catch(this.handleError);
 
 	this.getLoginStatus();
 }
+returnLoginStatus(){
+	this.fb.getLoginStatus()
+	.then(res=>{
+		if(res && res.status === 'connected'){
+			console.log(true);
+			return true;
 
+		}else{
+			console.log(false);
+			return false;
+		}
+	})
+}
 getLoginStatus() {
 
 	this.fb.getLoginStatus()
