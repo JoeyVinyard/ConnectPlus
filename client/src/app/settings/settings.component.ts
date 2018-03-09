@@ -17,7 +17,7 @@ export class SettingsComponent implements OnInit {
 	errors = {
 		email: "",
 		pass: "",
-		newEmail:"",
+		newEmail: "",
 		currentEmail: "",
 		newPass: "",
 		oldPass: "",
@@ -116,6 +116,41 @@ export class SettingsComponent implements OnInit {
 	
 
 	}
+
+clearing(){
+
+		this.errors.email = "";
+		this.errors.pass = "";
+		this.errors.newEmail = "";
+		this.errors.currentEmail = "";
+		this.errors.newPass = "";
+		this.errors.oldPass = "";
+		this.errors.conPass = "";
+		this.errors.cred = "";
+		this.errors.changePassMess = "";
+		this.errors.changeEmailMess = "";
+		this.errors.changeInfoMess = "";
+		this.errors.FnameError = "";
+		this.errors.LnameError = "";
+		
+this.auth.getUser().then((user) => {
+			this.model.user.uid = user.uid;
+			this.model.user.firstName = user.firstName;
+
+			this.db.getUser(user.uid).then((userData) => {
+
+				this.model.user = userData
+				console.log(userData)
+			})
+
+
+
+		});
+
+}
+
+
+
 
 vis(){
 //console.log(this.model);

@@ -31,10 +31,11 @@
       </div>
 
       <div id="accountDetails">
+         <form (ngSubmit)="clearing()" #signupForm="ngForm">
         <p class="topText">General 
             <button class="button arrowButton" (click)="toggleDiv('genShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !genShow, 'fa-chevron-up' : genShow}"></i></button>
           </p>
-          
+          </form>
           <div id="general Content" *ngIf="genShow">
               <form (ngSubmit)="updateInfo()" #signupForm="ngForm">
               <div class="medium-4 column">
@@ -67,9 +68,11 @@
       </div>
 
       <div id="security" class="medium-12 medium-centered column">
+        <form (ngSubmit)="clearing()" #signupForm="ngForm">
           <p class="topText">Security 
               <button class="button arrowButton" (click)="toggleDiv('secShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !secShow, 'fa-chevron-up' : secShow}"></i></button>
           </p>
+        </form>
           <div id="securityContent" *ngIf="secShow">
               <form (ngSubmit)="changeemail()" #signupForm="ngForm">
                   <p class="topText">Change Email</p>
@@ -166,12 +169,14 @@
       </div>
    
       <div id="interests">
-          <form (ngSubmit)="updateInfo()" #signupForm="ngForm">
+         <form (ngSubmit)="clearing()" #signupForm="ngForm">
           <p class="topText">Interests
               <button class="button arrowButton" (click)="toggleDiv('intShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !intShow, 'fa-chevron-up' : intShow}"></i></button>
           </p>
+        </form>
 
           <div id="interestContent" *ngIf="intShow">
+             <form (ngSubmit)="updateInfo()" #signupForm="ngForm">
               <div class="medium-4 column" id="sportSection">
                   <p class="subText">Sports</p>
                        <input id="sports1" type="checkbox" name="Football" [(ngModel)]="model.user.sports1"><label for="sports1">Football</label>
@@ -216,8 +221,9 @@
                 </div>
                     <p class="error">{{errors.changeInfoMess}}</p>  
                 <button class="button saveButton">Save Changes</button>
+         </form>
           </div>
-        </form>
+        
       </div>
    
 
@@ -236,9 +242,11 @@
       </div>
 
       <div id="deleteAccount">
+        <form (ngSubmit)="clearing()" #signupForm="ngForm">
           <p class="topText">Delete Account
               <button class="button arrowButton" (click)="toggleDiv('delShow')"><i class="fa" [ngClass]="{'fa-chevron-down' : !delShow, 'fa-chevron-up' : delShow}"></i></button>
           </p>
+        </form>
 
           <div id="deleteContent" *ngIf="delShow">
               <form (ngSubmit)="del()" #signupForm="ngForm">
