@@ -345,7 +345,7 @@ export class SettingsComponent implements OnInit {
 
 					var changepass = this.model.user.newPass;
 					
-					else{
+					
 						this.auth.getUser().then((user) => {
 							console.log(user);
 							console.log(this.model);
@@ -354,7 +354,7 @@ export class SettingsComponent implements OnInit {
 						  console.log("hello",this.model.user.conNewPass);
 						  console.log("hello",this.model.user.conNewPass);
 
-						}).catch(function(error) {
+						}).catch((err) => {
 							this.errors.newPass = "";
 							this.errors.conPass = "";
 							this.errors.oldPass = "";
@@ -368,7 +368,7 @@ export class SettingsComponent implements OnInit {
 						this.model.user.newPass = "" ;
 						this.model.user.conNewPass = "";
 						this.model.user.oldPass = "";
-					}
+					
 
 				}
 				else{
