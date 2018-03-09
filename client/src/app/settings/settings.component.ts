@@ -53,13 +53,13 @@ export class SettingsComponent implements OnInit {
 	blackShow = false;
 
 	//Social Media Connected Vars
-	faceConn = false;
-	instConn = false;
-	linkConn = false;
-	blackConn = false;
+	inFacebook = false;
+	inLinkedIn = false;
+	inBlackboard = false;
+	inInstagra = false;
 
 
-	loggedInFacebook = false;
+	
 
 toggleDiv(name){
 	if(name == "invShow"){
@@ -402,7 +402,7 @@ link_facebook(){
 				this.fb.api('/me/taggable_friends')
 				.then((res: any) => {
 					console.log('Got the users friends', res);
-					this.loggedInFacebook = true;
+					this.inFacebook = true;
 
 				})
 			})
@@ -412,7 +412,7 @@ link_facebook(){
 		}
 	})
 
-	console.log(this.loggedInFacebook);
+	console.log(this.inFacebook);
 
 }
 
@@ -425,7 +425,7 @@ logout_facebook(){
 
 			.then(res=>{console.log(res)})
 			.catch(this.handleError);
-			this.loggedInFacebook = false;
+			this.inFacebook = false;
 		}
 	}).catch(this.handleError);
 

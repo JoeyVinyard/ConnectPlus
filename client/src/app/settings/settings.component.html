@@ -132,29 +132,29 @@
               <div id="connectionSubContent" *ngIf="faceShow || instShow || linkShow || blackShow">
                   <div class="medium-3 column social-expanded" id="face-exp" [ngClass]="{'hidden' : !faceShow, 'visible' : faceShow}">
                       <p>Facebook</p>
-                      <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
-                      <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
+                      <div class="socialConnect" [ngClass]="{'none' : !inFacebook, 'visible' : inFacebook && faceShow}"><i class="fa fa-check"></i><p>Connected</p></div>
+                      <div class="socialNotConnect" [ngClass]="{'none' : inFacebook, 'visible' : !inFacebook && faceShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
                       <button  (click)="link_facebook()" class="button socialButton"   id="face-con">Connect</button>
                       <button (click)="logout_facebook()" class="button socialButton" id="face-dis">Disconnect</button>
                   </div>
                   <div class="medium-3 column social-expanded" id="insta-exp" [ngClass]="{'hidden' : !instShow, 'visible' : instShow}" >
                       <p>Instagram</p>
-                      <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
-                      <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
+                      <div class="socialConnect" [ngClass]="{'none' : !inInstagram, 'visible' : inInstagram && instShow}"><i class="fa fa-check"></i><p>Connected</p></div>
+                      <div class="socialNotConnect" [ngClass]="{'none' : inInstagram, 'visible' : !inInstagram && instShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
                       <button class="button socialButton" id="insta-con">Connect</button>
                       <button class="button socialButton" id="intsa-dis">Disconnect</button>
                   </div>
                   <div class="medium-3 column social-expanded" id="link-exp" [ngClass]="{'hidden' : !linkShow, 'visible' : linkShow}">
                       <p>LinkedIn</p>
-                      <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
-                      <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
+                      <div class="socialConnect" [ngClass]="{'none' : !inLinkedIn, 'visible' : inLinkedIn && linkShow}"><i class="fa fa-check"></i><p>Connected</p></div>
+                      <div class="socialNotConnect" [ngClass]="{'none' : inLinkedIn, 'visible' : !inLinkedIn && linkShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
                       <button class="button socialButton" id="link-con">Connect</button>
                       <button class="button socialButton" id="link-dis">Disconnect</button>
                   </div>
                   <div class="medium-3 column social-expanded" id="black-exp" [ngClass]="{'hidden' : !blackShow, 'visible' : blackShow}">
                       <p>Blackboard</p>
-                      <div class="socialConnect"><i class="fa fa-check"></i><p>Connected</p></div>
-                      <div class="socialNotConnect"><i class="fa fa-times"></i><p>Not Connected</p></div>
+                      <div class="socialConnect" [ngClass]="{'none' : !inBlackboard, 'visible' : inBlackboard && blackShow}"><i class="fa fa-check"></i><p>Connected</p></div>
+                      <div class="socialNotConnect" [ngClass]="{'none' : inBlackboard, 'visible' : !inBlackboard && blackShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
                       <button class="button socialButton" id="black-con">Connect</button>
                       <button class="button socialButton" id="black-dis">Disconnect</button>
                   </div>

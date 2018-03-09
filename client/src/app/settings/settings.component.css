@@ -10,6 +10,9 @@
 .visible{
   visibility: visible;
 }
+.none{
+  display: none;
+}
 
 .topText{
     font-size: 2rem;
