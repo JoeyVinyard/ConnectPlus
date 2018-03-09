@@ -299,14 +299,17 @@ export class SettingsComponent implements OnInit {
 		Object.keys(this.errors).forEach((key)=>{
 			this.errors[key] = null;
 		})
-		
+		var noErr = true;
 		
 		//Sanitize input here
-		if(!this.model.user.oldPass && this.model.user.oldPass.length < 6)
+		// if(!this.model.user.oldPass && this.model.user.oldPass.length<6)
+		if(!this.model.user.oldPass)
 			this.errors.oldPass = "Please enter your password.";
+	
 		if(!this.model.user.newPass)
 			this.errors.newPass = "Please enter your new password.";
-		if(this.model.user.newPass.length<6)
+	
+		else if(this.model.user.newPass.length<6)
 			this.errors.newPass = "Password must be at least 6 characters long.";
 		if(!this.model.user.conNewPass)
 			this.errors.conPass = "Please confirm your password.";
@@ -332,16 +335,15 @@ export class SettingsComponent implements OnInit {
 		if(this.verifyPass()){
 			this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
 				
-				if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
-
-					var changepass = this.model.user.newPass;
-					
-					if((this.model.user.newPass ==this.model.user.oldPass || this.model.user.oldPass == this.model.user.conNewPass)){
+				if((this.model.user.newPass ==this.model.user.oldPass || this.model.user.oldPass == this.model.user.conNewPass)){
 						this.errors.newPass = "Please pick a different password";
 						this.errors.conPass = "Please pick a different password";
 						this.model.user.newPass = "";
 						this.model.user.conNewPass = "";
 					}
+				else if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
+
+					var changepass = this.model.user.newPass;
 					
 					else{
 						this.auth.getUser().then((user) => {
