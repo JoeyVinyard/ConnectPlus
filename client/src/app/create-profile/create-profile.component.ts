@@ -5,7 +5,7 @@ import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
 import { DatabaseService } from '../services/database.service';
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
-import { LinkedInService} from 'angular-linkedin-sdk';
+/*import { LinkedInService} from 'angular-linkedin-sdk';*/
 @Component({
 	selector: 'app-create-profile',
 	templateUrl: './create-profile.component.html',
@@ -43,7 +43,7 @@ export class CreateProfileComponent implements OnInit {
 	//     birthdate : birthdate
 	//   });
 	// }
-	 constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService, private li : LinkedInService) {
+	 constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService /*, private li : LinkedInService*/) {
 	//constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
 		fb.init({
 
