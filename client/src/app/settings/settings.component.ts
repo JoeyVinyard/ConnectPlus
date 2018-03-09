@@ -64,6 +64,9 @@ export class SettingsComponent implements OnInit {
 
 	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
 	visibility = 0;
+	// visibility = this.model.user.visability;
+	
+
 
 
 	
@@ -107,7 +110,32 @@ export class SettingsComponent implements OnInit {
 
 	setVisible(number){
 		this.visibility = number;
+		//this.model.user.visability = number;
+
+		
+	
+
 	}
+
+vis(){
+//console.log(this.model);
+this.model.user.visability = this.visibility;
+			this.auth.getUser().then((user) => {
+			//this.model.user.uid = user.uid;
+			this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
+				//this.router.navigateByUrl('map');
+			}).catch((err)=>{
+				console.error(err);
+
+				//Form rejected for some reason
+			})
+		});
+		
+	
+
+
+}
 
 
 
@@ -130,10 +158,6 @@ export class SettingsComponent implements OnInit {
 		// console.log(this.errors, noErr);
 		return noErr;
 	}
-
-
-
-
 
 
 
@@ -401,10 +425,11 @@ export class SettingsComponent implements OnInit {
 				console.log(userData)
 			})
 
-			
+
 
 		});
 
+	// this.visibility = this.model.user.visability;
 
 
 
