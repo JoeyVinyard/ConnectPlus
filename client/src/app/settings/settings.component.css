@@ -4,6 +4,13 @@
     float: center;
 }
 
+.hidden{
+  visibility: hidden;
+}
+.visible{
+  visibility: visible;
+}
+
 .topText{
     font-size: 2rem;
     color:#004E7F;
@@ -199,6 +206,7 @@
   border-radius: 25px;
   color: white;
   font-weight: bold;
+  position: relative;
 }
 
 #face-exp{

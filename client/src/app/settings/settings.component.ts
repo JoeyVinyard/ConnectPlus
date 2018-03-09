@@ -37,7 +37,7 @@ export class SettingsComponent implements OnInit {
 	particlesConfig;
 	submitted = false;
 
-
+	//Div Visibility Vars
 	invShow = false;
 	genShow = false;
 	secShow = false;
@@ -45,7 +45,17 @@ export class SettingsComponent implements OnInit {
 	intShow = false;
 	fedShow = false;
 	delShow = false;
-	
+
+	faceShow = false;
+	instShow = false;
+	linkShow = false;
+	blackShow = false;
+
+	//Social Media Connected Vars
+	faceConn = false;
+	instConn = false;
+	linkConn = false;
+	blackConn = false;
 
 toggleDiv(name){
 	if(name == "invShow"){
@@ -68,6 +78,19 @@ toggleDiv(name){
 	}
 	else if(name == "delShow"){
 		this.delShow = !this.delShow;
+	}
+
+	else if(name == "faceShow"){
+		this.faceShow = !this.faceShow;
+	}
+	else if(name == "instShow"){
+		this.instShow = !this.instShow;
+	}
+	else if(name == "linkShow"){
+		this.linkShow = !this.linkShow;
+	}
+	else if(name == "blackShow"){
+		this.blackShow = !this.blackShow;
 	}
 }
 
