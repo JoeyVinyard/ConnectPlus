@@ -3,6 +3,7 @@ export class User {
 	public uid: String;
 	public email: string;
 	public password: string;
+	public moodStatus: string;
 	public confpass: string;
 
 	public firstName: string;
