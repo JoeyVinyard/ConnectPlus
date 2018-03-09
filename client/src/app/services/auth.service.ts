@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth'
 import { User } from 'firebase';
+import {Observable} from 'rxjs/observable';
 import * as firebase from 'firebase';
 
 @Injectable()
@@ -11,6 +12,7 @@ export class AuthService {
 	isAuthed(): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.afAuth.authState.subscribe((user) => {
+				console.log(user);
 				resolve(!!user);
 			});
 		});
