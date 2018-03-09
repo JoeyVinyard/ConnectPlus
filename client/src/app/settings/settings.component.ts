@@ -23,7 +23,8 @@ export class SettingsComponent implements OnInit {
 		conPass: "", 
 		cred: "",
 		changePassMess: "",
-		changeEmailMess: ""
+		changeEmailMess: "",
+		changeInfoMess: ""
 	}
 	model = {
 		password: "",
@@ -38,11 +39,11 @@ export class SettingsComponent implements OnInit {
 
 
 
-updateInfo(){
+	updateInfo(){
 
-console.log(this.model);
+		console.log(this.model);
 
-this.auth.getUser().then((user) => {
+		this.auth.getUser().then((user) => {
 			//this.model.user.uid = user.uid;
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
@@ -51,9 +52,9 @@ this.auth.getUser().then((user) => {
 				console.error(err);
 				//Form rejected for some reason
 			})
-		})
+		});
 
-}
+	}
 
 
 
@@ -66,7 +67,7 @@ this.auth.getUser().then((user) => {
 		if(!this.model.user.newEmail || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.user.newEmail)){
 
 			this.errors.newEmail = "Please provide a valid email.";
-							noErr = false;
+			noErr = false;
 
 		}
 
@@ -99,11 +100,11 @@ this.auth.getUser().then((user) => {
 					  // this.model.user.password = "";
 					  this.errors.changeEmailMess = "Email Change Failed";
 					  if(error.code == "auth/invalid-user-token" || error.code == "auth/email-already-in-use" || error.code == "auth/invalid-email" )
-							this.errors.newEmail = "Email already in use!";
+					  	this.errors.newEmail = "Email already in use!";
 
 					});
 				});
-				this.model.user.newEmail = "";
+					this.model.user.newEmail = "";
 					this.model.user.password = "";
 					this.errors.changeEmailMess = "Email Change Successful"
 				}
@@ -285,17 +286,19 @@ this.auth.getUser().then((user) => {
 //////try///
 
 this.auth.getUser().then((user) => {
-			this.model.user.uid = user.uid;
-		//	this.model.user.firstName = user.uid.firstName;
-			//console.log("this is what i found ", uid.firstName);
-			this.db.updateUser(this.model.user).then((data) => {
-				console.log(data);
-				//this.router.navigateByUrl('map');
-			}).catch((err)=>{
-				console.error(err);
-				//Form rejected for some reason
-			})
-		})
+	this.model.user.uid = user.uid;
+	this.model.user.firstName = user.firstName;
+
+	this.db.getUser(user.uid).then((userData) => {
+
+		this.model.user = userData
+		console.log(userData)
+	})
+
+	
+
+});
+
 
 
 
@@ -308,13 +311,13 @@ this.auth.getUser().then((user) => {
 
 
 
-		fb.init({
-			appId: '146089319399243',
-			version: 'v2.12',
-			cookie: true
-		});
-		
-	}
+fb.init({
+	appId: '146089319399243',
+	version: 'v2.12',
+	cookie: true
+});
+
+}
 
 
 
@@ -323,61 +326,61 @@ this.auth.getUser().then((user) => {
 
 
 
-	link_facebook(){
-		const loginOptions: LoginOptions = {
-			enable_profile_selector: true,
-			return_scopes: true,
-			scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
-		};
+link_facebook(){
+	const loginOptions: LoginOptions = {
+		enable_profile_selector: true,
+		return_scopes: true,
+		scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
+	};
 
-		/*todo: Check if loggedin already */
-		this.fb.getLoginStatus()
-		.then(res=>{
-			if(res && res.status === 'unknown'){
-				this.fb.login(loginOptions)
-				.then((res: LoginResponse) => {
-					console.log('Logged in', res);
-				}).then(() => {
-					this.fb.api('/me/taggable_friends')
-					.then((res: any) => {
-						console.log('Got the users friends', res);
+	/*todo: Check if loggedin already */
+	this.fb.getLoginStatus()
+	.then(res=>{
+		if(res && res.status === 'unknown'){
+			this.fb.login(loginOptions)
+			.then((res: LoginResponse) => {
+				console.log('Logged in', res);
+			}).then(() => {
+				this.fb.api('/me/taggable_friends')
+				.then((res: any) => {
+					console.log('Got the users friends', res);
 
-					})
 				})
-				.catch(this.handleError);
-			}else{
-				console.log("Attempted to login when already logged in. We probably want to display an error message here");
-			}
-		})
+			})
+			.catch(this.handleError);
+		}else{
+			console.log("Attempted to login when already logged in. We probably want to display an error message here");
+		}
+	})
 
-	}
+}
 
-	logout_facebook(){
-		this.fb.getLoginStatus()
-		.then(res=>{
-			if(res && res.status === 'connected'){
-				console.log("Logging out")
-				this.fb.logout()
+logout_facebook(){
+	this.fb.getLoginStatus()
+	.then(res=>{
+		if(res && res.status === 'connected'){
+			console.log("Logging out")
+			this.fb.logout()
 
-				.then(res=>{console.log(res)})
-				.catch(this.handleError);
-			}
-		}).catch(this.handleError);
+			.then(res=>{console.log(res)})
+			.catch(this.handleError);
+		}
+	}).catch(this.handleError);
 
-		this.getLoginStatus();
-	}
+	this.getLoginStatus();
+}
 
-	getLoginStatus() {
+getLoginStatus() {
 
-		this.fb.getLoginStatus()
-		.then(console.log.bind(console))
-		.catch(console.error.bind(console));
-	}
+	this.fb.getLoginStatus()
+	.then(console.log.bind(console))
+	.catch(console.error.bind(console));
+}
 
 
-	ngOnInit() {}
+ngOnInit() {}
 
-	private handleError(error) {
-		console.error('Error processing action', error);
-	}
+private handleError(error) {
+	console.error('Error processing action', error);
+}
 }
