@@ -80,6 +80,30 @@ export class DatabaseService {
 		});
 	}
 
+	storeLocation(loc, uid): Promise<any>{
+		return new Promise((resolve, reject) => {
+			var locationObject = {
+				lat: 0,
+				lon: 0,
+				uid: ""
+			}
+			if(!!loc){
+				locationObject.lat = loc.latitude;
+				locationObject.lon = loc.longitude;
+				locationObject.uid = uid;
+			}else{
+				reject("Invalid location object");
+			}
+				
+			this.http.post("http://localhost:3000/storeLocation", JSON.stringify(locationObject), this.httpOptions).subscribe((data) => {
+				if(data)
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		});
+	}
+
 	constructor(private http: HttpClient) {}
 
 }

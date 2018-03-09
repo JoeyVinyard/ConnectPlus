@@ -64,7 +64,13 @@ export class MapComponent implements OnInit {
   constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService ) {
 
     loc.getLocation().then((l)=> {
-			console.log("User Location:", l);
+      auth.getUser().then((u) => {
+        db.storeLocation(l, u.uid).then((d) =>{
+          console.log(d);
+        }).catch((e) =>{
+          console.error(e);
+        })
+      })
 		})
 
     this.auth.isAuthed().then((user) => {
