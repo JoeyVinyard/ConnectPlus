@@ -185,6 +185,15 @@ link_facebook(){
 			}).then(() => {
 				this.fb.api('/me/taggable_friends')
 				.then((res: any) => {
+					this.db.storeFacebookFriends(res,this.model.user.uid).then((data) => {
+						console.log(data);
+						
+					}).catch((err)=>{
+						this.errors.createError = "Facebook friends storage failed"
+
+						console.error(err);
+				//Form rejected for some reason
+					})
 					console.log('Got the users friends', res);
 					this.inFacebook = true;
 
