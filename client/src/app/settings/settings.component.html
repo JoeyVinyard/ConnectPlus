@@ -60,7 +60,8 @@
                   <p id="formTitle">Age:</p>
                   <input class="textInput" type="number" name="age" min="0" max="1000" d="age" [(ngModel)]="model.user.age">
                  </div>
-                      <p class="error">{{errors.changeInfoMess}}</p>  
+                      <p class="error">{{errors.changeInfoE}}</p>  
+                      <p class="success">{{success.changeInfoS}}</p>  
                  <button class="button saveButton">Save Changes</button>
                   </form>
           </div>
@@ -78,35 +79,37 @@
                   <p class="topText">Change Email</p>
 
                   <p id="formTitle">Current Email:</p>
-                  <input class="textInput" type="text" name="currentEmail" [(ngModel)]="model.email"> 
-                  <!-- ERROR HANDLING, FIX ngMODEL ABOVE-->
+                  <input class="textInput" type="text" name="currentEmail" [(ngModel)]="model.currentEmail"> 
+                  <p class="error">{{errors.currentEmailChange}}
 
                   <p id="formTitle">New Email:</p>
-                  <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.user.newEmail">
+                  <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.newEmail">
                   <p class="error">{{errors.newEmail}}</p>  
 
                   <p id="formTitle">Password:</p>
-                  <input class="textInput" type="password" name="password" [(ngModel)]="model.password">
+                  <input class="textInput" type="password" name="password" [(ngModel)]="model.emailChangePass">
                   <p class="error">{{errors.pass}}</p>  
     
-                <p class="error">{{errors.changeEmailMess}}</p>  
+                <p class="error">{{errors.emailChangeE}}</p> 
+                <p class="sucess">{{success.emailChangeS}}</p> 
                   <button class="button saveButton">Save Changes</button>
                 </form>
                 <form (ngSubmit)="changepass()" #signupForm="ngForm">
                     <p class="topText">Change Password</p>
                   <p id="formTitle">Old Password:</p>
-                  <input class="textInput" type="password" name="oldPassword" [(ngModel)]="model.passwordChange">
+                  <input class="textInput" type="password" name="oldPassword" [(ngModel)]="model.currentPassword">
                   <p id="passError" class="error">{{errors.oldPass}}</p>
 
                   <p id="formTitle">New Password:</p>
-                  <input class="textInput" type="password" name="newPassword" [(ngModel)]="model.user.newPass">
+                  <input class="textInput" type="password" name="newPassword" [(ngModel)]="model.newPassword">
                   <p id="passError" class="error">{{errors.newPass}}</p>
 
                   <p id="formTitle">Confirm New Password:</p>
-                  <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.user.conNewPass">
+                  <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.conPassword">
                   <p id="passError" class="error">{{errors.conPass}}</p>
     
-                <p class="error">{{errors.changePassMess}}</p>  
+                <p class="error">{{errors.passwordChangeE}}</p>  
+                <p class="success">{{success.passwordChangeS}}</p>  
                  <button class="button saveButton">Save Changes</button>
               </form>
           </div>

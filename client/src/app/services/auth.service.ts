@@ -51,6 +51,10 @@ export class AuthService {
 		return this.user.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(this.user.email, password));
 		//return this.user.reauthenticateWithCredential(this.afAuth.auth.EmailAuthProvider.credential(this.user.email, password));
 	}
+	reauthenticate2(email,password){
+		return this.user.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(email, password));
+		//return this.user.reauthenticateWithCredential(this.afAuth.auth.EmailAuthProvider.credential(this.user.email, password));
+	}
 
 
 	constructor(private afAuth: AngularFireAuth) {
