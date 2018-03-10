@@ -21,7 +21,7 @@
 		
 		<div class="medium-12 column" id="userView">
 			<div class="medium-6 column" id="userNameDiv">
-				<p id="userName">User Name</p>
+				<p id="userName">{{model.user.fullName}} </p>
 			</div>
 			<div class="medium-6 column" id="toggleDiv">
 				<button type="button" class="button mapButton" id="listButton" routerLink="/list" routerLinkActive="active"><i class="fa fa-list-ul"></i>	List View</button>
@@ -32,17 +32,17 @@
 
 			<div class="medium-12 column" id="moodStatusDiv">
 				
-				<p id="moodStatus">Mood Status <i class="fa fa-pencil" id="editMood" (click)="toggleMood()"></i></p>
+				<p id="moodStatus">{{model.user.moodStatus}} <i class="fa fa-pencil" id="editMood" (click)="toggleMood()"></i></p>
 			</div>
 
 			<div id="editMoodDiv" class="medium-6 column" [ngClass]="{'' : editMood, 'hidden' : !editMood}">
 				<form (ngSubmit)="moodChange()" #signupForm="ngForm">
 
 					<div class="medium-6 column">
-						<select id="moodSelect" name="mood" [(ngModel)]="model.user.moodStatus">
-							<option value="online">Online</option>
-							<option value="away">Away</option>
-							<option value="offline">Offline</option>
+						<select id="moodSelect" name="mood" [(ngModel)]="model.moodStatus">
+							<option value="Online">Online</option>
+							<option value="Away">Away</option>
+							<option value="Offline">Offline</option>
 						</select>
 					</div>
 					<div class="medium-6 column">

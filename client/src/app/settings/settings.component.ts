@@ -15,28 +15,48 @@ export class SettingsComponent implements OnInit {
 
 
 	errors = {
-		email: "",
-		pass: "",
+		//change info errors
+		changeInfoE: "",
+		FnameError:"",
+		LnameError:"",
+		//change email errors
+		emailChangeE: "",
+		currentEmailChange: "",
 		newEmail: "",
 		currentEmail: "",
+		//change password errors
+		passwordChangeE: "",
 		newPass: "",
 		oldPass: "",
 		conPass: "", 
+		//delete user
+		email: "",
+		pass: "",
 		cred: "",
-		changePassMess: "",
-		changeEmailMess: "",
-		changeInfoMess: "",
-		FnameError:"",
-		LnameError:""
-
+	}
+	success = {
+		//change email success
+		emailChangeS: "",
+		//change password success
+		passwordChangeS:"",
+		//change info success
+		changeInfoS: "",
 	}
 	model = {
-		password: "",
 		user: new User(),
-		// user = firebase.auth().currentUser;
-
+		//del user var
+		password: "",
+		email:"",
+		//change email vars
+		currentEmail: "",
+		newEmail: "", 
+		emailChangePass: "",
+		//change password vars
+		currentPassword:"",
+		newPassword:"",
+		conPassword:""
 	}
-	
+
 
 	particlesConfig;
 	submitted = false;
@@ -127,9 +147,12 @@ export class SettingsComponent implements OnInit {
 		this.errors.oldPass = "";
 		this.errors.conPass = "";
 		this.errors.cred = "";
-		this.errors.changePassMess = "";
-		this.errors.changeEmailMess = "";
-		this.errors.changeInfoMess = "";
+		this.errors.passwordChangeE = "";
+		this.success.passwordChangeS = "";
+		this.errors.emailChangeE = "";
+		this.errors.emailChangeE = "";
+		this.errors.changeInfoE = "";
+		this.success.changeInfoS = "";
 		this.errors.FnameError = "";
 		this.errors.LnameError = "";
 
@@ -171,7 +194,9 @@ export class SettingsComponent implements OnInit {
 
 
 
+
 	verifyValid(){
+
 		Object.keys(this.errors).forEach((key)=>{
 			this.errors[key] = null;
 		})
@@ -197,26 +222,28 @@ export class SettingsComponent implements OnInit {
 
 		console.log(this.model);
 		if(this.verifyValid()){
+			this.model.user.fullName = this.model.user.firstName + " " + this.model.user.lastName;
+
 			this.auth.getUser().then((user) => {
 			//this.model.user.uid = user.uid;
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
-				this.errors.changeInfoMess = "Your information has been updated!"
+				this.success.changeInfoS = "Your information has been updated!"
 				//this.router.navigateByUrl('map');
 			}).catch((err)=>{
 				console.error(err);
-				this.errors.changeInfoMess = "Your information has NOT been updated!"
+				this.errors.changeInfoE = "Your information has NOT been updated!"
 
 				//Form rejected for some reason
 			})
+			this.success.changeInfoS = "Your information has been updated!"
+
 		});
 		}
 		else{
-			this.errors.changeInfoMess = "Looks like you tried to change your name to something invalid. \nYour information has NOT been updated!"
+			this.errors.changeInfoE = "Looks like you tried to change your name to something invalid. \nYour information has NOT been updated!"
 		}
 	}
-
-
 
 	verifyEmail(){
 		Object.keys(this.errors).forEach((key)=>{
@@ -224,52 +251,45 @@ export class SettingsComponent implements OnInit {
 		})
 		var noErr = true;
 		//Sanitize input here
-		if(!this.model.user.newEmail || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.user.newEmail)){
-
+		if(!this.model.newEmail || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.newEmail)){
 			this.errors.newEmail = "Please provide a valid email.";
-			noErr = false;
-
 		}
-		else if(this.model.user.newEmail == this.model.user.currentEmail)
+		else if(this.model.newEmail == this.model.currentEmail)
 			this.errors.newEmail = "Please provide differnt email.";
 
-
-
-		
 		Object.keys(this.errors).forEach((key)=>{
 			if(this.errors[key])
 				noErr = false;
 		})
-		// console.log(this.errors, noErr);
 		return noErr;
 	}
 
 	changeemail(){
+		this.success.emailChangeS ="";
 		console.log(this.model);
 		if(this.verifyEmail()){
-			this.auth.reauthenticate(this.model.user.password).then((credential) => {
+			this.auth.reauthenticate2(this.model.currentEmail,this.model.emailChangePass).then((credential) => {
 
-				if(this.model.user.newEmail){
-					var changeemail = this.model.user.newEmail;
+				if(this.model.newEmail){
+					var changeemail = this.model.newEmail;
 
 					this.auth.getUser().then((user) => {
-
 						user.updateEmail(changeemail).then(function() {
 							console.log(user);
-					  // Update successful.
-
-					}).catch(function(error) {
-					  // An error happened.
-					  // this.model.user.password = "";
-					  this.errors.changeEmailMess = "Email Change Failed";
-					  if(error.code == "auth/invalid-user-token" || error.code == "auth/email-already-in-use" || error.code == "auth/invalid-email" )
-					  	this.errors.newEmail = "Email already in use!";
+							this.model.user.email = this.model.newEmail;
+							this.model.email="";
+						}).catch(function(error) {
+					 //this.errors.emailChangeE = "Email Change Failed1";
+					 //  if(err.code == "auth/invalid-user-token" || err.code == "auth/email-already-in-use" || err.code == "auth/invalid-email" )
+					 //  	this.errors.newEmail = "Email already in use!"
 
 					});
-				});
-					this.model.user.newEmail = "";
-					this.model.user.password = "";
-					this.errors.changeEmailMess = "Email Change Successful"
+						this.success.emailChangeS = "Email Change Successful";
+						this.model.newEmail = "";
+						this.model.emailChangePass = "";
+						this.errors.emailChangeE = "";
+					});
+
 				}
 				else{
 					this.auth.getUser().then((user) => {
@@ -279,96 +299,89 @@ export class SettingsComponent implements OnInit {
 					})
 				}
 			}).catch((err) => {
-				this.errors.changeEmailMess = "Email Change Failed";
-				this.errors.pass = "Please enter your password.";
-				this.model.user.password = "";
+				this.errors.emailChangeE = "Looks like you did not enter the correct email/password for this account. Email Change Failed";
+				this.model.emailChangePass = "";
+				this.model.newEmail = "";
 
 			});
 		}
 		else{
-			this.errors.changeEmailMess = "Email Change Failed";
-			this.model.user.newEmail = "";
-			this.model.user.password = "";
+			this.errors.emailChangeE = "Email Change Failed2";
+			this.model.newEmail = "";
+			this.model.emailChangePass = "";
 		}
 
 	}
 
-
-
 	verifyPass(){
+
 		Object.keys(this.errors).forEach((key)=>{
 			this.errors[key] = null;
 		})
 		var noErr = true;
 		
-		//Sanitize input here
-		// if(!this.model.user.oldPass && this.model.user.oldPass.length<6)
-		if(!this.model.user.oldPass)
+		if(!this.model.currentPassword)
 			this.errors.oldPass = "Please enter your password.";
-	
-		if(!this.model.user.newPass)
+
+		if(!this.model.newPassword)
 			this.errors.newPass = "Please enter your new password.";
-	
-		else if(this.model.user.newPass.length<6)
+
+		else if(this.model.newPassword.length<6)
 			this.errors.newPass = "Password must be at least 6 characters long.";
-		if(!this.model.user.conNewPass)
+		if(!this.model.conPassword)
 			this.errors.conPass = "Please confirm your password.";
-		if(this.model.user.newPass != this.model.user.conNewPass && !this.errors.oldPass && !this.errors.conPass)
+		if(this.model.newPassword != this.model.conPassword && !this.errors.oldPass && !this.errors.conPass)
 			this.errors.conPass = "Passwords must match!";
-		// if((this.model.user.newPass ==this.model.user.oldPass || this.model.user.oldPass == this.model.user.conNewPass)&& !this.errors.oldPass && !this.errors.conPass){
-		// 	this.errors.newPass = "Please pick a different password";
-		// 	this.errors.conPass = "Please pick a different password";
-		// }
+
 		var noErr = true;
 		Object.keys(this.errors).forEach((key)=>{
 			if(this.errors[key])
 				noErr = false;
 		})
-		// console.log(this.errors, noErr);
 		return noErr;
 	}
 
-
-
 	changepass(){
-		console.log(this.model);
+
+		console.log(this.model)
 		if(this.verifyPass()){
-			this.auth.reauthenticate(this.model.user.oldPass).then((credential) => {
+			this.auth.reauthenticate(this.model.currentPassword).then((credential) => {
 				
-				if((this.model.user.newPass ==this.model.user.oldPass || this.model.user.oldPass == this.model.user.conNewPass)){
-						this.errors.newPass = "Please pick a different password";
-						this.errors.conPass = "Please pick a different password";
-						this.model.user.newPass = "";
-						this.model.user.conNewPass = "";
-					}
-				else if(this.model.user.newPass && this.model.user.conNewPass && (this.model.user.newPass == this.model.user.conNewPass)){
+				if((this.model.newPassword ==this.model.currentPassword || this.model.currentPassword == this.model.conPassword)){
+					this.errors.newPass = "Please pick a different password";
+					this.errors.conPass = "Please pick a different password";
+					this.model.newPassword = "";
+					this.model.conPassword = "";
+				}
+				else if((this.model.newPassword == this.model.conPassword)){
 
-					var changepass = this.model.user.newPass;
+					var changepass1 = this.model.newPassword;
 					
-					
-						this.auth.getUser().then((user) => {
-							console.log(user);
-							console.log(this.model);
-							user.updatePassword(changepass).then(function() {
-						  // Update successful.
-						  console.log("hello",this.model.user.conNewPass);
-						  console.log("hello",this.model.user.conNewPass);
+					this.auth.getUser().then((user) => {
+						console.log(user);
+						console.log(this.model);
+						user.updatePassword(changepass1).then(function() {
+							this.model.newPassword = "" 
+							this.model.conPassword = ""
+							this.model.currentPassword = ""
+						}).catch(function(error) {
+							//console.log(this.errors)
+						// this.errors.newPass = ""
+						// this.errors.conPass = ""
+						// this.errors.oldPass = ""
+						this.model.newPassword = "" 
+						this.model.conPassword = ""
+						this.model.currentPassword = ""
+						//this.errors.passwordChangeE = "Password Change Failed1"
 
-						}).catch((err) => {
-							this.errors.newPass = "";
-							this.errors.conPass = "";
-							this.errors.oldPass = "";
-							this.model.user.newPass = "" ;
-							this.model.user.conNewPass = "";
-							this.model.user.oldPass = "";
-							this.errors.changePassMess = "Password Change Failed";
-						});
 					});
-						this.errors.changePassMess = "password change worked!!!";
-						this.model.user.newPass = "" ;
-						this.model.user.conNewPass = "";
-						this.model.user.oldPass = "";
-					
+						this.model.newPassword = "" ;
+						this.model.conPassword = "";
+						this.model.currentPassword = "";
+
+						this.success.passwordChangeS = "password change worked!!!";
+
+					});
 
 				}
 				else{
@@ -382,43 +395,64 @@ export class SettingsComponent implements OnInit {
 				this.errors.newPass = "";
 				this.errors.conPass = "";
 				this.errors.oldPass = "Please enter your password.";
-				this.errors.changePassMess = "Password Change Failed";
-				this.model.user.newPass = "" ;
-				this.model.user.conNewPass = "";
-				this.model.user.oldPass = "";
+				this.errors.passwordChangeE = "Password Change Failed2";
+				this.model.newPassword = "" ;
+				this.model.conPassword = "";
+				this.model.currentPassword = "";
+			});
+		}
+		else if (!this.verifyPass()){
+			this.errors.passwordChangeE = "Password Change Failed";
+			this.model.newPassword = "" ;
+			this.model.conPassword = "";
+			this.model.currentPassword = "";
+		}
+
+	}
+
+	// del(){
+	// 	if(this.model.password && this.model.email){
+	// 		this.auth.reauthenticate2(this.model.email, this.model.password).then((credential) => {
+	// 			this.auth.deleteUser();	
+	// 			this.model.password = "";
+	// 			this.model.email = "";
+	// 			this.router.navigateByUrl("");
+	// 		}).catch((err) => {
+	// 			this.errors.cred = "Incorrect Email and/or Password";
+	// 			this.model.password = "";
+	// 		});
+	// 	}
+	// 	else{
+	// 		this.errors.cred = "No Email and/or Password entered";
+	// 	}
+
+	// }
+del(){
+		if(this.model.password && this.model.email){
+			this.auth.reauthenticate2(this.model.email, this.model.password).then((credential) => {
+			// 	this.auth.getUser().then((user) => {
+			// 		this.model.user.uid = user.uid;
+			// 		this.model.user.firstName = user.firstName;
+
+			// 		this.db.deleteUser(user).then((user) => {
+
+			// 		})
+
+			// });
+				this.auth.deleteUser();	
+				this.model.password = "";
+				this.model.email = "";
+				this.router.navigateByUrl("");
+			}).catch((err) => {
+				this.errors.cred = "Incorrect Email and/or Password";
+				this.model.password = "";
 			});
 		}
 		else{
-			
-			this.errors.newPass = "";
-			this.errors.conPass = "";
-			this.errors.oldPass = "";
-			
-			this.errors.changePassMess = "Password Change Failed";
-			this.model.user.newPass = "" ;
-			this.model.user.conNewPass = "";
-			this.model.user.oldPass = "";
+			this.errors.cred = "No Email and/or Password entered";
 		}
 
 	}
-
-
-	del(){
-		if(this.model.user.deletePassword && this.model.user.email){
-		this.auth.reauthenticate(this.model.user.deletePassword).then((credential) => {
-			this.auth.deleteUser();	
-			this.model.user.deletePassword = "";
-			this.model.user.email = "";
-			this.router.navigateByUrl("");
-		}).catch((err) => {
-			this.errors.cred = "Incorrect Email and/or Password";
-			this.model.user.deletePassword = "";
-		});
-	}
-		this.errors.cred = "No Email and/or Password entered";
-
-}
-	
 
 
 /* not working idk why
@@ -470,7 +504,7 @@ export class SettingsComponent implements OnInit {
 		appId: '146089319399243',
 		version: 'v2.12',
 		cookie: true
-	});
+	})
 
 	this.logout_facebook();
 

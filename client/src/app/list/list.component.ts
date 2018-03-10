@@ -34,6 +34,7 @@ export class ListComponent implements OnInit {
 
   moodChange(){
       console.log(this.model);
+      this.model.user.moodStatus = this.model.moodStatus;
 
     this.auth.getUser().then((user) => {
       //this.model.user.uid = user.uid;
@@ -75,12 +76,13 @@ export class ListComponent implements OnInit {
       this.model.user.uid = user.uid;
     });  
 
-
     this.auth.getUser().then((user) => {
       this.model.user.uid = user.uid;
       this.db.getUser(user.uid).then((userData) => {
 
-        this.model.user = userData
+        this.model.user = userData;
+         this.model.moodStatus = userData.moodStatus
+
         console.log(userData)
       })
 

@@ -21,6 +21,9 @@ export class SignupComponent implements OnInit {
 	}
 	model = {
 		user:new User(),
+		//email: "",
+		password: "",
+		confpass:""
 	}
 	particlesConfig;
 	submitted = false;
@@ -31,9 +34,10 @@ export class SignupComponent implements OnInit {
 			this.submitted = false;
 			return;
 		}
-		this.auth.signup(this.model.user.email, this.model.user.password).then((user) => {
+		this.auth.signup(this.model.user.email, this.model.password).then((user) => {
 			 //this.auth.emailver(user).then(() => { //idk if email is working
  				this.router.navigateByUrl("create");
+ 				
 			// }).catch((err) => {
 	//		 	console.error(err);
 	//		 })
@@ -52,13 +56,13 @@ export class SignupComponent implements OnInit {
 		//Sanitize input here
 		if(!this.model.user.email || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.user.email))
 			this.errors.email = "Please provide a valid email.";
-		if(!this.model.user.password)
+		if(!this.model.password)
 			this.errors.password = "Please enter your password.";
-		else if(this.model.user.password.length<6)
+		else if(this.model.password.length<6)
 			this.errors.password = "Password must be at least 6 characters long."
-		if(!this.model.user.confpass)
+		if(!this.model.confpass)
 			this.errors.confpass = "Please confirm your password.";
-		if(this.model.user.password != this.model.user.confpass && !this.errors.password && !this.errors.confpass)
+		if(this.model.password != this.model.confpass && !this.errors.password && !this.errors.confpass)
 			this.errors.confpass = "Passwords must match!";
 
 		var noErr = true;

@@ -2,22 +2,23 @@ export class User {
 
 	public uid: String;
 	public email: string;
-	public password: string;
+	// public password: string;//
 	public moodStatus: string;
-	public confpass: string;
+	// public confpass: string;//
 	public visability: number;
 
 	public firstName: string;
 	public lastName: string;
-	public newPass: string;
-	public conNewPass: string;
-	public oldPass: string;
-	public currentEmail: string;
+	public fullName: string;
+	// public newPass: string;//
+	// public conNewPass: string;//
+//	public oldPass: string;//
+	//public currentEmail: string;//
 	public gender: string;
-	public deletePassword: string;
+	//public deletePassword: string;//
 
 	public age: Number;
-	public newEmail: string;
+	//public newEmail: string;
 
 	public sports1: Boolean;
 	public sports2: Boolean;

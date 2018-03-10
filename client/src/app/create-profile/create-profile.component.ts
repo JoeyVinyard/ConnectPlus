@@ -101,6 +101,8 @@ export class CreateProfileComponent implements OnInit {
 	submit(){
 		if(this.verifyThere()){
 			if(this.verifyValid()){
+				this.model.user.fullName = this.model.user.firstName + " " + this.model.user.lastName;
+				this.model.user.moodStatus = "Mood Status ";
 			this.auth.getUser().then((user) => {
 				this.model.user.uid = user.uid;
 				this.db.createUser(this.model.user).then((data) => {
