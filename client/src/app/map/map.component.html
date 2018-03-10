@@ -6,7 +6,8 @@
 		
 		<div class="medium-12 column" id="mapView">
 			<agm-map [latitude]="lat" [longitude]="lng" [zoomControl]="false" [mapTypeControl]="false" [scaleControl]="false" 
-									[streetViewControl]="false" [rotateControl]="false" [fullscreenControl]="false" [gestureHandling]="none">
+									[streetViewControl]="false" [rotateControl]="false" [fullscreenControl]="false" [mapDraggable]="false"
+									[scrollwheel]="false" [zoom]="zoom">
 				<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
 			</agm-map>
 			
@@ -53,11 +54,11 @@
 			<div class="medium-6 column" [ngClass]="{'' : editRange, 'hidden' : !editRange}">
 				<div class="medium-10 column">
 					<div class="slidecontainer">
-						<input type="range" min="0.25" max="3" value="0.5" step="0.25" class="slider" id="range">
+						<input type="range" min="10" max="15" value="10.5" step="-0.25" class="slider" id="range" [(ngModel)]="zoom">
 					</div>
 				</div>
 				<div class="medium-2 column">
-					<button class="button updateMood">Update</button>
+					<button class="button updateMood" (click)="zoomMap(0.25)">Update</button>
 				</div>
 			</div>
 
