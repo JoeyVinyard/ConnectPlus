@@ -103,6 +103,29 @@ export class DatabaseService {
 			});
 		});
 	}
+	storeFacebookFriends(friends, uid): Promise<any>{
+		return new Promise((resolve, reject) => {
+			var friendsObject = {
+				friends: [],
+				uid: ""
+
+			};
+			if(!!friends){
+				friendsObject.friends = friends;
+				friendsObject.uid = uid;
+
+			}else{
+				reject("Invalid Array");
+			}
+
+			this.http.post("http://localhost:3000/storeFacebookFriends", JSON.stringify(friendsObject), this.httpOptions).subscribe((data) => {
+				if(data)
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		});
+	}
 
 	getLocation(uid: String): Promise<any>{
 		return new Promise((resolve, reject) => {
