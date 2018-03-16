@@ -98,10 +98,13 @@ export class CreateProfileComponent implements OnInit {
 	}
 
 
+
+
 	submit(){
 		if(this.verifyThere()){
 			if(this.verifyValid()){
 				this.model.user.fullName = this.model.user.firstName + " " + this.model.user.lastName;
+				//this.model.user.url = "../../assets/profileicon.ico";
 				this.model.user.moodStatus = "Mood Status ";
 			this.auth.getUser().then((user) => {
 				this.model.user.uid = user.uid;
@@ -138,6 +141,7 @@ export class CreateProfileComponent implements OnInit {
 	// }
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService /*, private li : LinkedInService*/) {
 	//constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
+	this.model.user.url = "../../assets/profileicon.ico"
 		fb.init({
 
 			appId: '146089319399243',

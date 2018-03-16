@@ -25,6 +25,7 @@
     "@angular/router": "^5.0.0",
     "angular-linkedin-sdk": "^0.1.7",
     "angular-particle": "^1.0.4",
+    "angular2-image-upload": "^1.0.0-rc.0",
     "angularfire2": "^5.0.0-rc.5-next",
     "core-js": "^2.4.1",
     "firebase": "^4.9.1",

@@ -7,6 +7,8 @@ export class User {
 	// public confpass: string;//
 	public visability: number;
 
+public url: string;
+
 	public firstName: string;
 	public lastName: string;
 	public fullName: string;
