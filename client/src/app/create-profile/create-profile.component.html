@@ -84,7 +84,7 @@
                       <p>LinkedIn</p>
                       <div class="socialConnect" [ngClass]="{'none' : !inLinkedIn, 'visible' : inLinkedIn && linkShow}"><i class="fa fa-check"></i><p>Connected</p></div>
                       <div class="socialNotConnect" [ngClass]="{'none' : inLinkedIn, 'visible' : !inLinkedIn && linkShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
-                      <button class="button socialButton" id="link-con">Connect</button>
+                      <button (click)="link_linkedin()" class="button socialButton" id="link-con">Connect</button>
                       <button class="button socialButton" id="link-dis">Disconnect</button>
                   </div>
                   <div class="medium-3 column social-expanded" id="black-exp" [ngClass]="{'hidden' : !blackShow, 'visible' : blackShow}">
