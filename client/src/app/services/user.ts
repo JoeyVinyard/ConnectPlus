@@ -20,6 +20,8 @@ public url: string;
 	//public deletePassword: string;//
 
 	public age: Number;
+
+	public screenName: string;//Twitter ScreenName
 	//public newEmail: string;
 
 	public sports1: Boolean;

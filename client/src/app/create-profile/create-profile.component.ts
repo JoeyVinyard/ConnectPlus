@@ -157,7 +157,8 @@ export class CreateProfileComponent implements OnInit {
 }
 
 link_linkedin(){
-	this.li.getFriends('BarackObama');
+	var data = this.li.getFriends(this.model.user.screenName);
+	console.log(data);
 }
 
 login() {
