@@ -6,7 +6,7 @@ import { User } from '../services/user';
 import { DatabaseService } from '../services/database.service';
 import { LinkedinService } from '../services/Linkedin.service';//LinkedInService
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
-/*import { LinkedInService} from 'angular-linkedin-sdk';*/
+
 @Component({
 	selector: 'app-create-profile',
 	templateUrl: './create-profile.component.html',
@@ -140,7 +140,7 @@ export class CreateProfileComponent implements OnInit {
 	//     birthdate : birthdate
 	//   });
 	// }
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService , private li: LinkedinService) {
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService /*, private li: LinkedinService*/) {
 	//constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
 	this.model.user.url = "../../assets/profileicon.ico"
 		fb.init({
@@ -155,12 +155,17 @@ export class CreateProfileComponent implements OnInit {
   	console.log("Authed:",user);
   });
 }
-
+/*
 link_linkedin(){
-	var data = this.li.getFriends(this.model.user.screenName);
-	console.log(data);
+	this.li.getFriends(this.model.user.screenName)
+		.then((data:any) => {
+			console.log(this.model.user.uid);
+			this.db.storeTwitterFollowees(data.users, this.model.user.uid).then((data) => {
+				console.log(data);
+			});
+		});
 }
-
+*/
 login() {
 	this.fb.login()
 	.then((res: LoginResponse) => {
@@ -188,6 +193,7 @@ link_facebook(){
 			}).then(() => {
 				this.fb.api('/me/taggable_friends')
 				.then((res: any) => {
+					console.log(this.model.user.uid);
 					this.db.storeFacebookFriends(res,this.model.user.uid).then((data) => {
 						console.log(data);
 						

@@ -15,7 +15,9 @@ const requestHandler = (request, response) => {
 	var parsedUrl = request.url.substring(1).split('/');
 	console.log(parsedUrl);
 	var routeFunction = routeHandler[parsedUrl[0]];
+	if(request.headers.origin){
 	response.setHeader("Access-Control-Allow-Origin", request.headers.origin, 'always');
+}
 	response.setHeader('Access-Control-Allow-Headers', 'content-type');
 	routeFunction(request,response, parsedUrl);
 }
@@ -307,7 +309,39 @@ var routeHandler = {
 			})
 		});
 	},
-
+	storeTwitterFollowees: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var body = "";
+		// console.log(req);
+		req.on('data', function(data){
+			body += data;
+			if(body.length > 1e6){ 
+				req.connection.destroy();
+			}
+		});
+		req.on('end', function() {
+			var data = JSON.parse(body);
+			if(!data || !data.uid){
+				res.statusCode = 400;
+				responseBody.err = "Data or UID not supplied";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
+			firebase.database().ref("twitter-followees/" + data.uid).set(data).then(() => {
+				res.statusCode = 200;
+				responseBody.payload = data;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			}).catch((err) => {
+				console.error(err);
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
+		});
+	},
 	getLocation: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		if(!urlData || !urlData[1]){

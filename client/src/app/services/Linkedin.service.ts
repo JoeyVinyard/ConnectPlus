@@ -21,12 +21,7 @@ export class LinkedinService {
 		}),
 		params: new HttpParams()
 	};
-	// httpOptions = {
-	// 	headers: new HttpHeaders({
-	// 	'Authorization':  'Bearer AAAAAAAAAAAAAAAAAAAAAISc4wAAAAAA89xdOU5AV7WPiKb89QHkWAQNlo8%3D0jlGGki2DkS2qiYexwwIwK11yylnz65A00c65v5lKNgospmaW4',
-	// 	})
-
-	// };
+	
 	getFriends(screenName: string): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.httpOptions.params = this.httpOptions.params.set("count", "200");
