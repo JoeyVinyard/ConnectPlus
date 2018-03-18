@@ -24,6 +24,17 @@ export class ListComponent implements OnInit {
     this.editRange = !this.editRange;
   }
 
+  userVisible = false;
+
+  viewUser(){
+    this.userVisible = true;
+    console.log("Clicked");
+  }
+
+  closeUser(){
+    this.userVisible = false;
+  }
+
  model = {
     user: new User(),
     moodStatus: ""

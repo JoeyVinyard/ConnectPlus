@@ -67,6 +67,14 @@ export class MapComponent implements OnInit {
     
   }
 
+  private icon = {
+    url: this.model.user.url, 
+    scaledSize: {
+      height: 40,
+      width: 20
+    }
+  };
+
 
   particlesConfig;
   submitted = false;

@@ -6,246 +6,117 @@
     	
     	<div class="medium-12 column" id="listView">
     		<!-- <div class="medium-3 column"> -->
-    			<div class="medium-4 column" id="userDiv">
-					<!-- <div id="userDivImg" class="medium-1 column"> -->
-							<img id="listUser" src="../../assets/profileicon.ico">
-					<!-- </div> -->
-					<div id="userDivInfo" class="medium-4 column">
-						<div class="medium-3 column" id="innerDiv">
-								<p id="userNameSmall">User Name</p>
-						</div>
-						<div class="medium-3 column" id="innerDiv">
-								<p id="lowerText">Mood Status</p>
-						</div>
-						<div class="medium-3 column" id="innerDiv">
-								<p id="lowerText">Distance Away</p>
-						</div>
-						<div class="medium-3 column" id="innerDiv">
-								<p id="lowerText">Commonalities</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="medium-4 column" id="userDiv">
-						<!-- <div id="userDivImg" class="medium-1 column"> -->
-								<img id="listUser" src="../../assets/profileicon.ico">
-						<!-- </div> -->
-						<div id="userDivInfo" class="medium-4 column">
-							<div class="medium-3 column" id="innerDiv">
-									<p id="userNameSmall">User Name</p>
-							</div>
-							<div class="medium-3 column" id="innerDiv">
-									<p id="lowerText">Mood Status</p>
-							</div>
-							<div class="medium-3 column" id="innerDiv">
-									<p id="lowerText">Distance Away</p>
-							</div>
-							<div class="medium-3 column" id="innerDiv">
-									<p id="lowerText">Commonalities</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="medium-4 column" id="userDiv">
+				<div class="medium-12 column" id="InnerList" [ngClass]="{'' : !userVisible, 'opacity' : userVisible}">
+					<div class="medium-4 column" id="userDiv" (click)='viewUser()'>
 							<!-- <div id="userDivImg" class="medium-1 column"> -->
 									<img id="listUser" src="../../assets/profileicon.ico">
 							<!-- </div> -->
-							<div id="userDivInfo" class="medium-4 column">
-								<div class="medium-3 column" id="innerDiv">
+							<div id="userDivInfo" class="medium-8 column">
+								<div class="medium-8 column" id="innerDiv">
 										<p id="userNameSmall">User Name</p>
 								</div>
-								<div class="medium-3 column" id="innerDiv">
+								<div class="medium-8 column" id="innerDiv">
 										<p id="lowerText">Mood Status</p>
 								</div>
-								<div class="medium-3 column" id="innerDiv">
+								<div class="medium-8 column" id="innerDiv">
 										<p id="lowerText">Distance Away</p>
 								</div>
-								<div class="medium-3 column" id="innerDiv">
+								<div class="medium-8 column" id="innerDiv">
 										<p id="lowerText">Commonalities</p>
 								</div>
 							</div>
 						</div>
-
-						<div class="medium-4 column" id="userDiv">
+						<div class="medium-4 column" id="userDiv" (click)='viewUser()'>
 								<!-- <div id="userDivImg" class="medium-1 column"> -->
 										<img id="listUser" src="../../assets/profileicon.ico">
 								<!-- </div> -->
-								<div id="userDivInfo" class="medium-4 column">
-									<div class="medium-3 column" id="innerDiv">
+								<div id="userDivInfo" class="medium-8 column">
+									<div class="medium-8 column" id="innerDiv">
 											<p id="userNameSmall">User Name</p>
 									</div>
-									<div class="medium-3 column" id="innerDiv">
+									<div class="medium-8 column" id="innerDiv">
 											<p id="lowerText">Mood Status</p>
 									</div>
-									<div class="medium-3 column" id="innerDiv">
+									<div class="medium-8 column" id="innerDiv">
 											<p id="lowerText">Distance Away</p>
 									</div>
-									<div class="medium-3 column" id="innerDiv">
+									<div class="medium-8 column" id="innerDiv">
 											<p id="lowerText">Commonalities</p>
 									</div>
 								</div>
 							</div>
-
-							<div class="medium-4 column" id="userDiv">
+							<div class="medium-4 column" id="userDiv" (click)='viewUser()'>
 									<!-- <div id="userDivImg" class="medium-1 column"> -->
 											<img id="listUser" src="../../assets/profileicon.ico">
 									<!-- </div> -->
-									<div id="userDivInfo" class="medium-4 column">
-										<div class="medium-3 column" id="innerDiv">
+									<div id="userDivInfo" class="medium-8 column">
+										<div class="medium-8 column" id="innerDiv">
 												<p id="userNameSmall">User Name</p>
 										</div>
-										<div class="medium-3 column" id="innerDiv">
+										<div class="medium-8 column" id="innerDiv">
 												<p id="lowerText">Mood Status</p>
 										</div>
-										<div class="medium-3 column" id="innerDiv">
+										<div class="medium-8 column" id="innerDiv">
 												<p id="lowerText">Distance Away</p>
 										</div>
-										<div class="medium-3 column" id="innerDiv">
+										<div class="medium-8 column" id="innerDiv">
 												<p id="lowerText">Commonalities</p>
 										</div>
 									</div>
 								</div>
-
-								<div class="medium-4 column" id="userDiv">
+								<div class="medium-4 column" id="userDiv" (click)='viewUser()'>
 										<!-- <div id="userDivImg" class="medium-1 column"> -->
 												<img id="listUser" src="../../assets/profileicon.ico">
 										<!-- </div> -->
-										<div id="userDivInfo" class="medium-4 column">
-											<div class="medium-3 column" id="innerDiv">
+										<div id="userDivInfo" class="medium-8 column">
+											<div class="medium-8 column" id="innerDiv">
 													<p id="userNameSmall">User Name</p>
 											</div>
-											<div class="medium-3 column" id="innerDiv">
+											<div class="medium-8 column" id="innerDiv">
 													<p id="lowerText">Mood Status</p>
 											</div>
-											<div class="medium-3 column" id="innerDiv">
+											<div class="medium-8 column" id="innerDiv">
 													<p id="lowerText">Distance Away</p>
 											</div>
-											<div class="medium-3 column" id="innerDiv">
+											<div class="medium-8 column" id="innerDiv">
 													<p id="lowerText">Commonalities</p>
 											</div>
 										</div>
 									</div>
+				</div>
 
-									<div class="medium-4 column" id="userDiv">
-											<!-- <div id="userDivImg" class="medium-1 column"> -->
-													<img id="listUser" src="../../assets/profileicon.ico">
-											<!-- </div> -->
-											<div id="userDivInfo" class="medium-4 column">
-												<div class="medium-3 column" id="innerDiv">
-														<p id="userNameSmall">User Name</p>
-												</div>
-												<div class="medium-3 column" id="innerDiv">
-														<p id="lowerText">Mood Status</p>
-												</div>
-												<div class="medium-3 column" id="innerDiv">
-														<p id="lowerText">Distance Away</p>
-												</div>
-												<div class="medium-3 column" id="innerDiv">
-														<p id="lowerText">Commonalities</p>
-												</div>
-											</div>
+				<div class="medium-12 column" id="selectedUser" [ngClass]="{'' : userVisible, 'none' : !userVisible}">
+					<!-- <div class="medium-3 column" class="hidden">A</div> -->
+					<div class="medium-12 column" id="selectedUserInfo">
+							<img id="listUser" src="../../assets/profileicon.ico"><br>
+
+							<div id="SelectedUserDivInfo" class="medium-12 column">
+									<div class="medium-8 column" id="innerDiv">
+											<p id="SelectedUserNameSmall">User Name</p>
+									</div>
+									<div class="medium-8 column" id="innerDiv">
+											<p id="SelectedLowerText">Mood Status</p>
+									</div>
+									<div class="medium-8 column" id="innerDiv">
+											<p id="SelectedLowerText">Distance Away</p>
+									</div>
+									<div class="medium-8 column" id="innerDiv">
+											<p id="SelectedLowerText">Commonalities</p>
+									</div>
+
+									<div class="medium-6 column">
+										<button class="button selectedButton"><i class="fa fa-pencil"></i> Message</button>
+									</div>
+									<div class="medium-6 column">
+											<button class="button selectedButton" (click)="closeUser()"><i class="fa fa-times"></i> Close</button>
 										</div>
+								</div>
+					</div>
+					<!-- <div class="medium-3 column" class="hidden">A</div> -->
+				</div>
+    			
 
-
-										<div class="medium-4 column" id="userDiv">
-												<!-- <div id="userDivImg" class="medium-1 column"> -->
-														<img id="listUser" src="../../assets/profileicon.ico">
-												<!-- </div> -->
-												<div id="userDivInfo" class="medium-4 column">
-													<div class="medium-3 column" id="innerDiv">
-															<p id="userNameSmall">User Name</p>
-													</div>
-													<div class="medium-3 column" id="innerDiv">
-															<p id="lowerText">Mood Status</p>
-													</div>
-													<div class="medium-3 column" id="innerDiv">
-															<p id="lowerText">Distance Away</p>
-													</div>
-													<div class="medium-3 column" id="innerDiv">
-															<p id="lowerText">Commonalities</p>
-													</div>
-												</div>
-											</div>
-
-											<div class="medium-4 column" id="userDiv">
-													<!-- <div id="userDivImg" class="medium-1 column"> -->
-															<img id="listUser" src="../../assets/profileicon.ico">
-													<!-- </div> -->
-													<div id="userDivInfo" class="medium-4 column">
-														<div class="medium-3 column" id="innerDiv">
-																<p id="userNameSmall">User Name</p>
-														</div>
-														<div class="medium-3 column" id="innerDiv">
-																<p id="lowerText">Mood Status</p>
-														</div>
-														<div class="medium-3 column" id="innerDiv">
-																<p id="lowerText">Distance Away</p>
-														</div>
-														<div class="medium-3 column" id="innerDiv">
-																<p id="lowerText">Commonalities</p>
-														</div>
-													</div>
-												</div>
-
-												<div class="medium-4 column" id="userDiv">
-														<!-- <div id="userDivImg" class="medium-1 column"> -->
-																<img id="listUser" src="../../assets/profileicon.ico">
-														<!-- </div> -->
-														<div id="userDivInfo" class="medium-4 column">
-															<div class="medium-3 column" id="innerDiv">
-																	<p id="userNameSmall">User Name</p>
-															</div>
-															<div class="medium-3 column" id="innerDiv">
-																	<p id="lowerText">Mood Status</p>
-															</div>
-															<div class="medium-3 column" id="innerDiv">
-																	<p id="lowerText">Distance Away</p>
-															</div>
-															<div class="medium-3 column" id="innerDiv">
-																	<p id="lowerText">Commonalities</p>
-															</div>
-														</div>
-													</div>
-
-													<div class="medium-4 column" id="userDiv">
-															<!-- <div id="userDivImg" class="medium-1 column"> -->
-																	<img id="listUser" src="../../assets/profileicon.ico">
-															<!-- </div> -->
-															<div id="userDivInfo" class="medium-4 column">
-																<div class="medium-3 column" id="innerDiv">
-																		<p id="userNameSmall">User Name</p>
-																</div>
-																<div class="medium-3 column" id="innerDiv">
-																		<p id="lowerText">Mood Status</p>
-																</div>
-																<div class="medium-3 column" id="innerDiv">
-																		<p id="lowerText">Distance Away</p>
-																</div>
-																<div class="medium-3 column" id="innerDiv">
-																		<p id="lowerText">Commonalities</p>
-																</div>
-															</div>
-														</div>
-
-														<div class="medium-4 column" id="userDiv">
-																<!-- <div id="userDivImg" class="medium-1 column"> -->
-																		<img id="listUser" src="../../assets/profileicon.ico">
-																<!-- </div> -->
-																<div id="userDivInfo" class="medium-4 column">
-																	<div class="medium-3 column" id="innerDiv">
-																			<p id="userNameSmall">User Name</p>
-																	</div>
-																	<div class="medium-3 column" id="innerDiv">
-																			<p id="lowerText">Mood Status</p>
-																	</div>
-																	<div class="medium-3 column" id="innerDiv">
-																			<p id="lowerText">Distance Away</p>
-																	</div>
-																	<div class="medium-3 column" id="innerDiv">
-																			<p id="lowerText">Commonalities</p>
-																	</div>
-																</div>
-															</div>
+				
     	</div>
     	<!-- <div class="medium-4 column" id="invisible">I</div> -->
     	<div class="medium-12 column" id="iconDiv">
