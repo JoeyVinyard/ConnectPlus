@@ -126,7 +126,29 @@ export class DatabaseService {
 			});
 		});
 	}
+	storeTwitterFollowees(followees, uid): Promise<any> {
+		return new Promise((resolve, reject) => {
+			console.log(uid);
+			var followObject = {
+				friends: [],
+				uid: ""
+			};
 
+			if(!!followees){
+				followObject.friends = followees;
+				followObject.uid = uid;
+			}else{
+				reject("Invalid Array");
+			}
+			console.log(followObject);
+			this.http.post("http://localhost:3000/storeTwitterFollowees", JSON.stringify(followObject), this.httpOptions).subscribe((data) => {
+				if(data)
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		});
+	}
 	getLocation(uid: String): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.get("http://localhost:3000/getLocation/"+uid, this.httpOptions).subscribe((data) => {

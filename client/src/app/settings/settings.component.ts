@@ -5,7 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { DatabaseService } from '../services/database.service';
 import { User } from '../services/user';
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
-
+import { LinkedinService } from '../services/Linkedin.service';//LinkedInService
 @Component({
 	selector: 'app-settings',
 	templateUrl: './settings.component.html',
@@ -495,7 +495,7 @@ del(){
 	}
 	*/
 	
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService,) {
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : LinkedinService) {
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 			this.model.user.uid = user.uid;
@@ -528,6 +528,15 @@ del(){
 }
 
 
+link_linkedin(){
+	this.li.getFriends(this.model.user.screenName)
+		.then((data:any) => {
+			console.log("Storing in database" + this.model.user.uid);
+			this.db.storeTwitterFollowees(data.users, this.model.user.uid).then((data) => {
+				console.log(data);
+			});
+		});
+}
 
 link_facebook(){
 	const loginOptions: LoginOptions = {
