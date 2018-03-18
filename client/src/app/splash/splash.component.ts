@@ -31,6 +31,12 @@ export class SplashComponent implements OnInit {
 		}).catch((err) => {
 			console.error(err);
 		})
+		//Get nearby users
+		dbs.getNearbyUsers("cZL9LloQEqSJ5y8TDB1ezmcIoDv2").then((d)=>{
+			console.log("Nearby Users:",d);
+		}).catch((err) => {
+			console.error(err);
+		})
 
 	}
 

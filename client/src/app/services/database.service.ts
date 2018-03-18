@@ -79,6 +79,17 @@ export class DatabaseService {
 			})
 		});
 	}
+	//Returns a promsie to a list of all users with 3 miles, or an error message.
+	getNearbyUsers(uid: string): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/getNearbyUsers/" + uid, this.httpOptions).subscribe((data) => {
+				if(data)
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		});
+	}
 
 	storeLocation(loc, uid): Promise<any>{
 		return new Promise((resolve, reject) => {
