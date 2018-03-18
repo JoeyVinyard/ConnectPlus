@@ -185,6 +185,13 @@
     cursor: pointer;
 }
 
+#sliderValue{
+	color: #004E7F;
+	font-size: 1.5rem;
+	margin: 0px;
+	padding: 0px;
+}
+
 #settingsDiv{
 	align-content: center !important;
 	text-align: center;

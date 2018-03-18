@@ -59,11 +59,12 @@ export class MapComponent implements OnInit {
   }
 
   //ZOOM VALUE FOR MAP
-  zoom: number = 10.5;
+  zoom: number = 15;
+  currentZoom: number = 15;
 
-  zoomMap(value){
-    this.zoom = (7.75 + value);
-    console.log(this.zoom);
+  zoomMap(){
+    this.zoom = this.currentZoom;
+    
   }
 
 

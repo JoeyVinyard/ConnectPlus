@@ -55,6 +55,15 @@ export class ListComponent implements OnInit {
 
   }
 
+  //ZOOM VALUE FOR MAP
+  zoom: number = 15;
+  currentZoom: number = 15;
+
+  zoomMap(){
+    this.zoom = this.currentZoom;
+    
+  }
+
   particlesConfig;
   submitted = false;
 

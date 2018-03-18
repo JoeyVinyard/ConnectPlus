@@ -284,15 +284,19 @@
 				  </div>
 				  
 				  <div class="medium-6 column" [ngClass]="{'' : editRange, 'hidden' : !editRange}">
-						<div class="medium-10 column">
-								<div class="slidecontainer">
-										<input type="range" min="0.25" max="3" value="0.5" step="0.25" class="slider" id="range">
-								</div>
+						<div class="medium-8 column">
+							<div class="slidecontainer">
+								<input type="range" min="15" max="19" value="15" step="1" class="slider" id="range" [(ngModel)]="currentZoom"/>
+							</div>
 						</div>
-						  <div class="medium-2 column">
-							  <button class="button updateMood">Update</button>
-						  </div>
-				  </div>
+						<div class="medium-2 column">
+								<p id="sliderValue">{{currentZoom-14}}x</p>
+						</div>
+						<div class="medium-2 column">
+							<button class="button updateMood" (click)="zoomMap()">Update</button>
+						</div>
+						
+					</div>
   
 				<div class="medium-12 medium-centered column" id="settingsDiv">
 				  <button class="button mapButton" id="settingsButton" routerLink="/settings" routerLinkActive="active"><i class="fa fa-cogs"></i>	Settings</button>
