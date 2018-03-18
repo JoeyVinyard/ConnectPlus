@@ -26,6 +26,7 @@
 
               <button class="button saveButton">Submit</button>
             </form>
+            localStorage.setItem("localVisibility", visibility);
         </div>
           
       </div>
@@ -40,8 +41,13 @@
               <form (ngSubmit)="updateInfo()" #signupForm="ngForm">
               <div class="medium-4 column">
                   <!-- <i id="profileIcon" class="fa fa-user-circle"></i> -->
-                  <img id="profileIcon" src="../../assets/profileicon.ico"/><br>
-                  <button id="addProfile" class="button">Change Profile Picture</button>
+                <!--  <img id="profileIcon" src="../../assets/profileicon.ico"/><br> -->
+                <img id="profileIcon" [src]="model.user.url"/><br>
+                <div class="upload-buttonPhoto-wrapper">
+                  <button class="button">Change Profile Picture</button>
+                  <input type='file' (change)="onSelectFile($event)">
+                </div>
+
                 </div>
                 <div class="medium-8 column">
                   <p id="formTitle">First Name:</p>
@@ -84,7 +90,8 @@
 
                   <p id="formTitle">New Email:</p>
                   <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.newEmail">
-                  <p class="error">{{errors.newEmail}}</p>  
+                  <p class="error">{{errors.newEmail}}</p>
+                  localStorage.setItem("localEmail", "newEmail")
 
                   <p id="formTitle">Password:</p>
                   <input class="textInput" type="password" name="password" [(ngModel)]="model.emailChangePass">
@@ -107,6 +114,7 @@
                   <p id="formTitle">Confirm New Password:</p>
                   <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.conPassword">
                   <p id="passError" class="error">{{errors.conPass}}</p>
+                  localStorage.setItem("localPassword", "password")
     
                 <p class="error">{{errors.passwordChangeE}}</p>  
                 <p class="success">{{success.passwordChangeS}}</p>  

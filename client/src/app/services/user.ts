@@ -7,6 +7,8 @@ export class User {
 	// public confpass: string;//
 	public visability: number;
 
+public url: string;
+
 	public firstName: string;
 	public lastName: string;
 	public fullName: string;
@@ -18,6 +20,8 @@ export class User {
 	//public deletePassword: string;//
 
 	public age: Number;
+
+	public screenName: string;//Twitter ScreenName
 	//public newEmail: string;
 
 	public sports1: Boolean;

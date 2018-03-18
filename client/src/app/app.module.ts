@@ -30,6 +30,9 @@ import { ROUTES } from './app.routes';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { FacebookModule } from 'ngx-facebook';
 import { HttpClientModule } from '@angular/common/http';
+import { LinkedinService } from './services/Linkedin.service';
+import { HttpModule } from '@angular/http';
+
 
 
 @NgModule({
@@ -49,6 +52,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     HttpClientModule,
+    HttpModule,
     FormsModule,
     ParticlesModule,
     RouterModule,
@@ -66,6 +70,7 @@ import { HttpClientModule } from '@angular/common/http';
     AuthGuard,
     AuthService,
     DatabaseService,
+    LinkedinService,
     LocationService,
     ParticlesConfigService
   ],

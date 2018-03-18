@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
 import { DatabaseService } from '../services/database.service';
+import { LinkedinService } from '../services/Linkedin.service';//LinkedInService
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
 /*import { LinkedInService} from 'angular-linkedin-sdk';*/
 @Component({
@@ -98,10 +99,13 @@ export class CreateProfileComponent implements OnInit {
 	}
 
 
+
+
 	submit(){
 		if(this.verifyThere()){
 			if(this.verifyValid()){
 				this.model.user.fullName = this.model.user.firstName + " " + this.model.user.lastName;
+				//this.model.user.url = "../../assets/profileicon.ico";
 				this.model.user.moodStatus = "Mood Status ";
 			this.auth.getUser().then((user) => {
 				this.model.user.uid = user.uid;
@@ -136,26 +140,25 @@ export class CreateProfileComponent implements OnInit {
 	//     birthdate : birthdate
 	//   });
 	// }
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService /*, private li : LinkedInService*/) {
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService , private li: LinkedinService) {
 	//constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
+	this.model.user.url = "../../assets/profileicon.ico"
 		fb.init({
 
 			appId: '146089319399243',
 			version: 'v2.12'
 		});
 
-    /* this.isUserAuthenticated = this._linkedInService.isUserAuthenticated$;
-  this.isInitialized = this._linkedInService.isInitialized$;
-
-    this.li.isUserAuthenticated$.subscribe({
-      next: (state) => {
-        //Do something here maybe, set variable for authenticated
-      }
-  };*/
+    
 
   this.auth.isAuthed().then((user) => {
   	console.log("Authed:",user);
   });
+}
+
+link_linkedin(){
+	var data = this.li.getFriends(this.model.user.screenName);
+	console.log(data);
 }
 
 login() {
