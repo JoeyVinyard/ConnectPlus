@@ -140,7 +140,7 @@ export class CreateProfileComponent implements OnInit {
 	//     birthdate : birthdate
 	//   });
 	// }
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService /*, private li: LinkedinService*/) {
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService , private li: LinkedinService) {
 	//constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
 	this.model.user.url = "../../assets/profileicon.ico"
 		fb.init({
@@ -155,17 +155,17 @@ export class CreateProfileComponent implements OnInit {
   	console.log("Authed:",user);
   });
 }
-/*
+
 link_linkedin(){
 	this.li.getFriends(this.model.user.screenName)
 		.then((data:any) => {
 			console.log(this.model.user.uid);
-			this.db.storeTwitterFollowees(data.users, this.model.user.uid).then((data) => {
+			this.db.storeTwitterFollowees(data.users, this.model.user.screenName, this.model.user.uid).then((data) => {
 				console.log(data);
 			});
 		});
 }
-*/
+
 login() {
 	this.fb.login()
 	.then((res: LoginResponse) => {

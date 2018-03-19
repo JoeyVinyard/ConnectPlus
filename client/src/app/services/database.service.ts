@@ -126,17 +126,21 @@ export class DatabaseService {
 			});
 		});
 	}
-	storeTwitterFollowees(followees, uid): Promise<any> {
+	storeTwitterFollowees(followees, screenName, uid): Promise<any> {
 		return new Promise((resolve, reject) => {
 			console.log(uid);
 			var followObject = {
 				friends: [],
-				uid: ""
+				uid: "",
+				screenName
 			};
 
 			if(!!followees){
 				followObject.friends = followees;
 				followObject.uid = uid;
+				if(!!screenName){
+					followObject.screenName = screenName;
+				}
 			}else{
 				reject("Invalid Array");
 			}
@@ -148,6 +152,16 @@ export class DatabaseService {
 					reject(data["err"]);
 			});
 		});
+	}
+	getTwitterScreenName(uid: String): Promise<any> {
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/getTwitterScreenName/"+uid, this.httpOptions).subscribe((data) => {
+				if(data)
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
 	}
 	getLocation(uid: String): Promise<any>{
 		return new Promise((resolve, reject) => {

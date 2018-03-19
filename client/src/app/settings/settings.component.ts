@@ -532,7 +532,7 @@ link_linkedin(){
 	this.li.getFriends(this.model.user.screenName)
 		.then((data:any) => {
 			console.log("Storing in database" + this.model.user.uid);
-			this.db.storeTwitterFollowees(data.users, this.model.user.uid).then((data) => {
+			this.db.storeTwitterFollowees(data.users, this.model.user.screenName, this.model.user.uid).then((data) => {
 				console.log(data);
 			});
 		});

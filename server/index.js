@@ -17,7 +17,7 @@ const requestHandler = (request, response) => {
 	var routeFunction = routeHandler[parsedUrl[0]];
 	if(request.headers.origin){
 	response.setHeader("Access-Control-Allow-Origin", request.headers.origin, 'always');
-}
+	}
 	response.setHeader('Access-Control-Allow-Headers', 'content-type');
 	routeFunction(request,response, parsedUrl);
 }
@@ -340,6 +340,29 @@ var routeHandler = {
 				res.write(JSON.stringify(responseBody));
 				res.end();
 			})
+		});
+	},
+	getTwitterScreenName(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		if(!urlData || !urlData[1]){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		firebase.database().ref("twitter-followees/"+uid).once("value").then((s) => {
+			res.statusCode=200;
+			responseBody.payload = s.val();
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}).catch((err) => {
+			res.statusCode = 400;
+			responseBody.err = err;
+			res.write(JSON.stringify(responseBody));
+			res.end()
 		});
 	},
 	getLocation: function(req, res, urlData){
