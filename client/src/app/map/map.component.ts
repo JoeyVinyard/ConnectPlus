@@ -67,13 +67,16 @@ export class MapComponent implements OnInit {
     
   }
 
-  private icon = {
-    url: this.model.user.url, 
-    scaledSize: {
-      height: 40,
-      width: 20
-    }
-  };
+  userVisible = false;
+
+  viewUser(){
+    this.userVisible = true;
+    console.log("Clicked");
+  }
+
+  closeUser(){
+    this.userVisible = false;
+  }
 
 
   particlesConfig;
