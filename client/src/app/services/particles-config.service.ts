@@ -7,7 +7,7 @@ export class ParticlesConfigService {
 	params = {
 		"particles": {
 			"number": {
-				"value": 202,
+				"value": 102,
 				"density": {
 					"enable": true,
 					"value_area": 721.5354273894853

@@ -89,64 +89,64 @@ export class SettingsComponent implements OnInit {
 
 
 
-url = '';
- onSelectFile(event) {
-    if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
+	url = '';
+	onSelectFile(event) {
+		if (event.target.files && event.target.files[0]) {
+			var reader = new FileReader();
 
       reader.readAsDataURL(event.target.files[0]); // read file as data url
 
       reader.onload = (event:any) => { // called once readAsDataURL is completed
        // this.url = event.target.result;
-        this.model.user.url = event.target.result;
-        this.updateInfo();
-        console.log(this.model.user.url);
+       this.model.user.url = event.target.result;
+       this.updateInfo();
+       console.log(this.model.user.url);
 
-      }
-    }
-  }
+   }
+}
+}
 
-	
 
-	toggleDiv(name){
-		if(name == "invShow"){
-			this.invShow = !this.invShow;
-		}
-		else if(name == "genShow"){
-			this.genShow = !this.genShow;
-		}
-		else if(name == "secShow"){
-			this.secShow = !this.secShow;
-		}
-		else if(name == "conShow"){
-			this.conShow = !this.conShow;
-		}
-		else if(name == "intShow"){
-			this.intShow = !this.intShow;
-		}
-		else if(name == "fedShow"){
-			this.fedShow = !this.fedShow;
-		}
-		else if(name == "delShow"){
-			this.delShow = !this.delShow;
-		}
 
-		else if(name == "faceShow"){
-			this.faceShow = !this.faceShow;
-		}
-		else if(name == "instShow"){
-			this.instShow = !this.instShow;
-		}
-		else if(name == "linkShow"){
-			this.linkShow = !this.linkShow;
-		}
-		else if(name == "blackShow"){
-			this.blackShow = !this.blackShow;
-		}
+toggleDiv(name){
+	if(name == "invShow"){
+		this.invShow = !this.invShow;
+	}
+	else if(name == "genShow"){
+		this.genShow = !this.genShow;
+	}
+	else if(name == "secShow"){
+		this.secShow = !this.secShow;
+	}
+	else if(name == "conShow"){
+		this.conShow = !this.conShow;
+	}
+	else if(name == "intShow"){
+		this.intShow = !this.intShow;
+	}
+	else if(name == "fedShow"){
+		this.fedShow = !this.fedShow;
+	}
+	else if(name == "delShow"){
+		this.delShow = !this.delShow;
 	}
 
-	setVisible(number){
-		this.visibility = number;
+	else if(name == "faceShow"){
+		this.faceShow = !this.faceShow;
+	}
+	else if(name == "instShow"){
+		this.instShow = !this.instShow;
+	}
+	else if(name == "linkShow"){
+		this.linkShow = !this.linkShow;
+	}
+	else if(name == "blackShow"){
+		this.blackShow = !this.blackShow;
+	}
+}
+
+setVisible(number){
+	this.visibility = number;
 		//this.model.user.visability = number;
 
 		
@@ -291,22 +291,19 @@ url = '';
 					var changeemail = this.model.newEmail;
 
 					this.auth.getUser().then((user) => {
-						user.updateEmail(changeemail).then(function() {
-							console.log(user);
+						user.updateEmail(changeemail).then(() => {
 							this.model.user.email = this.model.newEmail;
 							this.model.email="";
-						}).catch(function(error) {
-					 //this.errors.emailChangeE = "Email Change Failed1";
-					 //  if(err.code == "auth/invalid-user-token" || err.code == "auth/email-already-in-use" || err.code == "auth/invalid-email" )
-					 //  	this.errors.newEmail = "Email already in use!"
-
+							this.success.emailChangeS = "Email Change Successful";
+							this.model.newEmail = "";
+							this.model.emailChangePass = "";
+							this.errors.emailChangeE = "";
+						}).catch((err) => {
+							this.errors.emailChangeE = "Email Change Failed1";
+							if(err.code == "auth/invalid-user-token" || err.code == "auth/email-already-in-use" || err.code == "auth/invalid-email" )
+								this.errors.newEmail = "Email already in use!"
+						});
 					});
-						this.success.emailChangeS = "Email Change Successful";
-						this.model.newEmail = "";
-						this.model.emailChangePass = "";
-						this.errors.emailChangeE = "";
-					});
-
 				}
 				else{
 					this.auth.getUser().then((user) => {
@@ -377,26 +374,24 @@ url = '';
 					this.auth.getUser().then((user) => {
 						console.log(user);
 						console.log(this.model);
-						user.updatePassword(changepass1).then(function() {
+						user.updatePassword(changepass1).then(() => {
 							this.model.newPassword = "" 
 							this.model.conPassword = ""
 							this.model.currentPassword = ""
-						}).catch(function(error) {
+
+							this.success.passwordChangeS = "password change worked!!!";
+						}).catch((err) => {
 							//console.log(this.errors)
-						// this.errors.newPass = ""
-						// this.errors.conPass = ""
-						// this.errors.oldPass = ""
-						this.model.newPassword = "" 
-						this.model.conPassword = ""
-						this.model.currentPassword = ""
-						//this.errors.passwordChangeE = "Password Change Failed1"
+							this.errors.newPass = ""
+							this.errors.conPass = ""
+							this.errors.oldPass = ""
+							this.model.newPassword = "" 
+							this.model.conPassword = ""
+							this.model.currentPassword = ""
+							this.errors.passwordChangeE = "Password Change Failed1"
 
-					});
-						this.model.newPassword = "" ;
-						this.model.conPassword = "";
-						this.model.currentPassword = "";
-
-						this.success.passwordChangeS = "password change worked!!!";
+						});
+						
 
 					});
 
@@ -444,7 +439,7 @@ url = '';
 	// 	}
 
 	// }
-del(){
+	del(){
 		if(this.model.password && this.model.email){
 			this.auth.reauthenticate2(this.model.email, this.model.password).then((credential) => {
 			// 	this.auth.getUser().then((user) => {
@@ -456,20 +451,20 @@ del(){
 			// 		})
 
 			// });
-				this.auth.deleteUser();	
-				this.model.password = "";
-				this.model.email = "";
-				this.router.navigateByUrl("");
-			}).catch((err) => {
-				this.errors.cred = "Incorrect Email and/or Password";
-				this.model.password = "";
-			});
-		}
-		else{
-			this.errors.cred = "No Email and/or Password entered";
-		}
-
+			this.auth.deleteUser();	
+			this.model.password = "";
+			this.model.email = "";
+			this.router.navigateByUrl("");
+		}).catch((err) => {
+			this.errors.cred = "Incorrect Email and/or Password";
+			this.model.password = "";
+		});
 	}
+	else{
+		this.errors.cred = "No Email and/or Password entered";
+	}
+
+}
 
 
 /* not working idk why
@@ -530,12 +525,14 @@ del(){
 
 link_linkedin(){
 	this.li.getFriends(this.model.user.screenName)
+
 		.then((data:any) => {
 			console.log("Storing in database" + this.model.user.uid);
-			this.db.storeTwitterFollowees(data.users, this.model.user.uid).then((data) => {
+			this.db.storeTwitterFollowees(data.users, this.model.user.screenName, this.model.user.uid).then((data) => {
 				console.log(data);
 			});
 		});
+	});
 }
 
 link_facebook(){
@@ -563,7 +560,7 @@ link_facebook(){
 
 						console.error(err);
 				//Form rejected for some reason
-					})
+			})
 					console.log('Got the users friends', res);
 					this.inFacebook = true;
 
