@@ -26,7 +26,7 @@
 
               <button class="button saveButton">Submit</button>
             </form>
-            localStorage.setItem("localVisibility", visibility);
+           <!-- localStorage.setItem("localVisibility", visibility);-->
         </div>
           
       </div>
@@ -91,7 +91,7 @@
                   <p id="formTitle">New Email:</p>
                   <input class="textInput" type="text" name="newEmail" [(ngModel)]="model.newEmail">
                   <p class="error">{{errors.newEmail}}</p>
-                  localStorage.setItem("localEmail", "newEmail")
+                <!--  localStorage.setItem("localEmail", "newEmail") -->
 
                   <p id="formTitle">Password:</p>
                   <input class="textInput" type="password" name="password" [(ngModel)]="model.emailChangePass">
@@ -114,7 +114,7 @@
                   <p id="formTitle">Confirm New Password:</p>
                   <input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.conPassword">
                   <p id="passError" class="error">{{errors.conPass}}</p>
-                  localStorage.setItem("localPassword", "password")
+                <!--  localStorage.setItem("localPassword", "password")-->
     
                 <p class="error">{{errors.passwordChangeE}}</p>  
                 <p class="success">{{success.passwordChangeS}}</p>  
