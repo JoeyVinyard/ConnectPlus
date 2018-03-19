@@ -532,7 +532,6 @@ link_linkedin(){
 				console.log(data);
 			});
 		});
-	});
 }
 
 link_facebook(){
