@@ -90,6 +90,15 @@ export class ListComponent implements OnInit {
     
   }
 
+  //Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
+	visibility = 0;
+  // visibility = this.model.user.visability;
+  
+  setVisible(number){
+    this.visibility = number;
+      //this.model.user.visability = number;
+  }
+
   particlesConfig;
   submitted = false;
 
