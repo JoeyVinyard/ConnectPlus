@@ -538,9 +538,10 @@ link_facebook(){
 			.then((res: LoginResponse) => {
 				console.log('Logged in', res);
 			}).then(() => {
-				this.fb.api('/me/taggable_friends')
+				this.fb.api('/me/taggable_friends?limit=5000')
 				.then((res: any) => {
-					this.db.storeFacebookFriends(res,this.model.user.uid).then((data) => {
+					console.log(res);
+					this.db.storeFacebookFriends(res.data,this.model.user.uid).then((data) => {
 						console.log(data);
 						
 					}).catch((err)=>{
