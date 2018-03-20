@@ -478,7 +478,8 @@ setVisible(number){
 
 
 	
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : LinkedinService) {
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : LinkedinService)
+	 {
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 			this.model.user.uid = user.uid;
@@ -505,9 +506,9 @@ setVisible(number){
 		version: 'v2.12',
 		cookie: true
 	})
-
-	this.logout_facebook();
-
+	this.inFacebook = this.returnLoginStatus();
+	
+	console.log("Facebook login status: " + this.inFacebook);
 }
 
 
@@ -579,18 +580,21 @@ logout_facebook(){
 
 	this.getLoginStatus();
 }
-returnLoginStatus(){
+returnLoginStatus(): boolean{
 	this.fb.getLoginStatus()
 	.then(res=>{
 		if(res && res.status === 'connected'){
+			this.inFacebook = true;
 			console.log(true);
 			return true;
 
 		}else{
+			this.inFacebook = false;
 			console.log(false);
 			return false;
 		}
 	})
+	return false;
 }
 getLoginStatus() {
 

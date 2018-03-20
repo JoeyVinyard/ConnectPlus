@@ -35,6 +35,21 @@ export class ListComponent implements OnInit {
     this.userVisible = false;
   }
 
+  filterVisible = false;
+
+  viewFilter(){
+    this.filterVisible = true;
+  }
+
+  closeFilter(){
+    this.filterVisible = false;
+  }
+
+  toggleFilter(){
+    this.filterVisible = !this.filterVisible;
+    console.log("hit");
+  }
+
  model = {
     user: new User(),
     moodStatus: ""

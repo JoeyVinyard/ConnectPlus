@@ -19,6 +19,7 @@ export class MapComponent implements OnInit {
 	editRange = false;
 
 	nearbyUsers = [];
+	displayedUser: any={};
 
 	toggleMood(){
 		this.editMood = !this.editMood;
@@ -67,14 +68,32 @@ export class MapComponent implements OnInit {
 
 	userVisible = false;
 
-	viewUser(){
+	viewUser(user: any={}){
 		this.userVisible = true;
-		console.log("Clicked");
+		this.displayedUser = user;
+		this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance/5280)*100)/100;
+		if(isNaN(this.displayedUser.distanceInMiles))
+			this.displayedUser.distanceInMiles = 0;
 	}
 
 	closeUser(){
 		this.userVisible = false;
-	}
+  }
+  
+  filterVisible = false;
+
+  viewFilter(){
+    this.filterVisible = true;
+  }
+
+  closeFilter(){
+    this.filterVisible = false;
+  }
+
+  toggleFilter(){
+    this.filterVisible = !this.filterVisible;
+    console.log("hit");
+  }
 
 
 	particlesConfig;

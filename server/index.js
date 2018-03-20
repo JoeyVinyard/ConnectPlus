@@ -15,7 +15,6 @@ const requestHandler = (request, response) => {
 	var parsedUrl = request.url.substring(1).split('/');
 	console.log(parsedUrl);
 	var routeFunction = routeHandler[parsedUrl[0]];
-	console.log(request.headers);
 	if(request.headers.origin){
 		response.setHeader("Access-Control-Allow-Origin", request.headers.origin, 'always');
 	}
@@ -210,7 +209,9 @@ var routeHandler = {
 						if(d <= 15840 && loc.val().uid != uid){//3 miles
 							nearbyUids.push({
 								uid: loc.val().uid,
-								distance: d
+								distance: d,
+								lat: loc.val().lat,
+								lon: loc.val().lon
 							});
 						}
 					})
@@ -225,6 +226,8 @@ var routeHandler = {
 						if(users.val()[closeUser.uid]){
 							data.push(users.val()[closeUser.uid]);
 							data[data.length-1].distance = closeUser.distance;
+							data[data.length-1].lat = closeUser.lat;
+							data[data.length-1].lon = closeUser.lon;
 						}
 					})
 					if(data.length == 0){
