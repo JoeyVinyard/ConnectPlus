@@ -5,7 +5,7 @@
 		</div>
 		
 		<div class="medium-12 column" id="mapView">
-			<div class="medium-12 column" id="innerMap" [ngClass]="{'' : !userVisible, 'opacity' : userVisible}">
+			<div class="medium-12 column" id="innerMap" [ngClass]="{'' : !userVisible, 'opacity' : userVisible, '' : !filterVisible, 'opacity' : filterVisible}">
 					<agm-map [latitude]="lat" [longitude]="lng" [zoomControl]="false" [mapTypeControl]="false" [scaleControl]="false" 
 					[streetViewControl]="false" [rotateControl]="false" [fullscreenControl]="false" [mapDraggable]="false"
 					[scrollwheel]="false" [zoom]="zoom">
@@ -13,7 +13,6 @@
 						<agm-marker *ngFor="let user of nearbyUsers" (markerClick)="viewUser(user)" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 					</agm-map>
 			</div>
-		
 			<div class="medium-12 column" id="selectedUser" [ngClass]="{'' : userVisible, 'none' : !userVisible}">
 					<!-- <div class="medium-3 column" class="hidden">A</div> -->
 					<div class="medium-12 column" id="selectedUserInfo">
@@ -32,16 +31,36 @@
 									<div class="medium-8 column" id="innerDiv">
 											<p id="SelectedLowerText">Commonalities</p>
 									</div>
-
-									<div class="medium-6 column">
-										<button class="button selectedButton"><i class="fa fa-pencil"></i> Message</button>
-									</div>
-									<div class="medium-6 column">
-											<button class="button selectedButton" (click)="closeUser()"><i class="fa fa-times"></i> Close</button>
-										</div>
-								</div>
+						<div class="medium-6 column">
+							<button class="button selectedButton"><i class="fa fa-pencil"></i> Message</button>
+						</div>
+						<div class="medium-6 column">
+								<button class="button selectedButton" (click)="closeUser()"><i class="fa fa-times"></i> Close</button>
+						</div>
 					</div>
-				</div>		
+			</div>
+		</div>	
+				
+		<div class="medium-12 column" id="filterSection" [ngClass]="{'' : filterVisible, 'none' : !filterVisible}">
+				<!-- <div class="medium-3 column" class="hidden">A</div> -->
+				<div class="medium-12 column" id="filterContent">
+					<p id="filterTitle">Only see those with similar...</p>
+					<input id="sports" type="checkbox" name="Sports"><label for="sports">Sports</label>
+					<input id="music" type="checkbox" name="Music"><label for="music">Music</label>
+					<input id="food" type="checkbox" name="Food"><label for="food">Food</label><br>
+					<input id="facebook" type="checkbox" name="Facebook"><label for="facebook">Facebook</label>
+					<input id="twitter" type="checkbox" name="Twitter"><label for="twitter">Twitter</label>
+					<input id="LinkedIn" type="checkbox" name="LinkedIn"><label for="LinkedIn">LinkedIn</label>
+					<input id="BlackBoard" type="checkbox" name="BlackBoard"><label for="BlackBoard">BlackBoard</label>
+
+					<div class="medium-6 column">
+						<button class="button selectedButton"><i class="fa fa-check"></i> Save</button>
+					</div>
+					<div class="medium-6 column">
+							<button class="button selectedButton" (click)="closeFilter()"><i class="fa fa-times"></i> Close</button>
+					</div>
+				</div>
+			</div>	
 		</div>
 
 		<!-- <div class="medium-4 column" id="invisible">I</div> -->
@@ -57,7 +76,7 @@
 			</div>
 			<div class="medium-6 column" id="toggleDiv">
 				<button type="button" class="button mapButton" id="listButton" routerLink="/list" routerLinkActive="active"><i class="fa fa-list-ul"></i>	List View</button>
-				<button type="button" class="button mapButton" id="filterButton"><i class="fa fa-filter"></i>	Filter</button>
+				<button type="button" class="button mapButton" id="filterButton" (click)="toggleFilter()"><i class="fa fa-filter"></i>	Filter</button>
 				<button type="button" class="button mapButton" id="rangeButton" (click)="toggleRange()"><i class="fa fa-sliders"></i>	Range</button>
 				
 			</div>

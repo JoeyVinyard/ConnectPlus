@@ -78,7 +78,22 @@ export class MapComponent implements OnInit {
 
 	closeUser(){
 		this.userVisible = false;
-	}
+  }
+  
+  filterVisible = false;
+
+  viewFilter(){
+    this.filterVisible = true;
+  }
+
+  closeFilter(){
+    this.filterVisible = false;
+  }
+
+  toggleFilter(){
+    this.filterVisible = !this.filterVisible;
+    console.log("hit");
+  }
 
 
 	particlesConfig;
