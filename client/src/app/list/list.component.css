@@ -143,6 +143,32 @@
 	border: #004E7F solid 2px;
 }
 
+#filterSection{
+	float: center;
+	z-index: 5;
+	position: absolute;
+	width: 90vw;
+	/* top:0; */
+}
+
+#filterContent{
+	background: #01A2FF;
+	border: 2px solid white;
+	border-radius: 25px;
+	width: 50%;
+	margin-left: 24%;
+	margin-top: 1rem;
+}
+
+#filterTitle{
+	font-size: 1.5rem;
+}
+
+#filterContent label{
+	font-size: 1rem;
+	color: white;
+}
+
 
 
 #invisible{

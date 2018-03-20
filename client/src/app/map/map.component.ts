@@ -79,6 +79,24 @@ export class MapComponent implements OnInit {
   }
 
 
+
+  filterVisible = false;
+
+  viewFilter(){
+    this.filterVisible = true;
+  }
+
+  closeFilter(){
+    this.filterVisible = false;
+  }
+
+  toggleFilter(){
+    this.filterVisible = !this.filterVisible;
+    console.log("hit");
+  }
+
+
+
   particlesConfig;
   submitted = false;
 
