@@ -95,6 +95,9 @@ export class MapComponent implements OnInit {
     console.log("hit");
   }
 
+  nearbyPin = ("../../assets/NearbyPin.png");
+  userPin = ("../../assets/UserPin.png");
+
 
 	particlesConfig;
 	submitted = false;
