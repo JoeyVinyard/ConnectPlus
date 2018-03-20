@@ -159,23 +159,65 @@ export class MapComponent implements OnInit {
 	ngOnInit() {
 	}
 
-	filter_users(){
-
+	filterUsersBasedOnFacebook(){
+		var filterUsers = [];
 		if(true /*check facebook thing*/){
-			this.auth.getUser().then((u) => {
-				this.db.getFacebookFriends(u.uid).then((nearbyUsers) => {
-					var friendMap = new Map();
-					nearbyUsers.forEach((friend) => {
-						friendMap.set(friend, null);
-					});
-					console.log("Nearby:",nearbyUsers);
-					this.nearbyUsers = nearbyUsers;
-				}).catch((err) => {
-					console.error(err);
-				})
 
+			this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
+				var friendMap = new Map();
+
+				friends.forEach((friend) => {
+//					console.log(friend);
+					friendMap.set(friend, 1);
+				});
+				var p = new Promise((resolve, reject) => {
+
+
+					this.nearbyUsers.forEach((user) => {
+						this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
+							var match = false;
+							nearbyFriend.forEach((friend) => {
+								//console.log(friend);
+								if(friendMap.get(friend)){
+									match = true;
+								}
+							});
+							
+							if(match){
+								
+								filterUsers.push(user);
+							}	
+
+
+/*						for(  in nearbyFriend){
+							console.log(friend.id);
+							if(friendMap.get(friend.id)){
+								match = true;
+								break;
+							}
+						}*/
+
+									
+
+						resolve(filterUsers);
+					}).catch((err) => {
+						console.log(err);
+						reject(err);
+					});
+
+					});
+				}).then((users: any) => {
+					this.nearbyUsers = filterUsers;
+					console.log("Filtered Users:", filterUsers);
+				});
+				
+				//this.nearbyUsers = filterUsers;
+
+			}).catch((err) => {
+				console.error(err);
 			});
 
 		}
 
 	}
+}
