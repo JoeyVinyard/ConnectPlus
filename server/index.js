@@ -249,6 +249,31 @@ var routeHandler = {
 			})
 		})
 	},
+	getFacebookFriends: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		if(!urlData || !urlData[1]){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		firebase.database().ref("facebook-friends/"+uid).once("value").then((user) => {
+			var userFriends = user.val().friends;
+			var data = [];
+			//var friendMap = new Map();
+			userFriends.forEach((friend) => {
+				data.push(friend.name);
+
+			});
+
+			res.statusCode = 200;
+			responseBody.payload = data;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		});
+	},
 	getUsersWithCommonFacebookFriends: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		if(!urlData || !urlData[1]){

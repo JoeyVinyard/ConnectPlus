@@ -112,11 +112,6 @@ export class MapComponent implements OnInit {
 					this.lng = l.longitude;
 					
 
-					this.db.getUsersWithCommonFacebookFriends( u.uid).then((facebookFriends) => {
-						console.log("Got here");
-						console.log("Users with facebook friends in common: ", facebookFriends);
-					});
-
 					db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 						console.log("Nearby:",nearbyUsers);
 						this.nearbyUsers = nearbyUsers;
@@ -128,6 +123,8 @@ export class MapComponent implements OnInit {
 				})
 			})
 		})
+
+
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 			this.model.user.uid = user.uid;
@@ -153,4 +150,23 @@ export class MapComponent implements OnInit {
 	ngOnInit() {
 	}
 
-}
+	filter_users(){
+
+		if(true /*check facebook thing*/){
+			this.auth.getUser().then((u) => {
+				this.db.getFacebookFriends(u.uid).then((nearbyUsers) => {
+					var friendMap = new Map();
+					nearbyUsers.forEach((friend) => {
+						friendMap.set(friend, null);
+					});
+					console.log("Nearby:",nearbyUsers);
+					this.nearbyUsers = nearbyUsers;
+				}).catch((err) => {
+					console.error(err);
+				})
+
+			});
+
+		}
+
+	}
