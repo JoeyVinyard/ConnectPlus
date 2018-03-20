@@ -147,10 +147,6 @@ toggleDiv(name){
 setVisible(number){
 	this.visibility = number;
 		//this.model.user.visability = number;
-
-		
-
-
 	}
 
 	clearing(){
