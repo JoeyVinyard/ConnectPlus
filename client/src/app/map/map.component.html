@@ -9,24 +9,25 @@
 					<agm-map [latitude]="lat" [longitude]="lng" [zoomControl]="false" [mapTypeControl]="false" [scaleControl]="false" 
 					[streetViewControl]="false" [rotateControl]="false" [fullscreenControl]="false" [mapDraggable]="false"
 					[scrollwheel]="false" [zoom]="zoom">
-						<agm-marker [latitude]="lat" [longitude]="lng" (markerClick)="viewUser()"></agm-marker>
+						<agm-marker [latitude]="lat" [longitude]="lng" (markerClick)="viewUser(model.user)"></agm-marker>
+						<agm-marker *ngFor="let user of nearbyUsers" (markerClick)="viewUser(user)" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 					</agm-map>
 			</div>
 		
 			<div class="medium-12 column" id="selectedUser" [ngClass]="{'' : userVisible, 'none' : !userVisible}">
 					<!-- <div class="medium-3 column" class="hidden">A</div> -->
 					<div class="medium-12 column" id="selectedUserInfo">
-							<img id="listUser" src="../../assets/profileicon.ico"><br>
+							<img id="listUser" src="displayedUser.url"><br>
 
 							<div id="SelectedUserDivInfo" class="medium-12 column">
 									<div class="medium-8 column" id="innerDiv">
-											<p id="SelectedUserNameSmall">User Name</p>
+											<p id="SelectedUserNameSmall">{{displayedUser.firstName}} {{displayedUser.lastName}}</p>
 									</div>
 									<div class="medium-8 column" id="innerDiv">
-											<p id="SelectedLowerText">Mood Status</p>
+											<p id="SelectedLowerText">{{displayedUser.moodStatus}}</p>
 									</div>
 									<div class="medium-8 column" id="innerDiv">
-											<p id="SelectedLowerText">Distance Away</p>
+											<p id="SelectedLowerText">{{displayedUser.distanceInMiles}} Miles</p>
 									</div>
 									<div class="medium-8 column" id="innerDiv">
 											<p id="SelectedLowerText">Commonalities</p>
