@@ -38,8 +38,8 @@ export class AuthService {
 		return user.sendEmailVerification();
 	}
 
-	deleteUser(): Promise<any>{
-		return this.user.delete();
+	deleteUser(user: User): Promise<any>{
+		return user.delete();
 	}
 
 

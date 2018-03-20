@@ -13,7 +13,6 @@ import { LinkedinService } from '../services/Linkedin.service';//LinkedInService
 })
 export class SettingsComponent implements OnInit {
 
-
 	errors = {
 		//change info errors
 		changeInfoE: "",
@@ -442,53 +441,42 @@ setVisible(number){
 	del(){
 		if(this.model.password && this.model.email){
 			this.auth.reauthenticate2(this.model.email, this.model.password).then((credential) => {
-			// 	this.auth.getUser().then((user) => {
-			// 		this.model.user.uid = user.uid;
-			// 		this.model.user.firstName = user.firstName;
+				this.auth.getUser().then((user) => {
+					// this.db.deleteUser(user).then(() => {
+					// 	this.auth.deleteUser(user).then(() => {;	
+					// 	this.model.password = "";
+					// 	this.model.email = "";
+					// 	this.router.navigateByUrl("");
+					// }).catch((err)=>{
+					// 	//console.error(err);
+					// 	this.errors.cred = "Looks like something went wrong, pleae try again";
 
-			// 		this.db.deleteUser(user).then((user) => {
+					// })
+					// }).catch((err)=>{
+					// 	//console.error(err);
+					// 	this.errors.cred = "Looks like something went wrong, pleae try again";
 
-			// 		})
+					// })
+					this.db.deleteUser(user);
+						this.auth.deleteUser(user);	
+						this.model.password = "";
+						this.model.email = "";
+						this.router.navigateByUrl("");
 
-			// });
-			this.auth.deleteUser();	
-			this.model.password = "";
-			this.model.email = "";
-			this.router.navigateByUrl("");
-		}).catch((err) => {
-			this.errors.cred = "Incorrect Email and/or Password";
-			this.model.password = "";
-		});
-	}
-	else{
-		this.errors.cred = "No Email and/or Password entered";
-	}
-
-}
-
-
-/* not working idk why
-	del(){
-		this.auth.reauthenticate(this.model.user.deletePassword).then((credential)  => {
-
-			this.auth.reauthenticate(this.model.user.email).then((credential) => {
-				this.auth.deleteUser();	
-				this.model.user.deletePassword = "";
-				this.model.user.email = "";
+				});
+				
 			}).catch((err) => {
 				this.errors.cred = "Incorrect Email and/or Password";
-				this.model.user.deletePassword = "";
+				this.model.password = "";
 			});
-
-
-		}).catch((err) => {
-			this.errors.cred = "Incorrect Email and/or Password";
-			this.model.user.deletePassword = "";
-		});
-
+		}
+		else{
+			this.errors.cred = "No Email and/or Password entered";
+		}
 
 	}
-	*/
+
+
 	
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : LinkedinService) {
 		this.auth.isAuthed().then((user) => {
