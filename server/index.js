@@ -249,6 +249,82 @@ var routeHandler = {
 			})
 		})
 	},
+	getUsersWithCommonFacebookFriends: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		if(!urlData || !urlData[1]){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		firebase.database().ref("facebook-friends/"+uid).once("value").then((user) => {
+			var userFriends = user.val().friends;
+			var friendMap = new Map();
+			userFriends.forEach((friend) => {
+				friendMap.set(friend.id, friend.name);
+			});
+
+			var p = new Promise((resolve, reject) => {
+				firebase.database().ref("facebook-friends").once("value").then((s) => {
+					res.statusCode=200;
+					var commonFriendUIDs = [];
+					s.forEach((nextUser) => {
+						var matchFriends = nextUser.val().friends;
+						var commonFriend = false;
+						for(friend in matchFriends){
+							if(friendMap.get(friend)){
+								commonFriend = true;
+								break;
+							}
+						}
+						if(commonFriend){//3 miles
+							firebase.database().ref("locations/" + nextUser.val().uid).once("value").then((matchLocation) => {
+								commonFriendUIDs.push({
+									uid: matchLocation.val().uid,
+									distance: d,
+									lat: matchLocation.val().lat,
+									lon: matchLocation.val().lon
+								});	
+							});
+							
+						}
+					});
+					resolve(nearbyUids);
+				}).catch((err) => {
+					reject(err);
+				});
+			}).then((closeUsers) => {
+				firebase.database().ref("users").once("value").then((users) => {
+					var data = [];
+					closeUsers.forEach((closeUser) => {
+						if(users.val()[closeUser.uid]){
+							data.push(users.val()[closeUser.uid]);
+							data[data.length-1].distance = closeUser.distance;
+							data[data.length-1].lat = closeUser.lat;
+							data[data.length-1].lon = closeUser.lon;
+						}
+					})
+					if(data.length == 0){
+						res.statusCode = 400;
+						res.end();
+						return;
+					}
+					res.statusCode = 200;
+					responseBody.payload = data;
+					res.write(JSON.stringify(responseBody));
+					res.end();
+				})
+			}).catch((err) => {
+				res.statusCode = 400;
+				responseBody.err = err;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			})
+		})
+	},
 	storeLocation: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		var body = "";
@@ -414,7 +490,7 @@ function getDistance(locOne, locTwo){
 }
 
 function toRad(Value) {
-    return Value * Math.PI / 180;
+	return Value * Math.PI / 180;
 }
 
 const server = http.createServer(requestHandler);
