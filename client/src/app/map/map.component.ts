@@ -12,8 +12,8 @@ import { LocationService } from '../services/location.service';
 	styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-	lat: number = 40.678418;
-	lng: number = -76.809007;
+	lat: number = this.lat;
+	lng: number = this.lng;
 
 	editMood = false;
 	editRange = false;

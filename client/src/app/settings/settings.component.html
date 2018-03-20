@@ -44,8 +44,8 @@
                 <!--  <img id="profileIcon" src="../../assets/profileicon.ico"/><br> -->
                 <img id="profileIcon" [src]="model.user.url"/><br>
                 <div class="upload-buttonPhoto-wrapper">
-                  <button class="button">Change Profile Picture</button>
-                  <input type='file' (change)="onSelectFile($event)">
+                  <button class="button buttonPhoto">Change Profile Picture</button>
+                  <input type='file' (change)="onSelectFile($event)" id="hiddenFile">
                 </div>
 
                 </div>

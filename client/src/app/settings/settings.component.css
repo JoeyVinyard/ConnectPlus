@@ -4,21 +4,23 @@ img {
 
 .upload-buttonPhoto-wrapper {
   position: relative;
-  overflow: hidden;
-  display: inline-block;
-  margin-top: 0.0rem;
-    padding: 0rem;
+  margin: 0.0rem;
+  padding: 0rem;
   border-radius: 250px;
 }
 
 .buttonPhoto {
-   margin-top: 0.25rem;
-    padding: 0rem;
-    font-size: 1rem;
-    background: transparent;
-    color: #004E7F;
-    border: #004E7F solid 2px;
-    border-radius: 25px;
+  margin: 0rem;
+  font-size: 1rem;
+  background: transparent;
+  color: #004E7F;
+  border: #004E7F solid 2px;
+  border-radius: 25px;
+}
+
+.upload-buttonPhoto-wrapper:hover > .buttonPhoto{
+  background-color: rgba(0, 118, 187, 0.75);
+    color: white;
 }
 
 .upload-buttonPhoto-wrapper input[type=file] {
@@ -29,17 +31,6 @@ img {
   opacity: 0;
   
 }
-
-.upload-buttonPhoto-wrapper:hover{
-    background-color: rgba(0, 118, 187, 0.75);
-    color: white;
-}
-
-
-
-
-
-
 
 .mainDiv{
     align-content: center;
