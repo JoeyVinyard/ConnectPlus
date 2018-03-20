@@ -110,6 +110,13 @@ export class MapComponent implements OnInit {
 				db.storeLocation(l, u.uid).then((d) =>{
 					this.lat = l.latitude;
 					this.lng = l.longitude;
+					
+
+					this.db.getUsersWithCommonFacebookFriends( u.uid).then((facebookFriends) => {
+						console.log("Got here");
+						console.log("Users with facebook friends in common: ", facebookFriends);
+					});
+
 					db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 						console.log("Nearby:",nearbyUsers);
 						this.nearbyUsers = nearbyUsers;
@@ -124,6 +131,7 @@ export class MapComponent implements OnInit {
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 			this.model.user.uid = user.uid;
+			
 		});  
 
 		this.auth.getUser().then((user) => {
@@ -134,7 +142,10 @@ export class MapComponent implements OnInit {
 				this.model.user = userData;
 				console.log(userData)
 			})
-		});
+		}); 
+		
+		
+
 
 
 	}

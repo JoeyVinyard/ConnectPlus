@@ -263,7 +263,8 @@ var routeHandler = {
 			var userFriends = user.val().friends;
 			var friendMap = new Map();
 			userFriends.forEach((friend) => {
-				friendMap.set(friend.id, friend.name);
+
+				friendMap.set(friend.name, friend.name);
 			});
 
 			var p = new Promise((resolve, reject) => {
@@ -272,18 +273,31 @@ var routeHandler = {
 					var commonFriendUIDs = [];
 					s.forEach((nextUser) => {
 						var matchFriends = nextUser.val().friends;
+						console.log(nextUser.val().uid);
 						var commonFriend = false;
+						matchFriends.forEach((friend) => {
+							console.log(friend);
+							console.log(friend.id);
+							console.log(friendMap.get(friend.name));
+							//console.log(friendMap);
+							if(friendMap.get(friend.name)){
+								commonFriend = true;
+							}
+						})
+						/*
 						for(friend in matchFriends){
+							console.log(friend);
+
 							if(friendMap.get(friend)){
 								commonFriend = true;
 								break;
 							}
 						}
-						if(commonFriend){//3 miles
+						*/
+						if(commonFriend && nextUser.val().uid != uid){//3 miles
 							firebase.database().ref("locations/" + nextUser.val().uid).once("value").then((matchLocation) => {
 								commonFriendUIDs.push({
 									uid: matchLocation.val().uid,
-									distance: d,
 									lat: matchLocation.val().lat,
 									lon: matchLocation.val().lon
 								});	
@@ -291,7 +305,7 @@ var routeHandler = {
 							
 						}
 					});
-					resolve(nearbyUids);
+					resolve(commonFriendUIDs);
 				}).catch((err) => {
 					reject(err);
 				});
@@ -307,16 +321,19 @@ var routeHandler = {
 						}
 					})
 					if(data.length == 0){
+						console.log("No matches were found");
 						res.statusCode = 400;
 						res.end();
 						return;
 					}
+					console.log(data);
 					res.statusCode = 200;
 					responseBody.payload = data;
 					res.write(JSON.stringify(responseBody));
 					res.end();
 				})
 			}).catch((err) => {
+				console.log(err);
 				res.statusCode = 400;
 				responseBody.err = err;
 				res.write(JSON.stringify(responseBody));

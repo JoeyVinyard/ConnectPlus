@@ -91,6 +91,18 @@ export class DatabaseService {
 		})
 	}
 
+	getUsersWithCommonFacebookFriends(uid: String): Promise<any> {
+		console.log("Do we even get here");
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/getUsersWithCommonFacebookFriends/"+uid, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		});
+	}
+
 	storeLocation(loc, uid): Promise<any>{
 		return new Promise((resolve, reject) => {
 			var locationObject = {
