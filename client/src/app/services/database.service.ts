@@ -9,7 +9,7 @@ export class DatabaseService {
 
 	httpOptions = {
 		headers: new HttpHeaders({
-		'Content-Type':  'application/x-www-form-urlencoded',
+			'Content-Type':  'application/x-www-form-urlencoded',
 		})
 	};
 
@@ -17,7 +17,7 @@ export class DatabaseService {
 	createUser(user: User): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.post("http://localhost:3000/createUser", JSON.stringify(user), this.httpOptions).subscribe((data) => {
-				if(data)
+				if(data["payload"])
 					resolve(data["payload"]);
 				else
 					reject(data["err"]);
@@ -28,7 +28,7 @@ export class DatabaseService {
 	updateUser(user: User): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.post("http://localhost:3000/updateUser", JSON.stringify(user), this.httpOptions).subscribe((data) => {
-				if(data)
+				if(data["payload"])
 					resolve(data["payload"]);
 				else
 					reject(data["err"]);
@@ -39,7 +39,7 @@ export class DatabaseService {
 	deleteUser(user: User): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.delete("http://localhost:3000/deleteUser/"+user.uid, this.httpOptions).subscribe((data) => {
-				if(data)
+				if(data["payload"])
 					resolve(data["payload"]);
 				else
 					reject(data["err"]);
@@ -50,7 +50,7 @@ export class DatabaseService {
 	getUser(uid: String): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.get("http://localhost:3000/getUser/"+uid, this.httpOptions).subscribe((data) => {
-				if(data)
+				if(data["payload"])
 					resolve(data["payload"]);
 				else
 					reject(data["err"]);
@@ -61,7 +61,7 @@ export class DatabaseService {
 	getMultipleUsers(uids: String[]): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.get("http://localhost:3000/getUsers/"+uids.join("&"), this.httpOptions).subscribe((data) => {
-				if(data)
+				if(data["payload"])
 					resolve(data["payload"]);
 				else
 					reject(data["err"]);
@@ -72,12 +72,23 @@ export class DatabaseService {
 	getAllUsers(): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.get("http://localhost:3000/getAllUsers", this.httpOptions).subscribe((data) => {
-				if(data)
+				if(data["payload"])
 					resolve(data["payload"]);
 				else
 					reject(data["err"]);
 			})
 		});
+	}
+
+	getNearbyUsers(uid: string): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/getNearbyUsers/"+uid, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		})
 	}
 
 	storeLocation(loc, uid): Promise<any>{
@@ -96,7 +107,7 @@ export class DatabaseService {
 			}
 				
 			this.http.post("http://localhost:3000/storeLocation", JSON.stringify(locationObject), this.httpOptions).subscribe((data) => {
-				if(data)
+				if(data["payload"])
 					resolve(data["payload"]);
 				else
 					reject(data["err"]);
@@ -119,7 +130,7 @@ export class DatabaseService {
 			}
 
 			this.http.post("http://localhost:3000/storeFacebookFriends", JSON.stringify(friendsObject), this.httpOptions).subscribe((data) => {
-				if(data)
+				if(data["payload"])
 					resolve(data["payload"]);
 				else
 					reject(data["err"]);
@@ -146,7 +157,7 @@ export class DatabaseService {
 			}
 			console.log(followObject);
 			this.http.post("http://localhost:3000/storeTwitterFollowees", JSON.stringify(followObject), this.httpOptions).subscribe((data) => {
-				if(data)
+				if(data["payload"])
 					resolve(data["payload"]);
 				else
 					reject(data["err"]);
@@ -156,7 +167,7 @@ export class DatabaseService {
 	getTwitterScreenName(uid: String): Promise<any> {
 		return new Promise((resolve, reject) => {
 			this.http.get("http://localhost:3000/getTwitterScreenName/"+uid, this.httpOptions).subscribe((data) => {
-				if(data)
+				if(data["payload"])
 					resolve(data["payload"]);
 				else
 					reject(data["err"]);
@@ -166,7 +177,7 @@ export class DatabaseService {
 	getLocation(uid: String): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.get("http://localhost:3000/getLocation/"+uid, this.httpOptions).subscribe((data) => {
-				if(data)
+				if(data["payload"])
 					resolve(data["payload"]);
 				else
 					reject(data["err"]);

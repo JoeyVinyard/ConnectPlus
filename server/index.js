@@ -15,10 +15,12 @@ const requestHandler = (request, response) => {
 	var parsedUrl = request.url.substring(1).split('/');
 	console.log(parsedUrl);
 	var routeFunction = routeHandler[parsedUrl[0]];
+	console.log(request.headers);
 	if(request.headers.origin){
-	response.setHeader("Access-Control-Allow-Origin", request.headers.origin, 'always');
+		response.setHeader("Access-Control-Allow-Origin", request.headers.origin, 'always');
 	}
 	response.setHeader('Access-Control-Allow-Headers', 'content-type');
+	response.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
 	routeFunction(request,response, parsedUrl);
 }
 
@@ -222,6 +224,7 @@ var routeHandler = {
 					closeUsers.forEach((closeUser) => {
 						if(users.val()[closeUser.uid]){
 							data.push(users.val()[closeUser.uid]);
+							data[data.length-1].distance = closeUser.distance;
 						}
 					})
 					if(data.length == 0){
