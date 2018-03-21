@@ -16,7 +16,8 @@
 			<div class="medium-12 column" id="selectedUser" [ngClass]="{'' : userVisible, 'none' : !userVisible}">
 					<!-- <div class="medium-3 column" class="hidden">A</div> -->
 					<div class="medium-12 column" id="selectedUserInfo">
-							<img id="listUser" src="displayedUser.url"><br>
+							<img id="listUser" [src]="displayedUser.url"><br>
+
 
 							<div id="SelectedUserDivInfo" class="medium-12 column">
 									<div class="medium-8 column" id="innerDiv">
