@@ -191,7 +191,7 @@
 					</div>
 
 				<div id="invisibilityDiv medium-12 column">
-					<form (ngSubmit)="vis()" #signupForm="ngForm">
+					<!-- <form (ngSubmit)="vis()" #signupForm="ngForm"> -->
 		
 					<div class="mobile-app-toggle" data-mobile-app-toggle>
 						<button class="button" (click)="setVisible(0)" [ngClass]="{' ' : visibility!=0, 'is-active' : visibility==0}">Invisible</button> 
@@ -201,7 +201,7 @@
 						<button class="button" (click)="setVisible(100)" [ngClass]="{' ' : visibility!=100, 'is-active' : visibility==100}">Visible</button>
 					</div>
 		
-					</form>
+					<!-- </form> -->
 							<!-- localStorage.setItem("localVisibility", visibility);-->		
 				</div>
   
