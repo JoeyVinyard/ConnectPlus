@@ -95,6 +95,18 @@ export class MapComponent implements OnInit {
     console.log("hit");
   }
 
+  nearbyPin = ("../../assets/NearbyPin.png");
+  userPin = ("../../assets/UserPin.png");
+
+  //Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
+	visibility = 0;
+  // visibility = this.model.user.visability;
+  
+  setVisible(number){
+    this.visibility = number;
+      //this.model.user.visability = number;
+    }
+
 
 	particlesConfig;
 	submitted = false;
@@ -107,6 +119,11 @@ export class MapComponent implements OnInit {
 				db.storeLocation(l, u.uid).then((d) =>{
 					this.lat = l.latitude;
 					this.lng = l.longitude;
+			
+					db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
+						console.log("Followees: ", twitterFollowees);
+					})
+
 					db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 						console.log("Nearby:",nearbyUsers);
 						this.nearbyUsers = nearbyUsers;
@@ -118,9 +135,12 @@ export class MapComponent implements OnInit {
 				})
 			})
 		})
+
+
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 			this.model.user.uid = user.uid;
+			
 		});  
 
 		this.auth.getUser().then((user) => {
@@ -132,11 +152,93 @@ export class MapComponent implements OnInit {
 				console.log(userData)
 			})
 		});
-
-
 	}
 
 	ngOnInit() {
 	}
 
+	filterUsersBasedOnFacebook(){
+		var filterUsers = [];
+		if(true /*check facebook thing*/){
+			
+			this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
+				var friendMap = new Map();
+
+				friends.forEach((friend) => {
+					friendMap.set(friend, 1);
+				});
+				var p = new Promise((resolve, reject) => {
+					this.nearbyUsers.forEach((user) => {
+						this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
+							var match = false;
+							nearbyFriend.forEach((friend) => {
+								//console.log(friend);
+								if(friendMap.get(friend)){
+									match = true;
+								}
+							});
+							
+							if(match){
+								
+								filterUsers.push(user);
+							}									
+						resolve(filterUsers);
+					}).catch((err) => {
+						console.log(err);
+						reject(err);
+					});
+					});
+				}).then((users: any) => {
+					this.nearbyUsers = filterUsers;
+					console.log("Filtered Users:", filterUsers);
+				});
+			}).catch((err) => {
+				console.error(err);
+			});
+
+		}
+
+	}
+
+	filterUsersBasedOnTwitter(){
+		var filterUsers = [];
+		if(true){
+			
+			this.db.getTwitterFollowees(this.model.user.uid).then((followees) => {
+				var followeeMap = new Map();
+
+				followees.forEach((followee) => {
+					followeeMap.set(followee, 1);
+				});
+				var p = new Promise((resolve, reject) => {
+					this.nearbyUsers.forEach((user) => {
+						this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
+							var match = false;
+							nearbyFollowee.forEach((followee) => {
+								//console.log(followee);
+								if(followeeMap.get(followee)){
+									match = true;
+								}
+							});
+							
+							if(match){
+								filterUsers.push(user);
+							}									
+						resolve(filterUsers);
+					}).catch((err) => {
+						console.log(err);
+						reject(err);
+					});
+					});
+				}).then((users: any) => {
+					this.nearbyUsers = filterUsers;
+					console.log("Filtered Users:", filterUsers);
+				});
+			}).catch((err) => {
+				console.error(err);
+			});
+
+		}
+
+	}
 }
