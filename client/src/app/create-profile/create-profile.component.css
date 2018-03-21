@@ -5,6 +5,36 @@ img {
 
 .upload-buttonPhoto-wrapper {
   position: relative;
+  margin: 0.0rem;
+  padding: 0rem;
+  border-radius: 250px;
+}
+
+.buttonPhoto {
+  margin: 0rem;
+  font-size: 1rem;
+  background: transparent;
+  color: #004E7F;
+  border: #004E7F solid 2px;
+  border-radius: 25px;
+}
+
+.upload-buttonPhoto-wrapper:hover > .buttonPhoto{
+  background-color: rgba(0, 118, 187, 0.75);
+    color: white;
+}
+
+.upload-buttonPhoto-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  
+}
+
+.upload-buttonPhoto-wrapper {
+  position: relative;
   overflow: hidden;
   display: inline-block;
   margin-top: 0.0rem;

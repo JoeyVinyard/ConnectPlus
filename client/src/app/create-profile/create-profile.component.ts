@@ -56,6 +56,24 @@ export class CreateProfileComponent implements OnInit {
 	}
 
 
+url = '';
+	onSelectFile(event) {
+		if (event.target.files && event.target.files[0]) {
+			var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event:any) => { // called once readAsDataURL is completed
+       // this.url = event.target.result;
+       this.model.user.url = event.target.result;
+      // this.updateInfo();
+       console.log(this.model.user.url);
+
+   }
+}
+}
+
+
 
 	verifyThere(){
 		Object.keys(this.errors).forEach((key)=>{
