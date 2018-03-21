@@ -223,7 +223,8 @@ var routeHandler = {
 				firebase.database().ref("users").once("value").then((users) => {
 					var data = [];
 					closeUsers.forEach((closeUser) => {
-						if(users.val()[closeUser.uid]){
+						//Nirali fix the spelling of visibility
+						if(users.val()[closeUser.uid] && (users.val()[closeUser.uid]).visibility == 100){
 							data.push(users.val()[closeUser.uid]);
 							data[data.length-1].distance = closeUser.distance;
 							data[data.length-1].lat = closeUser.lat;
