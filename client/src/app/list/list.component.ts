@@ -122,6 +122,23 @@ export class ListComponent implements OnInit {
     });
   }
 
+
+    updateFilter(){
+
+this.auth.getUser().then((user) => {
+      this.db.updateUser(this.model.user).then((data) => {
+        console.log(data);
+      
+      }).catch((err)=>{
+        console.error(err);
+      
+      })
+
+    });
+
+    }
+    
+
   particlesConfig;
   submitted = false;
 

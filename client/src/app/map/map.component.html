@@ -46,19 +46,20 @@
 				<!-- <div class="medium-3 column" class="hidden">A</div> -->
 				<div class="medium-12 column" id="filterContent">
 					<p id="filterTitle">Only see those with similar...</p>
-					<input id="sports" type="checkbox" name="Sports"><label for="sports">Sports</label>
-					<input id="music" type="checkbox" name="Music"><label for="music">Music</label>
-					<input id="food" type="checkbox" name="Food"><label for="food">Food</label><br>
-					<input id="facebook" type="checkbox" name="Facebook"><label for="facebook">Facebook</label>
-					<input id="twitter" type="checkbox" name="Twitter"><label for="twitter">Twitter</label>
-					<input id="LinkedIn" type="checkbox" name="LinkedIn"><label for="LinkedIn">LinkedIn</label>
-					<input id="BlackBoard" type="checkbox" name="BlackBoard"><label for="BlackBoard">BlackBoard</label>
+					<input id="sports" type="checkbox" name="Sports" [(ngModel)]="model.user.filterSports"><label for="sports">Sports</label>
+					<input id="music" type="checkbox" name="Music"[(ngModel)]="model.user.filterMusic"><label for="music">Music</label>
+					<input id="food" type="checkbox" name="Food"[(ngModel)]="model.user.filterFood"><label for="food">Food</label><br>
+					<input id="facebook" type="checkbox" name="Facebook"[(ngModel)]="model.user.filterFacebook"><label for="facebook">Facebook</label>
+					<input id="twitter" type="checkbox" name="Twitter"[(ngModel)]="model.user.filterTwitter"><label for="twitter">Twitter</label>
+					<input id="LinkedIn" type="checkbox" name="LinkedIn"[(ngModel)]="model.user.filterLinkedIn"><label for="LinkedIn">LinkedIn</label>
+					<input id="BlackBoard" type="checkbox" name="BlackBoard"[(ngModel)]="model.user.filterBlackBoard"><label for="BlackBoard">BlackBoard</label>
 
 					<div class="medium-6 column">
-						<button class="button selectedButton"><i class="fa fa-check"></i> Save</button>
+						<button class="button selectedButton" (click)="updateFilter()"><i class="fa fa-check"></i> Save</button>
 					</div>
 					<div class="medium-6 column">
 							<button class="button selectedButton" (click)="closeFilter()"><i class="fa fa-times"></i> Close</button>
+						
 					</div>
 				</div>
 			</div>	

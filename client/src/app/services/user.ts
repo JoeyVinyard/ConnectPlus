@@ -2,27 +2,29 @@ export class User {
 
 	public uid: String;
 	public email: string;
-	// public password: string;//
 	public moodStatus: string;
-	// public confpass: string;//
 	public visibility: number;
 
-public url: string;
+	public url: string;
 
 	public firstName: string;
 	public lastName: string;
 	public fullName: string;
-	// public newPass: string;//
-	// public conNewPass: string;//
-//	public oldPass: string;//
-	//public currentEmail: string;//
 	public gender: string;
-	//public deletePassword: string;//
 
 	public age: Number;
 
 	public screenName: string;//Twitter ScreenName
-	//public newEmail: string;
+
+	public filterSports: Boolean;
+	public filterMusic: Boolean;
+	public filterFood: Boolean;
+	public filterFacebook: Boolean;
+	public filterTwitter: Boolean;
+	public filterLinkedIn: Boolean;
+	public filterBlackBoard: Boolean;
+
+
 
 	public sports1: Boolean;
 	public sports2: Boolean;
