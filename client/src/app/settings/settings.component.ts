@@ -88,7 +88,7 @@ export class SettingsComponent implements OnInit {
 
 
 
-	url = '';
+	url;
 	onSelectFile(event) {
 		if (event.target.files && event.target.files[0]) {
 			var reader = new FileReader();
@@ -476,6 +476,7 @@ setVisible(number){
 
 				this.model.user = userData
 				console.log(userData)
+				this.url = this.model.user.url;
 			})
 
 		});
