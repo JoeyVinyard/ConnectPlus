@@ -187,21 +187,21 @@ setVisible(number){
 
 
 
-	vis(){
-		this.model.user.visability = this.visibility
-		this.auth.getUser().then((user) => {
-			//this.model.user.uid = user.uid;
-			this.db.updateUser(this.model.user).then((data) => {
-				console.log(data);
-				//this.router.navigateByUrl('map');
-			}).catch((err)=>{
-				console.error(err);
+	// vis(){
+	// 	this.model.user.visability = this.visibility
+	// 	this.auth.getUser().then((user) => {
+	// 		//this.model.user.uid = user.uid;
+	// 		this.db.updateUser(this.model.user).then((data) => {
+	// 			console.log(data);
+	// 			//this.router.navigateByUrl('map');
+	// 		}).catch((err)=>{
+	// 			console.error(err);
 
-				//Form rejected for some reason
-			})
-		});
+	// 			//Form rejected for some reason
+	// 		})
+	// 	});
 
-	}
+	// }
 
 
 
