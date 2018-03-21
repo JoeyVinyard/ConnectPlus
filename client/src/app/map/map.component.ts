@@ -104,7 +104,7 @@ export class MapComponent implements OnInit {
   
   setVisible(number){
     this.visibility = number;
-      this.model.user.visability = number;
+      this.model.user.visibility = number;
 
 
 		this.auth.getUser().then((user) => {
@@ -147,7 +147,7 @@ export class MapComponent implements OnInit {
 
 				this.model.user = userData
 				console.log(userData)
-				this.visibility = this.model.user.visability;
+				this.visibility = this.model.user.visbility;
 			})
 
 		});
