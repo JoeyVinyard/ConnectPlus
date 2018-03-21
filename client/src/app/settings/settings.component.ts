@@ -442,21 +442,7 @@ setVisible(number){
 		if(this.model.password && this.model.email){
 			this.auth.reauthenticate2(this.model.email, this.model.password).then((credential) => {
 				this.auth.getUser().then((user) => {
-					// this.db.deleteUser(user).then(() => {
-					// 	this.auth.deleteUser(user).then(() => {;	
-					// 	this.model.password = "";
-					// 	this.model.email = "";
-					// 	this.router.navigateByUrl("");
-					// }).catch((err)=>{
-					// 	//console.error(err);
-					// 	this.errors.cred = "Looks like something went wrong, pleae try again";
-
-					// })
-					// }).catch((err)=>{
-					// 	//console.error(err);
-					// 	this.errors.cred = "Looks like something went wrong, pleae try again";
-
-					// })
+		
 					this.db.deleteUser(user);
 						this.auth.deleteUser(user);	
 						this.model.password = "";
