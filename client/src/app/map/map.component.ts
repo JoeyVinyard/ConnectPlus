@@ -151,12 +151,7 @@ export class MapComponent implements OnInit {
 				this.model.user = userData;
 				console.log(userData)
 			})
-		}); 
-		
-		
-
-
-
+		});
 	}
 
 	ngOnInit() {
@@ -185,6 +180,48 @@ export class MapComponent implements OnInit {
 							
 							if(match){
 								
+								filterUsers.push(user);
+							}									
+						resolve(filterUsers);
+					}).catch((err) => {
+						console.log(err);
+						reject(err);
+					});
+					});
+				}).then((users: any) => {
+					this.nearbyUsers = filterUsers;
+					console.log("Filtered Users:", filterUsers);
+				});
+			}).catch((err) => {
+				console.error(err);
+			});
+
+		}
+
+	}
+
+	filterUsersBasedOnTwitter(){
+		var filterUsers = [];
+		if(true){
+			
+			this.db.getTwitterFollowees(this.model.user.uid).then((followees) => {
+				var followeeMap = new Map();
+
+				followees.forEach((followee) => {
+					followeeMap.set(followee, 1);
+				});
+				var p = new Promise((resolve, reject) => {
+					this.nearbyUsers.forEach((user) => {
+						this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
+							var match = false;
+							nearbyFollowee.forEach((followee) => {
+								//console.log(followee);
+								if(followeeMap.get(followee)){
+									match = true;
+								}
+							});
+							
+							if(match){
 								filterUsers.push(user);
 							}									
 						resolve(filterUsers);
