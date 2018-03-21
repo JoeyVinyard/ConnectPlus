@@ -7,98 +7,42 @@
     	<div class="medium-12 column" id="listView">
     		<!-- <div class="medium-3 column"> -->
 				<div class="medium-12 column" id="InnerList" [ngClass]="{'' : !userVisible, 'opacity' : userVisible}">
-					<div class="medium-4 column" id="userDiv" (click)='viewUser()'>
+					<div class="medium-4 column" id="userDiv" (click)='viewUser(user)' *ngFor="let user of nearbyUsers">
 							<!-- <div id="userDivImg" class="medium-1 column"> -->
 									<img id="listUser" src="../../assets/profileicon.ico">
 							<!-- </div> -->
 							<div id="userDivInfo" class="medium-8 column">
 								<div class="medium-8 column" id="innerDiv">
-										<p id="userNameSmall">User Name</p>
+										<p id="userNameSmall">{{displayedUser.firstName}} {{displayedUser.lastName}}</p>
 								</div>
 								<div class="medium-8 column" id="innerDiv">
-										<p id="lowerText">Mood Status</p>
+										<p id="lowerText">{{displayedUser.moodStatus}}</p>
 								</div>
 								<div class="medium-8 column" id="innerDiv">
-										<p id="lowerText">Distance Away</p>
+										<p id="lowerText">{{displayedUser.distanceInMiles}} Miles</p>
 								</div>
 								<div class="medium-8 column" id="innerDiv">
 										<p id="lowerText">Commonalities</p>
 								</div>
 							</div>
 						</div>
-						<div class="medium-4 column" id="userDiv" (click)='viewUser()'>
-								<!-- <div id="userDivImg" class="medium-1 column"> -->
-										<img id="listUser" src="../../assets/profileicon.ico">
-								<!-- </div> -->
-								<div id="userDivInfo" class="medium-8 column">
-									<div class="medium-8 column" id="innerDiv">
-											<p id="userNameSmall">User Name</p>
-									</div>
-									<div class="medium-8 column" id="innerDiv">
-											<p id="lowerText">Mood Status</p>
-									</div>
-									<div class="medium-8 column" id="innerDiv">
-											<p id="lowerText">Distance Away</p>
-									</div>
-									<div class="medium-8 column" id="innerDiv">
-											<p id="lowerText">Commonalities</p>
-									</div>
-								</div>
-							</div>
-							<div class="medium-4 column" id="userDiv" (click)='viewUser()'>
-									<!-- <div id="userDivImg" class="medium-1 column"> -->
-											<img id="listUser" src="../../assets/profileicon.ico">
-									<!-- </div> -->
-									<div id="userDivInfo" class="medium-8 column">
-										<div class="medium-8 column" id="innerDiv">
-												<p id="userNameSmall">User Name</p>
-										</div>
-										<div class="medium-8 column" id="innerDiv">
-												<p id="lowerText">Mood Status</p>
-										</div>
-										<div class="medium-8 column" id="innerDiv">
-												<p id="lowerText">Distance Away</p>
-										</div>
-										<div class="medium-8 column" id="innerDiv">
-												<p id="lowerText">Commonalities</p>
-										</div>
-									</div>
-								</div>
-								<div class="medium-4 column" id="userDiv" (click)='viewUser()'>
-										<!-- <div id="userDivImg" class="medium-1 column"> -->
-												<img id="listUser" src="../../assets/profileicon.ico">
-										<!-- </div> -->
-										<div id="userDivInfo" class="medium-8 column">
-											<div class="medium-8 column" id="innerDiv">
-													<p id="userNameSmall">User Name</p>
-											</div>
-											<div class="medium-8 column" id="innerDiv">
-													<p id="lowerText">Mood Status</p>
-											</div>
-											<div class="medium-8 column" id="innerDiv">
-													<p id="lowerText">Distance Away</p>
-											</div>
-											<div class="medium-8 column" id="innerDiv">
-													<p id="lowerText">Commonalities</p>
-											</div>
-										</div>
-									</div>
+
 				</div>
 
 				<div class="medium-12 column" id="selectedUser" [ngClass]="{'' : userVisible, 'none' : !userVisible}">
 					<!-- <div class="medium-3 column" class="hidden">A</div> -->
 					<div class="medium-12 column" id="selectedUserInfo">
-							<img id="listUser" src="../../assets/profileicon.ico"><br>
+							<img id="listUser" [src]="displayedUser.url"><br>
 
 							<div id="SelectedUserDivInfo" class="medium-12 column">
 									<div class="medium-8 column" id="innerDiv">
-											<p id="SelectedUserNameSmall">User Name</p>
+											<p id="SelectedUserNameSmall">{{displayedUser.firstName}} {{displayedUser.lastName}}</p>
 									</div>
 									<div class="medium-8 column" id="innerDiv">
-											<p id="SelectedLowerText">Mood Status</p>
+											<p id="SelectedLowerText">{{displayedUser.moodStatus}}</p>
 									</div>
 									<div class="medium-8 column" id="innerDiv">
-											<p id="SelectedLowerText">Distance Away</p>
+											<p id="SelectedLowerText">{{displayedUser.distanceInMiles}} Miles</p>
 									</div>
 									<div class="medium-8 column" id="innerDiv">
 											<p id="SelectedLowerText">Commonalities</p>

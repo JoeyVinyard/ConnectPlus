@@ -16,6 +16,9 @@ export class ListComponent implements OnInit {
   editMood = false;
   editRange = false;
 
+  nearbyUsers = [];
+	displayedUser: any={};
+
   toggleMood(){
     this.editMood = !this.editMood;
   }
@@ -26,10 +29,13 @@ export class ListComponent implements OnInit {
 
   userVisible = false;
 
-  viewUser(){
-    this.userVisible = true;
-    console.log("Clicked");
-  }
+  viewUser(user: any={}){
+		this.userVisible = true;
+		this.displayedUser = user;
+		this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance/5280)*100)/100;
+		if(isNaN(this.displayedUser.distanceInMiles))
+			this.displayedUser.distanceInMiles = 0;
+	}
 
   closeUser(){
     this.userVisible = false;
@@ -147,6 +153,14 @@ export class ListComponent implements OnInit {
       auth.getUser().then((u) => {
         db.storeLocation(l, u.uid).then((d) =>{
           console.log(d);
+
+          db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+						console.log("Nearby:",nearbyUsers);
+						this.nearbyUsers = nearbyUsers;
+					}).catch((err) => {
+						console.error(err);
+          })
+          
         }).catch((e) =>{
           console.error(e);
         })
