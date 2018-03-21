@@ -147,7 +147,7 @@ export class MapComponent implements OnInit {
 
 				this.model.user = userData
 				console.log(userData)
-				this.visibility = this.model.user.visbility;
+				this.visibility = this.model.user.visibility;
 			})
 
 		});

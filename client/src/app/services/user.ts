@@ -5,7 +5,7 @@ export class User {
 	// public password: string;//
 	public moodStatus: string;
 	// public confpass: string;//
-	public visability: number;
+	public visibility: number;
 
 public url: string;
 
