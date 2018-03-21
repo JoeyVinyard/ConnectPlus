@@ -58,7 +58,8 @@ export class ListComponent implements OnInit {
 
  model = {
     user: new User(),
-    moodStatus: ""
+    moodStatus: "",
+ 
   }
   errors = {
     mood: ""
@@ -137,7 +138,7 @@ this.auth.getUser().then((user) => {
     });
 
     }
-    
+
 
   particlesConfig;
   submitted = false;

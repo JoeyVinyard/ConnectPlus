@@ -16,13 +16,13 @@ export class User {
 
 	public screenName: string;//Twitter ScreenName
 
-	public filterSports: Boolean;
-	public filterMusic: Boolean;
-	public filterFood: Boolean;
-	public filterFacebook: Boolean;
-	public filterTwitter: Boolean;
-	public filterLinkedIn: Boolean;
-	public filterBlackBoard: Boolean;
+	public filterSports: boolean;
+	public filterMusic: boolean;
+	public filterFood: boolean;
+	public filterFacebook: boolean;
+	public filterTwitter: boolean;
+	public filterLinkedIn: boolean;
+	public filterBlackBoard: boolean;
 
 
 

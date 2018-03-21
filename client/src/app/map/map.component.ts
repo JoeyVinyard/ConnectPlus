@@ -31,7 +31,14 @@ export class MapComponent implements OnInit {
 
 	model = {
 		user: new User(),
-		moodStatus: ""
+		moodStatus: "",
+		// filterSports: false,
+		// filterMusic: false,
+		// filterFood: false,
+		// filterFacebook: false,
+		// filterTwitter: false,
+		// filterLinkedIn: false,
+		// filterBlackBoard: false
 	}
 	errors = {
 		mood: ""
@@ -78,36 +85,44 @@ export class MapComponent implements OnInit {
 
 	closeUser(){
 		this.userVisible = false;
-  }
-  
-  filterVisible = false;
+	}
 
-  viewFilter(){
-    this.filterVisible = true;
-  }
+	filterVisible = false;
 
-  closeFilter(){
+	viewFilter(){
+		this.filterVisible = true;
+	}
+
+	filterSports= false;
+		filterMusic = false
+		filterFood = false
+		filterFacebook = false
+		filterTwitter = false
+		filterLinkedIn = false
+		filterBlackBoard = false
+
+	 closeFilter(){
     this.filterVisible = false;
   }
 
-  toggleFilter(){
+	  toggleFilter(){
     this.filterVisible = !this.filterVisible;
     console.log("hit");
   }
 
-  nearbyPin = ("../../assets/NearbyPin.png");
-  userPin = ("../../assets/UserPin.png");
+	nearbyPin = ("../../assets/NearbyPin.png");
+	userPin = ("../../assets/UserPin.png");
 
   //Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
-	visibility;
+  visibility;
   // visibility = this.model.user.visability;
   
   setVisible(number){
-    this.visibility = number;
-      this.model.user.visibility = number;
+  	this.visibility = number;
+  	this.model.user.visibility = number;
 
 
-		this.auth.getUser().then((user) => {
+  	this.auth.getUser().then((user) => {
 			//this.model.user.uid = user.uid;
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
@@ -125,176 +140,176 @@ export class MapComponent implements OnInit {
 
 
 
-    }
+  }
 
     updateFilter(){
 
 this.auth.getUser().then((user) => {
-			this.db.updateUser(this.model.user).then((data) => {
-				console.log(data);
-			
-			}).catch((err)=>{
-				console.error(err);
-			
-			})
+      this.db.updateUser(this.model.user).then((data) => {
+        console.log(data);
+      
+      }).catch((err)=>{
+        console.error(err);
+      
+      })
 
-		});
+    });
 
     }
 
 
-	particlesConfig;
-	submitted = false;
+  particlesConfig;
+  submitted = false;
 
 
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService ) {
+  constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService ) {
 
 
-		this.auth.isAuthed().then((user) => {
-			console.log("Authed:",user)
-			this.model.user.uid = user.uid;
-		});	
+  	this.auth.isAuthed().then((user) => {
+  		console.log("Authed:",user)
+  		this.model.user.uid = user.uid;
+  	});	
 
 
-		this.auth.getUser().then((user) => {
-			
-			this.db.getUser(user.uid).then((userData) => {
+  	this.auth.getUser().then((user) => {
 
-				this.model.user = userData
-				console.log(userData)
-				this.visibility = this.model.user.visibility;
-			})
+  		this.db.getUser(user.uid).then((userData) => {
 
-		});
+  			this.model.user = userData
+  			console.log(userData)
+  			this.visibility = this.model.user.visibility;
+  		})
 
-
+  	});
 
 
-		loc.getLocation().then((l)=> {
-			auth.getUser().then((u) => {
-				db.storeLocation(l, u.uid).then((d) =>{
-					this.lat = l.latitude;
-					this.lng = l.longitude;
-			
-					db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
-						console.log("Followees: ", twitterFollowees);
-					})
-
-					db.getNearbyUsers(u.uid).then((nearbyUsers) => {
-						console.log("Nearby:",nearbyUsers);
-						this.nearbyUsers = nearbyUsers;
-					}).catch((err) => {
-						console.error(err);
-					})
-				}).catch((e) =>{
-					console.error(e);
-				})
-			})
-		})
 
 
-		this.auth.isAuthed().then((user) => {
-			console.log("Authed:",user)
-			this.model.user.uid = user.uid;
-			
-		});  
+  	loc.getLocation().then((l)=> {
+  		auth.getUser().then((u) => {
+  			db.storeLocation(l, u.uid).then((d) =>{
+  				this.lat = l.latitude;
+  				this.lng = l.longitude;
 
-		this.auth.getUser().then((user) => {
-			this.model.user.uid = user.uid;
-			this.db.getUser(user.uid).then((userData) => {
-				this.model.moodStatus = userData.moodStatus;
+  				db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
+  					console.log("Followees: ", twitterFollowees);
+  				})
 
-				this.model.user = userData;
-				console.log(userData)
-			})
-		});
-	}
+  				db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+  					console.log("Nearby:",nearbyUsers);
+  					this.nearbyUsers = nearbyUsers;
+  				}).catch((err) => {
+  					console.error(err);
+  				})
+  			}).catch((e) =>{
+  				console.error(e);
+  			})
+  		})
+  	})
 
-	ngOnInit() {
-	}
 
-	filterUsersBasedOnFacebook(){
-		var filterUsers = [];
-		if(true /*check facebook thing*/){
-			
-			this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
-				var friendMap = new Map();
+  	this.auth.isAuthed().then((user) => {
+  		console.log("Authed:",user)
+  		this.model.user.uid = user.uid;
 
-				friends.forEach((friend) => {
-					friendMap.set(friend, 1);
-				});
-				var p = new Promise((resolve, reject) => {
-					this.nearbyUsers.forEach((user) => {
-						this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
-							var match = false;
-							nearbyFriend.forEach((friend) => {
+  	});  
+
+  	this.auth.getUser().then((user) => {
+  		this.model.user.uid = user.uid;
+  		this.db.getUser(user.uid).then((userData) => {
+  			this.model.moodStatus = userData.moodStatus;
+
+  			this.model.user = userData;
+  			console.log(userData)
+  		})
+  	});
+  }
+
+  ngOnInit() {
+  }
+
+  filterUsersBasedOnFacebook(){
+  	var filterUsers = [];
+  	if(true /*check facebook thing*/){
+
+  		this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
+  			var friendMap = new Map();
+
+  			friends.forEach((friend) => {
+  				friendMap.set(friend, 1);
+  			});
+  			var p = new Promise((resolve, reject) => {
+  				this.nearbyUsers.forEach((user) => {
+  					this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
+  						var match = false;
+  						nearbyFriend.forEach((friend) => {
 								//console.log(friend);
 								if(friendMap.get(friend)){
 									match = true;
 								}
 							});
-							
-							if(match){
-								
-								filterUsers.push(user);
-							}									
-						resolve(filterUsers);
-					}).catch((err) => {
-						console.log(err);
-						reject(err);
-					});
-					});
-				}).then((users: any) => {
-					this.nearbyUsers = filterUsers;
-					console.log("Filtered Users:", filterUsers);
-				});
-			}).catch((err) => {
-				console.error(err);
-			});
 
-		}
+  						if(match){
 
-	}
+  							filterUsers.push(user);
+  						}									
+  						resolve(filterUsers);
+  					}).catch((err) => {
+  						console.log(err);
+  						reject(err);
+  					});
+  				});
+  			}).then((users: any) => {
+  				this.nearbyUsers = filterUsers;
+  				console.log("Filtered Users:", filterUsers);
+  			});
+  		}).catch((err) => {
+  			console.error(err);
+  		});
 
-	filterUsersBasedOnTwitter(){
-		var filterUsers = [];
-		if(true){
-			
-			this.db.getTwitterFollowees(this.model.user.uid).then((followees) => {
-				var followeeMap = new Map();
+  	}
 
-				followees.forEach((followee) => {
-					followeeMap.set(followee, 1);
-				});
-				var p = new Promise((resolve, reject) => {
-					this.nearbyUsers.forEach((user) => {
-						this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
-							var match = false;
-							nearbyFollowee.forEach((followee) => {
+  }
+
+  filterUsersBasedOnTwitter(){
+  	var filterUsers = [];
+  	if(true){
+
+  		this.db.getTwitterFollowees(this.model.user.uid).then((followees) => {
+  			var followeeMap = new Map();
+
+  			followees.forEach((followee) => {
+  				followeeMap.set(followee, 1);
+  			});
+  			var p = new Promise((resolve, reject) => {
+  				this.nearbyUsers.forEach((user) => {
+  					this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
+  						var match = false;
+  						nearbyFollowee.forEach((followee) => {
 								//console.log(followee);
 								if(followeeMap.get(followee)){
 									match = true;
 								}
 							});
-							
-							if(match){
-								filterUsers.push(user);
-							}									
-						resolve(filterUsers);
-					}).catch((err) => {
-						console.log(err);
-						reject(err);
-					});
-					});
-				}).then((users: any) => {
-					this.nearbyUsers = filterUsers;
-					console.log("Filtered Users:", filterUsers);
-				});
-			}).catch((err) => {
-				console.error(err);
-			});
 
-		}
+  						if(match){
+  							filterUsers.push(user);
+  						}									
+  						resolve(filterUsers);
+  					}).catch((err) => {
+  						console.log(err);
+  						reject(err);
+  					});
+  				});
+  			}).then((users: any) => {
+  				this.nearbyUsers = filterUsers;
+  				console.log("Filtered Users:", filterUsers);
+  			});
+  		}).catch((err) => {
+  			console.error(err);
+  		});
 
-	}
+  	}
+
+  }
 }
