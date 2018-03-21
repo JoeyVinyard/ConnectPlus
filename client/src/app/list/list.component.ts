@@ -96,7 +96,24 @@ export class ListComponent implements OnInit {
   
   setVisible(number){
     this.visibility = number;
-      //this.model.user.visability = number;
+      this.model.user.visability = number;
+
+
+    this.auth.getUser().then((user) => {
+      //this.model.user.uid = user.uid;
+      this.db.updateUser(this.model.user).then((data) => {
+        console.log(data);
+        //this.success.changeInfoS = "Your information has been updated!"
+        //this.router.navigateByUrl('map');
+      }).catch((err)=>{
+        console.error(err);
+        //this.errors.changeInfoE = "Your information has NOT been updated!"
+
+        //Form rejected for some reason
+      })
+      //this.success.changeInfoS = "Your information has been updated!"
+
+    });
   }
 
   particlesConfig;
@@ -104,6 +121,27 @@ export class ListComponent implements OnInit {
 
 
   constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService ) {
+
+
+
+    this.auth.isAuthed().then((user) => {
+      console.log("Authed:",user)
+      this.model.user.uid = user.uid;
+    });  
+
+
+    this.auth.getUser().then((user) => {
+      
+      this.db.getUser(user.uid).then((userData) => {
+
+        this.model.user = userData
+        console.log(userData)
+        this.visibility = this.model.user.visability;
+      })
+
+    });
+
+
 
     loc.getLocation().then((l)=> {
       auth.getUser().then((u) => {
