@@ -100,6 +100,16 @@ export class DatabaseService {
 			})
 		});
 	}
+	getTwitterFollowees(uid: String): Promise<any> {
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/getTwitterFollowees/"+uid, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		});
+	}
 	getUsersWithCommonFacebookFriends(uid: String): Promise<any> {
 		return new Promise((resolve, reject) => {
 			this.http.get("http://localhost:3000/getUsersWithCommonFacebookFriends/"+uid, this.httpOptions).subscribe((data) => {

@@ -119,7 +119,10 @@ export class MapComponent implements OnInit {
 				db.storeLocation(l, u.uid).then((d) =>{
 					this.lat = l.latitude;
 					this.lng = l.longitude;
-					
+			
+					db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
+						console.log("Followees: ", twitterFollowees);
+					})
 
 					db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 						console.log("Nearby:",nearbyUsers);
@@ -162,17 +165,14 @@ export class MapComponent implements OnInit {
 	filterUsersBasedOnFacebook(){
 		var filterUsers = [];
 		if(true /*check facebook thing*/){
-
+			
 			this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
 				var friendMap = new Map();
 
 				friends.forEach((friend) => {
-//					console.log(friend);
 					friendMap.set(friend, 1);
 				});
 				var p = new Promise((resolve, reject) => {
-
-
 					this.nearbyUsers.forEach((user) => {
 						this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
 							var match = false;
@@ -186,33 +186,17 @@ export class MapComponent implements OnInit {
 							if(match){
 								
 								filterUsers.push(user);
-							}	
-
-
-/*						for(  in nearbyFriend){
-							console.log(friend.id);
-							if(friendMap.get(friend.id)){
-								match = true;
-								break;
-							}
-						}*/
-
-									
-
+							}									
 						resolve(filterUsers);
 					}).catch((err) => {
 						console.log(err);
 						reject(err);
 					});
-
 					});
 				}).then((users: any) => {
 					this.nearbyUsers = filterUsers;
 					console.log("Filtered Users:", filterUsers);
 				});
-				
-				//this.nearbyUsers = filterUsers;
-
 			}).catch((err) => {
 				console.error(err);
 			});
