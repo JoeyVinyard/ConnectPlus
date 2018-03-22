@@ -516,7 +516,8 @@ link_facebook(){
 	/*todo: Check if loggedin already */
 	this.fb.getLoginStatus()
 	.then(res=>{
-		if(res && res.status === 'unknown'){
+		console.log(res.status);
+		if(res && res.status === 'unknown' || res.status === 'not_authorized'){
 			this.fb.login(loginOptions)
 			.then((res: LoginResponse) => {
 				console.log('Logged in', res);
