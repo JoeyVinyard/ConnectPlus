@@ -21,6 +21,17 @@ export class MapComponent implements OnInit {
 	nearbyUsers = [];
 	displayedUser: any={};
 
+	refreshMap(){
+		this.auth.getUser().then((u) => {
+				this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+					console.log("Nearby:",nearbyUsers);
+					this.nearbyUsers = nearbyUsers;
+				}).catch((err) => {
+					console.error(err);
+				})
+		})
+	}
+
 	toggleMood(){
 		this.editMood = !this.editMood;
 	}
