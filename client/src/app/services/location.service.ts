@@ -7,6 +7,7 @@ export class LocationService {
     return new Promise((resolve, reject) => {
       console.log("got called");
       window.navigator.geolocation.getCurrentPosition((pos) => {
+        console.warn(pos);
         if(pos)
           resolve(pos.coords);
         else
