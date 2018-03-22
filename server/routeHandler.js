@@ -1,4 +1,5 @@
 var firebase = require('firebase');
+var distanceCalc = require('./distanceCalc.js');
 var config = require('./config.js');
 firebase.initializeApp(config.fbConfig);
 firebase.auth().signInWithEmailAndPassword("admin@connectpl.us", config.password);
@@ -191,7 +192,7 @@ module.exports = {
 							lat: loc.val().lat,
 							lon: loc.val().lon
 						};
-						var d = getDistance(c1,c2);
+						var d = distanceCalc.getDistance(c1,c2);
 						if(d <= 15840 && loc.val().uid != uid){//3 miles
 							nearbyUids.push({
 								uid: loc.val().uid,
@@ -217,11 +218,6 @@ module.exports = {
 							data[data.length-1].lon = closeUser.lon;
 						}
 					})
-					if(data.length == 0){
-						res.statusCode = 400;
-						res.end();
-						return;
-					}
 					res.statusCode = 200;
 					responseBody.payload = data;
 					res.write(JSON.stringify(responseBody));
