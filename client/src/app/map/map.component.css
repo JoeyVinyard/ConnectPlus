@@ -34,7 +34,24 @@
     height: 60vh;
     width: 100%;
     text-align: center;
-    margin-bottom: -50px;
+	margin-bottom: -50px;
+	position: relative;
+}
+
+#refreshDiv{
+	position: absolute;
+	z-index: 2;
+	top:0;
+	right: 0;
+}
+
+.refreshButton{
+	background: transparent;
+	font-size: 1.5rem;
+	color: #004E7F;
+	margin: 1rem;
+	margin-right: 1.5rem;
+	padding: 0px;
 }
 
 #innerMap{
