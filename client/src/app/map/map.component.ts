@@ -181,13 +181,16 @@ this.auth.getUser().then((user) => {
   		})
 
   	});
-
+    console.log("Early reeeee");
 
 
 
   	loc.getLocation().then((l)=> {
+      console.log("Reeeeeeeeeeeeeeee");
   		auth.getUser().then((u) => {
+      console.log("Reeeeeeeeeeeeeeee2");
   			db.storeLocation(l, u.uid).then((d) =>{
+      console.log("Reeeeeeeeeeeeeeee3");
   				this.lat = l.latitude;
   				this.lng = l.longitude;
 
