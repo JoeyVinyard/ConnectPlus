@@ -37,6 +37,18 @@
     margin-bottom: -50px;
 }
 
+#refreshDiv{
+	position: absolute;
+	z-index: 2;
+	top:0;
+	right: 0;
+}
+
+.refreshButton{
+	background: transparent;
+	color: red;
+}
+
 #innerMap{
     height: 100%;
 	width: 100%;
