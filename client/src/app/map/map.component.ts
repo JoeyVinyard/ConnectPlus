@@ -23,13 +23,13 @@ export class MapComponent implements OnInit {
 
 	refreshMap(){
 		this.auth.getUser().then((u) => {
-				this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
-					console.log("Nearby:",nearbyUsers);
-					this.nearbyUsers = nearbyUsers;
-				}).catch((err) => {
-					console.error(err);
-				})
-		})
+      this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+        console.log("Nearby:",nearbyUsers);
+        this.nearbyUsers = nearbyUsers;
+      }).catch((err) => {
+        console.error(err);
+      })
+    })
 	}
 
 	toggleMood(){
@@ -105,24 +105,24 @@ export class MapComponent implements OnInit {
 	}
 
 	filterSports= false;
-		filterMusic = false
-		filterFood = false
-		filterFacebook = false
-		filterTwitter = false
-		filterLinkedIn = false
-		filterBlackBoard = false
+  filterMusic = false
+  filterFood = false
+  filterFacebook = false
+  filterTwitter = false
+  filterLinkedIn = false
+  filterBlackBoard = false
 
-	 closeFilter(){
+  closeFilter(){
     this.filterVisible = false;
   }
 
-	  toggleFilter(){
+  toggleFilter(){
     this.filterVisible = !this.filterVisible;
     console.log("hit");
   }
 
-	nearbyPin = ("../../assets/NearbyPin.png");
-	userPin = ("../../assets/UserPin.png");
+  nearbyPin = ("../../assets/NearbyPin.png");
+  userPin = ("../../assets/UserPin.png");
 
   //Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
   visibility;
@@ -153,20 +153,45 @@ export class MapComponent implements OnInit {
 
   }
 
-    updateFilter(){
+  updateFilter(){
 
-this.auth.getUser().then((user) => {
+    this.auth.getUser().then((user) => {
       this.db.updateUser(this.model.user).then((data) => {
         console.log(data);
-      
+
       }).catch((err)=>{
         console.error(err);
-      
+
       })
 
     });
+    
+    
+    if(this.model.user.filterSports){
 
     }
+    if( this.model.user.filterMusic){
+
+    }
+    if(this.model.user.filterFood){
+
+    }
+    if(this.model.user.filterFacebook){
+      this.filterUsersBasedOnFacebook();
+    }
+    if( this.model.user.filterTwitter){
+      this.filterUsersBasedOnTwitter();
+    }
+    if( this.model.user.filterLinkedIn){
+
+    }
+    if( this.model.user.filterBlackBoard){
+
+    }
+    console.log("ahhhhh filter is it working?")
+    console.log(this.nearbyUsers);
+
+  }
 
 
   particlesConfig;
@@ -196,47 +221,47 @@ this.auth.getUser().then((user) => {
 
 
 
-  	loc.getLocation().then((l)=> {
+    loc.getLocation().then((l)=> {
       console.log("Reeeeeeeeeeeeeeee");
-  		auth.getUser().then((u) => {
-      console.log("Reeeeeeeeeeeeeeee2");
-  			db.storeLocation(l, u.uid).then((d) =>{
-      console.log("Reeeeeeeeeeeeeeee3");
-  				this.lat = l.latitude;
-  				this.lng = l.longitude;
+      auth.getUser().then((u) => {
+        console.log("Reeeeeeeeeeeeeeee2");
+        db.storeLocation(l, u.uid).then((d) =>{
+          console.log("Reeeeeeeeeeeeeeee3");
+          this.lat = l.latitude;
+          this.lng = l.longitude;
 
-  				db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
-  					console.log("Followees: ", twitterFollowees);
-  				})
+          db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
+            console.log("Followees: ", twitterFollowees);
+          })
 
-  				db.getNearbyUsers(u.uid).then((nearbyUsers) => {
-  					console.log("Nearby:",nearbyUsers);
-  					this.nearbyUsers = nearbyUsers;
-  				}).catch((err) => {
-  					console.error(err);
-  				})
-  			}).catch((e) =>{
-  				console.error(e);
-  			})
-  		})
-  	})
+          db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+            console.log("Nearby:",nearbyUsers);
+            this.nearbyUsers = nearbyUsers;
+          }).catch((err) => {
+            console.error(err);
+          })
+        }).catch((e) =>{
+          console.error(e);
+        })
+      })
+    })
 
 
-  	this.auth.isAuthed().then((user) => {
-  		console.log("Authed:",user)
-  		this.model.user.uid = user.uid;
+    this.auth.isAuthed().then((user) => {
+      console.log("Authed:",user)
+      this.model.user.uid = user.uid;
 
-  	});  
+    });  
 
-  	this.auth.getUser().then((user) => {
-  		this.model.user.uid = user.uid;
-  		this.db.getUser(user.uid).then((userData) => {
-  			this.model.moodStatus = userData.moodStatus;
+    this.auth.getUser().then((user) => {
+      this.model.user.uid = user.uid;
+      this.db.getUser(user.uid).then((userData) => {
+        this.model.moodStatus = userData.moodStatus;
 
-  			this.model.user = userData;
-  			console.log(userData)
-  		})
-  	});
+        this.model.user = userData;
+        console.log(userData)
+      })
+    });
   }
 
   ngOnInit() {
