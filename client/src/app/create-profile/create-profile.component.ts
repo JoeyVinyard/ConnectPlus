@@ -30,7 +30,7 @@ export class CreateProfileComponent implements OnInit {
 
 	//Social Media Shows
 	faceShow = false;
-	instShow = false;
+	twitShow = false;
 	linkShow = false;
 	blackShow = false;
 
@@ -38,14 +38,14 @@ export class CreateProfileComponent implements OnInit {
 	inFacebook = false;
 	inLinkedIn = false;
 	inBlackboard = false;
-	inInstagra = false;
+	inTwitter = false;
 
 	toggleDiv(name){
 		if(name == "faceShow"){
 			this.faceShow = !this.faceShow;
 		}
-		else if(name == "instShow"){
-			this.instShow = !this.instShow;
+		else if(name == "twitShow"){
+			this.twitShow = !this.twitShow;
 		}
 		else if(name == "linkShow"){
 			this.linkShow = !this.linkShow;
