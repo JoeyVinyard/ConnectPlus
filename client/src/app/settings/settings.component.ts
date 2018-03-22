@@ -71,7 +71,7 @@ export class SettingsComponent implements OnInit {
 
 
 	faceShow = false;
-	instShow = false;
+	twitShow = false;
 	linkShow = false;
 	blackShow = false;
 
@@ -79,7 +79,7 @@ export class SettingsComponent implements OnInit {
 	inFacebook = false;
 	inLinkedIn = false;
 	inBlackboard = false;
-	inInstagra = false;
+	inTwitter = false;
 
 	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
 	visibility = 0;
@@ -133,8 +133,8 @@ toggleDiv(name){
 	else if(name == "faceShow"){
 		this.faceShow = !this.faceShow;
 	}
-	else if(name == "instShow"){
-		this.instShow = !this.instShow;
+	else if(name == "twitShow"){
+		this.twitShow = !this.twitShow;
 	}
 	else if(name == "linkShow"){
 		this.linkShow = !this.linkShow;

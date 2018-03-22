@@ -250,8 +250,8 @@ img {
   background-color: rgba(59, 89, 152, 0.8);
 }
 
-#insta-exp{
-  background-color: rgba(138, 58, 185, 0.8);
+#twit-exp{
+  background-color: rgba(0, 172, 237, 0.8);
 }
 
 #link-exp{
@@ -343,12 +343,12 @@ img {
     height: 3.6rem;
   }
   
-  .social-icon-button.instagram {
-    color: #8a3ab9;
+  .social-icon-button.twitter {
+    color: #00aced;
   }
   
-  .social-icon-button.instagram span {
-    background-color: #8a3ab9;
+  .social-icon-button.twitter span {
+    background-color: #00aced;
   }
   
   .social-icon-button.linkedin {
