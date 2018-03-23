@@ -19,10 +19,10 @@
         <!-- <img id="profileIcon" src="../../assets/profileicon.ico"/><br>
           <button id="addProfile" type="button" class="button">Upload Profile Picture</button>-->
             <img id="profileIcon" [src]="model.user.url"/><br>
-                <div class="upload-buttonPhoto-wrapper">
-                  <button class="button">Change Profile Picture</button>
-                  <input type='file' (change)="onSelectFile($event)">
-                </div>
+            <div class="upload-buttonPhoto-wrapper">
+                <button class="button buttonPhoto">Change Profile Picture</button>
+                <input type='file' (change)="onSelectFile($event)" id="hiddenFile">
+              </div>
 
         </div>
         <div class="medium-8 column">

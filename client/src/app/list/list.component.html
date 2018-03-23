@@ -8,9 +8,6 @@
     		<!-- <div class="medium-3 column"> -->
 				<div class="medium-12 column" id="InnerList" [ngClass]="{'' : !userVisible, 'opacity' : userVisible}">
 					<div class="medium-4 column" id="userDiv" (click)='viewUser(user)' *ngFor="let user of filteredUsers">
-							<!-- <div id="userDivImg" class="medium-1 column"> -->
-									<img id="listUser" [src]="user.url">
-							<!-- </div> -->
 							<div id="userDivInfo" class="medium-8 column">
 								<div class="medium-8 column" id="innerDiv">
 										<p id="userNameSmall">{{user.firstName}} {{user.lastName}}</p>
@@ -25,6 +22,9 @@
 										<p id="lowerText">Commonalities</p>
 								</div>
 							</div>
+							<div id="userDivImg" >
+									<img id="listUser" [src]="user.url">
+							</div>
 						</div>
 
 				</div>
@@ -36,7 +36,7 @@
 				<div class="medium-12 column" id="selectedUser" [ngClass]="{'' : userVisible, 'none' : !userVisible}">
 					<!-- <div class="medium-3 column" class="hidden">A</div> -->
 					<div class="medium-12 column" id="selectedUserInfo">
-							<img id="listUser" [src]="displayedUser.url"><br>
+							<img id="listUserSelected" [src]="displayedUser.url"><br>
 
 							<div id="SelectedUserDivInfo" class="medium-12 column">
 									<div class="medium-8 column" id="innerDiv">
