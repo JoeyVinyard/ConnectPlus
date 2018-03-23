@@ -83,13 +83,14 @@ img {
 
 #header{
     text-align: center;
-    width: auto !important;
+    width: 95% !important;
     height: auto !important;
     background-color: rgba(255, 255, 255, 0.8);
     border: 2px solid white;
     border-radius: 25px;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    margin-left: 2.5%;
 
     font-size: 3rem;
     color:#004E7F;
@@ -153,13 +154,14 @@ img {
 
 #accountDetails{
     text-align: center;
-    width: auto !important;
+    width: 95% !important;
     height: auto !important;
     background-color: rgba(255, 255, 255, 0.8);
     border: 2px solid white;
     border-radius: 25px;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    margin-left: 2.5%;
     overflow: auto;
 }
 
@@ -206,13 +208,14 @@ img {
 
 #security{
   text-align: center;
-  width: auto !important;
+  width: 95% !important;
   height: auto !important;
   background-color: rgba(255, 255, 255, 0.8);
   border: 2px solid white;
   border-radius: 25px;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  margin-left: 2.5%;
   overflow: auto;
 }
 
@@ -227,13 +230,14 @@ img {
 
 #socialMedia{
     text-align: center;
-    width: auto !important;
+    width: 95% !important;
     height: auto !important;
     background-color: rgba(255, 255, 255, 0.8);
     border: 2px solid white;
     border-radius: 25px;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    margin-left: 2.5%;
     overflow: auto;
 
 }
@@ -393,38 +397,41 @@ img {
 
 #interests{
     text-align: center;
-    width: auto !important;
+    width: 95% !important;
     height: auto !important;
     background-color: rgba(255, 255, 255, 0.8);
     border: 2px solid white;
     border-radius: 25px;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    margin-left: 2.5%;
     overflow: auto;
 }
 
 #feedbackSection{
     text-align: center;
-    width: auto !important;
+    width: 95% !important;
     height: auto !important;
     background-color: rgba(255, 255, 255, 0.8);
     border: 2px solid white;
     border-radius: 25px;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    margin-left: 2.5%;
     overflow: auto;
     float: center;
 }
 
 #deleteAccount{
     text-align: center;
-    width: auto !important;
+    width: 95% !important;
     height: auto !important;
     background-color: rgba(255, 255, 255, 0.8);
     border: 2px solid white;
     border-radius: 25px;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    margin-left: 2.5%;
     overflow: auto;
     float: center;
 }
