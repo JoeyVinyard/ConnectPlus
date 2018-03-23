@@ -154,14 +154,14 @@ export class MapComponent implements OnInit {
   }
 
   updateFilter(){
-this.auth.getUser().then((u) => {
+    this.auth.getUser().then((u) => {
       this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
       //  console.log("Nearby:",nearbyUsers);
-        this.nearbyUsers = nearbyUsers;
-      }).catch((err) => {
-        console.error(err);
-      })
+      this.nearbyUsers = nearbyUsers;
+    }).catch((err) => {
+      console.error(err);
     })
+  })
     this.auth.getUser().then((user) => {
       this.db.updateUser(this.model.user).then((data) => {
         console.log(data);
@@ -187,7 +187,7 @@ this.auth.getUser().then((u) => {
       this.filterUsersBasedOnFacebook();
     }
     if( this.model.user.filterTwitter){
-      this.filterUsersBasedOnTwitter();
+      //this.filterUsersBasedOnTwitter();
     }
     if( this.model.user.filterLinkedIn){
 
@@ -195,8 +195,10 @@ this.auth.getUser().then((u) => {
     if( this.model.user.filterBlackBoard){
 
     }
+
     console.log("ahhhhh filter is it working?")
-    console.log(this.nearbyUsers);
+    console.log("facebook you work?", this.model.user.filterFacebook)
+    console.log("here here, users are listed", this.nearbyUsers);
 
   }
 
@@ -276,6 +278,7 @@ this.auth.getUser().then((u) => {
 
   filterUsersBasedOnFacebook(){
   	var filterUsers = [];
+    var temp = this.nearbyUsers;
   	if(true /*check facebook thing*/){
 
   		this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
@@ -285,7 +288,7 @@ this.auth.getUser().then((u) => {
   				friendMap.set(friend, 1);
   			});
   			var p = new Promise((resolve, reject) => {
-  				this.nearbyUsers.forEach((user) => {
+  				temp.forEach((user) => {
   					this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
   						var match = false;
   						nearbyFriend.forEach((friend) => {
@@ -296,7 +299,7 @@ this.auth.getUser().then((u) => {
 							});
 
   						if(match){
-
+                 console.log(user);
   							filterUsers.push(user);
   						}									
   						resolve(filterUsers);
