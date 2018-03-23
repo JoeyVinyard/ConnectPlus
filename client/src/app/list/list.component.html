@@ -7,7 +7,7 @@
     	<div class="medium-12 column" id="listView">
     		<!-- <div class="medium-3 column"> -->
 				<div class="medium-12 column" id="InnerList" [ngClass]="{'' : !userVisible, 'opacity' : userVisible}">
-					<div class="medium-4 column" id="userDiv" (click)='viewUser(user)' *ngFor="let user of nearbyUsers">
+					<div class="medium-4 column" id="userDiv" (click)='viewUser(user)' *ngFor="let user of filteredUsers">
 							<!-- <div id="userDivImg" class="medium-1 column"> -->
 									<img id="listUser" [src]="user.url">
 							<!-- </div> -->
@@ -66,22 +66,23 @@
 				<div class="medium-12 column" id="filterSection" [ngClass]="{'' : filterVisible, 'none' : !filterVisible}">
 						<!-- <div class="medium-3 column" class="hidden">A</div> -->
 						<div class="medium-12 column" id="filterContent">
-							<p id="filterTitle">Only see those with similar...</p>
-							<input id="sports" type="checkbox" name="Sports" [(ngModel)]="model.user.filterSports"><label for="sports">Sports</label>
-							<input id="music" type="checkbox" name="Music"[(ngModel)]="model.user.filterMusic"><label for="music">Music</label>
-							<input id="food" type="checkbox" name="Food"[(ngModel)]="model.user.filterFood"><label for="food">Food</label><br>
-							<input id="facebook" type="checkbox" name="Facebook"[(ngModel)]="model.user.filterFacebook"><label for="facebook">Facebook</label>
-							<input id="twitter" type="checkbox" name="Twitter"[(ngModel)]="model.user.filterTwitter"><label for="twitter">Twitter</label>
-							<input id="LinkedIn" type="checkbox" name="LinkedIn"[(ngModel)]="model.user.filterLinkedIn"><label for="LinkedIn">LinkedIn</label>
-							<input id="BlackBoard" type="checkbox" name="BlackBoard"[(ngModel)]="model.user.filterBlackBoard"><label for="BlackBoard">BlackBoard</label>
-				
-							<div class="medium-6 column">
-								<button class="button selectedButton" (click)="updateFilter()"><i class="fa fa-check"></i> Save</button>
+								<p id="filterTitle">Only see those with similar...</p>
+								<input id="sports" type="checkbox" name="Sports" [(ngModel)]="model.user.filterSports" (click)="sportsFilter()"><label for="sports" >Sports</label>
+										<input id="music" type="checkbox" name="Music"[(ngModel)]="model.user.filterMusic" (click)="musicFilter()"><label for="music">Music</label>
+										<input id="food" type="checkbox" name="Food"[(ngModel)]="model.user.filterFood" (click)="foodFilter()"><label for="food">Food</label><br>
+										<input id="facebook" type="checkbox" name="Facebook"[(ngModel)]="model.user.filterFacebook" (click)="facebookFilter()"><label for="facebook">Facebook</label>
+										<input id="twitter" type="checkbox" name="Twitter"[(ngModel)]="model.user.filterTwitter" (click)="twitterFilter()"><label for="twitter">Twitter</label>
+										<input id="LinkedIn" type="checkbox" name="LinkedIn"[(ngModel)]="model.user.filterLinkedIn" (click)="linkedinFilter()"><label for="LinkedIn">LinkedIn</label>
+										<input id="BlackBoard" type="checkbox" name="BlackBoard"[(ngModel)]="model.user.filterBlackBoard" (click)="blackboardFilter()"><label for="BlackBoard">BlackBoard</label>
+			
+								<div class="medium-6 column">
+									<!-- <button class="button selectedButton" (click)="updateFilter()"><i class="fa fa-check"></i> Update</button> -->
+								</div>
+								<div class="medium-6 column">
+										<button class="button selectedButton" (click)="closeFilter()"><i class="fa fa-times"></i> Close</button>
+									
+								</div>
 							</div>
-							<div class="medium-6 column">
-									<button class="button selectedButton" (click)="closeFilter()"><i class="fa fa-times"></i> Close</button>
-							</div>
-						</div>
 					</div>
     			
 

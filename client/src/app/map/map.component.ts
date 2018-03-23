@@ -166,27 +166,27 @@ export class MapComponent implements OnInit {
 	}
 
 	sportsFilter(){
-		if(this.model.user.filterSports){
+		if(!this.model.user.filterSports){
 
 		}
 		else{
-
+			this.filteredUsers = this.nearbyUsers;
 		}
 	}
 	musicFilter(){
-		if(this.model.user.filterMusic){
+		if(!this.model.user.filterMusic){
 
 		}
 		else{
-			
+			this.filteredUsers = this.nearbyUsers;
 		}
 	}
 	foodFiler(){
-		if(this.model.user.filterFood){
+		if(!this.model.user.filterFood){
 
 		}
 		else{
-			
+			this.filteredUsers = this.nearbyUsers;
 		}
 	}
 	facebookFilter(){
@@ -198,27 +198,27 @@ export class MapComponent implements OnInit {
 		}
 	}
 	twitterFilter(){
-		if(this.model.user.filterTwitter){
-
+		if(!this.model.user.filterTwitter){
+			this.filterUsersBasedOnTwitter();
 		}
 		else{
-			
+			this.filteredUsers = this.nearbyUsers;
 		}
 	}
 	linkedinFilter(){
-		if(this.model.user.filterLinkedIn){
+		if(!this.model.user.filterLinkedIn){
 
 		}
 		else{
-			
+			this.filteredUsers = this.nearbyUsers;
 		}
 	}
 	blackboardFilter(){
-		if(this.model.user.filterBlackBoard){
+		if(!this.model.user.filterBlackBoard){
 
 		}
 		else{
-			
+			this.filteredUsers = this.nearbyUsers;
 		}
 	}
 

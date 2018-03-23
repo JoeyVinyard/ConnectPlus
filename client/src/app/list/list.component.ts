@@ -17,6 +17,7 @@ export class ListComponent implements OnInit {
 	editRange = false;
 
 	nearbyUsers = [];
+	filteredUsers= [];
 	displayedUser: any={};
 
 	refreshMap(){
@@ -24,6 +25,7 @@ export class ListComponent implements OnInit {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 				console.log("Nearby:",nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
+				this.filteredUsers = nearbyUsers;
 				this.nearbyUsers.forEach((user) => {
 					user.distanceInMiles = Math.round((user.distance/5280)*100)/100;
 				})
@@ -132,7 +134,64 @@ export class ListComponent implements OnInit {
 			//Form rejected for some reason
 		})
 	//this.success.changeInfoS = "Your information has been updated!"
-});
+		});
+	}
+
+	sportsFilter(){
+		if(!this.model.user.filterSports){
+
+		}
+		else{
+			this.filteredUsers = this.nearbyUsers;
+		}
+	}
+	musicFilter(){
+		if(!this.model.user.filterMusic){
+
+		}
+		else{
+			this.filteredUsers = this.nearbyUsers;
+		}
+	}
+	foodFiler(){
+		if(!this.model.user.filterFood){
+
+		}
+		else{
+			this.filteredUsers = this.nearbyUsers;
+		}
+	}
+	facebookFilter(){
+		if(!this.model.user.filterFacebook){
+			this.filterUsersBasedOnFacebook();
+		}
+		else{
+			this.filteredUsers = this.nearbyUsers;
+		}
+	}
+	twitterFilter(){
+		if(!this.model.user.filterTwitter){
+			this.filterUsersBasedOnTwitter();
+		}
+		else{
+			this.filteredUsers = this.nearbyUsers;
+		}
+	}
+	linkedinFilter(){
+		if(!this.model.user.filterLinkedIn){
+
+		}
+		else{
+			this.filteredUsers = this.nearbyUsers;
+		}
+	}
+	blackboardFilter(){
+		if(!this.model.user.filterBlackBoard){
+
+		}
+		else{
+			this.filteredUsers = this.nearbyUsers;
+		}
 	}
 
 
@@ -177,6 +236,7 @@ export class ListComponent implements OnInit {
 					db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 						console.log("Nearby:",nearbyUsers);
 						this.nearbyUsers = nearbyUsers;
+						this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 						this.nearbyUsers.forEach((user) => {
 							user.distanceInMiles = Math.round((user.distance/5280)*100)/100;
 						})
@@ -206,6 +266,91 @@ export class ListComponent implements OnInit {
 	}
 
 	ngOnInit() {
+	}
+
+	filterUsersBasedOnFacebook(){
+		var filterUsersArray = [];
+		if(true /*check facebook thing*/){
+  
+			this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
+				var friendMap = new Map();
+  
+				friends.forEach((friend) => {
+					friendMap.set(friend, 1);
+				});
+				var p = new Promise((resolve, reject) => {
+					this.filteredUsers.forEach((user) => {
+						this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
+							var match = false;
+							nearbyFriend.forEach((friend) => {
+								  //console.log(friend);
+								  if(friendMap.get(friend)){
+									  match = true;
+								  }
+							  });
+  
+							if(match){
+  
+								  filterUsersArray.push(user);
+							}									
+							resolve(filterUsersArray);
+						}).catch((err) => {
+							console.log(err);
+							reject(err);
+						});
+					});
+				}).then((users: any) => {
+					this.filteredUsers = filterUsersArray;
+					console.log("Filtered Users:", filterUsersArray);
+				});
+			}).catch((err) => {
+				console.error(err);
+			});
+  
+		}
+  
+	}
+
+	filterUsersBasedOnTwitter(){
+		var filterUsers = [];
+		if(true){
+  
+			this.db.getTwitterFollowees(this.model.user.uid).then((followees) => {
+				var followeeMap = new Map();
+  
+				followees.forEach((followee) => {
+					followeeMap.set(followee, 1);
+				});
+				var p = new Promise((resolve, reject) => {
+					this.nearbyUsers.forEach((user) => {
+						this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
+							var match = false;
+							nearbyFollowee.forEach((followee) => {
+								  //console.log(followee);
+								  if(followeeMap.get(followee)){
+									  match = true;
+								  }
+							  });
+  
+							if(match){
+								filterUsers.push(user);
+							}									
+							resolve(filterUsers);
+						}).catch((err) => {
+							console.log(err);
+							reject(err);
+						});
+					});
+				}).then((users: any) => {
+					this.nearbyUsers = filterUsers;
+					console.log("Filtered Users:", filterUsers);
+				});
+			}).catch((err) => {
+				console.error(err);
+			});
+  
+		}
+  
 	}
 
 }
