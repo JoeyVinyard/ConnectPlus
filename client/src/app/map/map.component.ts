@@ -183,7 +183,7 @@ export class MapComponent implements OnInit {
 
 				}
 				else{
-					this.filteredUsers = this.nearbyUsers;
+					this.maintainFilter();
 				}
 
       }).catch((err)=>{
@@ -204,7 +204,7 @@ export class MapComponent implements OnInit {
 
 						}
 						else{
-							this.filteredUsers = this.nearbyUsers;
+							this.maintainFilter();
 						}
 
 					}).catch((err)=>{
@@ -223,7 +223,7 @@ export class MapComponent implements OnInit {
 
 						}
 						else{
-							this.filteredUsers = this.nearbyUsers;
+							this.maintainFilter();
 						}
 
 					}).catch((err)=>{
@@ -262,7 +262,7 @@ export class MapComponent implements OnInit {
 							this.filterUsersBasedOnTwitter();
 						}
 						else{
-							this.filteredUsers = this.nearbyUsers;
+							this.maintainFilter();
 						}
 
 					}).catch((err)=>{
@@ -281,7 +281,7 @@ export class MapComponent implements OnInit {
 
 						}
 						else{
-							this.filteredUsers = this.nearbyUsers;
+							this.maintainFilter();
 						}
 
 					}).catch((err)=>{
@@ -300,7 +300,7 @@ export class MapComponent implements OnInit {
 
 				}
 				else{
-					this.filteredUsers = this.nearbyUsers;
+					this.maintainFilter();
 				}
 
       }).catch((err)=>{
