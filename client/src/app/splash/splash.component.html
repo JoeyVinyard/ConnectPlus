@@ -25,8 +25,8 @@
               <p>Facebook</p>
           </div>
           <div class="medium-3 column">
-            <a class="social-icon-button instagram"><i class="fa fa-instagram"></i><span></span></a>
-            <p>Instagram</p>
+            <a class="social-icon-button twitter"><i class="fa fa-twitter"></i><span></span></a>
+            <p>Twitter</p>
           </div>
           <div class="medium-3 column">
             <a class="social-icon-button linkedin"><i class="fa fa-linkedin"></i><span></span></a>
@@ -67,10 +67,10 @@
                 <p id="connectMessage" class="others">Find other users nearby and discover similarities</p>
             </div>
       </div>
-      <p id="connectMessage">Join the fun!</p>
+      <p id="connectMessage" >Join the fun!</p>
       
-      <button class="button button-bottom" routerLink="/signup" routerLinkActive="active">Signup</button>
-      <button class="button button-bottom" routerLink="/signin" routerLinkActive="active">Login</button>
+      <button class="button button-bottom" routerLink="/signup" routerLinkActive="active" *ngIf="!authed">Signup</button>
+      <button class="button button-bottom" routerLink="/signin" routerLinkActive="active" *ngIf="!authed">Login</button>
       
       
   </div>

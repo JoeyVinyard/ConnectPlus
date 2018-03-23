@@ -182,12 +182,12 @@
     height: 3.6rem;
   }
   
-  .social-icon-button.instagram {
-    color: #8a3ab9;
+  .social-icon-button.twitter {
+    color: #00aced;
   }
   
-  .social-icon-button.instagram span {
-    background-color: #8a3ab9;
+  .social-icon-button.twitter span {
+    background-color: #00aced;
   }
   
   .social-icon-button.linkedin {
