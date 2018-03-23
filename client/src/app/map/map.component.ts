@@ -154,7 +154,14 @@ export class MapComponent implements OnInit {
   }
 
   updateFilter(){
-
+this.auth.getUser().then((u) => {
+      this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+      //  console.log("Nearby:",nearbyUsers);
+        this.nearbyUsers = nearbyUsers;
+      }).catch((err) => {
+        console.error(err);
+      })
+    })
     this.auth.getUser().then((user) => {
       this.db.updateUser(this.model.user).then((data) => {
         console.log(data);
@@ -166,7 +173,7 @@ export class MapComponent implements OnInit {
 
     });
     
-    
+
     if(this.model.user.filterSports){
 
     }
