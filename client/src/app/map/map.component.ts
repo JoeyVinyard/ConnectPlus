@@ -7,25 +7,26 @@ import { DatabaseService } from '../services/database.service';
 import { LocationService } from '../services/location.service';
 
 @Component({
-	selector: 'app-map',
-	templateUrl: './map.component.html',
-	styleUrls: ['./map.component.css']
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-	lat: number = this.lat;
-	lng: number = this.lng;
+  lat: number = this.lat;
+  lng: number = this.lng;
 
-	editMood = false;
-	editRange = false;
+  editMood = false;
+  editRange = false;
 
-	nearbyUsers = [];
-	filteredUsers =[];
-	displayedUser: any={};
+  nearbyUsers = [];
+  filteredUsers =[];
+  displayedUser: any={};
 
-	refreshMap(){
-		this.auth.getUser().then((u) => {
+  refreshMap(){
+    this.auth.getUser().then((u) => {
       this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
         console.log("Nearby:",nearbyUsers);
+
 				this.nearbyUsers = nearbyUsers;
 				//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 				this.maintainFilter();
@@ -34,81 +35,81 @@ export class MapComponent implements OnInit {
         console.error(err);
       })
     })
-	}
+  }
 
-	toggleMood(){
-		this.editMood = !this.editMood;
-	}
+  toggleMood(){
+    this.editMood = !this.editMood;
+  }
 
-	toggleRange(){
-		this.editRange = !this.editRange;
-	}
+  toggleRange(){
+    this.editRange = !this.editRange;
+  }
 
-	model = {
-		user: new User(),
-		moodStatus: "",
-		// filterSports: false,
-		// filterMusic: false,
-		// filterFood: false,
-		// filterFacebook: false,
-		// filterTwitter: false,
-		// filterLinkedIn: false,
-		// filterBlackBoard: false
-	}
-	errors = {
-		mood: ""
-	}
+  model = {
+    user: new User(),
+    moodStatus: "",
+    // filterSports: false,
+    // filterMusic: false,
+    // filterFood: false,
+    // filterFacebook: false,
+    // filterTwitter: false,
+    // filterLinkedIn: false,
+    // filterBlackBoard: false
+  }
+  errors = {
+    mood: ""
+  }
 
-	MoodStatus = "Mood Status";
+  MoodStatus = "Mood Status";
 
-	moodChange(){
-		console.log(this.model);
-		this.model.user.moodStatus = this.model.moodStatus;
-		this.auth.getUser().then((user) => {
-			this.db.updateUser(this.model.user).then((data) => {
-				console.log(data);
-				this.errors.mood = "Your mood status has been updated!"
-			}).catch((err)=>{
-				console.error(err);
-				this.errors.mood = "Your mood status has NOT been updated!"
+  moodChange(){
+    console.log(this.model);
+    this.model.user.moodStatus = this.model.moodStatus;
+    this.auth.getUser().then((user) => {
+      this.db.updateUser(this.model.user).then((data) => {
+        console.log(data);
+        this.errors.mood = "Your mood status has been updated!"
+      }).catch((err)=>{
+        console.error(err);
+        this.errors.mood = "Your mood status has NOT been updated!"
 
-				//Form rejected for some reason
-			})
-		});
+        //Form rejected for some reason
+      })
+    });
 
 
-	}
+  }
 
-	//ZOOM VALUE FOR MAP
-	zoom: number = 15;
-	currentZoom: number = 15;
+  //ZOOM VALUE FOR MAP
+  zoom: number = 15;
+  currentZoom: number = 15;
 
-	zoomMap(){
-		this.zoom = this.currentZoom;
-		
-	}
+  zoomMap(){
+    this.zoom = this.currentZoom;
+    
+  }
 
-	userVisible = false;
+  userVisible = false;
 
-	viewUser(user: any={}){
-		this.userVisible = true;
-		this.displayedUser = user;
-		this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance/5280)*100)/100;
-		if(isNaN(this.displayedUser.distanceInMiles))
-			this.displayedUser.distanceInMiles = 0;
-	}
+  viewUser(user: any={}){
+    this.userVisible = true;
+    this.displayedUser = user;
+    this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance/5280)*100)/100;
+    if(isNaN(this.displayedUser.distanceInMiles))
+      this.displayedUser.distanceInMiles = 0;
+  }
 
-	closeUser(){
-		this.userVisible = false;
-	}
+  closeUser(){
+    this.userVisible = false;
+  }
 
-	filterVisible = false;
+  filterVisible = false;
 
-	viewFilter(){
-		this.filterVisible = true;
-	}
+  viewFilter(){
+    this.filterVisible = true;
+  }
 
-	filterSports= false;
+  filterSports= false;
   filterMusic = false
   filterFood = false
   filterFacebook = false
@@ -117,8 +118,8 @@ export class MapComponent implements OnInit {
   filterBlackBoard = false
 
   closeFilter(){
-		this.filterVisible = false;
-		this.auth.getUser().then((user) => {
+    this.filterVisible = false;
+    this.auth.getUser().then((user) => {
       this.db.updateUser(this.model.user).then((data) => {
         console.log(data);
 
@@ -143,6 +144,7 @@ export class MapComponent implements OnInit {
   // visibility = this.model.user.visability;
   
   setVisible(number){
+
   	this.visibility = number;
   	this.model.user.visibility = number;
 
@@ -346,22 +348,22 @@ export class MapComponent implements OnInit {
   constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService ) {
 
 
-  	this.auth.isAuthed().then((user) => {
-  		console.log("Authed:",user)
-  		this.model.user.uid = user.uid;
-  	});	
+    this.auth.isAuthed().then((user) => {
+      console.log("Authed:",user)
+      this.model.user.uid = user.uid;
+    });  
 
 
-  	this.auth.getUser().then((user) => {
+    this.auth.getUser().then((user) => {
 
-  		this.db.getUser(user.uid).then((userData) => {
+      this.db.getUser(user.uid).then((userData) => {
 
-  			this.model.user = userData
-  			console.log(userData)
-  			this.visibility = this.model.user.visibility;
-  		})
+        this.model.user = userData
+        console.log(userData)
+        this.visibility = this.model.user.visibility;
+      })
 
-  	});
+    });
     console.log("Early reeeee");
 
 
@@ -381,6 +383,7 @@ export class MapComponent implements OnInit {
 
           db.getNearbyUsers(u.uid).then((nearbyUsers) => {
             console.log("Nearby:",nearbyUsers);
+
 						this.nearbyUsers = nearbyUsers;
 						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 						this.maintainFilter();
@@ -604,6 +607,7 @@ export class MapComponent implements OnInit {
   }
 
   filterUsersBasedOnTwitter(){
+
   	var filterUsersArray = [];
   	if(true){
   		this.db.getTwitterFollowees(this.model.user.uid).then((followees) => {
