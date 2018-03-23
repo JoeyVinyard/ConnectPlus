@@ -312,6 +312,7 @@ export class MapComponent implements OnInit {
 	}
 
 	maintainFilter(){
+		this.filteredUsers = this.nearbyUsers;
 		var count = 0;
 		if(this.model.user.filterSports){
 
@@ -395,7 +396,7 @@ export class MapComponent implements OnInit {
             console.log("Nearby:",nearbyUsers);
 						this.nearbyUsers = nearbyUsers;
 
-						this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 						this.maintainFilter();
 
           }).catch((err) => {
@@ -472,7 +473,7 @@ export class MapComponent implements OnInit {
   }
 
   filterUsersBasedOnTwitter(){
-  	var filterUsers = [];
+  	var filterUsersArray = [];
   	if(true){
   		this.db.getTwitterFollowees(this.model.user.uid).then((followees) => {
   			var followeeMap = new Map();
@@ -481,7 +482,7 @@ export class MapComponent implements OnInit {
   				followeeMap.set(followee, 1);
   			});
   			var p = new Promise((resolve, reject) => {
-  				this.nearbyUsers.forEach((user) => {
+  				this.filteredUsers.forEach((user) => {
   					this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
   						var match = false;
 
@@ -492,17 +493,17 @@ export class MapComponent implements OnInit {
 								}
 							});
   						if(match){
-  							filterUsers.push(user);
+  							filterUsersArray.push(user);
   						}									
-  						resolve(filterUsers);
+  						resolve(filterUsersArray);
   					}).catch((err) => {
   						console.log(err);
   						reject(err);
   					});
   				});
   			}).then((users: any) => {
-  				this.nearbyUsers = filterUsers;
-  				console.log("Filtered Users:", filterUsers);
+  				this.filteredUsers = filterUsersArray;
+  				console.log("Filtered Users:", filterUsersArray);
   			});
   		}).catch((err) => {
   			console.error(err);
