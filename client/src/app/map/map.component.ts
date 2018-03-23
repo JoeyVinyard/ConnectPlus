@@ -26,8 +26,11 @@ export class MapComponent implements OnInit {
     this.auth.getUser().then((u) => {
       this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
         console.log("Nearby:",nearbyUsers);
-        this.nearbyUsers = nearbyUsers;
-        this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+
+				this.nearbyUsers = nearbyUsers;
+				//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+				this.maintainFilter();
+
       }).catch((err) => {
         console.error(err);
       })
@@ -141,84 +144,204 @@ export class MapComponent implements OnInit {
   // visibility = this.model.user.visability;
   
   setVisible(number){
-    this.visibility = number;
-    this.model.user.visibility = number;
+
+  	this.visibility = number;
+  	this.model.user.visibility = number;
 
 
-    this.auth.getUser().then((user) => {
-      //this.model.user.uid = user.uid;
+  	this.auth.getUser().then((user) => {
+			//this.model.user.uid = user.uid;
+			this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
+				//this.success.changeInfoS = "Your information has been updated!"
+				//this.router.navigateByUrl('map');
+			}).catch((err)=>{
+				console.error(err);
+				//this.errors.changeInfoE = "Your information has NOT been updated!"
+
+				//Form rejected for some reason
+			})
+			//this.success.changeInfoS = "Your information has been updated!"
+
+		});
+
+
+
+	}
+
+	sportsFilter(){
+		this.auth.getUser().then((user) => {
       this.db.updateUser(this.model.user).then((data) => {
-        console.log(data);
-        //this.success.changeInfoS = "Your information has been updated!"
-        //this.router.navigateByUrl('map');
+				console.log(data);
+				
+				if(this.model.user.filterSports){
+
+				}
+				else{
+					this.maintainFilter();
+				}
+
       }).catch((err)=>{
         console.error(err);
-        //this.errors.changeInfoE = "Your information has NOT been updated!"
-        //Form rejected for some reason
+
       })
-      //this.success.changeInfoS = "Your information has been updated!"
+
     });
+		
+		
+	}
+	musicFilter(){
+		this.auth.getUser().then((user) => {
+					this.db.updateUser(this.model.user).then((data) => {
+						console.log(data);
 
+						if(this.model.user.filterMusic){
 
+						}
+						else{
+							this.maintainFilter();
+						}
 
-  }
+					}).catch((err)=>{
+						console.error(err);
 
-  sportsFilter(){
-    if(this.model.user.filterSports){
+					})
 
-    }
-    else{
+		});
+	}
+	foodFilter(){
+		this.auth.getUser().then((user) => {
+					this.db.updateUser(this.model.user).then((data) => {
+						console.log(data);
 
-    }
-  }
-  musicFilter(){
-    if(this.model.user.filterMusic){
+						if(this.model.user.filterFood){
 
-    }
-    else{
-      
-    }
-  }
-  foodFiler(){
-    if(this.model.user.filterFood){
+						}
+						else{
+							this.maintainFilter();
+						}
 
-    }
-    else{
-      
-    }
-  }
-  facebookFilter(){
-    if(!this.model.user.filterFacebook){
-      this.filterUsersBasedOnFacebook();
-    }
-    else{
-      this.filteredUsers = this.nearbyUsers;
-    }
-  }
-  twitterFilter(){
-    if(this.model.user.filterTwitter){
+					}).catch((err)=>{
+						console.error(err);
 
-    }
-    else{
-      
-    }
-  }
-  linkedinFilter(){
-    if(this.model.user.filterLinkedIn){
+					})
 
-    }
-    else{
-      
-    }
-  }
-  blackboardFilter(){
-    if(this.model.user.filterBlackBoard){
+		});
+	}
+	facebookFilter(){
+		this.auth.getUser().then((user) => {
+      this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
+				
+				if(this.model.user.filterFacebook){
+					this.filterUsersBasedOnFacebook();
+				}
+				else{
+					this.maintainFilter();
+				}
 
-    }
-    else{
-      
-    }
-  }
+      }).catch((err)=>{
+        console.error(err);
+
+      })
+
+    });
+		
+	}
+	twitterFilter(){
+		this.auth.getUser().then((user) => {
+					this.db.updateUser(this.model.user).then((data) => {
+						console.log(data);
+
+						if(this.model.user.filterTwitter){
+							this.filterUsersBasedOnTwitter();
+						}
+						else{
+							this.maintainFilter();
+						}
+
+					}).catch((err)=>{
+						console.error(err);
+
+					})
+
+		});
+	}
+	linkedinFilter(){
+		this.auth.getUser().then((user) => {
+					this.db.updateUser(this.model.user).then((data) => {
+						console.log(data);
+
+						if(this.model.user.filterLinkedIn){
+
+						}
+						else{
+							this.maintainFilter();
+						}
+
+					}).catch((err)=>{
+						console.error(err);
+
+					})
+
+		});
+	}
+	blackboardFilter(){
+		this.auth.getUser().then((user) => {
+      this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
+				
+				if(this.model.user.filterBlackBoard){
+
+				}
+				else{
+					this.maintainFilter();
+				}
+
+      }).catch((err)=>{
+        console.error(err);
+
+      })
+
+    });
+	}
+
+	maintainFilter(){
+		this.filteredUsers = this.nearbyUsers;
+		var count = 0;
+		if(this.model.user.filterSports){
+
+			count++;
+		}
+		if(this.model.user.filterMusic){
+
+			count++;
+		}
+		if(this.model.user.filterFood){
+
+			count++;
+		}
+		if(this.model.user.filterFacebook){
+			this.filterUsersBasedOnFacebook();
+			count++;
+		}
+		if(this.model.user.filterTwitter){
+			this.filterUsersBasedOnTwitter();
+			count++;
+		}
+		if(this.model.user.filterLinkedIn){
+
+			count++;
+		}
+		if(this.model.user.filterBlackBoard){
+
+			count++;
+		}
+
+		if(count == 0){
+			this.filteredUsers = this.nearbyUsers;
+		}
+	}
 
 
 
@@ -252,11 +375,11 @@ export class MapComponent implements OnInit {
 
 
     loc.getLocation().then((l)=> {
-      console.log("Reeeeeeeeeeeeeeee");
+      //  console.log("Reeeeeeeeeeeeeeee");
       auth.getUser().then((u) => {
-        console.log("Reeeeeeeeeeeeeeee2");
+        // console.log("Reeeeeeeeeeeeeeee2");
         db.storeLocation(l, u.uid).then((d) =>{
-          console.log("Reeeeeeeeeeeeeeee3");
+          // console.log("Reeeeeeeeeeeeeeee3");
           this.lat = l.latitude;
           this.lng = l.longitude;
 
@@ -266,8 +389,11 @@ export class MapComponent implements OnInit {
 
           db.getNearbyUsers(u.uid).then((nearbyUsers) => {
             console.log("Nearby:",nearbyUsers);
-            this.nearbyUsers = nearbyUsers;
-            this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+
+						this.nearbyUsers = nearbyUsers;
+						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+						this.maintainFilter();
+
           }).catch((err) => {
             console.error(err);
           })
@@ -342,44 +468,44 @@ export class MapComponent implements OnInit {
   }
 
   filterUsersBasedOnTwitter(){
-    var filterUsers = [];
-    if(true){
 
-      this.db.getTwitterFollowees(this.model.user.uid).then((followees) => {
-        var followeeMap = new Map();
+  	var filterUsersArray = [];
+  	if(true){
+  		this.db.getTwitterFollowees(this.model.user.uid).then((followees) => {
+  			var followeeMap = new Map();
 
-        followees.forEach((followee) => {
-          followeeMap.set(followee, 1);
-        });
-        var p = new Promise((resolve, reject) => {
-          this.nearbyUsers.forEach((user) => {
-            this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
-              var match = false;
-              nearbyFollowee.forEach((followee) => {
-                //console.log(followee);
-                if(followeeMap.get(followee)){
-                  match = true;
-                }
-              });
+  			followees.forEach((followee) => {
+  				followeeMap.set(followee, 1);
+  			});
+  			var p = new Promise((resolve, reject) => {
+  				this.filteredUsers.forEach((user) => {
+  					this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
+  						var match = false;
 
-              if(match){
-                filterUsers.push(user);
-              }                  
-              resolve(filterUsers);
-            }).catch((err) => {
-              console.log(err);
-              reject(err);
-            });
-          });
-        }).then((users: any) => {
-          this.nearbyUsers = filterUsers;
-          console.log("Filtered Users:", filterUsers);
-        });
-      }).catch((err) => {
-        console.error(err);
-      });
+  						nearbyFollowee.forEach((followee) => {
+								if(followeeMap.get(followee)){
+									
+									match = true;
+								}
+							});
+  						if(match){
+  							filterUsersArray.push(user);
+  						}									
+  						resolve(filterUsersArray);
+  					}).catch((err) => {
+  						console.log(err);
+  						reject(err);
+  					});
+  				});
+  			}).then((users: any) => {
+  				this.filteredUsers = filterUsersArray;
+  				console.log("Filtered Users:", filterUsersArray);
+  			});
+  		}).catch((err) => {
+  			console.error(err);
+  		});
 
-    }
+  	}
 
   }
 }

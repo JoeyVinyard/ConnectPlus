@@ -243,9 +243,19 @@ module.exports = {
 		}
 		var uid = urlData[1];
 		firebase.database().ref("facebook-friends/"+uid).once("value").then((user) => {
+			var data = [];
+			//console.log(user);
+			if(!user.val()){
+				res.statusCode = 200;
+				responseBody.payload = data;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
 			var userFriends = user.val().friends;
 			var data = [];
 			//var friendMap = new Map();
+
 			userFriends.forEach((friend) => {
 				data.push(friend.name);
 
@@ -268,15 +278,16 @@ module.exports = {
 		}
 		var uid = urlData[1];
 		firebase.database().ref("twitter-followees/"+uid).once("value").then((user) => {
-			if(!user){
-				res.statusCode = 400;
-				responseBody.err = "No Twitter Users Found";
+			var data = [];
+			if(!user.val()){
+				res.statusCode = 200;
+				responseBody.payload = data;
 				res.write(JSON.stringify(responseBody));
-				res.end();
+				res.end();	
 				return;
 			}
 			var userFollowees = user.val().friends;
-			var data = [];
+
 			//var friendMap = new Map();
 			userFollowees.forEach((followee) => {
 				data.push(followee);
