@@ -372,12 +372,12 @@ module.exports = {
 						}
 					})
 					if(data.length == 0){
-						console.log("No matches were found");
+						//console.log("No matches were found");
 						res.statusCode = 400;
 						res.end();
 						return;
 					}
-					console.log(data);
+					//console.log(data);
 					res.statusCode = 200;
 					responseBody.payload = data;
 					res.write(JSON.stringify(responseBody));
