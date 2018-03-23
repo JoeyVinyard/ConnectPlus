@@ -474,7 +474,6 @@ export class MapComponent implements OnInit {
   filterUsersBasedOnTwitter(){
   	var filterUsers = [];
   	if(true){
-
   		this.db.getTwitterFollowees(this.model.user.uid).then((followees) => {
   			var followeeMap = new Map();
 
@@ -485,13 +484,13 @@ export class MapComponent implements OnInit {
   				this.nearbyUsers.forEach((user) => {
   					this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
   						var match = false;
+
   						nearbyFollowee.forEach((followee) => {
-								//console.log(followee);
 								if(followeeMap.get(followee)){
+									
 									match = true;
 								}
 							});
-
   						if(match){
   							filterUsers.push(user);
   						}									
