@@ -24,10 +24,15 @@ export class ListComponent implements OnInit {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 				console.log("Nearby:",nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
+				this.nearbyUsers.forEach((user) => {
+					user.distanceInMiles = Math.round((user.distance/5280)*100)/100;
+				})
 			}).catch((err) => {
 				console.error(err);
 			})
 		})
+
+		
 	}
 
 	toggleMood(){
