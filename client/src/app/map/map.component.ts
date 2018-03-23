@@ -259,8 +259,11 @@ export class MapComponent implements OnInit {
     if( this.model.user.filterBlackBoard){
 
     }
+
     console.log("ahhhhh filter is it working?")
     // console.log(this.nearbyUsers);
+    console.log("facebook you work?", this.model.user.filterFacebook)
+    console.log("here here, users are listed", this.nearbyUsers);
 
   }
 
