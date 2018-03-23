@@ -20,21 +20,18 @@ export class ListComponent implements OnInit {
 	filteredUsers= [];
 	displayedUser: any={};
 
-	refreshMap(){
+	refreshList(){
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 				console.log("Nearby:",nearbyUsers);
-				this.nearbyUsers = nearbyUsers;
-				this.filteredUsers = nearbyUsers;
-				this.nearbyUsers.forEach((user) => {
-					user.distanceInMiles = Math.round((user.distance/5280)*100)/100;
-				})
+						this.nearbyUsers = nearbyUsers;
+						//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+						this.maintainFilter();
+
 			}).catch((err) => {
 				console.error(err);
 			})
 		})
-
-		
 	}
 
 	toggleMood(){
@@ -138,71 +135,177 @@ export class ListComponent implements OnInit {
 	}
 
 	sportsFilter(){
-		if(!this.model.user.filterSports){
+		this.auth.getUser().then((user) => {
+      this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
+				
+				if(this.model.user.filterSports){
 
-		}
-		else{
-			this.filteredUsers = this.nearbyUsers;
-		}
+				}
+				else{
+					this.maintainFilter();
+				}
+
+      }).catch((err)=>{
+        console.error(err);
+
+      })
+
+    });
+		
+		
 	}
 	musicFilter(){
-		if(!this.model.user.filterMusic){
+		this.auth.getUser().then((user) => {
+					this.db.updateUser(this.model.user).then((data) => {
+						console.log(data);
 
-		}
-		else{
-			this.filteredUsers = this.nearbyUsers;
-		}
+						if(this.model.user.filterMusic){
+
+						}
+						else{
+							this.maintainFilter();
+						}
+
+					}).catch((err)=>{
+						console.error(err);
+
+					})
+
+		});
 	}
 	foodFilter(){
-		if(!this.model.user.filterFood){
+		this.auth.getUser().then((user) => {
+					this.db.updateUser(this.model.user).then((data) => {
+						console.log(data);
 
-		}
-		else{
-			this.filteredUsers = this.nearbyUsers;
-		}
+						if(this.model.user.filterFood){
+
+						}
+						else{
+							this.maintainFilter();
+						}
+
+					}).catch((err)=>{
+						console.error(err);
+
+					})
+
+		});
 	}
 	facebookFilter(){
-		if(!this.model.user.filterFacebook){
-			this.filterUsersBasedOnFacebook();
-		}
-		else{
-			this.filteredUsers = this.nearbyUsers;
-		}
+		this.auth.getUser().then((user) => {
+      this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
+				
+				if(this.model.user.filterFacebook){
+					this.filterUsersBasedOnFacebook();
+				}
+				else{
+					this.maintainFilter();
+				}
+
+      }).catch((err)=>{
+        console.error(err);
+
+      })
+
+    });
+		
 	}
 	twitterFilter(){
-		if(!this.model.user.filterTwitter){
-			this.filterUsersBasedOnTwitter();
-		}
-		else{
-			this.filteredUsers = this.nearbyUsers;
-		}
+		this.auth.getUser().then((user) => {
+					this.db.updateUser(this.model.user).then((data) => {
+						console.log(data);
+
+						if(this.model.user.filterTwitter){
+							this.filterUsersBasedOnTwitter();
+						}
+						else{
+							this.maintainFilter();
+						}
+
+					}).catch((err)=>{
+						console.error(err);
+
+					})
+
+		});
 	}
 	linkedinFilter(){
-		if(!this.model.user.filterLinkedIn){
+		this.auth.getUser().then((user) => {
+					this.db.updateUser(this.model.user).then((data) => {
+						console.log(data);
 
-		}
-		else{
-			this.filteredUsers = this.nearbyUsers;
-		}
+						if(this.model.user.filterLinkedIn){
+
+						}
+						else{
+							this.maintainFilter();
+						}
+
+					}).catch((err)=>{
+						console.error(err);
+
+					})
+
+		});
 	}
 	blackboardFilter(){
-		if(!this.model.user.filterBlackBoard){
+		this.auth.getUser().then((user) => {
+      this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
+				
+				if(this.model.user.filterBlackBoard){
 
-		}
-		else{
-			this.filteredUsers = this.nearbyUsers;
-		}
+				}
+				else{
+					this.maintainFilter();
+				}
+
+      }).catch((err)=>{
+        console.error(err);
+
+      })
+
+    });
 	}
 
+	maintainFilter(){
+		this.filteredUsers = this.nearbyUsers;
+		var count = 0;
+		if(this.model.user.filterSports){
 
-	updateFilter(){
-		this.auth.getUser().then((user) => {
-			this.db.updateUser(this.model.user).then((data) => {
-				console.log(data);
-			}).catch((err)=>{
-				console.error(err);
-			})
-		});
+			count++;
+		}
+		if(this.model.user.filterMusic){
+
+			count++;
+		}
+		if(this.model.user.filterFood){
+
+			count++;
+		}
+		if(this.model.user.filterFacebook){
+			this.filterUsersBasedOnFacebook();
+			count++;
+		}
+		if(this.model.user.filterTwitter){
+			this.filterUsersBasedOnTwitter();
+			count++;
+		}
+		if(this.model.user.filterLinkedIn){
+
+			count++;
+		}
+		if(this.model.user.filterBlackBoard){
+
+			count++;
+		}
+
+		if(count == 0){
+			this.filteredUsers = this.nearbyUsers;
+		}
 	}
 
 
@@ -236,10 +339,13 @@ export class ListComponent implements OnInit {
 					db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 						console.log("Nearby:",nearbyUsers);
 						this.nearbyUsers = nearbyUsers;
-						this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+						
 						this.nearbyUsers.forEach((user) => {
 							user.distanceInMiles = Math.round((user.distance/5280)*100)/100;
 						})
+						this.maintainFilter();
+
 					}).catch((err) => {
 						console.error(err);
 					})
@@ -312,9 +418,8 @@ export class ListComponent implements OnInit {
 	}
 
 	filterUsersBasedOnTwitter(){
-		var filterUsers = [];
+		var filterUsersArray = [];
 		if(true){
-  
 			this.db.getTwitterFollowees(this.model.user.uid).then((followees) => {
 				var followeeMap = new Map();
   
@@ -322,28 +427,28 @@ export class ListComponent implements OnInit {
 					followeeMap.set(followee, 1);
 				});
 				var p = new Promise((resolve, reject) => {
-					this.nearbyUsers.forEach((user) => {
+					this.filteredUsers.forEach((user) => {
 						this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
 							var match = false;
+  
 							nearbyFollowee.forEach((followee) => {
-								  //console.log(followee);
 								  if(followeeMap.get(followee)){
+									  
 									  match = true;
 								  }
 							  });
-  
 							if(match){
-								filterUsers.push(user);
+								filterUsersArray.push(user);
 							}									
-							resolve(filterUsers);
+							resolve(filterUsersArray);
 						}).catch((err) => {
 							console.log(err);
 							reject(err);
 						});
 					});
 				}).then((users: any) => {
-					this.nearbyUsers = filterUsers;
-					console.log("Filtered Users:", filterUsers);
+					this.filteredUsers = filterUsersArray;
+					console.log("Filtered Users:", filterUsersArray);
 				});
 			}).catch((err) => {
 				console.error(err);

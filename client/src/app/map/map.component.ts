@@ -28,13 +28,6 @@ export class MapComponent implements OnInit {
         console.log("Nearby:",nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
 				//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
-
-				// if(this.model.user.filterFacebook){
-				// 	this.filterUsersBasedOnFacebook();
-				// }
-				// else{
-				// 	this.filteredUsers = this.nearbyUsers;
-				// }
 				this.maintainFilter();
 
       }).catch((err) => {
@@ -395,7 +388,6 @@ export class MapComponent implements OnInit {
           db.getNearbyUsers(u.uid).then((nearbyUsers) => {
             console.log("Nearby:",nearbyUsers);
 						this.nearbyUsers = nearbyUsers;
-
 						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 						this.maintainFilter();
 
