@@ -51,7 +51,8 @@ img {
 .topText{
     font-size: 2rem;
     color:#004E7F;
-    margin-bottom: 0px;
+    margin-bottom: 0.75rem;
+    margin-top: 0.75rem;
 }
 
 .subText{
@@ -79,78 +80,23 @@ img {
   background: transparent;
   color:#004E7F;
   font-size: 1.5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0px;
+  padding: 0px;
+  padding-top: 1.5rem;
+  padding-right: 1rem;
 }
 
 #header{
+    font-size: 2.5rem;
+    color: white;
     text-align: center;
-    width: 95% !important;
+    margin: 0px;
+    padding: 0px;
     height: auto !important;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 2px solid white;
-    border-radius: 25px;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    margin-left: 2.5%;
-
-    font-size: 3rem;
-    color:#004E7F;
-    margin-bottom: 0px;
 }
-
-#invisibilityDiv{
-  text-align: center;
-  width: auto !important;
-  height: auto !important;
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 2px solid white;
-  border-radius: 25px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  overflow: auto;
-}
-
-.switch{
-  border-radius: 25px;
-}
-
-.switch input:checked ~ .switch-paddle{
-  background: #0076BB;
-}
-
-
-.mobile-app-toggle {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 95%;
-  border: 1px solid #1779ba;
-  border-radius: 0.625rem;
-  overflow: hidden;
-  margin-bottom: 1rem;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-}
-
-.mobile-app-toggle .button {
-  background: transparent;
-  color: #1779ba;
-  margin-bottom: 0;
-  -webkit-flex: 1 0 0;
-      -ms-flex: 1 0 0px;
-          flex: 1 0 0;
-}
-
-.mobile-app-toggle .button:nth-child(n+1) {
-  border-left: 1px solid #1779ba;
-}
-
-.mobile-app-toggle .button.is-active {
-  background: #1779ba;
-  color: #fefefe;
-}
-
-
-
 
 #accountDetails{
     text-align: center;
@@ -163,6 +109,8 @@ img {
     margin-bottom: 1rem;
     margin-left: 2.5%;
     overflow: auto;
+
+    position: relative;
 }
 
 #profileIcon{
@@ -217,6 +165,8 @@ img {
   margin-bottom: 1rem;
   margin-left: 2.5%;
   overflow: auto;
+
+  position: relative;
 }
 
 #security input{
@@ -239,6 +189,8 @@ img {
     margin-bottom: 1rem;
     margin-left: 2.5%;
     overflow: auto;
+
+    position: relative;
 
 }
 
@@ -406,6 +358,8 @@ img {
     margin-bottom: 1rem;
     margin-left: 2.5%;
     overflow: auto;
+
+    position: relative;
 }
 
 #feedbackSection{
@@ -420,6 +374,8 @@ img {
     margin-left: 2.5%;
     overflow: auto;
     float: center;
+
+    position: relative;
 }
 
 #deleteAccount{
@@ -434,4 +390,6 @@ img {
     margin-left: 2.5%;
     overflow: auto;
     float: center;
+
+    position: relative;
 }
