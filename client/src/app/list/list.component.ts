@@ -24,10 +24,14 @@ export class ListComponent implements OnInit {
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 				console.log("Nearby:",nearbyUsers);
-						this.nearbyUsers = nearbyUsers;
-						//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
-						this.maintainFilter();
-
+				this.nearbyUsers = nearbyUsers;
+				// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+				
+				this.nearbyUsers.forEach((user) => {
+					user.distanceInMiles = Math.round((user.distance/5280)*100)/100;
+				})
+				this.maintainFilter();
+	
 			}).catch((err) => {
 				console.error(err);
 			})
