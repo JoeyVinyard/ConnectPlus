@@ -10,7 +10,7 @@
 					[streetViewControl]="false" [rotateControl]="false" [fullscreenControl]="false" [mapDraggable]="false"
 					[scrollwheel]="false" [zoom]="zoom" [clickableIcons]="false">
 						<agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="userPin" (markerClick)="viewUser(model.user)"></agm-marker>
-						<agm-marker *ngFor="let user of nearbyUsers" (markerClick)="viewUser(user)" [iconUrl]="nearbyPin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
+						<agm-marker *ngFor="let user of filteredUsers" (markerClick)="viewUser(user)" [iconUrl]="nearbyPin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 					</agm-map>
 			</div>
 
@@ -59,7 +59,7 @@
 							<input id="BlackBoard" type="checkbox" name="BlackBoard"[(ngModel)]="model.user.filterBlackBoard" (click)="blackboardFilter()"><label for="BlackBoard">BlackBoard</label>
 
 					<div class="medium-6 column">
-						<button class="button selectedButton" (click)="updateFilter()"><i class="fa fa-check"></i> Update</button>
+						<!-- <button class="button selectedButton" (click)="updateFilter()"><i class="fa fa-check"></i> Update</button> -->
 					</div>
 					<div class="medium-6 column">
 							<button class="button selectedButton" (click)="closeFilter()"><i class="fa fa-times"></i> Close</button>

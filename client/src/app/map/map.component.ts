@@ -115,7 +115,17 @@ export class MapComponent implements OnInit {
   filterBlackBoard = false
 
   closeFilter(){
-    this.filterVisible = false;
+		this.filterVisible = false;
+		this.auth.getUser().then((user) => {
+      this.db.updateUser(this.model.user).then((data) => {
+        console.log(data);
+
+      }).catch((err)=>{
+        console.error(err);
+
+      })
+
+    });
   }
 
   toggleFilter(){
@@ -180,11 +190,11 @@ export class MapComponent implements OnInit {
 		}
 	}
 	facebookFilter(){
-		if(this.model.user.filterFacebook){
+		if(!this.model.user.filterFacebook){
 			this.filterUsersBasedOnFacebook();
 		}
 		else{
-			
+			this.filteredUsers = this.nearbyUsers;
 		}
 	}
 	twitterFilter(){
@@ -214,58 +224,6 @@ export class MapComponent implements OnInit {
 
 
 
-
-  updateFilter(){
-		/*this.auth.getUser().then((u) => {
-					this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
-					//  console.log("Nearby:",nearbyUsers);
-						this.nearbyUsers = nearbyUsers;
-					}).catch((err) => {
-						console.error(err);
-					})
-				}) */
-		
-
-    this.auth.getUser().then((user) => {
-      this.db.updateUser(this.model.user).then((data) => {
-        console.log(data);
-
-      }).catch((err)=>{
-        console.error(err);
-
-      })
-
-    });
-    
-
-    if(this.model.user.filterSports){
-
-    }
-    if( this.model.user.filterMusic){
-
-    }
-    if(this.model.user.filterFood){
-
-    }
-    if(this.model.user.filterFacebook){
-      this.filterUsersBasedOnFacebook();
-    }
-    if( this.model.user.filterTwitter){
-      //this.filterUsersBasedOnTwitter();
-    }
-    if( this.model.user.filterLinkedIn){
-
-    }
-    if( this.model.user.filterBlackBoard){
-
-    }
-
-    console.log("ahhhhh filter is it working?")
-    // console.log(this.nearbyUsers);
-    console.log("facebook you work?", this.model.user.filterFacebook)
-    console.log("here here, users are listed", this.nearbyUsers);
-
-  }
 
 
   particlesConfig;
