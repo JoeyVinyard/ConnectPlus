@@ -19,13 +19,15 @@ export class MapComponent implements OnInit {
 	editRange = false;
 
 	nearbyUsers = [];
+	filteredUsers =[];
 	displayedUser: any={};
 
 	refreshMap(){
 		this.auth.getUser().then((u) => {
       this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
         console.log("Nearby:",nearbyUsers);
-        this.nearbyUsers = nearbyUsers;
+				this.nearbyUsers = nearbyUsers;
+				this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
       }).catch((err) => {
         console.error(err);
       })
@@ -151,17 +153,79 @@ export class MapComponent implements OnInit {
 
 
 
-  }
+	}
+
+	sportsFilter(){
+		if(this.model.user.filterSports){
+
+		}
+		else{
+
+		}
+	}
+	musicFilter(){
+		if(this.model.user.filterMusic){
+
+		}
+		else{
+			
+		}
+	}
+	foodFiler(){
+		if(this.model.user.filterFood){
+
+		}
+		else{
+			
+		}
+	}
+	facebookFilter(){
+		if(this.model.user.filterFacebook){
+			this.filterUsersBasedOnFacebook();
+		}
+		else{
+			
+		}
+	}
+	twitterFilter(){
+		if(this.model.user.filterTwitter){
+
+		}
+		else{
+			
+		}
+	}
+	linkedinFilter(){
+		if(this.model.user.filterLinkedIn){
+
+		}
+		else{
+			
+		}
+	}
+	blackboardFilter(){
+		if(this.model.user.filterBlackBoard){
+
+		}
+		else{
+			
+		}
+	}
+
+
+
 
   updateFilter(){
-this.auth.getUser().then((u) => {
-      this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
-      //  console.log("Nearby:",nearbyUsers);
-        this.nearbyUsers = nearbyUsers;
-      }).catch((err) => {
-        console.error(err);
-      })
-    })
+		/*this.auth.getUser().then((u) => {
+					this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+					//  console.log("Nearby:",nearbyUsers);
+						this.nearbyUsers = nearbyUsers;
+					}).catch((err) => {
+						console.error(err);
+					})
+				}) */
+		
+
     this.auth.getUser().then((user) => {
       this.db.updateUser(this.model.user).then((data) => {
         console.log(data);
@@ -187,7 +251,7 @@ this.auth.getUser().then((u) => {
       this.filterUsersBasedOnFacebook();
     }
     if( this.model.user.filterTwitter){
-      this.filterUsersBasedOnTwitter();
+      //this.filterUsersBasedOnTwitter();
     }
     if( this.model.user.filterLinkedIn){
 
@@ -196,7 +260,7 @@ this.auth.getUser().then((u) => {
 
     }
     console.log("ahhhhh filter is it working?")
-    console.log(this.nearbyUsers);
+    // console.log(this.nearbyUsers);
 
   }
 
@@ -243,7 +307,8 @@ this.auth.getUser().then((u) => {
 
           db.getNearbyUsers(u.uid).then((nearbyUsers) => {
             console.log("Nearby:",nearbyUsers);
-            this.nearbyUsers = nearbyUsers;
+						this.nearbyUsers = nearbyUsers;
+						this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
           }).catch((err) => {
             console.error(err);
           })
@@ -275,7 +340,7 @@ this.auth.getUser().then((u) => {
   }
 
   filterUsersBasedOnFacebook(){
-  	var filterUsers = [];
+  	var filterUsersArray = [];
   	if(true /*check facebook thing*/){
 
   		this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
@@ -285,7 +350,7 @@ this.auth.getUser().then((u) => {
   				friendMap.set(friend, 1);
   			});
   			var p = new Promise((resolve, reject) => {
-  				this.nearbyUsers.forEach((user) => {
+  				this.filteredUsers.forEach((user) => {
   					this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
   						var match = false;
   						nearbyFriend.forEach((friend) => {
@@ -297,17 +362,17 @@ this.auth.getUser().then((u) => {
 
   						if(match){
 
-  							filterUsers.push(user);
+								filterUsersArray.push(user);
   						}									
-  						resolve(filterUsers);
+  						resolve(filterUsersArray);
   					}).catch((err) => {
   						console.log(err);
   						reject(err);
   					});
   				});
   			}).then((users: any) => {
-  				this.nearbyUsers = filterUsers;
-  				console.log("Filtered Users:", filterUsers);
+  				this.filteredUsers = filterUsersArray;
+  				console.log("Filtered Users:", filterUsersArray);
   			});
   		}).catch((err) => {
   			console.error(err);
