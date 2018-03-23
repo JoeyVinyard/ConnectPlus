@@ -1,10 +1,9 @@
 const http = require('http');
 var routeHandler = require('./routeHandler.js');
 
-module.exports = {
-	requestHandler(request, response) {
+var server = module.exports = http.createServer(function (request, response) {
 		var parsedUrl = request.url.substring(1).split('/');
-		console.log(parsedUrl);
+		//console.log(parsedUrl);
 		var routeFunction = routeHandler[parsedUrl[0]];
 		if(request.headers.origin){
 			response.setHeader("Access-Control-Allow-Origin", request.headers.origin, 'always');
@@ -16,13 +15,4 @@ module.exports = {
 		}catch(err){
 			console.error(err);
 		}
-	},
-	listen(port){
-		http.createServer(this.requestHandler).listen(port, (err) => {
-			if(err){
-				return console.log('something bad happend', err);
-			}
-			console.log('server is listening on', port);
-		})
-	}
-}
+	})
