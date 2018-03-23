@@ -566,48 +566,6 @@ export class MapComponent implements OnInit {
   }
 
   filterUsersBasedOnFacebook(){
-<<<<<<< HEAD
-    var filterUsersArray = [];
-    if(true /*check facebook thing*/){
-
-      this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
-        var friendMap = new Map();
-
-        friends.forEach((friend) => {
-          friendMap.set(friend, 1);
-        });
-        var p = new Promise((resolve, reject) => {
-          this.filteredUsers.forEach((user) => {
-            this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
-              var match = false;
-              nearbyFriend.forEach((friend) => {
-                //console.log(friend);
-                if(friendMap.get(friend)){
-                  match = true;
-                }
-              });
-
-              if(match){
-
-                filterUsersArray.push(user);
-              }                  
-              resolve(filterUsersArray);
-            }).catch((err) => {
-              console.log(err);
-              reject(err);
-            });
-          });
-        }).then((users: any) => {
-          this.filteredUsers = filterUsersArray;
-          console.log("Filtered Users:", filterUsersArray);
-        });
-      }).catch((err) => {
-        console.error(err);
-      });
-
-    }
-
-=======
   	var filterUsersArray = [];
   	if(true /*check facebook thing*/){
 
@@ -646,7 +604,6 @@ export class MapComponent implements OnInit {
   			console.error(err);
   		});
   	}
->>>>>>> 2b5f86b82a54cb57c56e1cf9ceb3f980661f6004
   }
 
   filterUsersBasedOnTwitter(){
