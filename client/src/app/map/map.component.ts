@@ -27,7 +27,17 @@ export class MapComponent implements OnInit {
       this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
         console.log("Nearby:",nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
-				this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+				//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+
+				if(this.model.user.filterFacebook){
+					console.log("Facebook is Registered");
+					this.filterUsersBasedOnFacebook();
+				}
+				else{
+					this.filteredUsers = this.nearbyUsers;
+				}
+
+
       }).catch((err) => {
         console.error(err);
       })
@@ -181,7 +191,7 @@ export class MapComponent implements OnInit {
 			this.filteredUsers = this.nearbyUsers;
 		}
 	}
-	foodFiler(){
+	foodFilter(){
 		if(!this.model.user.filterFood){
 
 		}
@@ -254,11 +264,11 @@ export class MapComponent implements OnInit {
 
 
     loc.getLocation().then((l)=> {
-      console.log("Reeeeeeeeeeeeeeee");
+      //  console.log("Reeeeeeeeeeeeeeee");
       auth.getUser().then((u) => {
-        console.log("Reeeeeeeeeeeeeeee2");
+        // console.log("Reeeeeeeeeeeeeeee2");
         db.storeLocation(l, u.uid).then((d) =>{
-          console.log("Reeeeeeeeeeeeeeee3");
+          // console.log("Reeeeeeeeeeeeeeee3");
           this.lat = l.latitude;
           this.lng = l.longitude;
 

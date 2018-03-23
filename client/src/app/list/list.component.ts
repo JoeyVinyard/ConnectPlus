@@ -153,7 +153,7 @@ export class ListComponent implements OnInit {
 			this.filteredUsers = this.nearbyUsers;
 		}
 	}
-	foodFiler(){
+	foodFilter(){
 		if(!this.model.user.filterFood){
 
 		}
