@@ -48,6 +48,8 @@ export class twitterService {
 					resolve(this.results);
 				}
 				
+			}, (err) => {
+				console.log(err);
 			});
 
 		})
