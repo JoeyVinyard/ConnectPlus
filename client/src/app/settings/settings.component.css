@@ -227,6 +227,20 @@ img {
 
 #black-exp{
   background-color: rgba(0, 0, 0, 0.8);
+  max-height: 300px;
+}
+
+#subjectList{
+  overflow-y: scroll;
+  max-height: 200px;
+}
+
+#courseListContainer{
+  overflow-y: scroll;
+  max-height: 200px;
+}
+::-webkit-scrollbar { 
+    display: none; 
 }
 
 .socialConnect{

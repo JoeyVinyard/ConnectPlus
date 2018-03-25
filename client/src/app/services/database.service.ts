@@ -215,6 +215,40 @@ export class DatabaseService {
 			});
 		})
 	}
+	getClasses(uid: String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/getClasses/"+uid, this.httpOptions).subscribe((data) => {
+				if(data["payload"] || !data["err"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
+	addClass(uid: String, cl:String): Promise<any>{
+		var classObject = {
+			uid: uid,
+			cl: cl
+		}
+		return new Promise((resolve, reject) => {
+			this.http.post("http://localhost:3000/addClass", JSON.stringify(classObject),this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
+	deleteClass(uid: String, cl: String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.delete("http://localhost:3000/deleteClass/"+uid+"/"+cl, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
 
 	constructor(private http: HttpClient) {}
 

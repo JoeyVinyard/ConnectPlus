@@ -538,5 +538,101 @@ module.exports = {
 			res.write(JSON.stringify(responseBody));
 			res.end()
 		});
-	}
+	},
+	getClasses: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		if(!urlData || !urlData[1]){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		firebase.database().ref("classes/"+uid).once("value").then((s) => {
+			res.statusCode=200;
+			if(s.val())
+				responseBody.payload = Object.values(s.val());
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}).catch((err) => {
+			res.statusCode = 400;
+			responseBody.err = err;
+			console.log(err);
+			res.write(JSON.stringify(responseBody));
+			res.end()
+		});
+	},
+	addClass: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var body = "";
+		req.on('data', function (data) {
+			body += data;
+			if(body.length > 1e6){ 
+				req.connection.destroy();
+			}
+		});
+		req.on('end', function () {
+			var data = JSON.parse(body);
+			if(!data || !data.uid || !data.cl){
+				res.statusCode = 400;
+				responseBody.err = "Data or UID not supplied";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
+			firebase.database().ref("classes/"+data.uid).push(data.cl).then(() => {
+				res.statusCode = 200;
+				responseBody.payload = data;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			}).catch((err) => {
+				console.error(err);
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
+		});
+	},
+	deleteClass: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		if(!urlData || !urlData[1] || !urlData[2]){
+			res.statusCode = 400;
+			responseBody.err = "No UID or Class provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		var cl = urlData[2];
+		cl = cl.replace("%20", " ");
+		firebase.database().ref("classes/"+uid).once("value").then((s) => {
+			var ent = Object.entries(s.val());
+			for(var i = 0; i < ent.length; i++){
+				if(ent[i][1] == cl){
+					firebase.database().ref("classes/"+uid+"/"+ent[i][0]).remove().then(() => {
+						res.statusCode = 200;
+						responseBody.payload = true;
+						res.write(JSON.stringify(responseBody));
+						res.end();
+					}).catch((err) => {
+						console.error(err);
+						responseBody.err = err;
+						res.statusCode = 400;
+						res.write(JSON.stringify(responseBody));
+						res.end();
+					})
+					break;
+				}
+			}
+		}).catch((err) => {
+			console.error(err);
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		});
+	},
 }
