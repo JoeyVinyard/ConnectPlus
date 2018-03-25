@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
 import { DatabaseService } from '../services/database.service';
+import { ClassesService } from '../services/classes.service';
 import { User } from '../services/user';
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
 import { LinkedinService } from '../services/Linkedin.service';//LinkedInService
@@ -80,8 +81,13 @@ export class SettingsComponent implements OnInit {
 	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
 	visibility = 0;
 	// visibility = this.model.user.visability;
-
+	currSubject: String;
+	subjects = [];
+	classList = [];
+	inSubject = false;
+	inDelete = false;
 	url;
+
 	onSelectFile(event) {
 		if (event.target.files && event.target.files[0]) {
 			var reader = new FileReader();
@@ -359,7 +365,7 @@ setVisible(number){
 			this.errors.cred = "No Email and/or Password entered";
 		}
 	}
-	private handleError(error) {
+	handleError(error) {
 		console.error('Error processing action', error);
 	}
 	link_linkedin(){
@@ -433,10 +439,48 @@ setVisible(number){
 		.then(console.log.bind(console))
 		.catch(console.error.bind(console));
 	}
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : LinkedinService){
+	showClassList(subject: String){
+		this.inSubject = true;
+		this.currSubject = subject;
+		this.cs.getClasses(subject).then((classes) => {
+			this.classList = classes;
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+	showSubjectList(){
+		this.inSubject = false;
+		this.classList = [];
+	}
+	toggleDelete(){
+		this.inDelete = !this.inDelete;
+		this.db.getClasses(this.model.user.uid).then((classes) => {
+			this.classList = classes;
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+	addClass(cl: String){
+		this.db.addClass(this.model.user.uid, this.currSubject + " "  + cl).then((success) => {
+			this.inSubject = false;
+			this.classList = [];
+			console.log("Added class:", success);
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+	deleteClass(cl: String){
+		this.classList.splice(this.classList.indexOf(cl), 1);
+		this.db.deleteClass(this.model.user.uid, cl).then((data) => {
+			console.log(data);
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : LinkedinService, private cs: ClassesService){
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
-			this.model.user.uid = user.uid;
 		});	
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
@@ -454,6 +498,9 @@ setVisible(number){
 		})
 		this.inFacebook = this.returnLoginStatus();
 		console.log("Facebook login status: " + this.inFacebook);
+		this.cs.getSubjects().then((subjects) => {
+			this.subjects = subjects;
+		})
 	}
 	ngOnInit() {}
 }

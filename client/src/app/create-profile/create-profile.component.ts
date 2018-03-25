@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
+import { ClassesService } from '../services/classes.service';
 import { DatabaseService } from '../services/database.service';
 import { LinkedinService } from '../services/Linkedin.service';//LinkedInService
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
@@ -39,6 +40,13 @@ export class CreateProfileComponent implements OnInit {
 	inLinkedIn = false;
 	inBlackboard = false;
 	inTwitter = false;
+
+	uid
+	currSubject: String;
+	subjects = [];
+	classList = [];
+	inSubject = false;
+	inDelete = false;
 
 	toggleDiv(name){
 		if(name == "faceShow"){
@@ -149,17 +157,47 @@ url = '';
 		}
 	}	
 
-	// database = firebase.database();
-	//  user = firebase.auth().currentUser;
+	showClassList(subject: String){
+		this.inSubject = true;
+		this.currSubject = subject;
+		this.cs.getClasses(subject).then((classes) => {
+			this.classList = classes;
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+	showSubjectList(){
+		this.inSubject = false;
+		this.classList = [];
+	}
+	toggleDelete(){
+		this.inDelete = !this.inDelete;
+		this.db.getClasses(this.uid).then((classes) => {
+			this.classList = classes;
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+	addClass(cl: String){
+		this.db.addClass(this.uid, this.currSubject + " "  + cl).then((success) => {
+			this.inSubject = false;
+			this.classList = [];
+			console.log("Added class:", success);
+		}).catch((err) => {
+			console.error(err);
+		})
+	}
+	deleteClass(cl: String){
+		this.classList.splice(this.classList.indexOf(cl), 1);
+		this.db.deleteClass(this.uid, cl).then((data) => {
+			console.log(data);
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
 
-	// writeUserData(user, name, email, birthdate) {
-	//   firebase.database().ref('users/' + user).set({
-	//     username: name,
-	//     email: email,
-	//     birthdate : birthdate
-	//   });
-	// }
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService , private li: LinkedinService) {
+
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService , private li: LinkedinService, private cs: ClassesService) {
 	//constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
 	this.model.user.url = "../../assets/profileicon.ico"
 		fb.init({
@@ -167,12 +205,15 @@ url = '';
 			appId: '146089319399243',
 			version: 'v2.12'
 		});
-
-    
-
-  this.auth.isAuthed().then((user) => {
-  	console.log("Authed:",user);
-  });
+	this.auth.isAuthed().then((user) => {
+		console.log("Authed:",user);
+	});
+	this.auth.getUser().then((user) => {
+		this.uid = user.uid;
+	})
+	this.cs.getSubjects().then((subjects) => {
+		this.subjects = subjects;
+	})
 }
 
 link_linkedin(){
@@ -281,3 +322,4 @@ getLoginStatus() {
 	}
 
 }
+

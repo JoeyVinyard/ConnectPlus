@@ -130,7 +130,21 @@ background-color: rgba(0, 119, 181, 0.8);
 }
 
 #black-exp{
-background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.8);
+  max-height: 300px;
+}
+
+#subjectList{
+  overflow-y: scroll;
+  max-height: 200px;
+}
+
+#courseListContainer{
+  overflow-y: scroll;
+  max-height: 200px;
+}
+::-webkit-scrollbar { 
+    display: none; 
 }
 
 .socialConnect{

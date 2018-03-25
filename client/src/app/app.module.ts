@@ -23,6 +23,7 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service'
 import { DatabaseService } from './services/database.service';
 import { LocationService } from './services/location.service';
+import { ClassesService } from './services/classes.service';
 import { ParticlesConfigService } from './services/particles-config.service';
 
 import { fbConfig } from '../environments/firebase.config';
@@ -71,6 +72,7 @@ import { HttpModule } from '@angular/http';
     AuthService,
     DatabaseService,
     LinkedinService,
+    ClassesService,
     LocationService,
     ParticlesConfigService
   ],

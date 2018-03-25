@@ -94,15 +94,37 @@
                       <button class="button socialButton" id="link-dis">Disconnect</button> -->
                   </div>
                   <div class="medium-3 column social-expanded" id="black-exp" [ngClass]="{'hidden' : !blackShow, 'visible' : blackShow}">
-                      <p>Blackboard</p>
-                      <div class="socialConnect" [ngClass]="{'none' : !inBlackboard, 'visible' : inBlackboard && blackShow}"><i class="fa fa-check"></i><p>Connected</p></div>
-                      <div class="socialNotConnect" [ngClass]="{'none' : inBlackboard, 'visible' : !inBlackboard && blackShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
-                      <button type="button" class="button socialButton" id="black-con">Connect</button>
-                      <button type="button" class="button socialButton" id="black-dis">Disconnect</button>
+                      <!-- Regular adding classes menu -->
+                      <div *ngIf="!inDelete">
+                        <p (click)="toggleDelete()">Add Classes</p>
+                        <!-- List of subjects -->
+                        <div id="subjectList" *ngIf="!inSubject">
+                          <p *ngFor="let subject of subjects" (click)="showClassList(subject.Abbreviation)">
+                            {{subject.Abbreviation}}
+                          </p>
+                        </div>
+                        <!-- Course list in subject -->
+                        <div id="courseList" *ngIf="inSubject">
+                          <div id="courseListContainer">
+                            <p *ngFor="let cl of classList" (click)="addClass(cl.Number)">
+                              {{currSubject}} {{cl.Number}}
+                            </p>
+                          </div>
+                          <p (click)="showSubjectList()">Back</p>
+                        </div>
+                      </div>
+                      <!-- Deleting classes menu -->
+                      <div *ngIf="inDelete">
+                        <p (click)="toggleDelete()">Delete Classes</p>
+                        <!-- List of subjects -->
+                        <div id="subjectList" *ngIf="!inSubject">
+                          <p *ngFor="let cl of classList" (click)="deleteClass(cl)">
+                            {{cl}}
+                          </p>
+                        </div>
+                      </div>
                   </div>
               </div>
-    
-              
           </div>
       </div>
 
