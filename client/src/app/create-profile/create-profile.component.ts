@@ -14,7 +14,6 @@ import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBV
 	styleUrls: ['./create-profile.component.css']
 })
 export class CreateProfileComponent implements OnInit {
-
 	model = {
 		user: new User()
 	}
@@ -63,26 +62,17 @@ export class CreateProfileComponent implements OnInit {
 		}
 	}
 
-
-url = '';
+	url = '';
 	onSelectFile(event) {
-		if (event.target.files && event.target.files[0]) {
+		if(event.target.files && event.target.files[0]) {
 			var reader = new FileReader();
-
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-
-      reader.onload = (event:any) => { // called once readAsDataURL is completed
-       // this.url = event.target.result;
-       this.model.user.url = event.target.result;
-      // this.updateInfo();
-       console.log(this.model.user.url);
-
-   }
-}
-}
-
-
-
+			reader.readAsDataURL(event.target.files[0]); // read file as data url
+			reader.onload = (event:any) => { // called once readAsDataURL is completed
+				this.model.user.url = event.target.result;
+				console.log(this.model.user.url);
+			}
+		}
+	}
 	verifyThere(){
 		Object.keys(this.errors).forEach((key)=>{
 			this.errors[key] = null;
@@ -115,7 +105,6 @@ url = '';
 			this.errors.fName = "Please provide a valid first name."
 		if(!(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
 			this.errors.lName = "Please provide a valid last name."
-
 		Object.keys(this.errors).forEach((key)=>{
 			if(this.errors[key])
 				noErr = false;
@@ -123,40 +112,104 @@ url = '';
 		// console.log(this.errors, noErr);
 		return noErr;
 	}
-
-
-
-
 	submit(){
 		if(this.verifyThere()){
 			if(this.verifyValid()){
 				this.model.user.fullName = this.model.user.firstName + " " + this.model.user.lastName;
-				//this.model.user.url = "../../assets/profileicon.ico";
 				this.model.user.moodStatus = "Online";
 				this.model.user.visibility = 100;
-			this.auth.getUser().then((user) => {
-				this.model.user.uid = user.uid;
-				this.db.createUser(this.model.user).then((data) => {
-					console.log(data);
-					this.router.navigateByUrl('map');
-				}).catch((err)=>{
-					this.errors.createError = "profile creation failed"
-
-					console.error(err);
-				//Form rejected for some reason
-			})
-			})
-	}
-	else{
-			this.errors.createError = "Wait a minute...Looks like you put in invalid information!"
-
-	}
-		}
-		else{
+				this.auth.getUser().then((user) => {
+					this.model.user.uid = user.uid;
+					this.db.createUser(this.model.user).then((data) => {
+						this.router.navigateByUrl('map');
+					}).catch((err)=>{
+						this.errors.createError = "profile creation failed"
+						console.error(err);
+					});
+				})
+			}else{
+				this.errors.createError = "Wait a minute...Looks like you put in invalid information!"
+			}
+		}else{
 			this.errors.createError = "Wait a minute...Looks like you forgot something!"
 		}
-	}	
+	}
+	link_linkedin(){
+		this.li.getFriends(this.model.user.screenName).then((data:any) => {
+			console.log(this.model.user.uid);
+			this.db.storeTwitterFollowees(data.users, this.model.user.screenName, this.model.user.uid).then((data) => {
+				console.log(data);
+			});
+		});
+	}
+	login() {
+		this.fb.login().then((res: LoginResponse) => {
+			console.log('Logged in', res);
+		}).catch(this.handleError);
+	}
+	link_facebook(){
+		const loginOptions: LoginOptions = {
+			enable_profile_selector: true,
+			return_scopes: true,
+			scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
+		};
+		console.log(this.returnLoginStatus());
+		/*todo: Check if loggedin already */
+		this.fb.getLoginStatus().then(res=>{
+			if(res && res.status === 'unknown'){
+				this.fb.login(loginOptions).then((res: LoginResponse) => {
+					console.log('Logged in', res);
+				}).then(() => {
+					this.fb.api('/me/taggable_friends?limit=5000').then((res: any) => {
+						console.log(this.model.user.uid);
+						this.db.storeFacebookFriends(res.data,this.model.user.uid).then((data) => {
+							console.log(data);
+						}).catch((err)=>{
+							this.errors.createError = "Facebook friends storage failed"
+							console.error(err);
+						})
+						this.inFacebook = true;
+					})
+				}).catch(this.handleError);
+			}else{
+				console.log("Attempted to login when already logged in. We probably want to display an error message here");
+			}
+		});
+		console.log(this.inFacebook);
+	}
+	logout_facebook(){
+		this.fb.getLoginStatus()
+		.then(res=>{
+			if(res && res.status === 'connected'){
+				console.log("Logging out")
+				this.fb.logout()
 
+				.then(res=>{console.log(res)})
+				.catch(this.handleError);
+				this.inFacebook = false;
+			}
+		}).catch(this.handleError);
+		this.getLoginStatus();
+	}
+	returnLoginStatus(){
+		this.fb.getLoginStatus().then(res=>{
+			if(res && res.status === 'connected'){
+				console.log(true);
+				return true;
+			}else{
+				console.log(false);
+				return false;
+			}
+		});
+	}
+	getLoginStatus() {
+		this.fb.getLoginStatus()
+		.then(console.log.bind(console))
+		.catch(console.error.bind(console));
+	}
+	handleError(error) {
+		console.error('Error processing action', error);
+	}
 	showClassList(subject: String){
 		this.inSubject = true;
 		this.currSubject = subject;
@@ -164,7 +217,7 @@ url = '';
 			this.classList = classes;
 		}).catch((err) => {
 			console.log(err);
-		})
+		});
 	}
 	showSubjectList(){
 		this.inSubject = false;
@@ -176,7 +229,7 @@ url = '';
 			this.classList = classes;
 		}).catch((err) => {
 			console.log(err);
-		})
+		});
 	}
 	addClass(cl: String){
 		this.db.addClass(this.uid, this.currSubject + " "  + cl).then((success) => {
@@ -185,7 +238,7 @@ url = '';
 			console.log("Added class:", success);
 		}).catch((err) => {
 			console.error(err);
-		})
+		});
 	}
 	deleteClass(cl: String){
 		this.classList.splice(this.classList.indexOf(cl), 1);
@@ -193,18 +246,10 @@ url = '';
 			console.log(data);
 		}).catch((err) => {
 			console.log(err);
-		})
-	}
-
-
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService , private li: LinkedinService, private cs: ClassesService) {
-	//constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService) {
-	this.model.user.url = "../../assets/profileicon.ico"
-		fb.init({
-
-			appId: '146089319399243',
-			version: 'v2.12'
 		});
+	}
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService , private li: LinkedinService, private cs: ClassesService) {
+	this.model.user.url = "../../assets/profileicon.ico";
 	this.auth.isAuthed().then((user) => {
 		console.log("Authed:",user);
 	});
@@ -214,108 +259,13 @@ url = '';
 	this.cs.getSubjects().then((subjects) => {
 		this.subjects = subjects;
 	})
-}
-
-link_linkedin(){
-	this.li.getFriends(this.model.user.screenName)
-		.then((data:any) => {
-			console.log(this.model.user.uid);
-			this.db.storeTwitterFollowees(data.users, this.model.user.screenName, this.model.user.uid).then((data) => {
-				console.log(data);
-			});
-		});
-}
-
-login() {
-	this.fb.login()
-	.then((res: LoginResponse) => {
-		console.log('Logged in', res);
-	})
-	.catch(this.handleError);
+	fb.init({
+		appId: '146089319399243',
+		version: 'v2.12'
+	});
 }
 
 
-
-link_facebook(){
-	const loginOptions: LoginOptions = {
-		enable_profile_selector: true,
-		return_scopes: true,
-		scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
-	};
-	console.log(this.returnLoginStatus());
-	/*todo: Check if loggedin already */
-	this.fb.getLoginStatus()
-	.then(res=>{
-		if(res && res.status === 'unknown'){
-			this.fb.login(loginOptions)
-			.then((res: LoginResponse) => {
-				console.log('Logged in', res);
-			}).then(() => {
-				this.fb.api('/me/taggable_friends?limit=5000')
-				.then((res: any) => {
-					console.log(this.model.user.uid);
-					this.db.storeFacebookFriends(res.data,this.model.user.uid).then((data) => {
-						console.log(data);
-						
-					}).catch((err)=>{
-						this.errors.createError = "Facebook friends storage failed"
-
-						console.error(err);
-				//Form rejected for some reason
-					})
-					console.log('Got the users friends', res);
-					this.inFacebook = true;
-
-				})
-			})
-			.catch(this.handleError);
-		}else{
-			console.log("Attempted to login when already logged in. We probably want to display an error message here");
-		}
-	})
-
-	console.log(this.inFacebook);
-
-}
-
-logout_facebook(){
-	this.fb.getLoginStatus()
-	.then(res=>{
-		if(res && res.status === 'connected'){
-			console.log("Logging out")
-			this.fb.logout()
-
-			.then(res=>{console.log(res)})
-			.catch(this.handleError);
-			this.inFacebook = false;
-		}
-	}).catch(this.handleError);
-
-	this.getLoginStatus();
-}
-returnLoginStatus(){
-	this.fb.getLoginStatus()
-	.then(res=>{
-		if(res && res.status === 'connected'){
-			console.log(true);
-			return true;
-
-		}else{
-			console.log(false);
-			return false;
-		}
-	})
-}
-getLoginStatus() {
-
-	this.fb.getLoginStatus()
-	.then(console.log.bind(console))
-	.catch(console.error.bind(console));
-}
-
-	private handleError(error) {
-		console.error('Error processing action', error);
-	}
 
 
 	ngOnInit() {
