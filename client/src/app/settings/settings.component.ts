@@ -32,6 +32,8 @@ export class SettingsComponent implements OnInit {
 		email: "",
 		pass: "",
 		cred: "",
+		//twitter error
+		twitterE: ""
 	}
 	success = {
 		//change email success
@@ -159,6 +161,7 @@ setVisible(number){
 		this.success.changeInfoS = "";
 		this.errors.FnameError = "";
 		this.errors.LnameError = "";
+		this.errors.twitterE = "";
 
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
@@ -376,6 +379,7 @@ setVisible(number){
 				console.log(data);
 			});
 		}).catch((err) => {
+			this.errors.twitterE = "you were not able to connect to twitter"
 				/*If the code reaches this block it means we have an error */
 
 				

@@ -22,7 +22,8 @@ export class CreateProfileComponent implements OnInit {
 		fName:"",
 		lName:"",
 		ageE:"",
-		genderE:""
+		genderE:"",
+		twitterE:""
 	}
 
 	particlesConfig;
@@ -141,6 +142,8 @@ export class CreateProfileComponent implements OnInit {
 				console.log(data);
 			});
 		}).catch((err) => {
+			this.errors.twitterE = "you were not able to connect to twitter"
+
 			/*They inputted an invalid screen name if they get here*/
 		});
 	}
