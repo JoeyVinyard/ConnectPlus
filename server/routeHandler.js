@@ -180,6 +180,13 @@ module.exports = {
 		}
 		var uid = urlData[1];
 		firebase.database().ref("locations/"+uid).once("value").then((baseLocation) => {
+			if(baseLocation.val() == null){
+				res.statusCode = 400;
+				responseBody.err = "No Location found";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
 			var c1 = {
 				lat: baseLocation.val().lat,
 				lon: baseLocation.val().lon

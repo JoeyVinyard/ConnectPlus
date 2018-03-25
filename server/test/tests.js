@@ -345,7 +345,7 @@ describe('HTTP Unit Tests', function () {
 			});
 
 		});
-		it("Input: Invalid UID | Output: 200 Status Code, null response body", function(done) {
+		it("Input: Invalid UID | Output: 400 Status Code", function(done) {
 			var options = {
 				url: 'http://localhost:3000/getNearbyUsers/' + "asdfasdf",
 				headers: {
@@ -353,10 +353,124 @@ describe('HTTP Unit Tests', function () {
 				}
 			};
 			request.get(options, function(err, res, body){
-				expect(res.statusCode).to.equal(200);
-				expect(JSON.parse(body).payload).to.equals(null);
+				expect(res.statusCode).to.equal(400);
+				
 				done();
 			});
+		});
+	});
+
+	describe('User Story Eleven',function(){
+		it('Should return 400 With no UID Given', function(done) {
+			var options = {
+				url: 'http://localhost:3000/storeFacebookFriends/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Should return 200 When given valid friends object and uid', function(done) {
+			var friends = {
+				friends: {
+					friend: "a"
+				},
+				uid: testID
+			}
+			var options = {
+				url: 'http://localhost:3000/storeFacebookFriends/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: JSON.stringify(friends)
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(200);
+				done();
+			});
+
+		});
+		it('Should return 200 When given invalid UID', function(done) {
+			var friends = {
+				friends: {
+					friend: "a"
+				},
+				uid: "asdfasdf"
+			}
+			var options = {
+				url: 'http://localhost:3000/storeFacebookFriends/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: JSON.stringify(friends)
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(200);
+				done();
+			});
+
+		});
+	});
+
+	describe('User Story Thirteen',function(){
+		it('Should return 400 With no UID Given', function(done) {
+			var options = {
+				url: 'http://localhost:3000/storeTwitterFollowees/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Should return 200 When given valid friends object and uid', function(done) {
+			var friends = {
+				friends: {
+					friend: "a"
+				},
+				uid: testID
+			}
+			var options = {
+				url: 'http://localhost:3000/storeTwitterFollowees/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: JSON.stringify(friends)
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(200);
+				done();
+			});
+
+		});
+		it('Should return 200 When given invalid UID', function(done) {
+			var friends = {
+				friends: {
+					friend: "a"
+				},
+				uid: "asdfasdf"
+			}
+			var options = {
+				url: 'http://localhost:3000/storeTwitterFollowees/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: JSON.stringify(friends)
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(200);
+				done();
+			});
+
 		});
 	});
 });
