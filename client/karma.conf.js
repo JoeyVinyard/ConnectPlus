@@ -23,12 +23,23 @@ module.exports = function (config) {
     angularCli: {
       environment: 'dev'
     },
+    files: [
+      "https://connect.facebook.net/en_US/sdk.js",
+      "https://maps.googleapis.com/maps/api/js?sensor=false"
+    ],
+    vendor: ["http://maps.googleapis.com/maps/api/js?sensor=false&language=en"],
+    crossOriginAttribute: false,
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['Chrome_without_security'],  customLaunchers:{
+        Chrome_without_security:{
+          base: 'Chrome',
+          flags: ['--disable-web-security']
+        }
+    },
     singleRun: false
   });
 };

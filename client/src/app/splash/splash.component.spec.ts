@@ -6,6 +6,9 @@ import { SplashComponent } from './splash.component';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
 import { AuthGuard } from '../services/auth-guard.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireModule } from 'angularfire2';
+import { fbConfig } from '../../environments/firebase.config';
 
 import { ParticlesModule } from 'angular-particle';
 
@@ -16,8 +19,8 @@ describe('SplashComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SplashComponent ],
-      imports: [ ParticlesModule ],
-      providers: [ AuthService, AuthGuard, ParticlesConfigService ]
+      imports: [ ParticlesModule, AngularFireModule.initializeApp(fbConfig, 'ConnecPlus')],
+      providers: [ AuthService, AuthGuard, ParticlesConfigService, AngularFireAuth ]
     })
     .compileComponents();
   }));

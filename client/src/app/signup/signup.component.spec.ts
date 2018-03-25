@@ -14,8 +14,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ParticlesModule } from 'angular-particle';
 import { FormsModule }   from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
-
 import { fbConfig } from '../../environments/firebase.config';
+
 
 let DatabaseServiceStub = {
   createUser(user: User){},
@@ -113,38 +113,38 @@ describe('SignupComponent', () => {
   });
   it('should check if password is entered', () => {
     var expectedError = "Please enter your password.";
-    component.model.user.password = "";
+    component.model.password = "";
     component.submit();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css("#passError")).nativeElement.innerText).toEqual(expectedError);
     var expectedError = "";
-    component.model.user.password = "asdfasdf";
+    component.model.password = "asdfasdf";
     component.submit();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css("#passError")).nativeElement.innerText).toEqual(expectedError);
   })
   it('should check if password confirmation is entered', () => {
     var expectedError = "Please confirm your password.";
-    component.model.user.confpass = "";
+    component.model.confpass = "";
     component.submit();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css("#confError")).nativeElement.innerText).toEqual(expectedError);
     var expectedError = "";
-    component.model.user.confpass = "asdfasdf";
+    component.model.confpass = "asdfasdf";
     component.submit();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css("#confError")).nativeElement.innerText).toEqual(expectedError);
   })
   it('should check if passwords match', () => {
     var expectedError = "Passwords must match!";
-    component.model.user.password = "asdfasdf";
-    component.model.user.confpass = "asdf";
+    component.model.password = "asdfasdf";
+    component.model.confpass = "asdf";
     component.submit();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css("#confError")).nativeElement.innerText).toEqual(expectedError);
     var expectedError = "";
-    component.model.user.password = "pancakes";
-    component.model.user.confpass = "pancakes";
+    component.model.password = "pancakes";
+    component.model.confpass = "pancakes";
     component.submit();
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css("#confError")).nativeElement.innerText).toEqual(expectedError);
