@@ -6,7 +6,7 @@ import { DatabaseService } from '../services/database.service';
 import { ClassesService } from '../services/classes.service';
 import { User } from '../services/user';
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
-import { LinkedinService } from '../services/Linkedin.service';//LinkedInService
+import { twitterService } from '../services/twitter.service';
 @Component({
 	selector: 'app-settings',
 	templateUrl: './settings.component.html',
@@ -368,12 +368,17 @@ setVisible(number){
 	handleError(error) {
 		console.error('Error processing action', error);
 	}
-	link_linkedin(){
+	link_twitter(){
+		console.log("Here");
 		this.li.getFriends(this.model.user.screenName).then((data:any) => {
 			console.log("Storing in database" + this.model.user.uid);
 			this.db.storeTwitterFollowees(data.users, this.model.user.screenName, this.model.user.uid).then((data) => {
 				console.log(data);
 			});
+		}).catch((err) => {
+				/*If the code reaches this block it means we have an error */
+
+				
 		});
 	}
 	link_facebook(){
@@ -478,7 +483,7 @@ setVisible(number){
 		})
 	}
 
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : LinkedinService, private cs: ClassesService){
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService){
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 		});	

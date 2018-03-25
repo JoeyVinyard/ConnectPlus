@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { User } from "./user";
 //import { Http, Response, Headers, URLSearchParams, RequestOptions } from '@angular/http';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import {Observable} from 'rxjs/Rx';
 
 @Injectable()
-export class LinkedinService {
+export class twitterService {
 
 	constructor(private http: HttpClient) {}
 
@@ -29,9 +30,11 @@ export class LinkedinService {
 			this.httpOptions.params = this.httpOptions.params.set('skip_status', 'true');
 			this.httpOptions.params = this.httpOptions.params.set('include_user_entities', 'false');
 			this.httpOptions.params = this.httpOptions.params.set("screen_name", screenName);
-			console.log(this.httpOptions);
-			this.http.get("https://api.twitter.com/1.1/friends/list.json", this.httpOptions).subscribe((data:any) =>  {
-				//console.log(data);
+			//console.log(this.httpOptions);
+			this.http.get("https://api.twitter.com/1.1/friends/list.json", this.httpOptions).catch((err) => {
+				console.log(err);
+			}).subscribe((data:any) =>  {
+				console.log("data: ", data);
 				if(data.next_cursor_str){
 					this.results.nextCursor = data.next_cursor_str;
 				}
@@ -48,6 +51,7 @@ export class LinkedinService {
 				}
 				
 			});
+
 		})
 	}
 

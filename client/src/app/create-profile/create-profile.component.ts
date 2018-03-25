@@ -5,7 +5,7 @@ import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
 import { ClassesService } from '../services/classes.service';
 import { DatabaseService } from '../services/database.service';
-import { LinkedinService } from '../services/Linkedin.service';//LinkedInService
+import { twitterService } from '../services/twitter.service';//LinkedInService
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
 
 @Component({
@@ -134,12 +134,14 @@ export class CreateProfileComponent implements OnInit {
 			this.errors.createError = "Wait a minute...Looks like you forgot something!"
 		}
 	}
-	link_linkedin(){
+	link_twitter(){
 		this.li.getFriends(this.model.user.screenName).then((data:any) => {
 			console.log(this.model.user.uid);
 			this.db.storeTwitterFollowees(data.users, this.model.user.screenName, this.model.user.uid).then((data) => {
 				console.log(data);
 			});
+		}).catch((err) => {
+			/*They inputted an invalid screen name if they get here*/
 		});
 	}
 	login() {
@@ -248,7 +250,7 @@ export class CreateProfileComponent implements OnInit {
 			console.log(err);
 		});
 	}
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService , private li: LinkedinService, private cs: ClassesService) {
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService , private li: twitterService, private cs: ClassesService) {
 	this.model.user.url = "../../assets/profileicon.ico";
 	this.auth.isAuthed().then((user) => {
 		console.log("Authed:",user);

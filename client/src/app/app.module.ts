@@ -31,7 +31,7 @@ import { ROUTES } from './app.routes';
 import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { FacebookModule } from 'ngx-facebook';
 import { HttpClientModule } from '@angular/common/http';
-import { LinkedinService } from './services/Linkedin.service';
+import { twitterService } from './services/twitter.service';
 import { HttpModule } from '@angular/http';
 
 
@@ -71,7 +71,7 @@ import { HttpModule } from '@angular/http';
     AuthGuard,
     AuthService,
     DatabaseService,
-    LinkedinService,
+    twitterService,
     ClassesService,
     LocationService,
     ParticlesConfigService
