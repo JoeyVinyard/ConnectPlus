@@ -61,6 +61,7 @@ module.exports = {
 				res.end();
 				return;
 			}
+			
 			firebase.database().ref("users/"+data.uid).update(data).then(() => {
 				res.statusCode = 200;
 				responseBody.payload = data;
