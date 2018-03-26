@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 import { NavComponent } from './nav.component';
 import { AuthService } from '../services/auth.service';
@@ -39,6 +40,7 @@ let AuthServiceStub = {
 describe('NavComponent', () => {
   let component: NavComponent;
   let fixture: ComponentFixture<NavComponent>;
+  let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -53,6 +55,7 @@ describe('NavComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NavComponent);
     component = fixture.componentInstance;
+    router = TestBed.get(Router);
     fixture.detectChanges();
   });
 
@@ -62,4 +65,8 @@ describe('NavComponent', () => {
   it('should load logo', () => {
     expect(fixture.debugElement.query(By.css('#navLogo'))).toBeTruthy();
   });
+  it('should load navbar', () => {
+    expect(fixture.debugElement.query(By.css('.dropdown'))).toBeTruthy();
+  })
+
 });
