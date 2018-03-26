@@ -161,4 +161,15 @@ describe('SettingsComponent', () => {
 		fixture.detectChanges();
 		expect(fixture.debugElement.queryAllNodes(By.css('#formTitle')).length).toEqual(13);
 	});
+	it('should display proper errors', () => {
+		component.secShow = true;
+		fixture.detectChanges();
+		var expectedError = "Please enter your password.";
+		component.model.currentPassword = "";
+		component.model.newPassword = "";
+		component.model.conPassword = "";
+		component.changepass();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#curPassError")).nativeElement.innerText).toEqual(expectedError);
+	})
 });
