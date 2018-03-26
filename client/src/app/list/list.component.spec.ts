@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';''
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { ListComponent } from './list.component';
 import { FormsModule }   from '@angular/forms';
@@ -101,5 +102,17 @@ describe('ListComponent', () => {
 
 	it('should create', () => {
 		expect(component).toBeTruthy();
+	});
+
+	it('should show user', () => {
+		expect(fixture.debugElement.query(By.css('selectedUserDivInfo'))).toBeTruthy;
+	});
+
+	it('should populate user card with info', () => {
+		expect(fixture.debugElement.query(By.css('FilterSection'))).toBeTruthy;
+	});
+
+	it('should allow return to map', () => {
+		expect(fixture.debugElement.queryAll(By.css('.selectedButton')).length).toEqual(3);
 	});
 });
