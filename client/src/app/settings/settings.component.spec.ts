@@ -209,27 +209,29 @@ describe('SettingsComponent', () => {
 		
 		
 	})
-// it('should display proper errors changing email', () => {
+// it('should display proper errors changing email ', () => {
 		
 // 		component.secShow = true;
 // 		fixture.detectChanges();
-// 		var expectedError = "Please provide a valid email.";
-// 		component.model.currentEmail = "niralirai@gmail.com";
-// 		component.model.newEmail = "";
+// 		var expectedError = "Please provide a valid email.!";
+// 		component.model.newEmail = "n";
+// 		component.model.currentEmail = "niralirai@yahoo.com";
 // 		component.model.emailChangePass = "nirali";
-// 		component.changeemail();
+// 		component.verifyEmail();
 // 		fixture.detectChanges();
 // 		expect(fixture.debugElement.query(By.css("#newEmailError")).nativeElement.innerText).toEqual(expectedError);
 
+
+
 // 		component.secShow = true;
 // 		fixture.detectChanges();
-// 		var expectedError = "Please provide differnt email.";
+// 		var expectedError = "Please provide differnt email.!";
 // 		component.model.currentEmail = "niralirai@yahoo.com";
 // 		component.model.newEmail = "niralirai@yahoo.com";
 // 		component.model.emailChangePass = "nirali";
-// 		component.changeemail();
+// 		component.verifyEmail();
 // 		fixture.detectChanges();
-// 		expect(fixture.debugElement.query(By.css("#newEmailError")).nativeElement.innerText).toEqual(expectedError);
+// 		expect(fixture.debugElement.query(By.css("#newEmailchangeError")).nativeElement.innerText).toEqual(expectedError);
 		
 		
 		
