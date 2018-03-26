@@ -347,6 +347,12 @@ export class MapComponent implements OnInit {
   submitted = false;
 
 
+	localStorage(){
+		localStorage.setItem("localVisibility", String(this.model.user.visibility));
+		localStorage.setItem("localMood", this.model.user.moodStatus);
+	}
+
+
   constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService ) {
 
 
@@ -363,6 +369,7 @@ export class MapComponent implements OnInit {
         this.model.user = userData
         console.log(userData)
         this.visibility = this.model.user.visibility;
+        this.localStorage();
       })
 
     });
