@@ -69,18 +69,18 @@
 
 						<p id="formTitle">Current Email:</p>
 						<input class="textInput" type="text" name="currentEmail" [(ngModel)]="model.currentEmail">
-						<p class="error">{{errors.currentEmailChange}}
+						<p id="currentEmailError" class="error">{{errors.currentEmailChange}}
 
 							<p id="formTitle">New Email:</p>
 							<input class="textInput" type="text" name="newEmail" [(ngModel)]="model.newEmail">
-							<p class="error">{{errors.newEmail}}</p>
+							<p if="newEmailError" class="error">{{errors.newEmail}}</p>
 							<!--  localStorage.setItem("localEmail", "newEmail") -->
 
 							<p id="formTitle">Password:</p>
 							<input class="textInput" type="password" name="password" [(ngModel)]="model.emailChangePass">
-							<p class="error">{{errors.pass}}</p>
+							<p id="changeemailPasswordError" class="error">{{errors.pass}}</p>
 
-							<p class="error">{{errors.emailChangeE}}</p>
+							<p id="changeEmailError" class="error">{{errors.emailChangeE}}</p>
 							<p class="sucess">{{success.emailChangeS}}</p>
 							<button class="button saveButton">Save Changes</button>
 					</form>
