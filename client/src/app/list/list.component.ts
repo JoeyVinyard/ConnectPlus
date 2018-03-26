@@ -318,6 +318,7 @@ export class ListComponent implements OnInit {
 
 
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService ) {
+		
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 			this.model.user.uid = user.uid;

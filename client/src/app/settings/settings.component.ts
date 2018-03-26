@@ -81,11 +81,15 @@ export class SettingsComponent implements OnInit {
 	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
 	visibility = 0;
 	// visibility = this.model.user.visability;
+
 	currSubject: String;
 	subjects = [];
 	classList = [];
+	userClasses = [];
 	inSubject = false;
 	inDelete = false;
+	inAdd = false;
+	blackInter = false;
 	url;
 
 	onSelectFile(event) {
@@ -453,26 +457,66 @@ setVisible(number){
 		this.classList = [];
 	}
 	toggleDelete(){
-		this.inDelete = !this.inDelete;
-		this.db.getClasses(this.model.user.uid).then((classes) => {
-			this.classList = classes;
-		}).catch((err) => {
-			console.log(err);
-		})
+		if(this.inDelete){ //currently true
+			this.inDelete = false;
+			this.blackInter = false;
+		}
+		else{ //currently false
+			this.inDelete = true;
+			this.blackInter = true;
+			if(this.inAdd){
+				this.inAdd = false;
+			}
+
+			this.db.getClasses(this.model.user.uid).then((classes) => {
+				this.classList = classes;
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
 	}
+
+	toggleAdd(){
+		if(this.inAdd){ //currently true
+			this.inAdd = false;
+			this.blackInter = false;
+		}
+		else{ //currently false
+			this.inAdd = true;
+			this.blackInter = true;
+			if(this.inDelete){
+				this.inDelete = false;
+			}
+		}
+	}
+
 	addClass(cl: String){
 		this.db.addClass(this.model.user.uid, this.currSubject + " "  + cl).then((success) => {
 			this.inSubject = false;
 			this.classList = [];
 			console.log("Added class:", success);
+
+			this.updateClasses();
 		}).catch((err) => {
 			console.log(err);
 		})
 	}
 	deleteClass(cl: String){
-		this.classList.splice(this.classList.indexOf(cl), 1);
+		this.userClasses.splice(this.userClasses.indexOf(cl), 1);
 		this.db.deleteClass(this.model.user.uid, cl).then((data) => {
 			console.log(data);
+
+			this.updateClasses();
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
+	updateClasses(){
+		this.db.getClasses(this.model.user.uid).then((classes) => {
+			this.classList = classes;
+			this.userClasses = classes;
+			console.log(this.userClasses);
 		}).catch((err) => {
 			console.log(err);
 		})
@@ -482,6 +526,8 @@ setVisible(number){
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 		});	
+
+
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
 			this.model.user.firstName = user.firstName;
@@ -489,8 +535,11 @@ setVisible(number){
 				this.model.user = userData
 				console.log(userData)
 				this.url = this.model.user.url;
+
+				this.updateClasses();
 			})
 		});
+
 		fb.init({
 			appId: '146089319399243',
 			version: 'v2.12',

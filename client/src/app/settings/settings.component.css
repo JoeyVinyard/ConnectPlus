@@ -53,6 +53,7 @@ img {
     color:#004E7F;
     margin-bottom: 0.75rem;
     margin-top: 0.75rem;
+    cursor: pointer;
 }
 
 .subText{
@@ -205,6 +206,10 @@ img {
 
 }
 
+#connectionSubContent{
+  position: relative;
+}
+
 .social-expanded{
   border: 2px solid white;
   border-radius: 25px;
@@ -230,17 +235,40 @@ img {
   max-height: 300px;
 }
 
-#subjectList{
+#blackboardInterface{
+  background-color: rgba(0, 0, 0, 0.8);
+  max-height: 300px;
+}
+
+#subjectListContainer{
   overflow-y: scroll;
-  max-height: 200px;
+  max-height: 150px;
+  border: 1px white solid;
+  border-radius: 25px;
+  /* margin-bottom: 1rem; */
 }
 
 #courseListContainer{
   overflow-y: scroll;
-  max-height: 200px;
+  max-height: 150px;
+  border: 1px white solid;
+  border-radius: 25px;
 }
 ::-webkit-scrollbar { 
     display: none; 
+}
+
+.clickable{
+  cursor: pointer;
+}
+
+#currentClasses{
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+#currentList{
+  opacity: 0.8;
 }
 
 .socialConnect{

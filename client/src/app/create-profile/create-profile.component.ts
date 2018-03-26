@@ -44,8 +44,11 @@ export class CreateProfileComponent implements OnInit {
 	currSubject: String;
 	subjects = [];
 	classList = [];
+	userClasses = [];
 	inSubject = false;
 	inDelete = false;
+	inAdd = false;
+	blackInter = false;
 
 	toggleDiv(name){
 		if(name == "faceShow"){
@@ -224,29 +227,68 @@ export class CreateProfileComponent implements OnInit {
 		this.classList = [];
 	}
 	toggleDelete(){
-		this.inDelete = !this.inDelete;
-		this.db.getClasses(this.uid).then((classes) => {
-			this.classList = classes;
-		}).catch((err) => {
-			console.log(err);
-		});
+		if(this.inDelete){ //currently true
+			this.inDelete = false;
+			this.blackInter = false;
+		}
+		else{ //currently false
+			this.inDelete = true;
+			this.blackInter = true;
+			if(this.inAdd){
+				this.inAdd = false;
+			}
+
+			this.db.getClasses(this.model.user.uid).then((classes) => {
+				this.classList = classes;
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+	}
+
+	toggleAdd(){
+		if(this.inAdd){ //currently true
+			this.inAdd = false;
+			this.blackInter = false;
+		}
+		else{ //currently false
+			this.inAdd = true;
+			this.blackInter = true;
+			if(this.inDelete){
+				this.inDelete = false;
+			}
+		}
 	}
 	addClass(cl: String){
-		this.db.addClass(this.uid, this.currSubject + " "  + cl).then((success) => {
+		this.db.addClass(this.model.user.uid, this.currSubject + " "  + cl).then((success) => {
 			this.inSubject = false;
 			this.classList = [];
 			console.log("Added class:", success);
-		}).catch((err) => {
-			console.error(err);
-		});
-	}
-	deleteClass(cl: String){
-		this.classList.splice(this.classList.indexOf(cl), 1);
-		this.db.deleteClass(this.uid, cl).then((data) => {
-			console.log(data);
+
+			this.updateClasses();
 		}).catch((err) => {
 			console.log(err);
-		});
+		})
+	}
+	deleteClass(cl: String){
+		this.userClasses.splice(this.userClasses.indexOf(cl), 1);
+		this.db.deleteClass(this.model.user.uid, cl).then((data) => {
+			console.log(data);
+
+			this.updateClasses();
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
+	updateClasses(){
+		this.db.getClasses(this.model.user.uid).then((classes) => {
+			this.classList = classes;
+			this.userClasses = classes;
+			console.log(this.userClasses);
+		}).catch((err) => {
+			console.log(err);
+		})
 	}
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private fb : FacebookService, private db: DatabaseService , private li: LinkedinService, private cs: ClassesService) {
 	this.model.user.url = "../../assets/profileicon.ico";
@@ -255,6 +297,8 @@ export class CreateProfileComponent implements OnInit {
 	});
 	this.auth.getUser().then((user) => {
 		this.uid = user.uid;
+
+		this.updateClasses();
 	})
 	this.cs.getSubjects().then((subjects) => {
 		this.subjects = subjects;
