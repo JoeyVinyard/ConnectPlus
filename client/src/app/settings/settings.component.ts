@@ -498,6 +498,9 @@ setVisible(number){
 				this.model.user = userData
 				console.log(userData)
 				this.url = this.model.user.url;
+				this.db.getTwitterScreenName(user.uid).then((name) => {
+					this.model.user.screenName = name;
+				})
 			})
 		});
 		fb.init({
@@ -510,6 +513,7 @@ setVisible(number){
 		this.cs.getSubjects().then((subjects) => {
 			this.subjects = subjects;
 		})
+
 	}
 	ngOnInit() {}
 }

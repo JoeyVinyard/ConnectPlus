@@ -308,6 +308,7 @@ module.exports = {
 			res.end();
 		});
 	},
+
 	getUsersWithCommonFacebookFriends: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		if(!urlData || !urlData[1]){
@@ -512,7 +513,7 @@ module.exports = {
 		var uid = urlData[1];
 		firebase.database().ref("twitter-followees/"+uid).once("value").then((s) => {
 			res.statusCode=200;
-			responseBody.payload = s.val();
+			responseBody.payload = s.val().screenName;
 			res.write(JSON.stringify(responseBody));
 			res.end();
 			return;
