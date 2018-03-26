@@ -197,10 +197,11 @@ export class DatabaseService {
 	getTwitterScreenName(uid: String): Promise<any> {
 		return new Promise((resolve, reject) => {
 			this.http.get("http://localhost:3000/getTwitterScreenName/"+uid, this.httpOptions).subscribe((data) => {
-				if(data["payload"])
+				if(data["payload"]){
 					resolve(data["payload"]);
-				else
+				}else{
 					reject(data["err"]);
+				}
 			});
 		})
 	}
