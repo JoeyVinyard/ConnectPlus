@@ -646,6 +646,6 @@ export class MapComponent implements OnInit {
 
 	}
 	filterUsersBasedOnBlackboard(){
-		
+		var filteredUsersArray = [];
 	}
 }
