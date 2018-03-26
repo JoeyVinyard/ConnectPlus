@@ -547,6 +547,9 @@ setVisible(number){
 				this.url = this.model.user.url;
 
 				this.updateClasses();
+				this.db.getTwitterScreenName(user.uid).then((screenName) => {
+					this.model.user.screenName = screenName;
+				});
 			})
 		});
 
