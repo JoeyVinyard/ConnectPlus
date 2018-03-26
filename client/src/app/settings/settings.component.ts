@@ -383,6 +383,7 @@ setVisible(number){
 				console.log(data);
 			});
 		}).catch((err) => {
+			console.log("Issue here");
 			this.errors.twitterE = "you were not able to connect to twitter"
 				/*If the code reaches this block it means we have an error */
 

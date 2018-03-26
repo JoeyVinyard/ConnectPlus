@@ -50,6 +50,7 @@ export class twitterService {
 				
 			}, (err) => {
 				console.log(err);
+				reject();
 			});
 
 		})
