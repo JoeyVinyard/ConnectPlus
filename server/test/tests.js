@@ -89,7 +89,6 @@ describe('HTTP Unit Tests', function () {
 			});
 		});
 	});
-
 	describe('User Story Two',function(){
 		it('Should Give error with no response body', function(done) {
 			var options = {
@@ -355,6 +354,64 @@ describe('HTTP Unit Tests', function () {
 			request.get(options, function(err, res, body){
 				expect(res.statusCode).to.equal(400);
 				
+				done();
+			});
+		});
+	});
+
+	describe('User Story Nine',function(){
+		it('Should return status of 400 with no response body', function(done) {
+			var options = {
+				url: 'http://localhost:3000/updateUser/',
+				headers: {
+					'Content-Type': 'text/plain',
+	
+				},
+				body: "{}"
+			};
+			
+			request.post(options, function(err, res, body){
+			
+				expect(res.statusCode).to.equals(400);
+
+				done();
+			});
+
+		});
+
+		it('Should return non null Body and status Code 200 upon a valid call with updated user settings', function(done){
+			var options = {
+				url: 'http://localhost:3000/updateUser/',
+				headers: {
+					'Content-Type': 'text/plain',
+	
+				},
+				body: JSON.stringify(testUser)
+			};
+			
+			request.post(options, function(err, res, body){
+				
+				expect(res.statusCode).to.equals(200);
+				assert.notEqual(JSON.parse(body), null);
+
+				done();
+			});
+
+
+		});
+
+		it("Returns UID when given invalid data", function(done) {
+			var options = {
+				url: 'http://localhost:3000/updateUser/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: JSON.stringify(invalidUser)
+			};
+			request.post(options, function(err, res, body){
+//				console.log();
+				expect(res.statusCode).to.equal(200);
+				//expect(JSON.parse(body).payload).to.equals(null);
 				done();
 			});
 		});
