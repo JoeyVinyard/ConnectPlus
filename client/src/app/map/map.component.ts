@@ -69,6 +69,7 @@ export class MapComponent implements OnInit {
       this.db.updateUser(this.model.user).then((data) => {
         console.log(data);
         this.errors.mood = "Your mood status has been updated!"
+        localStorage.setItem("localMood", this.model.user.moodStatus);
       }).catch((err)=>{
         console.error(err);
         this.errors.mood = "Your mood status has NOT been updated!"
@@ -147,6 +148,7 @@ export class MapComponent implements OnInit {
 
   	this.visibility = number;
   	this.model.user.visibility = number;
+  	localStorage.setItem("localVisibility", number);
 
 
   	this.auth.getUser().then((user) => {
@@ -408,7 +410,7 @@ export class MapComponent implements OnInit {
       this.model.user.uid = user.uid;
       this.db.getUser(user.uid).then((userData) => {
         this.model.moodStatus = userData.moodStatus;
-
+        localStorage.setItem("localMood", userData.moodStatus);
         this.model.user = userData;
         console.log(userData)
       })
