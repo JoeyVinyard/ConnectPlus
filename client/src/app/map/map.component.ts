@@ -348,7 +348,7 @@ export class MapComponent implements OnInit {
 
 
 	localStorage(){
-		localStorage.setItem("localVisibility", String(this.model.user.visibility));
+		localStorage.setItem("localVisibility", String(this.visibility));
 		localStorage.setItem("localMood", this.model.user.moodStatus);
 	}
 
@@ -364,14 +364,29 @@ export class MapComponent implements OnInit {
     
     this.auth.getUser().then((user) => {
 
-   		this.localStorage();
+   		//this.localStorage();
+   		this.db.getUser(user.uid).then((userData) => {
+	        this.model.user = userData;
 
-      this.db.getUser(user.uid).then((userData) => {
+	        this.visibility = localStorage.getItem("localVisibility");
+	        this.model.moodStatus = localStorage.getItem("localMood");
+	        console.log(userData)
+	     })
 
-        this.model.user = userData
-        console.log(userData)
-        this.visibility = this.model.user.visibility;
-      })
+    });
+
+    this.auth.getUser().then((user) => {
+
+   		if(localStorage.getItem("localVisibility") == null || localStorage.getItem("localMood") == null){ //only call Database if necessary
+   			this.db.getUser(user.uid).then((userData) => {
+   			console.log("localStorage Missing");
+	        this.model.user = userData;
+	        console.log(userData)
+	        this.visibility = this.model.user.visibility;
+	        this.model.moodStatus = userData.moodStatus;
+	        this.localStorage();
+	      })
+   		}
 
     });
     console.log("Early reeeee");
@@ -408,21 +423,11 @@ export class MapComponent implements OnInit {
     })
 
 
-    this.auth.isAuthed().then((user) => {
-      console.log("Authed:",user)
-      this.model.user.uid = user.uid;
+    // this.auth.isAuthed().then((user) => {
+    //   console.log("Authed:",user)
+    //   this.model.user.uid = user.uid;
 
-    });  
-
-    this.auth.getUser().then((user) => {
-      this.model.user.uid = user.uid;
-      this.db.getUser(user.uid).then((userData) => {
-        this.model.moodStatus = userData.moodStatus;
-        localStorage.setItem("localMood", userData.moodStatus);
-        this.model.user = userData;
-        console.log(userData)
-      })
-    });
+    // });  
   }
 
   ngOnInit() {

@@ -87,13 +87,14 @@ export class ListComponent implements OnInit {
 	moodChange() {
 		console.log(this.model);
 		this.model.user.moodStatus = this.model.moodStatus;
+		localStorage.setItem("localMood", this.model.user.moodStatus);
 
 		this.auth.getUser().then((user) => {
 			//this.model.user.uid = user.uid;
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
 				// console.log(user.data.moodStatus);
-
+				
 				this.errors.mood = "Your mood status has been updated!"
 				//this.router.navigateByUrl('map');
 			}).catch((err) => {
@@ -121,6 +122,7 @@ export class ListComponent implements OnInit {
 	setVisible(number) {
 		this.visibility = number;
 		this.model.user.visibility = number;
+		localStorage.setItem("localVisibility", number);
 
 		this.auth.getUser().then((user) => {
 			//this.model.user.uid = user.uid;
@@ -317,6 +319,11 @@ export class ListComponent implements OnInit {
 	submitted = false;
 
 
+	localStorage(){
+		localStorage.setItem("localVisibility", String(this.model.user.visibility));
+		localStorage.setItem("localMood", this.model.user.moodStatus);
+	}
+
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService) {
 
 		this.auth.isAuthed().then((user) => {
@@ -326,13 +333,32 @@ export class ListComponent implements OnInit {
 
 
 		this.auth.getUser().then((user) => {
-			this.db.getUser(user.uid).then((userData) => {
-				this.model.user = userData
-				console.log(userData)
-				this.visibility = this.model.user.visibility;
-			})
 
-		});
+   		//this.localStorage();
+	   		this.db.getUser(user.uid).then((userData) => {
+		        this.model.user = userData;
+
+		        this.visibility = localStorage.getItem("localVisibility");
+		        this.model.moodStatus = localStorage.getItem("localMood");
+		        console.log(userData)
+		     })
+
+	    });
+
+	    this.auth.getUser().then((user) => {
+
+	   		if(localStorage.getItem("localVisibility") == null || localStorage.getItem("localMood") == null){ //only call Database if necessary
+	   			this.db.getUser(user.uid).then((userData) => {
+	   			console.log("localStorage Missing");
+		        this.model.user = userData;
+		        console.log(userData)
+		        this.visibility = this.model.user.visibility;
+		        this.model.moodStatus = userData.moodStatus;
+		        this.localStorage();
+		      })
+	   		}
+
+	    });
 
 
 
@@ -360,20 +386,6 @@ export class ListComponent implements OnInit {
 				})
 			})
 		})
-
-		this.auth.isAuthed().then((user) => {
-			console.log("Authed:", user)
-			this.model.user.uid = user.uid;
-		});
-
-		this.auth.getUser().then((user) => {
-			this.model.user.uid = user.uid;
-			this.db.getUser(user.uid).then((userData) => {
-				this.model.user = userData;
-				this.model.moodStatus = userData.moodStatus
-				console.log(userData)
-			})
-		});
 	}
 
 	ngOnInit() {
