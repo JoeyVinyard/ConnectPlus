@@ -417,6 +417,59 @@ describe('HTTP Unit Tests', function () {
 		});
 	});
 
+	describe('User Story Twelve',function(){
+		it('Should return 400 With no UID Given', function(done) {
+			var options = {
+				url: 'http://localhost:3000/addClass/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Should return 200 When given valid class and uid', function(done) {
+			var friends = {
+				cl: "CS 252000",
+				uid: testID
+			}
+			var options = {
+				url: 'http://localhost:3000/addClass/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: JSON.stringify(friends)
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(200);
+				done();
+			});
+
+		});
+		it('Should return 200 When given invalid UID', function(done) {
+			var friends = {
+				cl: "cl",
+				uid: "asdfasdf"
+			}
+			var options = {
+				url: 'http://localhost:3000/addClass/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: JSON.stringify(friends)
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(200);
+				done();
+			});
+
+		});
+	});
+
 	describe('User Story Thirteen',function(){
 		it('Should return 400 With no UID Given', function(done) {
 			var options = {
