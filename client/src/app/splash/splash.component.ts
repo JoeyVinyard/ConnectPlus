@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ParticlesConfigService } from '../services/particles-config.service';
-import { DatabaseService } from '../services/database.service';
 import { LocationService } from '../services/location.service';
 import { AuthService } from '../services/auth.service';
 import { AngularFireAuth } from 'angularfire2/auth'
@@ -15,7 +14,7 @@ export class SplashComponent implements OnInit {
 
   authed = false;
 
-	constructor(private auth: AuthService, private afAuth: AngularFireAuth, public pConfig: ParticlesConfigService, public dbs: DatabaseService) {
+	constructor(private auth: AuthService, private afAuth: AngularFireAuth, public pConfig: ParticlesConfigService) {
 		afAuth.authState.subscribe((authState) => {
 			this.authed = !!authState;
 		})

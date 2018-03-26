@@ -92,15 +92,16 @@
                   <button (click)="link_facebook()" class="button socialButton" id="face-con">Connect</button>
                   <button (click)="logout_facebook()" class="button socialButton" id="face-dis">Disconnect</button>
                 </div>
-                <div class="medium-3 column social-expanded" id="twit-exp" [ngClass]="{'hidden' : !twitShow, 'visible' : twitShow}">
-                  <p>Twitter</p>
-                  <!-- <div class="socialConnect" [ngClass]="{'none' : !inTwitter, 'visible' : inTwitter && twitShow}"><i class="fa fa-check"></i><p>Connected</p></div>
+                <div class="medium-3 column social-expanded" id="twit-exp" [ngClass]="{'hidden' : !twitShow, 'visible' : twitShow}" >
+                    <p>Twitter</p>
+                    <!-- <div class="socialConnect" [ngClass]="{'none' : !inTwitter, 'visible' : inTwitter && twitShow}"><i class="fa fa-check"></i><p>Connected</p></div>
                     <div class="socialNotConnect" [ngClass]="{'none' : inTwitter, 'visible' : !inTwitter && twitShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
                     <button class="button socialButton" id="insta-con">Connect</button>
                     <button class="button socialButton" id="intsa-dis">Disconnect</button> -->
-                  <p id="formTitle">Twitter Screen Name:</p>
-                  <input class="textInput" type="text" name="screenName" [(ngModel)]="model.user.screenName">
-                  <button (click)="link_linkedin()" class="button socialButton" id="link-con">Connect</button>
+                    <p id="formTitle">Twitter Screen Name:</p>
+                    <input class="textInput" type="text" name="screenName" [(ngModel)]="model.user.screenName">
+                    <button (click)="link_linkedin()" class="button socialButton" id="link-con">Connect</button>
+                    <p class="error">{{errors.twitterE}}</p>  
                 </div>
                 <div class="medium-3 column social-expanded" id="link-exp" [ngClass]="{'hidden' : !linkShow, 'visible' : linkShow, 'none' : blackInter}">
                   <p>LinkedIn</p>

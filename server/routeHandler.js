@@ -180,6 +180,13 @@ module.exports = {
 		}
 		var uid = urlData[1];
 		firebase.database().ref("locations/"+uid).once("value").then((baseLocation) => {
+			if(baseLocation.val() == null){
+				res.statusCode = 400;
+				responseBody.err = "No Location found";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
 			var c1 = {
 				lat: baseLocation.val().lat,
 				lon: baseLocation.val().lon
@@ -301,6 +308,7 @@ module.exports = {
 			res.end();
 		});
 	},
+
 	getUsersWithCommonFacebookFriends: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		if(!urlData || !urlData[1]){
@@ -505,7 +513,7 @@ module.exports = {
 		var uid = urlData[1];
 		firebase.database().ref("twitter-followees/"+uid).once("value").then((s) => {
 			res.statusCode=200;
-			responseBody.payload = s.val();
+			responseBody.payload = s.val().screenName;
 			res.write(JSON.stringify(responseBody));
 			res.end();
 			return;
