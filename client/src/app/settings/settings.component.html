@@ -33,10 +33,10 @@
 						<div class="medium-8 column">
 							<p id="formTitle">First Name:</p>
 							<input class="textInput" type="text" name="firstName" [(ngModel)]="model.user.firstName">
-							<p class="error">{{errors.FnameError}}</p>
+							<p id="firstnameError" class="error">{{errors.FnameError}}</p>
 							<p id="formTitle">Last Name:</p>
 							<input class="textInput" type="text" name="lastName" [(ngModel)]="model.user.lastName">
-							<p class="error">{{errors.LnameError}}</p>
+							<p id="lastnameError" class="error">{{errors.LnameError}}</p>
 							<p id="formTitle">Gender:</p>
 							<select id="gender" name="gender" [(ngModel)]="model.user.gender">
 								<option selected="true" disabled="disabled">Please select an option</option>
@@ -47,8 +47,8 @@
 							<p id="formTitle">Age:</p>
 							<input class="textInput" type="number" name="age" min="0" max="1000" d="age" [(ngModel)]="model.user.age">
 						</div>
-						<p class="error">{{errors.changeInfoE}}</p>
-						<p class="success">{{success.changeInfoS}}</p>
+						<p id="informationChangeError" class="error">{{errors.changeInfoE}}</p>
+						<p id="successInfoChange" class="success">{{success.changeInfoS}}</p>
 						<button class="button saveButton">Save Changes</button>
 					</form>
 				</div>
@@ -374,7 +374,7 @@
 							<p id="formTitle">Please confirm your password:</p>
 							<input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.password">
 						</div>
-						<p class="error">{{errors.cred}}</p>
+						<p id="deleterError" class="error">{{errors.cred}}</p>
 						<button class="button saveButton">Delete Account</button>
 					</form>
 				</div>

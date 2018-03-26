@@ -234,6 +234,44 @@ describe('SettingsComponent', () => {
 		
 		
 // 	})
+it('should display proper errors given invalid first and last name', () => {
+		//current passowrd empty error
+		component.genShow = true;
+		fixture.detectChanges();
+		var expectedError = "Please provide a valid first name.";
+		component.model.user.firstName = "nirali123";
+		component.updateInfo();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#firstnameError")).nativeElement.innerText).toEqual(expectedError);
+
+
+		component.genShow = true;
+		fixture.detectChanges();
+		var expectedError = "Please provide a valid last name.";
+		component.model.user.lastName = "rai123";
+		component.updateInfo();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#lastnameError")).nativeElement.innerText).toEqual(expectedError);
+		
+		
+	})
+it('should display proper errors when deleting account', () => {
+		//current passowrd empty error
+		component.delShow = true;
+		fixture.detectChanges();
+		var expectedError = "No Email and/or Password entered";
+		component.model.email = "";
+		component.model.password = "";
+		component.del();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#deleterError")).nativeElement.innerText).toEqual(expectedError);
+		
+		
+	})
+
+
+
+
 
 
 
