@@ -87,16 +87,16 @@
 					<form (ngSubmit)="changepass()" #signupForm="ngForm">
 						<p class="subText">Change Password</p>
 						<p id="formTitle">Old Password:</p>
-						<input class="textInput" type="password" name="oldPassword" [(ngModel)]="model.currentPassword">
-						<p id="passError" class="error">{{errors.oldPass}}</p>
+						<input id="currentPasswordInput" class="textInput" type="password" name="oldPassword" [(ngModel)]="model.currentPassword">
+						<p id="curPassError" class="error">{{errors.oldPass}}</p>
 
 						<p id="formTitle">New Password:</p>
-						<input class="textInput" type="password" name="newPassword" [(ngModel)]="model.newPassword">
-						<p id="passError" class="error">{{errors.newPass}}</p>
+						<input id="newPasswordInput" class="textInput" type="password" name="newPassword" [(ngModel)]="model.newPassword">
+						<p id="newPassError" class="error">{{errors.newPass}}</p>
 
 						<p id="formTitle">Confirm New Password:</p>
-						<input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.conPassword">
-						<p id="passError" class="error">{{errors.conPass}}</p>
+						<input id="confirmPasswordInput" class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.conPassword">
+						<p id="conPassError" class="error">{{errors.conPass}}</p>
 						<!--  localStorage.setItem("localPassword", "password")-->
 
 						<p class="error">{{errors.passwordChangeE}}</p>
