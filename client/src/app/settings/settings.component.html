@@ -87,16 +87,16 @@
 					<form (ngSubmit)="changepass()" #signupForm="ngForm">
 						<p class="subText">Change Password</p>
 						<p id="formTitle">Old Password:</p>
-						<input class="textInput" type="password" name="oldPassword" [(ngModel)]="model.currentPassword">
-						<p id="passError" class="error">{{errors.oldPass}}</p>
+						<input id="currentPasswordInput" class="textInput" type="password" name="oldPassword" [(ngModel)]="model.currentPassword">
+						<p id="curPassError" class="error">{{errors.oldPass}}</p>
 
 						<p id="formTitle">New Password:</p>
-						<input class="textInput" type="password" name="newPassword" [(ngModel)]="model.newPassword">
-						<p id="passError" class="error">{{errors.newPass}}</p>
+						<input id="newPasswordInput" class="textInput" type="password" name="newPassword" [(ngModel)]="model.newPassword">
+						<p id="newPassError" class="error">{{errors.newPass}}</p>
 
 						<p id="formTitle">Confirm New Password:</p>
-						<input class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.conPassword">
-						<p id="passError" class="error">{{errors.conPass}}</p>
+						<input id="confirmPasswordInput" class="textInput" type="password" name="confirmNewPassword" [(ngModel)]="model.conPassword">
+						<p id="conPassError" class="error">{{errors.conPass}}</p>
 						<!--  localStorage.setItem("localPassword", "password")-->
 
 						<p class="error">{{errors.passwordChangeE}}</p>
@@ -163,10 +163,10 @@
 							<p id="formTitle">Twitter Screen Name:</p>
 							<input class="textInput" type="text" name="screenName" [(ngModel)]="model.user.screenName">
 							<button (click)="link_twitter()" class="button socialButton" id="link-con">Connect</button>
+							<p class="error">{{errors.twitterE}}</p>
 						</div>
 						<div class="medium-3 column social-expanded" id="link-exp" [ngClass]="{'hidden' : !linkShow, 'visible' : linkShow, 'none' : blackInter}">
 							<p>LinkedIn</p>
-
 							<div class="socialConnect" [ngClass]="{'none' : !inLinkedIn, 'visible' : inLinkedIn && linkShow}">
 								<i class="fa fa-check"></i>
 								<p>Connected</p>

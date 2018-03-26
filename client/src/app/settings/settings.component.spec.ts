@@ -15,102 +15,161 @@ import { DatabaseService } from '../services/database.service'
 import { User } from '../services/user';
 
 let DatabaseServiceStub = {
-  createUser(user: User){},
-  updateUser(user: User){},
-  getUser(uid: String){
-    return new Promise((resolve, reject) => {
-      resolve({});
-    })
-  },
+	createUser(user: User){},
+	updateUser(user: User){},
+	getUser(uid: String){
+		return new Promise((resolve, reject) => {
+			resolve({});
+		})
+	},
+	getClasses(uid: String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve([]);
+		})
+	},
+	addClass(uid: String, cl:String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve({});
+		})
+	},
+	deleteClass(uid: String, cl: String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve({});
+		})
+	}
 }
 let TwitterServiceStub = {
-  getFriends(screenName: string){}
+	getFriends(screenName: string){}
 }
 let ClassesServiceStub = {
-  getClasses(subject: string):Promise<any>{
-    return new Promise((resolve, reject) => {
-      resolve([]);
-    })
-  },
-  getSubjects(){
-    return new Promise((resolve, reject) => {
-      resolve([
-        {
-          Abbreviation: "AAE"
-        },
-        {
-          Abbreviation: "AAR"
-        },
-        {
-          Abbreviation: "AAA"
-        },
-        {
-          Abbreviation: "AAD"
-        }
-      ]);
-    })
-  }
+	getClasses(subject: string):Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve([]);
+		})
+	},
+	getSubjects(){
+		return new Promise((resolve, reject) => {
+			resolve([
+				{
+					Abbreviation: "AAE"
+				},
+				{
+					Abbreviation: "AAR"
+				},
+				{
+					Abbreviation: "AAA"
+				},
+				{
+					Abbreviation: "AAD"
+				}
+			]);
+		})
+	}
 }
 let AuthServiceStub = {
-  isAuthed(){
-    return new Promise((resolve, reject) => {
-      resolve(true);
-    });
-  },
-  login(email, password){
-    return new Promise((resolve, reject) => {
-      resolve(true);
-    });
-  },
-  logout(){
-    return new Promise((resolve, reject) => {
-      resolve(true);
-    });
-  },
-  signup(email, password){
-    return new Promise((resolve, reject) => {
-      resolve(true);
-    });  
-  },
-  resetpassowrd(email){
-    return new Promise((resolve, reject) => {
-      resolve(true);
-    });
-  },
-  getUser(): Promise<any>{
-    return new Promise((resolve, reject) => {
-      resolve(true);
-    })
-  }
+	isAuthed(){
+		return new Promise((resolve, reject) => {
+			resolve(true);
+		});
+	},
+	login(email, password){
+		return new Promise((resolve, reject) => {
+			resolve(true);
+		});
+	},
+	logout(){
+		return new Promise((resolve, reject) => {
+			resolve(true);
+		});
+	},
+	signup(email, password){
+		return new Promise((resolve, reject) => {
+			resolve(true);
+		});  
+	},
+	resetpassowrd(email){
+		return new Promise((resolve, reject) => {
+			resolve(true);
+		});
+	},
+	getUser(): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve(true);
+		})
+	}
 }
 
 describe('SettingsComponent', () => {
-  let component: SettingsComponent;
-  let fixture: ComponentFixture<SettingsComponent>;
+	let component: SettingsComponent;
+	let fixture: ComponentFixture<SettingsComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SettingsComponent ],
-      providers: [{provide: AuthService, useValue: AuthServiceStub},
-                      {provide: DatabaseService, useValue: DatabaseServiceStub},
-                      {provide: ClassesService, useValue: ClassesServiceStub},
-                      {provide: twitterService, useValue: TwitterServiceStub},
-                      ParticlesConfigService, FacebookService],
-      imports: [RouterTestingModule, ParticlesModule, FormsModule]
-    })
-    .compileComponents();
-  });
+	beforeEach(() => {
+		TestBed.configureTestingModule({
+			declarations: [ SettingsComponent ],
+			providers: [{provide: AuthService, useValue: AuthServiceStub},
+						{provide: DatabaseService, useValue: DatabaseServiceStub},
+						{provide: ClassesService, useValue: ClassesServiceStub},
+						{provide: twitterService, useValue: TwitterServiceStub},
+						ParticlesConfigService, FacebookService],
+			imports: [RouterTestingModule, ParticlesModule, FormsModule]
+		})
+		.compileComponents();
+	});
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SettingsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => {
+		fixture = TestBed.createComponent(SettingsComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-  it('should load forms', () => {
-    expect(fixture.debugElement.queryAll(By.css('form')).length).toEqual(4);
-    });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
+	it('should load certain forms before divs are expand', () => {
+		expect(fixture.debugElement.queryAll(By.css('form')).length).toEqual(4);
+	});
+	it('should load all forms after divs are expand', () => {
+		component.invShow = true;
+		component.genShow = true;
+		component.secShow = true;
+		component.conShow = true;
+		component.intShow = true;
+		component.fedShow = true;
+		component.delShow = true;
+		component.faceShow = true;
+		component.twitShow = true;
+		component.linkShow = true;
+		component.blackShow = true;
+		fixture.detectChanges();
+		expect(fixture.debugElement.queryAll(By.css('form')).length).toEqual(9);
+	});
+	it('should not load form labels when sections are collapsed', () => {
+		expect(fixture.debugElement.queryAllNodes(By.css('#formTitle')).length).toEqual(0);
+	});
+	it('should load form labels when sections are expanded', () => {
+		component.invShow = true;
+		component.genShow = true;
+		component.secShow = true;
+		component.conShow = true;
+		component.intShow = true;
+		component.fedShow = true;
+		component.delShow = true;
+		component.faceShow = true;
+		component.twitShow = true;
+		component.linkShow = true;
+		component.blackShow = true;
+		fixture.detectChanges();
+		expect(fixture.debugElement.queryAllNodes(By.css('#formTitle')).length).toEqual(13);
+	});
+	it('should display proper errors', () => {
+		component.secShow = true;
+		fixture.detectChanges();
+		var expectedError = "Please enter your password.";
+		component.model.currentPassword = "";
+		component.model.newPassword = "";
+		component.model.conPassword = "";
+		component.changepass();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#curPassError")).nativeElement.innerText).toEqual(expectedError);
+	})
 });

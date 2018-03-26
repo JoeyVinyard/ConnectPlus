@@ -361,15 +361,16 @@ export class MapComponent implements OnInit {
       this.model.user.uid = user.uid;
     });  
 
-
+    
     this.auth.getUser().then((user) => {
+
+   		this.localStorage();
 
       this.db.getUser(user.uid).then((userData) => {
 
         this.model.user = userData
         console.log(userData)
         this.visibility = this.model.user.visibility;
-        this.localStorage();
       })
 
     });

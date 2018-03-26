@@ -32,6 +32,7 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
+    browserNoActivityTimeout: 1000,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome_without_security'],  customLaunchers:{

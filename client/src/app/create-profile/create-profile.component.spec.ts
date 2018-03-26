@@ -17,7 +17,27 @@ import { FormsModule }   from '@angular/forms';
 
 let DatabaseServiceStub = {
 	createUser(user: User){},
-	updateUser(user: User){}
+	updateUser(user: User){},
+	getUser(uid: String){
+		return new Promise((resolve, reject) => {
+			resolve({});
+		})
+	},
+	getClasses(uid: String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve([]);
+		})
+	},
+	addClass(uid: String, cl:String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve({});
+		})
+	},
+	deleteClass(uid: String, cl: String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve({});
+		})
+	}
 }
 let TwitterServiceStub = {
 	getFriends(screenName: string){}
@@ -106,8 +126,8 @@ describe('CreateProfileComponent', () => {
 	it('should create', () => {
 		expect(component).toBeTruthy();
 	});
-	it('should load form', () => {
-		expect(fixture.debugElement.query(By.css('form'))).toBeTruthy();
+	it('should load form labels', () => {
+		expect(fixture.debugElement.queryAll(By.css('#formTitle')).length).toEqual(4);
 	});
 	it('should load all inputs', () => {
 		expect(fixture.debugElement.queryAll(By.css('input')).length).toEqual(34);
