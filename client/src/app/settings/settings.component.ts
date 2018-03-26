@@ -147,7 +147,7 @@ toggleDiv(name){
 setVisible(number){
 	this.visibility = number;
 		//this.model.user.visability = number;
-	}
+}
 	clearing(){
 		this.errors.email = "";
 		this.errors.pass = "";
@@ -547,6 +547,9 @@ setVisible(number){
 				this.url = this.model.user.url;
 
 				this.updateClasses();
+				this.db.getTwitterScreenName(user.uid).then((screenName) => {
+					this.model.user.screenName = screenName;
+				});
 			})
 		});
 

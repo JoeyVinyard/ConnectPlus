@@ -161,7 +161,8 @@ describe('SettingsComponent', () => {
 		fixture.detectChanges();
 		expect(fixture.debugElement.queryAllNodes(By.css('#formTitle')).length).toEqual(13);
 	});
-	it('should display proper errors', () => {
+	it('should display proper errors changing password', () => {
+		//current passowrd empty error
 		component.secShow = true;
 		fixture.detectChanges();
 		var expectedError = "Please enter your password.";
@@ -171,5 +172,109 @@ describe('SettingsComponent', () => {
 		component.changepass();
 		fixture.detectChanges();
 		expect(fixture.debugElement.query(By.css("#curPassError")).nativeElement.innerText).toEqual(expectedError);
+		
+		//new password empty error
+		component.secShow = true;
+		fixture.detectChanges();
+		var expectedError = "Please enter your new password.";
+		component.model.currentPassword = "";
+		component.model.newPassword = "";
+		component.model.conPassword = "";
+		component.changepass();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#newPassError")).nativeElement.innerText).toEqual(expectedError);
+		
+		//confirm password empty error
+		component.secShow = true;
+		fixture.detectChanges();
+		var expectedError = "Please confirm your password.";
+		component.model.currentPassword = "";
+		component.model.newPassword = "";
+		component.model.conPassword = "";
+		component.changepass();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#conPassError")).nativeElement.innerText).toEqual(expectedError);
 	})
+	it('should display proper errors changing password diff new and con password', () => {
+		//current passowrd empty error
+		component.secShow = true;
+		fixture.detectChanges();
+		var expectedError = "Passwords must match!";
+		component.model.currentPassword = "nirali";
+		component.model.newPassword = "nirali1";
+		component.model.conPassword = "nirali2";
+		component.changepass();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#conPassError")).nativeElement.innerText).toEqual(expectedError);
+		
+		
+	})
+// it('should display proper errors changing email', () => {
+		
+// 		component.secShow = true;
+// 		fixture.detectChanges();
+// 		var expectedError = "Please provide a valid email.";
+// 		component.model.currentEmail = "niralirai@gmail.com";
+// 		component.model.newEmail = "";
+// 		component.model.emailChangePass = "nirali";
+// 		component.changeemail();
+// 		fixture.detectChanges();
+// 		expect(fixture.debugElement.query(By.css("#newEmailError")).nativeElement.innerText).toEqual(expectedError);
+
+// 		component.secShow = true;
+// 		fixture.detectChanges();
+// 		var expectedError = "Please provide differnt email.";
+// 		component.model.currentEmail = "niralirai@yahoo.com";
+// 		component.model.newEmail = "niralirai@yahoo.com";
+// 		component.model.emailChangePass = "nirali";
+// 		component.changeemail();
+// 		fixture.detectChanges();
+// 		expect(fixture.debugElement.query(By.css("#newEmailError")).nativeElement.innerText).toEqual(expectedError);
+		
+		
+		
+// 	})
+it('should display proper errors given invalid first and last name', () => {
+		//current passowrd empty error
+		component.genShow = true;
+		fixture.detectChanges();
+		var expectedError = "Please provide a valid first name.";
+		component.model.user.firstName = "nirali123";
+		component.updateInfo();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#firstnameError")).nativeElement.innerText).toEqual(expectedError);
+
+
+		component.genShow = true;
+		fixture.detectChanges();
+		var expectedError = "Please provide a valid last name.";
+		component.model.user.lastName = "rai123";
+		component.updateInfo();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#lastnameError")).nativeElement.innerText).toEqual(expectedError);
+		
+		
+	})
+it('should display proper errors when deleting account', () => {
+		//current passowrd empty error
+		component.delShow = true;
+		fixture.detectChanges();
+		var expectedError = "No Email and/or Password entered";
+		component.model.email = "";
+		component.model.password = "";
+		component.del();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#deleterError")).nativeElement.innerText).toEqual(expectedError);
+		
+		
+	})
+
+
+
+
+
+
+
+
+
 });

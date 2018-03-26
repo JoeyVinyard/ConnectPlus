@@ -502,6 +502,7 @@ module.exports = {
 		});
 	},
 	getTwitterScreenName(req, res, urlData){
+
 		var responseBody = Object.create(responseForm);
 		if(!urlData || !urlData[1]){
 			res.statusCode = 400;
