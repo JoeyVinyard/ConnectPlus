@@ -290,7 +290,7 @@ export class MapComponent implements OnInit {
 				console.log(data);
 				
 				if(this.model.user.filterBlackBoard){
-
+					this.filterUsersBasedOnBlackboard();
 				}
 				else{
 					this.maintainFilter();
@@ -645,7 +645,43 @@ export class MapComponent implements OnInit {
   	}
 
 	}
+
 	filterUsersBasedOnBlackboard(){
-		var filteredUsersArray = [];
+		console.log("Blackboard");
+		var filterUsersArray = [];
+		this.db.getClasses(this.model.user.uid).then((classes) => {
+			var classesMap = new Map();
+
+			classes.forEach((singleClass) => {
+				classesMap.set(singleClass, 1);
+			});
+
+			var p = new Promise((resolve, reject) => {
+				this.filteredUsers.forEach((user) => {
+					this.db.getClasses(user.uid).then((nearbyUser) => {
+						var match = false;
+						if(nearbyUser != null){
+							nearbyUser.forEach((singleClass) => {
+								if(classesMap.get(singleClass)){
+									match = true;
+								}
+							});
+						}
+						if(match){
+							filterUsersArray.push(user);
+						}									
+						resolve(filterUsersArray);
+					}).catch((err) => {
+						console.log(err);
+						reject(err);
+					});
+				});
+			}).then((users: any) => {
+				this.filteredUsers = filterUsersArray;
+				console.log("Filtered Users:", filterUsersArray);
+			});
+		}).catch((err) => {
+			console.log(err);
+		})
 	}
 }
