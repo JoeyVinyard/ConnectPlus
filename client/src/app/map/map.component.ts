@@ -332,7 +332,7 @@ export class MapComponent implements OnInit {
 			count++;
 		}
 		if(this.model.user.filterBlackBoard){
-
+			this.filterUsersBasedOnBlackboard();
 			count++;
 		}
 
@@ -644,5 +644,8 @@ export class MapComponent implements OnInit {
 
   	}
 
-  }
+	}
+	filterUsersBasedOnBlackboard(){
+		
+	}
 }

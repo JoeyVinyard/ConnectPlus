@@ -175,7 +175,6 @@
 								<i class="fa fa-times"></i>
 								<p>Not Connected</p>
 							</div>
-<<<<<<< HEAD
 							<button class="button socialButton" id="link-con">Connect</button>
 							<button class="button socialButton" id="link-dis">Disconnect</button>
 							<!-- <p id="formTitle">Twitter Screen Name:</p>
@@ -193,61 +192,6 @@
 											{{subject.Abbreviation}}
 										</p>
 
-=======
-							<div class="medium-3 column social-expanded" id="twit-exp" [ngClass]="{'hidden' : !twitShow, 'visible' : twitShow}" >
-								<p>Twitter</p>
-											<!-- <div class="socialConnect" [ngClass]="{'none' : !inTwitter, 'visible' : inTwitter && twitShow}"><i class="fa fa-check"></i><p>Connected</p></div>
-											<div class="socialNotConnect" [ngClass]="{'none' : inTwitter, 'visible' : !inTwitter && twitShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
-											<button class="button socialButton" id="insta-con">Connect</button>
-											<button class="button socialButton" id="intsa-dis">Disconnect</button> -->
-											<p id="formTitle">Twitter Screen Name:</p>
-											<input class="textInput" type="text" name="screenName" [(ngModel)]="model.user.screenName">
-											<button (click)="link_twitter()" class="button socialButton" id="link-con">Connect</button>
-											<p class="error">{{errors.twitterE}}</p>  
-										</div>
-										<div class="medium-3 column social-expanded" id="link-exp" [ngClass]="{'hidden' : !linkShow, 'visible' : linkShow}">
-											<p>LinkedIn</p>
-
-											<div class="socialConnect" [ngClass]="{'none' : !inLinkedIn, 'visible' : inLinkedIn && linkShow}"><i class="fa fa-check"></i><p>Connected</p></div>
-											<div class="socialNotConnect" [ngClass]="{'none' : inLinkedIn, 'visible' : !inLinkedIn && linkShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
-											<button class="button socialButton" id="link-con">Connect</button>
-											<button class="button socialButton" id="link-dis">Disconnect</button>
-											 <!-- <p id="formTitle">Twitter Screen Name:</p>
-											<input class="textInput" type="text" name="screenName" [(ngModel)]="model.user.screenName">
-											<button (click)="link_linkedin()" class="button socialButton" id="link-con">Connect</button> -->
-										</div>
-										<div class="medium-3 column social-expanded" id="black-exp" [ngClass]="{'hidden' : !blackShow, 'visible' : blackShow}">
-											<!-- Regular adding classes menu -->
-											<div *ngIf="!inDelete">
-												<p (click)="toggleDelete()">Add Classes</p>
-												<!-- List of subjects -->
-												<div id="subjectList" *ngIf="!inSubject">
-													<p *ngFor="let subject of subjects" (click)="showClassList(subject.Abbreviation)">
-														{{subject.Abbreviation}}
-													</p>
-												</div>
-												<!-- Course list in subject -->
-												<div id="courseList" *ngIf="inSubject">
-													<div id="courseListContainer">
-														<p *ngFor="let cl of classList" (click)="addClass(cl.Number)">
-															{{currSubject}} {{cl.Number}}
-														</p>
-													</div>
-													<p (click)="showSubjectList()">Back</p>
-												</div>
-											</div>
-											<!-- Deleting classes menu -->
-											<div *ngIf="inDelete">
-												<p (click)="toggleDelete()">Delete Classes</p>
-												<!-- List of subjects -->
-												<div id="subjectList" *ngIf="!inSubject">
-													<p *ngFor="let cl of classList" (click)="deleteClass(cl)">
-														{{cl}}
-													</p>
-												</div>
-											</div>
-										</div>
->>>>>>> 2a891b8a91c4116c8998c04ede00a69155954937
 									</div>
 									<p (click)="toggleAdd()" class="clickable"><i class="fa fa-times"></i> Close</p>
 								</div>
