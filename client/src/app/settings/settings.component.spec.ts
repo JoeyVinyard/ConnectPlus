@@ -112,6 +112,5 @@ describe('SettingsComponent', () => {
   });
   it('should load forms', () => {
     expect(fixture.debugElement.queryAll(By.css('form')).length).toEqual(4);
-      );
-  });
+    });
 });
