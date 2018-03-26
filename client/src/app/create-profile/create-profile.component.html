@@ -28,10 +28,10 @@
           <div class="medium-8 column">
             <p id="formTitle">First Name:</p>
             <input class="textInput" type="text" name="firstName" [(ngModel)]="model.user.firstName">
-            <p class="error">{{errors.fName}}</p>
+            <p id="fnameError" class="error">{{errors.fName}}</p>
             <p id="formTitle">Last Name:</p>
             <input class="textInput" type="text" name="lastName" [(ngModel)]="model.user.lastName">
-            <p class="error">{{errors.lName}}</p>
+            <p id="lnameError" class="error">{{errors.lName}}</p>
             <p id="formTitle">Gender:</p>
             <select id="gender" name="gender" [(ngModel)]="model.user.gender">
               <option selected="true" disabled="disabled">Please select an option</option>
