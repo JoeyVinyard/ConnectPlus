@@ -182,9 +182,9 @@ setVisible(number){
 		})
 		var noErr = true;
 		//Sanitize input here
-		if(this.model.user.firstName && !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.firstName))
+		if(!this.model.user.firstName || !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.firstName))
 			this.errors.FnameError = "Please provide a valid first name."
-		if(this.model.user.lastName && !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
+		if(!this.model.user.lastName || !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
 			this.errors.LnameError = "Please provide a valid last name."
 		Object.keys(this.errors).forEach((key)=>{
 			if(this.errors[key])
