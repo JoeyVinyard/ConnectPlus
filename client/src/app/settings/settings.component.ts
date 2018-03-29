@@ -43,6 +43,8 @@ export class SettingsComponent implements OnInit {
 		passwordChangeS:"",
 		//change info success
 		changeInfoS: "",
+		//feedback
+		feedbackS:""
 	}
 	model = {
 		user: new User(),
@@ -56,7 +58,9 @@ export class SettingsComponent implements OnInit {
 		//change password vars
 		currentPassword:"",
 		newPassword:"",
-		conPassword:""
+		conPassword:"",
+		//feedback
+		feedback:""
 	}
 
 	particlesConfig;
@@ -145,7 +149,7 @@ toggleDiv(name){
 	else if(name == "blackShow"){
 		this.blackShow = !this.blackShow;
 	}
-	this.clearing(;
+	this.clearing();
 }
 setVisible(number){
 	this.visibility = number;
@@ -170,6 +174,7 @@ setVisible(number){
 		this.errors.LnameError = "";
 		this.errors.twitterE = "";
 		this.model.user.screenName="";
+		this.success.feedbackS = "";
 
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
@@ -219,6 +224,15 @@ setVisible(number){
 		}
 		else{
 			this.errors.changeInfoE = "Looks like you tried to change your information to something invalid. \nYour information has NOT been updated!"
+		}
+	}
+
+
+	feedback(){
+		if(this.model.feedback){
+			//not storing it anywhere
+			this.success.feedbackS = "Thank you for your feedback! Your feedback has been recorded."
+			this.model.feedback = "";
 		}
 	}
 

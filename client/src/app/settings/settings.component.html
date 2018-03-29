@@ -82,7 +82,7 @@
 							<p id="changeemailPasswordError" class="error">{{errors.pass}}</p>
 
 							<p id="changeEmailError" class="error">{{errors.emailChangeE}}</p>
-							<p class="sucess">{{success.emailChangeS}}</p>
+							<p class="success">{{success.emailChangeS}}</p>
 							<button class="button saveButton">Save Changes</button>
 					</form>
 					<form (ngSubmit)="changepass()" #signupForm="ngForm">
@@ -351,11 +351,11 @@
 
 				<div id="feedbackContent" *ngIf="fedShow">
 					<div class="medium-12 column">
-						<textarea class="textInput" rows="4" cols="50"></textarea>
+						<textarea class="textInput" rows="4" cols="50" [(ngModel)]="model.feedback">></textarea>
 					</div>
-					<button class="button saveButton">Submit</button>
+					<p class="success">{{success.feedbackS}}</p>
+					<button (click)="feedback()" class="button saveButton">Submit</button>
 				</div>
-
 			</div>
 
 			<div id="deleteAccount">
@@ -376,6 +376,7 @@
 							<input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.password">
 						</div>
 						<p id="deleterError" class="error">{{errors.cred}}</p>
+
 						<button class="button saveButton">Delete Account</button>
 					</form>
 				</div>
