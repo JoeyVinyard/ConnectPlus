@@ -46,6 +46,7 @@
 							</select>
 							<p id="formTitle">Age:</p>
 							<input class="textInput" type="number" name="age" min="0" max="1000" d="age" [(ngModel)]="model.user.age">
+							<p id="ageError" class="error">{{errors.AgeError}}</p>
 						</div>
 						<p id="informationChangeError" class="error">{{errors.changeInfoE}}</p>
 						<p id="successInfoChange" class="success">{{success.changeInfoS}}</p>

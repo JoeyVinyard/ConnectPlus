@@ -18,6 +18,7 @@ export class SettingsComponent implements OnInit {
 		changeInfoE: "",
 		FnameError:"",
 		LnameError:"",
+		AgeError:"",
 		//change email errors
 		emailChangeE: "",
 		currentEmailChange: "",
@@ -110,6 +111,7 @@ export class SettingsComponent implements OnInit {
 
 
 toggleDiv(name){
+
 	if(name == "invShow"){
 		this.invShow = !this.invShow;
 	}
@@ -143,6 +145,7 @@ toggleDiv(name){
 	else if(name == "blackShow"){
 		this.blackShow = !this.blackShow;
 	}
+	this.clearing(;
 }
 setVisible(number){
 	this.visibility = number;
@@ -166,6 +169,7 @@ setVisible(number){
 		this.errors.FnameError = "";
 		this.errors.LnameError = "";
 		this.errors.twitterE = "";
+		this.model.user.screenName="";
 
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
@@ -186,10 +190,15 @@ setVisible(number){
 			this.errors.FnameError = "Please provide a valid first name."
 		if(!this.model.user.lastName || !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
 			this.errors.LnameError = "Please provide a valid last name."
+		if(!this.model.user.age)
+			this.errors.AgeError = "Please enter your age";
+		else if(this.model.user.age <0)
+			this.errors.AgeError = "Unfortunately, time travel is not possible yet.";
 		Object.keys(this.errors).forEach((key)=>{
 			if(this.errors[key])
 				noErr = false;
 		})
+		
 		// console.log(this.errors, noErr);
 		return noErr;
 	}
@@ -209,7 +218,7 @@ setVisible(number){
 			});
 		}
 		else{
-			this.errors.changeInfoE = "Looks like you tried to change your name to something invalid. \nYour information has NOT been updated!"
+			this.errors.changeInfoE = "Looks like you tried to change your information to something invalid. \nYour information has NOT been updated!"
 		}
 	}
 
@@ -385,6 +394,7 @@ setVisible(number){
 		}).catch((err) => {
 			console.log("Issue here");
 			this.errors.twitterE = "you were not able to connect to twitter"
+			this.model.user.screenName="";
 				/*If the code reaches this block it means we have an error */
 
 				
