@@ -175,6 +175,7 @@ setVisible(number){
 		this.errors.twitterE = "";
 		this.model.user.screenName="";
 		this.success.feedbackS = "";
+		this.errors.AgeError = "";
 
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
