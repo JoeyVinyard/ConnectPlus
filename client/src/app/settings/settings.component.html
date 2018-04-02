@@ -247,7 +247,7 @@
 
 				<div id="interestContent" class="medium-12 medium-centered column" *ngIf="intShow">
 					<form (ngSubmit)="updateInfo()" #signupForm="ngForm">
-						<select id="interestSelection">
+						<select id="interestSelection" [(ngModel)]="model.interest">
 							<option value="sports">Sports</option>
 							<option value="music">Music</option>
 							<option value="food">Food</option>
