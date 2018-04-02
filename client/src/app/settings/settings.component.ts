@@ -87,6 +87,10 @@ export class SettingsComponent implements OnInit {
 	country: string[] = this.interestObj.country;
 	movies: string[] = this.interestObj.movieGenre;
 	animals: string[] = this.interestObj.animal;
+	hobbies: string[] = this.interestObj.hobbies;
+	tvShows: string[] = this.interestObj.tvShows;
+	sports: string[] = this.interestObj.sports;
+	musicGenre: string[] = this.interestObj.musicGenre;
 
 
 	particlesConfig;
