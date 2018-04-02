@@ -421,17 +421,21 @@ img {
   border: 2px solid #004E7F;
   border-radius: 25px;
   color: #004E7F;
-  /* float: left; */
+  width: 25%;
+  float: left;
   /* position: relative; */
-  /* margin-left: 25%; */
+  margin: 1%;
+  margin-left: 6%;
 }
 
 #interestInput{
-  /* float: left; */
+  float: left;
   background: transparent;
   border: 2px solid #004E7F;
   border-radius: 25px;
   color: #004E7F;
+  width: 50%;
+  margin: 1%;
   /* position: relative; */
 }
 
@@ -440,8 +444,9 @@ img {
   border: 2px solid #004E7F;
   border-radius: 25px;
   color: #004E7F;
-  /* float: left; */
-  padding: auto;
+  width: auto;
+  float: left;
+  margin: 1%;
 }
 
 #interestButton:hover {

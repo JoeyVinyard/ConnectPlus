@@ -247,15 +247,16 @@
 
 				<div id="interestContent" class="medium-12 medium-centered column" *ngIf="intShow">
 					<form (ngSubmit)="updateInfo()" #signupForm="ngForm">
-						<select class="medium-2 column" id="interestSelection">
+						<select id="interestSelection">
 							<option value="sports">Sports</option>
 							<option value="music">Music</option>
 							<option value="food">Food</option>
 							<option value="animals">Animals</option>
 							<option value="tv">TV</option>
 							<option value="movies">Movies</option>
+							<option value="country">Country</option>
 						</select>
-						<div class="medium-4 column">
+						<div>
 								<input type="text" name="interestInput" id="interestInput">
 						</div>
 						<button id="interestButton" class="button"><i class="fa fa-plus"></i></button>
