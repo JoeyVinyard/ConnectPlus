@@ -7,6 +7,7 @@ import { ClassesService } from '../services/classes.service';
 import { User } from '../services/user';
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
 import { twitterService } from '../services/twitter.service';
+import { interestsList } from '../services/interests.service';
 @Component({
 	selector: 'app-settings',
 	templateUrl: './settings.component.html',
@@ -62,6 +63,14 @@ export class SettingsComponent implements OnInit {
 		//feedback
 		feedback:""
 	}
+	interest = {
+
+		interestObj: new interestsList(), 
+
+	}
+	country: string[] = this.interest.interestObj.country;
+
+
 
 	particlesConfig;
 	submitted = false;
@@ -98,6 +107,8 @@ export class SettingsComponent implements OnInit {
 	inAdd = false;
 	blackInter = false;
 	url;
+
+	 
 
 	onSelectFile(event) {
 		if (event.target.files && event.target.files[0]) {
@@ -558,6 +569,10 @@ setVisible(number){
 	}
 
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService){
+		
+		
+
+
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 		});	
