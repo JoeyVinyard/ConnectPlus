@@ -244,9 +244,22 @@
 					</p>
 				</form>
 
-				<div id="interestContent" *ngIf="intShow">
+				<div id="interestContent" class="medium-12 medium-centered column" *ngIf="intShow">
 					<form (ngSubmit)="updateInfo()" #signupForm="ngForm">
-						<div class="medium-4 column" id="sportSection">
+						<select class="medium-2 column" id="interestSelection">
+							<option value="sports">Sports</option>
+							<option value="music">Music</option>
+							<option value="food">Food</option>
+							<option value="animals">Animals</option>
+							<option value="tv">TV</option>
+							<option value="movies">Movies</option>
+						</select>
+						<div class="medium-4 column">
+								<input type="text" name="interestInput" id="interestInput">
+						</div>
+						<button id="interestButton" class="button"><i class="fa fa-plus"></i></button>
+						
+						<!-- <div class="medium-4 column" id="sportSection">
 							<p class="subText">Sports</p>
 							<input id="sports1" type="checkbox" name="Football" [(ngModel)]="model.user.sports1">
 							<label for="sports1">Football</label>
@@ -334,7 +347,7 @@
 							<br>
 						</div>
 						<p class="error">{{errors.changeInfoMess}}</p>
-						<button class="button saveButton">Save Changes</button>
+						<button class="button saveButton">Save Changes</button> -->
 					</form>
 				</div>
 

@@ -411,8 +411,45 @@ img {
     margin-bottom: 1rem;
     margin-left: 2.5%;
     overflow: auto;
-
     position: relative;
+
+    float: center !important;
+}
+
+#interestSelection{
+  background: transparent;
+  border: 2px solid #004E7F;
+  border-radius: 25px;
+  color: #004E7F;
+  /* float: left; */
+  /* position: relative; */
+  /* margin-left: 25%; */
+}
+
+#interestInput{
+  /* float: left; */
+  background: transparent;
+  border: 2px solid #004E7F;
+  border-radius: 25px;
+  color: #004E7F;
+  /* position: relative; */
+}
+
+#interestButton{
+  background:  #0076BB;
+  border: 2px solid #004E7F;
+  border-radius: 25px;
+  color: #004E7F;
+  /* float: left; */
+  padding: auto;
+}
+
+#interestButton:hover {
+  background:  #004E7F;
+  border: 2px solid #0076BB;
+  border-radius: 25px;
+  color: #0076BB;
+  /* float: left; */
 }
 
 #feedbackSection{
