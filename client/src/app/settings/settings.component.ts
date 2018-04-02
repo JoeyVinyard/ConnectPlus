@@ -61,7 +61,8 @@ export class SettingsComponent implements OnInit {
 		newPassword:"",
 		conPassword:"",
 		//feedback
-		feedback:""
+		feedback:"",
+		interest: ""
 	}
 	interest = {
 
