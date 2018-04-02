@@ -63,15 +63,30 @@ export class SettingsComponent implements OnInit {
 		//feedback
 		feedback:"",
 		interest: ""
-	}
-	interest = {
-
-		interestObj: new interestsList(), 
 
 	}
-	country: string[] = this.interest.interestObj.country;
-	movieGenre: string[] = this.interest.interestObj.movieGenre;
-	animals: string[] = this.interest.interestObj.animal;
+
+	interestObj = new interestsList()
+	// cInterest = this.model.interest;
+	cIntArray = [];
+
+	updateIntArray(){
+		console.log("Interests Updated");
+		console.log(this.model.interest);
+		if(this.model.interest == "country"){
+			this.cIntArray = this.country;
+		}
+		else if(this.model.interest == "movies"){
+			this.cIntArray = this.movies;
+		}
+		else if(this.model.interest == "animals"){
+			this.cIntArray = this.animals;
+		}
+	}
+
+	country: string[] = this.interestObj.country;
+	movies: string[] = this.interestObj.movieGenre;
+	animals: string[] = this.interestObj.animal;
 
 
 	particlesConfig;

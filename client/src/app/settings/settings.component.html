@@ -246,7 +246,7 @@
 				</form>
 
 				<div id="interestContent" class="medium-12 medium-centered column" *ngIf="intShow">
-					<form (ngSubmit)="updateInfo()" #signupForm="ngForm">
+					<!-- <form (ngSubmit)="updateInfo()" #signupForm="ngForm"> -->
 						<select id="interestSelection" [(ngModel)]="model.interest">
 							<option value="sports">Sports</option>
 							<option value="music">Music</option>
@@ -257,7 +257,14 @@
 							<option value="country">Country</option>
 						</select>
 						<div>
-								<input type="text" name="interestInput" id="interestInput">
+								<input type="text" name="interestInput" id="interestInput" list="options" (click)="updateIntArray()">
+								<datalist id="options">
+									<option *ngFor="let i of cIntArray" [value]="i">
+									<!-- <option value="Firefox">
+									<option value="Chrome">
+									<option value="Opera">
+									<option value="Safari"> -->
+								</datalist>
 						</div>
 						<button id="interestButton" class="button"><i class="fa fa-plus"></i></button>
 						
@@ -350,7 +357,7 @@
 						</div>
 						<p class="error">{{errors.changeInfoMess}}</p>
 						<button class="button saveButton">Save Changes</button> -->
-					</form>
+					<!-- </form> -->
 				</div>
 
 			</div>
