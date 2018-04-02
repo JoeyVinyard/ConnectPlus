@@ -7,6 +7,7 @@ import { ClassesService } from '../services/classes.service';
 import { User } from '../services/user';
 import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
 import { twitterService } from '../services/twitter.service';
+import { interestsList } from '../services/interests.service';
 @Component({
 	selector: 'app-settings',
 	templateUrl: './settings.component.html',
@@ -18,6 +19,7 @@ export class SettingsComponent implements OnInit {
 		changeInfoE: "",
 		FnameError:"",
 		LnameError:"",
+		AgeError:"",
 		//change email errors
 		emailChangeE: "",
 		currentEmailChange: "",
@@ -42,6 +44,8 @@ export class SettingsComponent implements OnInit {
 		passwordChangeS:"",
 		//change info success
 		changeInfoS: "",
+		//feedback
+		feedbackS:""
 	}
 	model = {
 		user: new User(),
@@ -55,8 +59,18 @@ export class SettingsComponent implements OnInit {
 		//change password vars
 		currentPassword:"",
 		newPassword:"",
-		conPassword:""
+		conPassword:"",
+		//feedback
+		feedback:""
 	}
+	interest = {
+
+		interestObj: new interestsList(), 
+
+	}
+	country: string[] = this.interest.interestObj.country;
+
+
 
 	particlesConfig;
 	submitted = false;
@@ -94,6 +108,8 @@ export class SettingsComponent implements OnInit {
 	blackInter = false;
 	url;
 
+	 
+
 	onSelectFile(event) {
 		if (event.target.files && event.target.files[0]) {
 			var reader = new FileReader();
@@ -110,6 +126,7 @@ export class SettingsComponent implements OnInit {
 
 
 toggleDiv(name){
+
 	if(name == "invShow"){
 		this.invShow = !this.invShow;
 	}
@@ -143,6 +160,7 @@ toggleDiv(name){
 	else if(name == "blackShow"){
 		this.blackShow = !this.blackShow;
 	}
+	this.clearing();
 }
 setVisible(number){
 	this.visibility = number;
@@ -166,6 +184,9 @@ setVisible(number){
 		this.errors.FnameError = "";
 		this.errors.LnameError = "";
 		this.errors.twitterE = "";
+		this.model.user.screenName="";
+		this.success.feedbackS = "";
+		this.errors.AgeError = "";
 
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
@@ -182,14 +203,19 @@ setVisible(number){
 		})
 		var noErr = true;
 		//Sanitize input here
-		if(this.model.user.firstName && !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.firstName))
+		if(!this.model.user.firstName || !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.firstName))
 			this.errors.FnameError = "Please provide a valid first name."
-		if(this.model.user.lastName && !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
+		if(!this.model.user.lastName || !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
 			this.errors.LnameError = "Please provide a valid last name."
+		if(!this.model.user.age)
+			this.errors.AgeError = "Please enter your age";
+		else if(this.model.user.age <0)
+			this.errors.AgeError = "Unfortunately, time travel is not possible yet.";
 		Object.keys(this.errors).forEach((key)=>{
 			if(this.errors[key])
 				noErr = false;
 		})
+		
 		// console.log(this.errors, noErr);
 		return noErr;
 	}
@@ -209,7 +235,16 @@ setVisible(number){
 			});
 		}
 		else{
-			this.errors.changeInfoE = "Looks like you tried to change your name to something invalid. \nYour information has NOT been updated!"
+			this.errors.changeInfoE = "Looks like you tried to change your information to something invalid. \nYour information has NOT been updated!"
+		}
+	}
+
+
+	feedback(){
+		if(this.model.feedback){
+			//not storing it anywhere
+			this.success.feedbackS = "Thank you for your feedback! Your feedback has been recorded."
+			this.model.feedback = "";
 		}
 	}
 
@@ -385,6 +420,7 @@ setVisible(number){
 		}).catch((err) => {
 			console.log("Issue here");
 			this.errors.twitterE = "you were not able to connect to twitter"
+			this.model.user.screenName="";
 				/*If the code reaches this block it means we have an error */
 
 				
@@ -533,6 +569,10 @@ setVisible(number){
 	}
 
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService){
+		
+		
+
+
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 		});	

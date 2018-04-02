@@ -308,6 +308,40 @@ module.exports = {
 			res.end();
 		});
 	},
+	getYoutubeFriends: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		if(!urlData || !urlData[1]){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		firebase.database().ref("youtube-friends/"+uid).once("value").then((user) => {
+			var data = [];
+			if(!user.val()){
+				res.statusCode = 200;
+				responseBody.payload = data;
+				res.write(JSON.stringify(responseBody));
+				res.end();	
+				return;
+			}
+			var userFollowees = user.val().friends;
+
+			//var friendMap = new Map();
+			userFollowees.forEach((followee) => {
+				data.push(followee);
+
+			});
+
+			res.statusCode = 200;
+			responseBody.payload = data;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		});
+	},
+
 
 	getUsersWithCommonFacebookFriends: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);

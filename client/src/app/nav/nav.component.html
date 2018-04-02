@@ -20,12 +20,12 @@
                 <div class="dropdown-content">
                     <a href="#" routerLink="/" routerLinkActive="active">Home</a>
                     
-                    <a routerLink="/signup" routerLinkActive="active" *ngIf="!authed">Signup</a>
-                    <a routerLink="/map" routerLinkActive="active" *ngIf="authed">Map View</a>
-                    <a routerLink="/list" routerLinkActive="active" *ngIf="authed">List View</a>
-                    <a routerLink="/settings" routerLinkActive="active" *ngIf="authed">Settings</a>
-                    <a routerLink="/signin" routerLinkActive="active" *ngIf="!authed">Login</a>
-                    <a (click) = "logout()" *ngIf="authed">Logout</a>
+                    <a id="signup" routerLink="/signup" routerLinkActive="active" *ngIf="!authed">Signup</a>
+                    <a id="map" routerLink="/map" routerLinkActive="active" *ngIf="authed">Map View</a>
+                    <a id="list" routerLink="/list" routerLinkActive="active" *ngIf="authed">List View</a>
+                    <a id="settings" routerLink="/settings" routerLinkActive="active" *ngIf="authed">Settings</a>
+                    <a id="login" routerLink="/login" routerLinkActive="active" *ngIf="!authed">Login</a>
+                    <a id="logout" (click) = "logout()" *ngIf="authed">Logout</a>
                 </div>
             </div>
         </div>

@@ -138,4 +138,29 @@ describe('CreateProfileComponent', () => {
 	it('should load social media icons', () => {
 		expect(fixture.debugElement.queryAll(By.css('.social-icon-button')).length).toEqual(4);
 	})
+
+
+
+it('should display proper errors given invalid first and last name', () => {
+		fixture.detectChanges();
+		var expectedError = "Please provide a valid first name.";
+		component.model.user.firstName = "nirali123";
+		component.verifyValid();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#fnameError")).nativeElement.innerText).toEqual(expectedError);
+
+
+		fixture.detectChanges();
+		var expectedError = "Please provide a valid last name.";
+		component.model.user.lastName = "rai123";
+		component.verifyValid();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#lnameError")).nativeElement.innerText).toEqual(expectedError);
+		
+		
+	})
+
+
+
+
 });

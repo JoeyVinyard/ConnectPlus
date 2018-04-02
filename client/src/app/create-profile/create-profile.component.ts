@@ -89,6 +89,8 @@ export class CreateProfileComponent implements OnInit {
 			this.errors.lName = "Please enter your last name"
 		if(!this.model.user.age)
 			this.errors.ageE = "Please enter your age"
+		else if(this.model.user.age <0)
+			this.errors.ageE = "Unfortunately, time travel is not possible yet."
 		if(!this.model.user.gender)
 			this.errors.genderE = "Please select a gender"
 		

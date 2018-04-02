@@ -46,6 +46,7 @@
 							</select>
 							<p id="formTitle">Age:</p>
 							<input class="textInput" type="number" name="age" min="0" max="1000" d="age" [(ngModel)]="model.user.age">
+							<p id="ageError" class="error">{{errors.AgeError}}</p>
 						</div>
 						<p id="informationChangeError" class="error">{{errors.changeInfoE}}</p>
 						<p id="successInfoChange" class="success">{{success.changeInfoS}}</p>
@@ -73,7 +74,7 @@
 
 							<p id="formTitle">New Email:</p>
 							<input class="textInput" type="text" name="newEmail" [(ngModel)]="model.newEmail">
-							<p if="newEmailError" class="error">{{errors.newEmail}}</p>
+							<p if="newEmailchangeError" class="error">{{errors.newEmail}}</p>
 							<!--  localStorage.setItem("localEmail", "newEmail") -->
 
 							<p id="formTitle">Password:</p>
@@ -81,7 +82,7 @@
 							<p id="changeemailPasswordError" class="error">{{errors.pass}}</p>
 
 							<p id="changeEmailError" class="error">{{errors.emailChangeE}}</p>
-							<p class="sucess">{{success.emailChangeS}}</p>
+							<p class="success">{{success.emailChangeS}}</p>
 							<button class="button saveButton">Save Changes</button>
 					</form>
 					<form (ngSubmit)="changepass()" #signupForm="ngForm">
@@ -363,11 +364,11 @@
 
 				<div id="feedbackContent" *ngIf="fedShow">
 					<div class="medium-12 column">
-						<textarea class="textInput" rows="4" cols="50"></textarea>
+						<textarea class="textInput" rows="4" cols="50" [(ngModel)]="model.feedback">></textarea>
 					</div>
-					<button class="button saveButton">Submit</button>
+					<p class="success">{{success.feedbackS}}</p>
+					<button (click)="feedback()" class="button saveButton">Submit</button>
 				</div>
-
 			</div>
 
 			<div id="deleteAccount">
@@ -388,6 +389,7 @@
 							<input class="textInput" type="password" name="confirmPassword" [(ngModel)]="model.password">
 						</div>
 						<p id="deleterError" class="error">{{errors.cred}}</p>
+
 						<button class="button saveButton">Delete Account</button>
 					</form>
 				</div>
