@@ -249,12 +249,13 @@
 					<!-- <form (ngSubmit)="updateInfo()" #signupForm="ngForm"> -->
 						<select id="interestSelection" [(ngModel)]="model.interest">
 							<option value="sports">Sports</option>
-							<option value="music">Music</option>
-							<option value="food">Food</option>
+							<option value="music">Music Genres</option>
 							<option value="animals">Animals</option>
-							<option value="tv">TV</option>
+							<option value="tv">TV Shows</option>
 							<option value="movies">Movies</option>
+							<option value="hobbies">Hobbies</option>
 							<option value="country">Country</option>
+							<option value="food">Food</option>
 						</select>
 						<div>
 								<input type="text" name="interestInput" id="interestInput" list="options" (click)="updateIntArray()">
@@ -267,97 +268,56 @@
 								</datalist>
 						</div>
 						<button id="interestButton" class="button"><i class="fa fa-plus"></i></button>
-						
-						<!-- <div class="medium-4 column" id="sportSection">
-							<p class="subText">Sports</p>
-							<input id="sports1" type="checkbox" name="Football" [(ngModel)]="model.user.sports1">
-							<label for="sports1">Football</label>
-							<input id="sports2" type="checkbox" name="Basketball" [(ngModel)]="model.user.sports2">
-							<label for="sports2">Basketball</label>
-							<br>
-							<input id="sports3" type="checkbox" name="Hockey" [(ngModel)]="model.user.sports3">
-							<label for="sports3">Ice Hockey</label>
-							<input id="sports4" type="checkbox" name="Baseball" [(ngModel)]="model.user.sports4">
-							<label for="sports4">Baseball</label>
-							<br>
-							<input id="sports5" type="checkbox" name="Soccer" [(ngModel)]="model.user.sports5">
-							<label for="sports5">Soccer</label>
-							<input id="sports6" type="checkbox" name="Boxing" [(ngModel)]="model.user.sports6">
-							<label for="sports6">Boxing</label>
-							<br>
-							<input id="sports7" type="checkbox" name="Tennis" [(ngModel)]="model.user.sports7">
-							<label for="sports7">Tennis</label>
-							<input id="sports8" type="checkbox" name="Golf" [(ngModel)]="model.user.sports8">
-							<label for="sports8">Golf</label>
-							<br>
-							<input id="sports9" type="checkbox" name="Volleyball" [(ngModel)]="model.user.sports9">
-							<label for="sports9">Volleyball</label>
-							<input id="sports10" type="checkbox" name="Swimming" [(ngModel)]="model.user.sports10">
-							<label for="sports10">Swimming</label>
-							<br>
-
+						<div id="displayInterests" class="medium-12 column">
+							<div class="medium-3 column interestPanel">
+								<p class="interestTitle">Interest Category</p>
+								<div class="interestList">
+									<p>Interest</p>
+									<p>Interest</p>
+									<p>Interest</p>
+									<p>Interest</p>
+									<p>Interest</p>
+									<p>Interest</p>
+								</div>
+								<p>Clear All</p>
+							</div>
+							<div class="medium-3 column interestPanel">
+									<p class="interestTitle">Interest Category</p>
+									<div class="interestList">
+										<p>Interest</p>
+										<p>Interest</p>
+										<p>Interest</p>
+										<p>Interest</p>
+										<p>Interest</p>
+										<p>Interest</p>
+									</div>
+									<p>Clear All</p>
+								</div>
+								<div class="medium-3 column interestPanel">
+										<p class="interestTitle">Interest Category</p>
+										<div class="interestList">
+											<p>Interest</p>
+											<p>Interest</p>
+											<p>Interest</p>
+											<p>Interest</p>
+											<p>Interest</p>
+											<p>Interest</p>
+										</div>
+										<p>Clear All</p>
+									</div>
+									<div class="medium-3 column interestPanel">
+											<p class="interestTitle">Interest Category</p>
+											<div class="interestList">
+												<p>Interest</p>
+												<p>Interest</p>
+												<p>Interest</p>
+												<p>Interest</p>
+												<p>Interest</p>
+												<p>Interest</p>
+											</div>
+											<p>Clear All</p>
+										</div>
 						</div>
-
-						<div class="medium-4 column" id="musicSection">
-							<p class="subText">Music</p>
-							<input id="music1" type="checkbox" name="Rock" [(ngModel)]="model.user.music1">
-							<label for="music1">Rock</label>
-							<input id="music2" type="checkbox" name="R&B" [(ngModel)]="model.user.music2">
-							<label for="music2">R&B/Hip-Hop</label>
-							<br>
-							<input id="music3" type="checkbox" name="Pop" [(ngModel)]="model.user.music3">
-							<label for="music3">Pop</label>
-							<input id="music4" type="checkbox" name="Country" [(ngModel)]="model.user.music4">
-							<label for="music4">Country</label>
-							<br>
-							<input id="music5" type="checkbox" name="Classical" [(ngModel)]="model.user.music5">
-							<label for="music5">Classical</label>
-							<input id="music6" type="checkbox" name="Jazz" [(ngModel)]="model.user.music6">
-							<label for="music6">Jazz</label>
-							<br>
-							<input id="music7" type="checkbox" name="EDM" [(ngModel)]="model.user.music7">
-							<label for="music7">EDM</label>
-							<input id="music8" type="checkbox" name="K-Pop" [(ngModel)]="model.user.music8">
-							<label for="music8">K-Pop</label>
-							<br>
-							<input id="music9" type="checkbox" name="Christian" [(ngModel)]="model.user.music9">
-							<label for="music9">Christian/Gospel</label>
-							<input id="music10" type="checkbox" name="Latin" [(ngModel)]="model.user.music10">
-							<label for="music10">Latin</label>
-							<br>
-						</div>
-
-						<div class="medium-4 column" id="foodSection">
-							<p class="subText">Food</p>
-							<input id="food1" type="checkbox" name="American" [(ngModel)]="model.user.food1">
-							<label for="food1">American</label>
-							<input id="food2" type="checkbox" name="Mexican" [(ngModel)]="model.user.food2">
-							<label for="food2">Mexican</label>
-							<br>
-							<input id="food3" type="checkbox" name="Italian" [(ngModel)]="model.user.food3">
-							<label for="food3">Italian</label>
-							<input id="food4" type="checkbox" name="Thai" [(ngModel)]="model.user.food4">
-							<label for="food4">Thai</label>
-							<br>
-							<input id="food5" type="checkbox" name="Chinese" [(ngModel)]="model.user.food5">
-							<label for="food5">Chinese</label>
-							<input id="food6" type="checkbox" name="Cuban" [(ngModel)]="model.user.food6">
-							<label for="food6">Cuban</label>
-							<br>
-							<input id="food7" type="checkbox" name="Indian" [(ngModel)]="model.user.food7">
-							<label for="food7">Indian</label>
-							<input id="food8" type="checkbox" name="Soul Food" [(ngModel)]="model.user.food8">
-							<label for="food8">Soul Food</label>
-							<br>
-							<input id="food9" type="checkbox" name="Greek" [(ngModel)]="model.user.food9">
-							<label for="food9">Greek</label>
-							<input id="food10" type="checkbox" name="Korean" [(ngModel)]="model.user.food10">
-							<label for="food10">Korean</label>
-							<br>
-						</div>
-						<p class="error">{{errors.changeInfoMess}}</p>
-						<button class="button saveButton">Save Changes</button> -->
-					<!-- </form> -->
 				</div>
 
 			</div>

@@ -457,6 +457,36 @@ img {
   /* float: left; */
 }
 
+#displayInterests{
+  width: 100%;
+  height: auto;
+  border: 2px solid #004E7F;
+  border-radius: 25px;
+  margin-bottom: 1rem;
+}
+
+.interestPanel{
+  background: rgba(0, 118, 187, 0.75);
+  border: 2px solid white;
+  border-radius: 25px;
+  height: 200px;
+  margin-top: 0.25rem;
+  margin-bottom: 0..25rem;
+}
+
+.interestTitle{
+  font-size: 1.25rem;
+  color: white;
+
+}
+
+.interestList{
+  border: 1px solid white;
+  border-radius: 25px;
+  overflow: scroll;
+  max-height: 125px;
+}
+
 #feedbackSection{
     text-align: center;
     width: 95% !important;

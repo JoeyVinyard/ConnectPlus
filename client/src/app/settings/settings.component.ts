@@ -82,6 +82,19 @@ export class SettingsComponent implements OnInit {
 		else if(this.model.interest == "animals"){
 			this.cIntArray = this.animals;
 		}
+		else if(this.model.interest == "hobbies"){
+			this.cIntArray = this.hobbies;
+		}
+		else if(this.model.interest == "tv"){
+			this.cIntArray = this.tvShows;
+		}
+		else if(this.model.interest == "sports"){
+			this.cIntArray = this.sports;
+		}
+		else if(this.model.interest == "music"){
+			this.cIntArray = this.musicGenre;
+		}
+
 	}
 
 	country: string[] = this.interestObj.country;
