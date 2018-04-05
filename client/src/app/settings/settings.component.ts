@@ -62,7 +62,8 @@ export class SettingsComponent implements OnInit {
 		conPassword:"",
 		//feedback
 		feedback:"",
-		interest: ""
+		interestSub: "", 
+		interestSelected: ""
 
 	}
 
@@ -72,26 +73,26 @@ export class SettingsComponent implements OnInit {
 
 	updateIntArray(){
 		console.log("Interests Updated");
-		console.log(this.model.interest);
-		if(this.model.interest == "country"){
+		console.log(this.model.interestSub);
+		if(this.model.interestSub == "country"){
 			this.cIntArray = this.country;
 		}
-		else if(this.model.interest == "movies"){
+		else if(this.model.interestSub == "movies"){
 			this.cIntArray = this.movies;
 		}
-		else if(this.model.interest == "animals"){
+		else if(this.model.interestSub == "animals"){
 			this.cIntArray = this.animals;
 		}
-		else if(this.model.interest == "hobbies"){
+		else if(this.model.interestSub == "hobbies"){
 			this.cIntArray = this.hobbies;
 		}
-		else if(this.model.interest == "tv"){
+		else if(this.model.interestSub == "tv"){
 			this.cIntArray = this.tvShows;
 		}
-		else if(this.model.interest == "sports"){
+		else if(this.model.interestSub == "sports"){
 			this.cIntArray = this.sports;
 		}
-		else if(this.model.interest == "music"){
+		else if(this.model.interestSub == "music"){
 			this.cIntArray = this.musicGenre;
 		}
 
@@ -104,6 +105,7 @@ export class SettingsComponent implements OnInit {
 	tvShows: string[] = this.interestObj.tvShows;
 	sports: string[] = this.interestObj.sports;
 	musicGenre: string[] = this.interestObj.musicGenre;
+	interestList = [];
 
 
 	particlesConfig;
@@ -602,6 +604,43 @@ setVisible(number){
 		})
 	}
 
+
+	//Not Sure if this is correct!!!
+    addInterest(sub: String, inter: String){
+				console.log("Added interest in prog");
+
+		this.db.addInterest(this.model.user.uid, sub + " "  + inter).then((success) => {
+			
+			//this.interestList = [];
+			console.log("Added interest:", success);
+
+			this.updateInterest();
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+	deleteInterest(sub: String, inter: String){
+		this.interestList.splice(this.interestList.indexOf(inter), 1);
+		this.db.deleteInterest(this.model.user.uid, sub + " " +inter).then((data) => {
+			console.log(data);
+
+			this.updateInterest();
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
+	updateInterest(){
+		this.db.getInterests(this.model.user.uid).then((interests) => {
+			this.interestList = interests;
+			console.log(this.interestList);
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
+
+
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService){
 		
 		
@@ -621,6 +660,7 @@ setVisible(number){
 				this.url = this.model.user.url;
 
 				this.updateClasses();
+				this.updateInterest();
 				this.db.getTwitterScreenName(user.uid).then((screenName) => {
 					this.model.user.screenName = screenName;
 				});
