@@ -36,6 +36,21 @@ let DatabaseServiceStub = {
 		return new Promise((resolve, reject) => {
 			resolve({});
 		})
+	},
+	getInterests(uid: String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve([]);
+		})
+	},
+	addInterest(uid: String, inter:String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve({});
+		})
+	},
+	deleteInterest(uid: String, inter: String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve({});
+		})
 	}
 }
 let TwitterServiceStub = {
