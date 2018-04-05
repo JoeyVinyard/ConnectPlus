@@ -260,9 +260,8 @@ export class DatabaseService {
 	}
 
 
-
 ///Not sure if this is correct!
-getInterests(uid: String): Promise<any>{
+	getInterests(uid: String): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.get("http://localhost:3000/getInterests/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"] || !data["err"])
@@ -272,20 +271,26 @@ getInterests(uid: String): Promise<any>{
 			});
 		})
 	}
-	addInterest(uid: String, inter:String): Promise<any>{
+	addInterest(uid: String, sub:String, inter:String): Promise<any>{
 		var interestObject = {
 			uid: uid,
+			category: sub,
 			inter: inter
 		}
+		console.log(interestObject)
 		return new Promise((resolve, reject) => {
+			
 			this.http.post("http://localhost:3000/addInterest", JSON.stringify(interestObject),this.httpOptions).subscribe((data) => {
-				if(data["payload"])
+				if(data["payload"]) {
 					resolve(data["payload"]);
-				else
+				}
+				else{
 					reject(data["err"]);
+				}
 			});
 		})
 	}
+	
 	deleteInterest(uid: String, inter: String): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.delete("http://localhost:3000/deleteInterest/"+uid+"/"+inter, this.httpOptions).subscribe((data) => {
@@ -297,16 +302,6 @@ getInterests(uid: String): Promise<any>{
 		})
 	}
 	
-
-
-
-
-
-
-
-
-
-
 
 
 

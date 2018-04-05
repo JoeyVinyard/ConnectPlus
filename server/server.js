@@ -3,7 +3,10 @@ var routeHandler = require('./routeHandler.js');
 
 var server = module.exports = http.createServer(function (request, response) {
 		var parsedUrl = request.url.substring(1).split('/');
-		//console.log(parsedUrl);
+		console.log("helllllllooooooo", parsedUrl);
+		console.log(Object.keys(routeHandler))
+		console.log(routeFunction) 
+		console.log(parsedUrl[0])
 		var routeFunction = routeHandler[parsedUrl[0]];
 		if(request.headers.origin){
 			response.setHeader("Access-Control-Allow-Origin", request.headers.origin, 'always');

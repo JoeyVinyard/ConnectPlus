@@ -341,8 +341,6 @@ module.exports = {
 			res.end();
 		});
 	},
-
-
 	getUsersWithCommonFacebookFriends: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		if(!urlData || !urlData[1]){
@@ -468,7 +466,6 @@ module.exports = {
 			})
 		});
 	},
-
 	storeFacebookFriends: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		var body = "";
@@ -656,6 +653,103 @@ module.exports = {
 			for(var i = 0; i < ent.length; i++){
 				if(ent[i][1] == cl){
 					firebase.database().ref("classes/"+uid+"/"+ent[i][0]).remove().then(() => {
+						res.statusCode = 200;
+						responseBody.payload = true;
+						res.write(JSON.stringify(responseBody));
+						res.end();
+					}).catch((err) => {
+						console.error(err);
+						responseBody.err = err;
+						res.statusCode = 400;
+						res.write(JSON.stringify(responseBody));
+						res.end();
+					})
+					break;
+				}
+			}
+		}).catch((err) => {
+			console.error(err);
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		});
+	},
+	getInterests: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		if(!urlData || !urlData[1]){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		firebase.database().ref("interests/"+uid).once("value").then((s) => {
+			res.statusCode=200;
+			if(s.val())
+				responseBody.payload = Object.values(s.val());
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}).catch((err) => {
+			res.statusCode = 400;
+			responseBody.err = err;
+			console.log(err);
+			res.write(JSON.stringify(responseBody));
+			res.end()
+		});
+	},
+	addInterest: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var body = "";
+		req.on('data', function (data) {
+			body += data;
+			if(body.length > 1e6){ 
+				req.connection.destroy();
+			}
+		});
+		req.on('end', function () {
+			var data = JSON.parse(body);
+			if(!data || !data.uid || !data.inter){
+				res.statusCode = 400;
+				responseBody.err = "Data or UID not supplied";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
+			firebase.database().ref("interests/"+data.uid+"/"+data.category).push(data.inter).then(() => {
+				res.statusCode = 200;
+				responseBody.payload = data;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			}).catch((err) => {
+				console.error(err);
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
+		});
+	},
+	
+	deleteInterest: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		if(!urlData || !urlData[1] || !urlData[2]){
+			res.statusCode = 400;
+			responseBody.err = "No UID or Class provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		var inter = urlData[2];
+		inter = inter.replace("%20", " ");
+		firebase.database().ref("interests/"+uid).once("value").then((s) => {
+			var ent = Object.entries(s.val());
+			for(var i = 0; i < ent.length; i++){
+				if(ent[i][1] == inter){
+					firebase.database().ref("interests/"+uid+"/"+ent[i][0]).remove().then(() => {
 						res.statusCode = 200;
 						responseBody.payload = true;
 						res.write(JSON.stringify(responseBody));

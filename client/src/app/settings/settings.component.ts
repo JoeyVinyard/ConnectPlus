@@ -572,6 +572,7 @@ setVisible(number){
 		}
 	}
 
+
 	addClass(cl: String){
 		this.db.addClass(this.model.user.uid, this.currSubject + " "  + cl).then((success) => {
 			this.inSubject = false;
@@ -604,15 +605,13 @@ setVisible(number){
 		})
 	}
 
-
-	//Not Sure if this is correct!!!
     addInterest(sub: String, inter: String){
-				console.log("Added interest in prog");
+				console.log(sub + " " + inter);
+				this.model.interestSelected = ""
 
-		this.db.addInterest(this.model.user.uid, sub + " "  + inter).then((success) => {
+		this.db.addInterest(this.model.user.uid, sub , inter).then((success) => {
 			
 			//this.interestList = [];
-			console.log("Added interest:", success);
 
 			this.updateInterest();
 		}).catch((err) => {
@@ -638,7 +637,6 @@ setVisible(number){
 			console.log(err);
 		})
 	}
-
 
 
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService){
