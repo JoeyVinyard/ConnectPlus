@@ -247,27 +247,27 @@
 
 				<div id="interestContent" class="medium-12 medium-centered column" *ngIf="intShow">
 					<!-- <form (ngSubmit)="updateInfo()" #signupForm="ngForm"> -->
-						<select id="interestSelection" [(ngModel)]="model.interest">
-							<option value="sports">Sports</option>
-							<option value="music">Music Genres</option>
-							<option value="animals">Animals</option>
-							<option value="tv">TV Shows</option>
-							<option value="movies">Movies</option>
-							<option value="hobbies">Hobbies</option>
-							<option value="country">Country</option>
-							<option value="food">Food</option>
-						</select>
-						<div>
+						<div class="medium-5 column">
+							<select id="interestSelection" [(ngModel)]="model.interest">
+								<option value="sports">Sports</option>
+								<option value="music">Music Genres</option>
+								<option value="animals">Animals</option>
+								<option value="tv">TV Shows</option>
+								<option value="movies">Movies</option>
+								<option value="hobbies">Hobbies</option>
+								<option value="country">Country</option>
+								<option value="food">Food</option>
+							</select>
+						</div>
+						<div class="medium-6 column">
 								<input type="text" name="interestInput" id="interestInput" list="options" (click)="updateIntArray()">
 								<datalist id="options">
 									<option *ngFor="let i of cIntArray" [value]="i">
-									<!-- <option value="Firefox">
-									<option value="Chrome">
-									<option value="Opera">
-									<option value="Safari"> -->
 								</datalist>
 						</div>
-						<button id="interestButton" class="button"><i class="fa fa-plus"></i></button>
+						<div class="medium-1 column">
+								<button id="interestButton" class="button"><i class="fa fa-plus"></i></button>
+						</div>
 						<div id="displayInterests" class="medium-12 column">
 							<div class="medium-3 column interestPanel">
 								<p class="interestTitle">Interest Category</p>
@@ -281,42 +281,6 @@
 								</div>
 								<p>Clear All</p>
 							</div>
-							<div class="medium-3 column interestPanel">
-									<p class="interestTitle">Interest Category</p>
-									<div class="interestList">
-										<p>Interest</p>
-										<p>Interest</p>
-										<p>Interest</p>
-										<p>Interest</p>
-										<p>Interest</p>
-										<p>Interest</p>
-									</div>
-									<p>Clear All</p>
-								</div>
-								<div class="medium-3 column interestPanel">
-										<p class="interestTitle">Interest Category</p>
-										<div class="interestList">
-											<p>Interest</p>
-											<p>Interest</p>
-											<p>Interest</p>
-											<p>Interest</p>
-											<p>Interest</p>
-											<p>Interest</p>
-										</div>
-										<p>Clear All</p>
-									</div>
-									<div class="medium-3 column interestPanel">
-											<p class="interestTitle">Interest Category</p>
-											<div class="interestList">
-												<p>Interest</p>
-												<p>Interest</p>
-												<p>Interest</p>
-												<p>Interest</p>
-												<p>Interest</p>
-												<p>Interest</p>
-											</div>
-											<p>Clear All</p>
-										</div>
 						</div>
 				</div>
 
