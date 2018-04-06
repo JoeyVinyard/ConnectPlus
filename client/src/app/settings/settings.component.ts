@@ -121,12 +121,12 @@ export class SettingsComponent implements OnInit {
 
 	faceShow = false;
 	twitShow = false;
-	linkShow = false;
+	youShow = false;
 	blackShow = false;
 
 	//Social Media Connected Vars
 	inFacebook = false;
-	inLinkedIn = false;
+	inYoutube = false;
 	inBlackboard = false;
 	inTwitter = false;
 
@@ -190,8 +190,8 @@ toggleDiv(name){
 	else if(name == "twitShow"){
 		this.twitShow = !this.twitShow;
 	}
-	else if(name == "linkShow"){
-		this.linkShow = !this.linkShow;
+	else if(name == "youShow"){
+		this.youShow = !this.youShow;
 	}
 	else if(name == "blackShow"){
 		this.blackShow = !this.blackShow;
