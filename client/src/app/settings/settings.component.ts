@@ -610,9 +610,10 @@ setVisible(number){
 				this.model.interestSelected = ""
 
 		this.db.addInterest(this.model.user.uid, sub , inter).then((success) => {
-			
-			//this.interestList = [];
+				this.model.interestSelected = ""
 
+			//this.interestList = [];
+			console.log("why")
 			this.updateInterest();
 		}).catch((err) => {
 			console.log(err);

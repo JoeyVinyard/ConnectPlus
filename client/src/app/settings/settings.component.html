@@ -253,7 +253,7 @@
 							</select>
 						</div>
 						<div class="medium-6 column">
-								<input type="text" name="interestInput" id="interestInput" list="options" (click)="updateIntArray()">
+								<input type="text" name="interestInput" id="interestInput" list="options" (click)="updateIntArray()" [(ngModel)]="model.interestSelected">
 								<datalist id="options">
 									<option *ngFor="let i of cIntArray" [value]="i">
 								</datalist>
