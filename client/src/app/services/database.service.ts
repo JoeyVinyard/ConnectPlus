@@ -293,8 +293,7 @@ export class DatabaseService {
 	
 	deleteInterest(uid: String, sub:String, inter: String): Promise<any>{
 		return new Promise((resolve, reject) => {
-			console.log("outside")
-			this.http.delete("http://localhost:3000/deleteInterest/" + uid + "/" + sub + "/" + inter, this.httpOptions).subscribe((data) => {
+			this.http.delete("http://localhost:3000/deleteInterest/"+uid+"/"+sub+"/"+inter, this.httpOptions).subscribe((data) => {
 				console.log("inside")
 				if(data["payload"])
 					resolve(data["payload"]);
@@ -303,12 +302,38 @@ export class DatabaseService {
 			});
 		})
 	}
-	
+	storeYoutubeSubscribers(uid: String, access_token: String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/storeYoutubeSubscribers/"+uid+"/"+access_token, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
 
+	getYoutubeSubscribers(uid: String){
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/getYoutubeSubscriptions/"+uid, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
 
-
-
-
+	getYoutubeStatus(uid: String){
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/getYoutubeStatus/"+uid, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
 	constructor(private http: HttpClient) {}
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
 import { DatabaseService } from '../services/database.service';
@@ -148,8 +149,6 @@ export class SettingsComponent implements OnInit {
 	blackInter = false;
 	url;
 
-	 
-
 	onSelectFile(event) {
 		if (event.target.files && event.target.files[0]) {
 			var reader = new FileReader();
@@ -233,7 +232,6 @@ setVisible(number){
 			this.model.user.firstName = user.firstName;
 			this.db.getUser(user.uid).then((userData) => {
 				this.model.user = userData
-				console.log(userData)
 			})
 		});
 	}
@@ -450,6 +448,14 @@ setVisible(number){
 	handleError(error) {
 		console.error('Error processing action', error);
 	}
+	link_youtube(){
+		window.location.href = 
+			"https://accounts.google.com/o/oauth2/v2/auth"+
+			"?client_id=374666659146-c9n74gdloum89050ckabsfssh0oe4qkl.apps.googleusercontent.com"+
+			"&redirect_uri=http://localhost:4200/settings"+
+			"&response_type=token"+
+			"&scope=https://www.googleapis.com/auth/youtube.readonly"
+	}
 	link_twitter(){
 		console.log("Here");
 		this.li.getFriends(this.model.user.screenName).then((data:any) => {
@@ -623,15 +629,9 @@ setVisible(number){
 			console.log(err);
 		})
 	}
-	deleteInterest(sub: string, inter: string){
-		//console.log(sub, " hello ", inter)
-		
-		this.subtemp = sub;
-	    this.intertemp = inter;
-		this.db.deleteInterest(this.model.user.uid, this.subtemp , this.intertemp).then((data) => {
+	deleteInterest(sub: String, inter: String){
+		this.db.deleteInterest(this.model.user.uid, sub , inter).then((data) => {
 			console.log("hi there");
-			this.interestList[sub][inter] = null;
-
 			this.updateInterest();
 		}).catch((err) => {
 			console.log(err);
@@ -641,9 +641,11 @@ setVisible(number){
 	updateInterest(){
 		this.db.getInterests(this.model.user.uid).then((interests) => {
 			this.interestList = interests;
+			console.log("in update")
 			console.log(interests)
 			this.arrayOfInterestKeys = Object.keys(this.interestList);
 			console.log(this.arrayOfInterestKeys)
+			//this.getArrayOfInterestKeys();
 			
 		}).catch((err) => {
 			console.log(err);
@@ -656,9 +658,15 @@ setVisible(number){
 
 
 	}
+	getArrayOfInterestKeys():string[]{
+
+		this.arrayOfInterestKeys = Object.keys(this.interestList);
+		return this.arrayOfInterestKeys;
+
+	}
 
 
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService){
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private ar: ActivatedRoute, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService, private loc: Location){
 		
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
@@ -677,6 +685,16 @@ setVisible(number){
 				this.db.getTwitterScreenName(user.uid).then((screenName) => {
 					this.model.user.screenName = screenName;
 				});
+				this.db.getYoutubeStatus(user.uid).then((status) => {
+					this.inYoutube = !!status;
+					if(status){
+						this.db.getYoutubeSubscribers(user.uid).then((subs) => {
+							console.log(subs);
+						})
+					}
+				}).catch((err) => {
+					console.error(err);
+				})
 			})
 		});
 
@@ -689,7 +707,24 @@ setVisible(number){
 		console.log("Facebook login status: " + this.inFacebook);
 		this.cs.getSubjects().then((subjects) => {
 			this.subjects = subjects;
-		})
+		});
+
+		//Detect Youtube access_token
+		this.ar.fragment.subscribe((fragment) => {
+			if(fragment){
+				var accessToken = fragment.split("&")[0];
+				accessToken = accessToken.substring(accessToken.indexOf("=")+1);
+				if(!!accessToken){
+					this.auth.getUser().then((user) => {
+						this.db.storeYoutubeSubscribers(user.uid, accessToken).then((data) => {
+							console.log("Successfully stored youtube subscribers:", data);
+							this.loc.go("/settings");
+							this.inYoutube = true;
+						})
+					});
+				}
+			}
+		});
 
 	}
 	ngOnInit() {}
