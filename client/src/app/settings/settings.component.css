@@ -226,8 +226,8 @@ img {
   background-color: rgba(0, 172, 237, 0.8);
 }
 
-#link-exp{
-  background-color: rgba(0, 119, 181, 0.8);
+#you-exp{
+  background-color: rgba(255, 0, 0, 0.8);
 }
 
 #black-exp{
@@ -360,12 +360,12 @@ img {
     background-color: #00aced;
   }
   
-  .social-icon-button.linkedin {
-    color: #0077B5;
+  .social-icon-button.youtube {
+    color: #ff0000;
   }
   
-  .social-icon-button.linkedin span {
-    background-color: #0077B5;
+  .social-icon-button.youtube span {
+    background-color: #ff0000;
   }
   
   .social-icon-button.facebook {

@@ -129,8 +129,8 @@
 						</a>
 					</div>
 					<div class="medium-3 column">
-						<a class="social-icon-button linkedin" (click)="toggleDiv('linkShow')">
-							<i class="fa fa-linkedin"></i>
+						<a class="social-icon-button youtube" (click)="toggleDiv('linkShow')">
+							<i class="fa fa-youtube-play"></i>
 							<span></span>
 						</a>
 					</div>
@@ -157,17 +157,13 @@
 						</div>
 						<div class="medium-3 column social-expanded" id="twit-exp" [ngClass]="{'hidden' : !twitShow, 'visible' : twitShow}">
 							<p>Twitter</p>
-							<!-- <div class="socialConnect" [ngClass]="{'none' : !inTwitter, 'visible' : inTwitter && twitShow}"><i class="fa fa-check"></i><p>Connected</p></div>
-								<div class="socialNotConnect" [ngClass]="{'none' : inTwitter, 'visible' : !inTwitter && twitShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
-								<button class="button socialButton" id="insta-con">Connect</button>
-								<button class="button socialButton" id="intsa-dis">Disconnect</button> -->
 							<p id="formTitle">Twitter Screen Name:</p>
 							<input class="textInput" type="text" name="screenName" [(ngModel)]="model.user.screenName">
 							<button (click)="link_twitter()" class="button socialButton" id="link-con">Connect</button>
 							<p class="error">{{errors.twitterE}}</p>
 						</div>
-						<div class="medium-3 column social-expanded" id="link-exp" [ngClass]="{'hidden' : !linkShow, 'visible' : linkShow, 'none' : blackInter}">
-							<p>LinkedIn</p>
+						<div class="medium-3 column social-expanded" id="you-exp" [ngClass]="{'hidden' : !linkShow, 'visible' : linkShow, 'none' : blackInter}">
+							<p>YouTube</p>
 							<div class="socialConnect" [ngClass]="{'none' : !inLinkedIn, 'visible' : inLinkedIn && linkShow}">
 								<i class="fa fa-check"></i>
 								<p>Connected</p>
@@ -178,9 +174,6 @@
 							</div>
 							<button class="button socialButton" id="link-con">Connect</button>
 							<button class="button socialButton" id="link-dis">Disconnect</button>
-							<!-- <p id="formTitle">Twitter Screen Name:</p>
-								<input class="textInput" type="text" name="screenName" [(ngModel)]="model.user.screenName">
-								<button (click)="link_linkedin()" class="button socialButton" id="link-con">Connect</button> -->
 						</div>
 
 						<div id="blackboardInterface" class="medium-3 column social-expanded" *ngIf="blackInter">
@@ -270,7 +263,7 @@
 						</div>
 						<div id="displayInterests" class="medium-12 column">
 							<div class="medium-3 column interestPanel" >
-								<p class="interestTitle">Interest Category</p>
+								<p class="interestTitle" *ngFor="let category of interestList">{{category}}</p>
 								<div class="interestList">
 									<div class="interestDiv">
 										<p class="iInterest">Interest <i class="fa fa-times iDelete"></i></p>
