@@ -745,11 +745,14 @@ module.exports = {
 		var uid = urlData[1];
 		var sub = urlData[2];
 		var inter = urlData[3];
+		sub = sub.replace("%20", " ");
 		inter = inter.replace("%20", " ");
-		firebase.database().ref("interests/"+uid).once("value").then((s) => {
-			var ent = s.val();
+		firebase.database().ref("interests/"+uid+"/"+sub).once("value").then((s) => {
+			var ent = Object.entries(s.val());
+			
 			for(var i = 0; i < ent.length; i++){
 				if(ent[i][1] == inter){
+					
 					firebase.database().ref("interests/"+uid+"/"+ sub + "/" +ent[i][0]).remove().then(() => {
 						res.statusCode = 200;
 						responseBody.payload = true;

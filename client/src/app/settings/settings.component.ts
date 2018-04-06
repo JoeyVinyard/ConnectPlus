@@ -74,25 +74,25 @@ export class SettingsComponent implements OnInit {
 	updateIntArray(){
 		console.log("Interests Updated");
 		console.log(this.model.interestSub);
-		if(this.model.interestSub == "country"){
+		if(this.model.interestSub == "Country"){
 			this.cIntArray = this.country;
 		}
-		else if(this.model.interestSub == "movies"){
+		else if(this.model.interestSub == "Movies"){
 			this.cIntArray = this.movies;
 		}
-		else if(this.model.interestSub == "animals"){
+		else if(this.model.interestSub == "Animals"){
 			this.cIntArray = this.animals;
 		}
-		else if(this.model.interestSub == "hobbies"){
+		else if(this.model.interestSub == "Hobbies"){
 			this.cIntArray = this.hobbies;
 		}
-		else if(this.model.interestSub == "tv"){
+		else if(this.model.interestSub == "Tv"){
 			this.cIntArray = this.tvShows;
 		}
-		else if(this.model.interestSub == "sports"){
+		else if(this.model.interestSub == "Sports"){
 			this.cIntArray = this.sports;
 		}
-		else if(this.model.interestSub == "music"){
+		else if(this.model.interestSub == "Music"){
 			this.cIntArray = this.musicGenre;
 		}
 
@@ -106,6 +106,10 @@ export class SettingsComponent implements OnInit {
 	sports: string[] = this.interestObj.sports;
 	musicGenre: string[] = this.interestObj.musicGenre;
 	interestList;
+	arrayOfInterestKeys:string[];
+	interestSubArray:string[];
+	subtemp:String;
+	intertemp:String;
 
 
 	particlesConfig;
@@ -620,9 +624,13 @@ setVisible(number){
 		})
 	}
 	deleteInterest(sub: string, inter: string){
-		this.interestList[sub][inter] = null;
-		this.db.deleteInterest(this.model.user.uid, sub , inter).then((data) => {
-			console.log(data);
+		//console.log(sub, " hello ", inter)
+		
+		this.subtemp = sub;
+	    this.intertemp = inter;
+		this.db.deleteInterest(this.model.user.uid, this.subtemp , this.intertemp).then((data) => {
+			console.log("hi there");
+			this.interestList[sub][inter] = null;
 
 			this.updateInterest();
 		}).catch((err) => {
@@ -634,10 +642,19 @@ setVisible(number){
 		this.db.getInterests(this.model.user.uid).then((interests) => {
 			this.interestList = interests;
 			console.log(interests)
+			this.arrayOfInterestKeys = Object.keys(this.interestList);
+			console.log(this.arrayOfInterestKeys)
 			
 		}).catch((err) => {
 			console.log(err);
 		})
+	}
+	getArrayInter(sub:string):string[]{
+
+		this.interestSubArray = Object.values(this.interestList[sub]);
+		return this.interestSubArray;
+
+
 	}
 
 

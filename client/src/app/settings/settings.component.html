@@ -242,14 +242,14 @@
 					<!-- <form (ngSubmit)="updateInfo()" #signupForm="ngForm"> -->
 						<div class="medium-5 column">
 							<select id="interestSelection" [(ngModel)]="model.interestSub">
-								<option value="sports">Sports</option>
-								<option value="music">Music Genres</option>
-								<option value="animals">Animals</option>
-								<option value="tv">TV Shows</option>
-								<option value="movies">Movies</option>
-								<option value="hobbies">Hobbies</option>
-								<option value="country">Country</option>
-								<option value="food">Food</option>
+								<option value="Sports">Sports</option>
+								<option value="Music">Music Genres</option>
+								<option value="Snimals">Animals</option>
+								<option value="Tv">TV Shows</option>
+								<option value="Movies">Movies</option>
+								<option value="Hobbies">Hobbies</option>
+								<option value="Country">Country</option>
+								<option value="Food">Food</option>
 							</select>
 						</div>
 						<div class="medium-6 column">
@@ -262,20 +262,11 @@
 							<button id="interestButton" class="button" (click)="addInterest(model.interestSub,model.interestSelected)"><i class="fa fa-plus"></i></button>
 						</div>
 						<div id="displayInterests" class="medium-12 column">
-							<div class="medium-3 column interestPanel" >
-								<p class="interestTitle" *ngFor="let category of interestList">{{category}}</p>
+							<div class="medium-3 column interestPanel"*ngFor="let category of arrayOfInterestKeys" >
+								<p class="interestTitle" >{{category}}</p>
 								<div class="interestList">
-									<div class="interestDiv">
-										<p class="iInterest">Interest <i class="fa fa-times iDelete"></i></p>
-									</div>
-									<div class="interestDiv">
-											<p class="iInterest">Interest <i class="fa fa-times iDelete"></i></p>
-									</div>
-									<div class="interestDiv">
-											<p class="iInterest">Interest <i class="fa fa-times iDelete"></i></p>
-									</div>
-									<div class="interestDiv">
-											<p class="iInterest">Interest <i class="fa fa-times iDelete"></i></p>
+									<div class="interestDiv" *ngFor="let interest of getArrayInter(category)">
+										<p class="iInterest">{{interest}} <i class="fa fa-times iDelete" (click)="deleteInterest(category,interest)"></i></p>
 									</div>
 								</div>
 								<p class="button iClear"><i class="fa fa-trash-o"></i> Clear All</p>
