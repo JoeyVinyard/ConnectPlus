@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { AuthService } from '../services/auth.service';
 import { DatabaseService } from '../services/database.service';
@@ -227,7 +228,6 @@ setVisible(number){
 			this.model.user.firstName = user.firstName;
 			this.db.getUser(user.uid).then((userData) => {
 				this.model.user = userData
-				console.log(userData)
 			})
 		});
 	}
@@ -647,7 +647,7 @@ setVisible(number){
 	}
 
 
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService){
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private ar: ActivatedRoute, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService, private loc: Location){
 		
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
@@ -666,6 +666,16 @@ setVisible(number){
 				this.db.getTwitterScreenName(user.uid).then((screenName) => {
 					this.model.user.screenName = screenName;
 				});
+				this.db.getYoutubeStatus(user.uid).then((status) => {
+					this.inYoutube = !!status;
+					if(status){
+						this.db.getYoutubeSubscribers(user.uid).then((subs) => {
+							console.log(subs);
+						})
+					}
+				}).catch((err) => {
+					console.error(err);
+				})
 			})
 		});
 
@@ -678,7 +688,24 @@ setVisible(number){
 		console.log("Facebook login status: " + this.inFacebook);
 		this.cs.getSubjects().then((subjects) => {
 			this.subjects = subjects;
-		})
+		});
+
+		//Detect Youtube access_token
+		this.ar.fragment.subscribe((fragment) => {
+			if(fragment){
+				var accessToken = fragment.split("&")[0];
+				accessToken = accessToken.substring(accessToken.indexOf("=")+1);
+				if(!!accessToken){
+					this.auth.getUser().then((user) => {
+						this.db.storeYoutubeSubscribers(user.uid, accessToken).then((data) => {
+							console.log("Successfully stored youtube subscribers:", data);
+							this.loc.go("/settings");
+							this.inYoutube = true;
+						})
+					});
+				}
+			}
+		});
 
 	}
 	ngOnInit() {}

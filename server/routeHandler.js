@@ -1,8 +1,14 @@
 var firebase = require('firebase');
 var distanceCalc = require('./distanceCalc.js');
 var config = require('./config.js');
+var axios = require('axios');
 firebase.initializeApp(config.fbConfig);
 firebase.auth().signInWithEmailAndPassword("admin@connectpl.us", config.password);
+
+var youtube = axios.create({
+  baseURL: 'https://www.googleapis.com/youtube/v3/',
+  timeout: 1000
+});
 
 var responseForm = {
 	err: "",
@@ -773,4 +779,96 @@ module.exports = {
 			res.end();
 		});
 	},
+	storeYoutubeSubscribers(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var subs = {};
+		var uid = urlData[1];
+		var access_token = urlData[2];
+		if(!uid || !access_token){
+			res.statusCode = 400;
+			responseBody.err = "No UID or access_token provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		youtube.get("subscriptions?access_token="+access_token+"&part=snippet,contentDetails&mine=true&maxResults=5").then((channel) => {
+			var subscriptions = channel.data.items;
+			subscriptions.forEach((sub) => {
+				subs[sub.snippet.resourceId.channelId] = sub.snippet.title;
+			})
+			if(channel.data.nextPageToken)
+				getSubs(channel.data.nextPageToken);
+		}).catch((err) => {
+			console.log("Youtube Failed", err);
+		})
+		function getSubs(nextPage){
+			youtube.get("subscriptions?access_token="+access_token+"&part=snippet,contentDetails&mine=true&pageToken="+nextPage).then((channel) => {
+				var subscriptions = channel.data.items;
+				subscriptions.forEach((sub) => {
+					subs[sub.snippet.resourceId.channelId] = sub.snippet.title;
+				});
+				if(channel.data.nextPageToken){
+					getSubs(channel.data.nextPageToken);
+				}else{
+					firebase.database().ref("subscriptions/"+uid).set(subs).then(() => {
+						responseBody.payload = subs;
+						res.statusCode = 200;
+						res.write(JSON.stringify(responseBody));
+						res.end();
+					}).catch((err) => {
+						responseBody.err = err;
+						res.statusCode = 400;
+						res.write(JSON.stringify(responseBody));
+						res.end();
+					})
+				}
+			}).catch((err) => {
+				console.log("Youtube Failed", err);
+			})
+		}
+	},
+	getYoutubeSubscriptions(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		if(!uid){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("subscriptions/"+uid).once("value").then((s) => {
+			responseBody.payload = s.val();
+			res.statusCode = 200;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
+	},
+	getYoutubeStatus(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		if(!uid){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("subscriptions/"+uid).once("value").then((s) => {
+			responseBody.payload = s.val();
+			res.statusCode = 200;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
+	}
 }
