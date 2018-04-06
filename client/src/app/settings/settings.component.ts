@@ -623,15 +623,9 @@ setVisible(number){
 			console.log(err);
 		})
 	}
-	deleteInterest(sub: string, inter: string){
-		//console.log(sub, " hello ", inter)
-		
-		this.subtemp = sub;
-	    this.intertemp = inter;
-		this.db.deleteInterest(this.model.user.uid, this.subtemp , this.intertemp).then((data) => {
+	deleteInterest(sub: String, inter: String){
+		this.db.deleteInterest(this.model.user.uid, sub , inter).then((data) => {
 			console.log("hi there");
-			this.interestList[sub][inter] = null;
-
 			this.updateInterest();
 		}).catch((err) => {
 			console.log(err);
@@ -641,9 +635,11 @@ setVisible(number){
 	updateInterest(){
 		this.db.getInterests(this.model.user.uid).then((interests) => {
 			this.interestList = interests;
+			console.log("in update")
 			console.log(interests)
 			this.arrayOfInterestKeys = Object.keys(this.interestList);
 			console.log(this.arrayOfInterestKeys)
+			//this.getArrayOfInterestKeys();
 			
 		}).catch((err) => {
 			console.log(err);
@@ -654,6 +650,12 @@ setVisible(number){
 		this.interestSubArray = Object.values(this.interestList[sub]);
 		return this.interestSubArray;
 
+
+	}
+	getArrayOfInterestKeys():string[]{
+
+		this.arrayOfInterestKeys = Object.keys(this.interestList);
+		return this.arrayOfInterestKeys;
 
 	}
 

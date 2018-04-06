@@ -47,11 +47,11 @@ let DatabaseServiceStub = {
 			resolve({});
 		})
 	},
-	deleteInterest(uid: String, inter: String): Promise<any>{
-		return new Promise((resolve, reject) => {
-			resolve({});
-		})
-	}
+	// deleteInterest(uid: String, inter: String): Promise<any>{
+	// 	return new Promise((resolve, reject) => {
+	// 		resolve({});
+	// 	})
+	// }
 }
 let TwitterServiceStub = {
 	getFriends(screenName: string){}

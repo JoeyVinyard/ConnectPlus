@@ -745,15 +745,22 @@ module.exports = {
 		var uid = urlData[1];
 		var sub = urlData[2];
 		var inter = urlData[3];
-		sub = sub.replace("%20", " ");
-		inter = inter.replace("%20", " ");
+		//sub = sub.replace("%20", " ");
+		while(inter.includes("%20")){
+			inter = inter.replace("%20", " ");
+		}
+		
 		firebase.database().ref("interests/"+uid+"/"+sub).once("value").then((s) => {
 			var ent = Object.entries(s.val());
-			
+			console.log("Inter: " + inter)
+			var anything = false;
 			for(var i = 0; i < ent.length; i++){
+				console.log("Current Entry: " + ent[i][1])
 				if(ent[i][1] == inter){
-					
+					anything = true;
+					console.log("Found")
 					firebase.database().ref("interests/"+uid+"/"+ sub + "/" +ent[i][0]).remove().then(() => {
+						console.log("In Interests Firebase")
 						res.statusCode = 200;
 						responseBody.payload = true;
 						res.write(JSON.stringify(responseBody));
@@ -768,12 +775,22 @@ module.exports = {
 					break;
 				}
 			}
+			console.log("below for loop");
+			if(anything){
+				console.log("jsdhfasdfkajsdf")
+				res.statusCode = 400;
+				responseBody.payload = "Interest not found";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
 		}).catch((err) => {
 			console.error(err);
 			responseBody.err = err;
 			res.statusCode = 400;
 			res.write(JSON.stringify(responseBody));
 			res.end();
+			return;
 		});
 	},
 }
