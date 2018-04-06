@@ -293,7 +293,7 @@ export class DatabaseService {
 	
 	deleteInterest(uid: String, sub:String, inter: String): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.delete("http://localhost:3000/deleteInterest/"+uid+"/"+sub+ "/" +inter, this.httpOptions).subscribe((data) => {
+			this.http.delete("http://localhost:3000/deleteInterest/"+uid+"/"+sub+ "/" + inter, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
