@@ -121,12 +121,12 @@ export class SettingsComponent implements OnInit {
 
 	faceShow = false;
 	twitShow = false;
-	linkShow = false;
+	youShow = false;
 	blackShow = false;
 
 	//Social Media Connected Vars
 	inFacebook = false;
-	inLinkedIn = false;
+	inYoutube = false;
 	inBlackboard = false;
 	inTwitter = false;
 
@@ -143,8 +143,6 @@ export class SettingsComponent implements OnInit {
 	inAdd = false;
 	blackInter = false;
 	url;
-
-	 
 
 	onSelectFile(event) {
 		if (event.target.files && event.target.files[0]) {
@@ -190,8 +188,8 @@ toggleDiv(name){
 	else if(name == "twitShow"){
 		this.twitShow = !this.twitShow;
 	}
-	else if(name == "linkShow"){
-		this.linkShow = !this.linkShow;
+	else if(name == "youShow"){
+		this.youShow = !this.youShow;
 	}
 	else if(name == "blackShow"){
 		this.blackShow = !this.blackShow;
@@ -445,6 +443,14 @@ setVisible(number){
 	}
 	handleError(error) {
 		console.error('Error processing action', error);
+	}
+	link_youtube(){
+		window.location.href = 
+			"https://accounts.google.com/o/oauth2/v2/auth"+
+			"?client_id=374666659146-c9n74gdloum89050ckabsfssh0oe4qkl.apps.googleusercontent.com"+
+			"&redirect_uri=http://localhost:4200/settings"+
+			"&response_type=token"+
+			"&scope=https://www.googleapis.com/auth/youtube.readonly"
 	}
 	link_twitter(){
 		console.log("Here");

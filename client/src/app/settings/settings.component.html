@@ -129,7 +129,7 @@
 						</a>
 					</div>
 					<div class="medium-3 column">
-						<a class="social-icon-button youtube" (click)="toggleDiv('linkShow')">
+						<a class="social-icon-button youtube" (click)="toggleDiv('youShow')">
 							<i class="fa fa-youtube-play"></i>
 							<span></span>
 						</a>
@@ -141,7 +141,7 @@
 						</a>
 					</div>
 
-					<div id="connectionSubContent" *ngIf="faceShow || twitShow || linkShow || blackShow">
+					<div id="connectionSubContent" *ngIf="faceShow || twitShow || youShow || blackShow">
 						<div class="medium-3 column social-expanded" id="face-exp" [ngClass]="{'hidden' : !faceShow, 'visible' : faceShow}">
 							<p>Facebook</p>
 							<div class="socialConnect" [ngClass]="{'none' : !inFacebook, 'visible' : inFacebook && faceShow}">
@@ -162,17 +162,17 @@
 							<button (click)="link_twitter()" class="button socialButton" id="link-con">Connect</button>
 							<p class="error">{{errors.twitterE}}</p>
 						</div>
-						<div class="medium-3 column social-expanded" id="you-exp" [ngClass]="{'hidden' : !linkShow, 'visible' : linkShow, 'none' : blackInter}">
+						<div class="medium-3 column social-expanded" id="you-exp" [ngClass]="{'hidden' : !youShow, 'visible' : youShow, 'none' : blackInter}">
 							<p>YouTube</p>
-							<div class="socialConnect" [ngClass]="{'none' : !inLinkedIn, 'visible' : inLinkedIn && linkShow}">
+							<div class="socialConnect" [ngClass]="{'none' : !inYoutube, 'visible' : inYoutube && youShow}">
 								<i class="fa fa-check"></i>
 								<p>Connected</p>
 							</div>
-							<div class="socialNotConnect" [ngClass]="{'none' : inLinkedIn, 'visible' : !inLinkedIn && linkShow}">
+							<div class="socialNotConnect" [ngClass]="{'none' : inYoutube, 'visible' : !inYoutube && youShow}">
 								<i class="fa fa-times"></i>
 								<p>Not Connected</p>
 							</div>
-							<button class="button socialButton" id="link-con">Connect</button>
+							<button (click) = "link_youtube()" class="button socialButton" id="link-con">Connect</button>
 							<button class="button socialButton" id="link-dis">Disconnect</button>
 						</div>
 
