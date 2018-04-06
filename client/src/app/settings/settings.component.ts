@@ -105,7 +105,7 @@ export class SettingsComponent implements OnInit {
 	tvShows: string[] = this.interestObj.tvShows;
 	sports: string[] = this.interestObj.sports;
 	musicGenre: string[] = this.interestObj.musicGenre;
-	interestList = [];
+	interestList;
 
 
 	particlesConfig;
@@ -618,9 +618,9 @@ setVisible(number){
 			console.log(err);
 		})
 	}
-	deleteInterest(sub: String, inter: String){
-		this.interestList.splice(this.interestList.indexOf(inter), 1);
-		this.db.deleteInterest(this.model.user.uid, sub + " " +inter).then((data) => {
+	deleteInterest(sub: string, inter: string){
+		this.interestList[sub][inter] = null;
+		this.db.deleteInterest(this.model.user.uid, sub , inter).then((data) => {
 			console.log(data);
 
 			this.updateInterest();
@@ -632,7 +632,8 @@ setVisible(number){
 	updateInterest(){
 		this.db.getInterests(this.model.user.uid).then((interests) => {
 			this.interestList = interests;
-			console.log(this.interestList);
+			console.log(interests)
+			
 		}).catch((err) => {
 			console.log(err);
 		})
@@ -641,13 +642,9 @@ setVisible(number){
 
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService){
 		
-		
-
-
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:",user)
 		});	
-
 
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;

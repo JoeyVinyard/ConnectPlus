@@ -688,7 +688,7 @@ module.exports = {
 		firebase.database().ref("interests/"+uid).once("value").then((s) => {
 			res.statusCode=200;
 			if(s.val())
-				responseBody.payload = Object.values(s.val());
+				responseBody.payload = s.val();
 			res.write(JSON.stringify(responseBody));
 			res.end();
 			return;
@@ -735,7 +735,7 @@ module.exports = {
 	
 	deleteInterest: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
-		if(!urlData || !urlData[1] || !urlData[2]){
+		if(!urlData || !urlData[1] || !urlData[2] || !urlData[3]){
 			res.statusCode = 400;
 			responseBody.err = "No UID or Class provided";
 			res.write(JSON.stringify(responseBody));
@@ -743,13 +743,14 @@ module.exports = {
 			return;
 		}
 		var uid = urlData[1];
-		var inter = urlData[2];
+		var sub = urlData[2];
+		var inter = urlData[3];
 		inter = inter.replace("%20", " ");
 		firebase.database().ref("interests/"+uid).once("value").then((s) => {
-			var ent = Object.entries(s.val());
+			var ent = s.val();
 			for(var i = 0; i < ent.length; i++){
 				if(ent[i][1] == inter){
-					firebase.database().ref("interests/"+uid+"/"+ent[i][0]).remove().then(() => {
+					firebase.database().ref("interests/"+uid+"/"+ sub + "/" +ent[i][0]).remove().then(() => {
 						res.statusCode = 200;
 						responseBody.payload = true;
 						res.write(JSON.stringify(responseBody));
