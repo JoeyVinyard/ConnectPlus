@@ -143,8 +143,14 @@
 			</div>
 
 			<div class="medium-12 medium-centered column" id="broadcastsDiv" [ngClass]="{' ' : viewBroadcasts, 'none' : !viewBroadcasts}">
-				<div id="broadHeader">
+				<div>
+					<div class="medium-5 column" id="broadHeader">
 						<p>Current Broadcasts</p>
+					</div>
+					<div class="medium-7 column" id="broadHeader">
+							<button class="button bHeaderButton"><i class="fa fa-filter"></i> Filter</button>
+							<button class="button bHeaderButton"><i class="fa fa-plus"></i> Add New</button>
+					</div>
 				</div>
 				<div class="medium-12 column" id="broadContent">
 						<div class="medium-5 medium-centered column" id="broadcastList">
@@ -152,13 +158,23 @@
 									<div class="medium-4 column">
 											<img id="broadPic" [src]="model.user.url"/><br>
 									</div>
-										
-										<p>Subject</p>
-										<p>Issue</p>
+									<div class="medium-8 column">
+										<p class="broadcastText">Subject</p>
+										<p class="broadcastText">Issue</p>
+										<div class="medium-4 column">
+											<button class="button broadButton">View</button>
+										</div>
+									</div>
 								</div>
 						</div>
 						<div class="medium-7 column" id="threadView">
-								<p>Thread View</p>
+							<div id="threadExpanded">
+								<p>Thread Expanded</p>
+							</div>
+							<div id="broadResponse">
+								<input type="text" id="broadInput">
+								<button class="button broadInputButton"><i class="fa fa-paper-plane"></i> Send</button>
+							</div>
 						</div>
 				</div>
 			</div>

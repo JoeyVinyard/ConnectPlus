@@ -226,6 +226,8 @@ setVisible(number){
 		this.model.user.screenName="";
 		this.success.feedbackS = "";
 		this.errors.AgeError = "";
+		this.model.interestSub = "";
+		this.model.interestSelected = "";
 
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;

@@ -404,8 +404,8 @@ agm-map {
 
   #broadHeader{
 	  background: #0076BB;
-	  width: 100%;
-	  height: auto;
+	  /* width: 100%; */
+	  height: 10%;
 	  margin: 0px;
 	  padding: 0px;
 
@@ -413,6 +413,26 @@ agm-map {
 	  font-size: 1.5rem;
 	  color: white;
 	  text-align: center;
+  }
+
+  .bHeaderButton{
+	background: transparent;
+	border: 2px solid white;
+	border-radius: 25px;
+	color: white;
+	margin: 0px;
+	margin-top: 1%;
+	margin-bottom: 1%;
+  }
+
+  .bHeaderButton:hover{
+	background: white;
+	border: 2px solid #004E7F;
+	border-radius: 25px;
+	color: #004E7F;
+	margin: 0px;
+	margin-top: 1%;
+	margin-bottom: 1%;
   }
 
   #broadContent{
@@ -442,18 +462,19 @@ agm-map {
 	margin-left: 2.5%;
 	margin-top: 2.5%; 
 	background: #01A2FF;
-	cursor: pointer;
 
   }
 
   #broadPic{
 	/* width: 11%;
 	height: 11%; */
-	width: 5.5rem;
-	height: 5.5rem;
+	/* width: 5.5rem;
+	height: 5.5rem; */
+	width: 7vw;
+	height: 7vw;
 	margin-left: 5%;
 	margin-top: 0.5rem;
-	border: 4px solid white;
+	border: 2px solid #004E7F;
 	border-radius: 50%;
 
 	object-fit: cover;
@@ -462,4 +483,62 @@ agm-map {
 
   #threadView{
 	height: auto;
+	margin: 0px;
+	padding: 0px;
   }
+
+  .broadcastText{
+	  margin: 0px;
+	  height: auto;
+  }
+
+  .broadButton{
+	  background: transparent;
+	  border: 2px solid #004E7F;
+	  border-radius: 25px;
+	  color: #004E7F;
+  }
+
+  .broadButton:hover{
+	  background: #004E7F;
+	  color: white;
+  }
+
+  #threadExpanded{
+	  height: 78vh;
+	  width: 100%;
+	  position: relative;
+  }
+
+  #broadResponse{
+	  /* height: 10%; */
+	  border-top: 2px solid #004E7F;
+	  width: 100%;
+	  margin: 0px;
+	  padding: 0px;
+	  float: left;
+	  position: relative;
+  }
+
+  #broadInput{
+	  background: transparent;
+	  border-right: 2px solid #004E7F;
+	  width: 85%;
+	  margin: 0px;
+	  padding: 0px;
+	  float: left;
+  }
+
+  .broadInputButton{
+	background: transparent;
+	color: #004E7F;
+	width: 15%;
+	margin: 0px;
+	float: left;
+  }
+
+  .broadInputButton:hover{
+	background: #004E7F;
+	color: white;
+	float: center;
+}
