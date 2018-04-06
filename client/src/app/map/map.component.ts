@@ -16,7 +16,10 @@ export class MapComponent implements OnInit {
   lng: number = this.lng;
 
   editMood = false;
-  editRange = false;
+	editRange = false;
+	viewBroadcasts = false;
+
+	testArray = [1, 2, 3, 4, 5, 6]
 
   nearbyUsers = [];
   filteredUsers =[];
@@ -43,7 +46,11 @@ export class MapComponent implements OnInit {
 
   toggleRange(){
     this.editRange = !this.editRange;
-  }
+	}
+	
+	toggleBroadcasts(){
+		this.viewBroadcasts = !this.viewBroadcasts;
+	}
 
   model = {
     user: new User(),

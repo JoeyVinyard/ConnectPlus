@@ -139,7 +139,28 @@
 			</div>
 
 			<div class="medium-12 medium-centered column" id="settingsDiv">
-				<button class="button mapButton" id="broadcastButton" routerLink="/settings" routerLinkActive="active"><i class="fa fa-bullhorn"></i>	Broadcast</button> <!--fix routing-->
+				<button class="button mapButton" id="broadcastButton" (click)="toggleBroadcasts()"><i class="fa fa-bullhorn"></i>	Broadcasts</button> <!--fix routing-->
+			</div>
+
+			<div class="medium-12 medium-centered column" id="broadcastsDiv" [ngClass]="{' ' : viewBroadcasts, 'none' : !viewBroadcasts}">
+				<div id="broadHeader">
+						<p>Current Broadcasts</p>
+				</div>
+				<div class="medium-12 column" id="broadContent">
+						<div class="medium-5 medium-centered column" id="broadcastList">
+								<div id="broadcastPanel" *ngFor="let num of testArray">
+									<div class="medium-4 column">
+											<img id="broadPic" [src]="model.user.url"/><br>
+									</div>
+										
+										<p>Subject</p>
+										<p>Issue</p>
+								</div>
+						</div>
+						<div class="medium-7 column" id="threadView">
+								<p>Thread View</p>
+						</div>
+				</div>
 			</div>
 			
 		</div>
