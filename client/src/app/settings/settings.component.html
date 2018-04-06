@@ -248,7 +248,7 @@
 				<div id="interestContent" class="medium-12 medium-centered column" *ngIf="intShow">
 					<!-- <form (ngSubmit)="updateInfo()" #signupForm="ngForm"> -->
 						<div class="medium-5 column">
-							<select id="interestSelection" [(ngModel)]="model.interest">
+							<select id="interestSelection" [(ngModel)]="model.interestSub">
 								<option value="sports">Sports</option>
 								<option value="music">Music Genres</option>
 								<option value="animals">Animals</option>
@@ -266,7 +266,7 @@
 								</datalist>
 						</div>
 						<div class="medium-1 column">
-								<button id="interestButton" class="button"><i class="fa fa-plus"></i></button>
+							<button id="interestButton" class="button" (click)="addInterest(model.interestSub,model.interestSelected)"><i class="fa fa-plus"></i></button>
 						</div>
 						<div id="displayInterests" class="medium-12 column">
 							<div class="medium-3 column interestPanel" >
