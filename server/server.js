@@ -3,12 +3,6 @@ var routeHandler = require('./routeHandler.js');
 
 var server = module.exports = http.createServer(function (request, response) {
 		var parsedUrl = request.url.substring(1).split('/');
-<<<<<<< HEAD
-=======
-		//console.log("helllllllooooooo", parsedUrl);
-		// console.log(Object.keys(routeHandler))
-		// console.log(routeFunction) 
->>>>>>> 23905a4d6e6f6233f8cd1ddfbcb954f8bb021e9e
 		console.log(parsedUrl[0])
 		var routeFunction = routeHandler[parsedUrl[0]];
 		if(request.headers.origin){
