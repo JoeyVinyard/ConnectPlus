@@ -293,7 +293,8 @@ export class DatabaseService {
 	
 	deleteInterest(uid: String, sub:String, inter: String): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.delete("http://localhost:3000/deleteInterest/"+uid+"/"+sub+ "/" + inter, this.httpOptions).subscribe((data) => {
+			this.http.delete("http://localhost:3000/deleteInterest/"+uid+"/"+sub+"/"+inter, this.httpOptions).subscribe((data) => {
+				console.log("inside")
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -301,8 +302,6 @@ export class DatabaseService {
 			});
 		})
 	}
-	
-
 	storeYoutubeSubscribers(uid: String, access_token: String): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.get("http://localhost:3000/storeYoutubeSubscribers/"+uid+"/"+access_token, this.httpOptions).subscribe((data) => {
@@ -335,8 +334,6 @@ export class DatabaseService {
 			});
 		})
 	}
-
-
 	constructor(private http: HttpClient) {}
 
 }
