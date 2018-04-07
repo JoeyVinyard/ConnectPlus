@@ -172,8 +172,8 @@
 								<p>Thread Expanded</p>
 							</div>
 							<div id="broadResponse">
-								<input type="text" id="broadInput">
-								<button class="button broadInputButton"><i class="fa fa-paper-plane"></i> Send</button>
+								<input type="text" id="broadInput" [(ngModel)]="broadcastText">
+								<button class="button broadInputButton" (click) = "sendBroadcast()"><i class="fa fa-paper-plane"></i> Send</button>
 							</div>
 						</div>
 				</div>

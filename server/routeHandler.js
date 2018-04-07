@@ -847,6 +847,7 @@ module.exports = {
 			})
 		}
 	},
+
 	getYoutubeSubscriptions(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		var uid = urlData[1];
@@ -923,4 +924,103 @@ module.exports = {
 			})
 		});
 	},
+	storeBroadcast: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var body = "";
+		// console.log(req);
+		req.on('data', function(data){
+			body += data;
+			if(body.length > 1e6){ 
+				req.connection.destroy();
+			}
+		});
+		req.on('end', function() {
+			var data = JSON.parse(body);
+			console.log(data);
+			if(!data || !data.uid){
+				res.statusCode = 400;
+				responseBody.err = "Data or UID not supplied";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
+			firebase.database().ref("broadcasts/" + data.uid).append(data).then(() => {
+				res.statusCode = 200;
+				responseBody.payload = data;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			}).catch((err) => {
+				console.error(err);
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
+		});
+	},
+	getNearbyBroadcasts: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		if(!urlData || !urlData[1]){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		var uid = urlData[1];
+		firebase.database().ref("locations/"+uid).once("value").then((baseLocation) => {
+			if(baseLocation.val() == null){
+				res.statusCode = 400;
+				responseBody.err = "No Location found";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
+			var c1 = {
+				lat: baseLocation.val().lat,
+				lon: baseLocation.val().lon
+			}
+			var p = new Promise((resolve, reject) => {
+				firebase.database().ref("broadcasts").once("value").then((s) => {
+
+					res.statusCode=200;
+					var nearbyUids = [];
+					s.forEach((loc) => {
+						var c2 = {
+							lat: loc.val().lat,
+							lon: loc.val().lon
+						};
+
+						var d = distanceCalc.getDistance(c1,c2);
+						if(d <= 15840 ){//3 miles
+							nearbyUids.push({
+								uid: loc.val().uid,
+								distance: d,
+								lat: loc.val().lat,
+								lon: loc.val().lon,
+								message: loc.val().broadcast
+							});
+						}
+					})
+					resolve(nearbyUids);
+				}).catch((err) => {
+					reject(err);
+				});
+			}).then((closeBroadcasts) => {
+
+					res.statusCode = 200;
+					responseBody.payload = closeBroadcasts;
+					res.write(JSON.stringify(responseBody));
+					res.end();
+			}).catch((err) => {
+				res.statusCode = 400;
+				responseBody.err = err;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			})
+		})
+	},
+
+
 }

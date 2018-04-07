@@ -346,8 +346,41 @@ export class DatabaseService {
 			});
 		})
 	}
-
-
+	storeBroadcast(uid, loc, broadcast): Promise<any>{
+		return new Promise((resolve, reject) => {
+			var broadcastObject = {
+				lat: 0,
+				lon: 0,
+				uid: "",
+				broadcast: ""
+			}
+			if(!!loc){
+				broadcastObject.lat = loc.latitude;
+				broadcastObject.lon = loc.longitude;
+				broadcastObject.uid = uid;
+				broadcastObject.broadcast = broadcast;
+			}else{
+				reject("Invalid broadcast object");
+			}
+			console.log(broadcastObject);
+			this.http.post("http://localhost:3000/storeBroadcast", JSON.stringify(broadcastObject), this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		});
+	}
+	getNearbyBroadcasts(uid: string): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get("http://localhost:3000/getNearbyBroadcasts/"+uid, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		})
+	}
 	constructor(private http: HttpClient) {}
 
 }

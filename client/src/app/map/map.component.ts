@@ -12,23 +12,24 @@ import { LocationService } from '../services/location.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-  lat: number = this.lat;
-  lng: number = this.lng;
+	lat: number = this.lat;
+	lng: number = this.lng;
 
-  editMood = false;
+	editMood = false;
 	editRange = false;
 	viewBroadcasts = false;
 
 	testArray = [1, 2, 3, 4, 5, 6]
 
-  nearbyUsers = [];
-  filteredUsers =[];
-  displayedUser: any={};
+	broadcastText = "";
+	nearbyUsers = [];
+	filteredUsers =[];
+	displayedUser: any={};
 
-  refreshMap(){
-    this.auth.getUser().then((u) => {
-      this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
-        console.log("Nearby:",nearbyUsers);
+	refreshMap(){
+		this.auth.getUser().then((u) => {
+			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+				console.log("Nearby:",nearbyUsers);
 
 				this.nearbyUsers = nearbyUsers;
 				//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
@@ -411,8 +412,10 @@ export class MapComponent implements OnInit {
 
           db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
             console.log("Followees: ", twitterFollowees);
-          })
-
+          });
+          db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
+          	console.log("Broadcasts: ", broadcasts);
+          });
           db.getNearbyUsers(u.uid).then((nearbyUsers) => {
             console.log("Nearby:",nearbyUsers);
 
@@ -705,5 +708,18 @@ export class MapComponent implements OnInit {
 		}).catch((err) => {
 			console.log(err);
 		})
+	}
+
+	sendBroadcast(){
+		var location = {
+			latitude: this.lat,
+			longitude: this.lng
+		};
+		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText).then((data) => {
+			console.log("broadcast sent");
+		}).catch((err) => {
+			console.error(err);
+		})
+		console.log(this.broadcastText);
 	}
 }
