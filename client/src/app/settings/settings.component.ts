@@ -36,7 +36,8 @@ export class SettingsComponent implements OnInit {
 		pass: "",
 		cred: "",
 		//twitter error
-		twitterE: ""
+		twitterE: "",
+		feedbackE:""
 	}
 	success = {
 		//change email success
@@ -164,47 +165,47 @@ export class SettingsComponent implements OnInit {
 
 
 
-toggleDiv(name){
+	toggleDiv(name){
 
-	if(name == "invShow"){
-		this.invShow = !this.invShow;
+		if(name == "invShow"){
+			this.invShow = !this.invShow;
+		}
+		else if(name == "genShow"){
+			this.genShow = !this.genShow;
+		}
+		else if(name == "secShow"){
+			this.secShow = !this.secShow;
+		}
+		else if(name == "conShow"){
+			this.conShow = !this.conShow;
+		}
+		else if(name == "intShow"){
+			this.intShow = !this.intShow;
+		}
+		else if(name == "fedShow"){
+			this.fedShow = !this.fedShow;
+		}
+		else if(name == "delShow"){
+			this.delShow = !this.delShow;
+		}
+		else if(name == "faceShow"){
+			this.faceShow = !this.faceShow;
+		}
+		else if(name == "twitShow"){
+			this.twitShow = !this.twitShow;
+		}
+		else if(name == "youShow"){
+			this.youShow = !this.youShow;
+		}
+		else if(name == "blackShow"){
+			this.blackShow = !this.blackShow;
+		}
+		this.clearing();
 	}
-	else if(name == "genShow"){
-		this.genShow = !this.genShow;
+	setVisible(number){
+		this.visibility = number;
+			//this.model.user.visability = number;
 	}
-	else if(name == "secShow"){
-		this.secShow = !this.secShow;
-	}
-	else if(name == "conShow"){
-		this.conShow = !this.conShow;
-	}
-	else if(name == "intShow"){
-		this.intShow = !this.intShow;
-	}
-	else if(name == "fedShow"){
-		this.fedShow = !this.fedShow;
-	}
-	else if(name == "delShow"){
-		this.delShow = !this.delShow;
-	}
-	else if(name == "faceShow"){
-		this.faceShow = !this.faceShow;
-	}
-	else if(name == "twitShow"){
-		this.twitShow = !this.twitShow;
-	}
-	else if(name == "youShow"){
-		this.youShow = !this.youShow;
-	}
-	else if(name == "blackShow"){
-		this.blackShow = !this.blackShow;
-	}
-	this.clearing();
-}
-setVisible(number){
-	this.visibility = number;
-		//this.model.user.visability = number;
-}
 	clearing(){
 		this.errors.email = "";
 		this.errors.pass = "";
@@ -225,6 +226,7 @@ setVisible(number){
 		this.errors.twitterE = "";
 		this.model.user.screenName="";
 		this.success.feedbackS = "";
+		this.errors.feedbackE = "";
 		this.errors.AgeError = "";
 		this.model.interestSub = "";
 		this.model.interestSelected = "";
@@ -618,9 +620,8 @@ setVisible(number){
 	}
 
     addInterest(sub: String, inter: String){
-				console.log(sub + " " + inter);
-				this.model.interestSelected = ""
-
+		console.log(sub + " " + inter);
+		this.model.interestSelected = "";
 		this.db.addInterest(this.model.user.uid, sub , inter).then((success) => {
 				this.model.interestSelected = ""
 
@@ -666,6 +667,27 @@ setVisible(number){
 		return this.arrayOfInterestKeys;
 
 	}
+
+
+addFeedback(feedback: String){
+	if(this.model.feedback){
+		this.db.addFeedback(feedback).then((success) => {
+				this.model.feedback = "";
+				this.success.feedbackS = "Thank you for your feedback. It has been sent to our developers."
+			//this.interestList = [];
+			console.log("why")
+			
+		}).catch((err) => {
+			this.errors.feedbackE = "Looks like there was an error. Please try again."
+			console.log(err);
+		})
+	} else {
+		this.errors.feedbackE = "Looks like you are tyring to submit nothing."
+
+	}
+	}
+
+
 
 
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private ar: ActivatedRoute, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService, private loc: Location){

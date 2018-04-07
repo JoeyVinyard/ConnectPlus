@@ -259,8 +259,6 @@ export class DatabaseService {
 		})
 	}
 
-
-///Not sure if this is correct!
 	getInterests(uid: String): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.get("http://localhost:3000/getInterests/"+uid, this.httpOptions).subscribe((data) => {
@@ -334,6 +332,22 @@ export class DatabaseService {
 			});
 		})
 	}
+	addFeedback(feedback:String): Promise<any>{
+		var feedbackObject = {
+			
+			feedback: feedback
+		}
+		return new Promise((resolve, reject) => {
+			this.http.post("http://localhost:3000/addFeedback", JSON.stringify(feedbackObject),this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
+
+
 	constructor(private http: HttpClient) {}
 
 }

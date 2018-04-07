@@ -890,5 +890,37 @@ module.exports = {
 			res.write(JSON.stringify(responseBody));
 			res.end();
 		})
-	}
+	},
+	addFeedback: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var body = "";
+		req.on('data', function (data) {
+			body += data;
+			if(body.length > 1e6){ 
+				req.connection.destroy();
+			}
+		});
+		req.on('end', function () {
+			var data = JSON.parse(body);
+			if(!data || !data.feedback){
+				res.statusCode = 400;
+				responseBody.err = "Data not supplied";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
+			firebase.database().ref("feedback/").push(data.feedback).then(() => {
+				res.statusCode = 200;
+				responseBody.payload = data;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			}).catch((err) => {
+				console.error(err);
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
+		});
+	},
 }

@@ -289,7 +289,8 @@
 						<textarea class="textInput" rows="4" cols="50" [(ngModel)]="model.feedback">></textarea>
 					</div>
 					<p class="success">{{success.feedbackS}}</p>
-					<button (click)="feedback()" class="button saveButton">Submit</button>
+					<p class="error">{{errors.feedbackE}}</p>
+					<button (click)="addFeedback(model.feedback)" class="button saveButton">Submit</button>
 				</div>
 			</div>
 
