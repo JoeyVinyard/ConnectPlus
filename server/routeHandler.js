@@ -944,7 +944,7 @@ module.exports = {
 				res.end();
 				return;
 			}
-			firebase.database().ref("broadcasts/" + data.uid).append(data).then(() => {
+			firebase.database().ref("broadcasts/").push(data).then(() => {
 				res.statusCode = 200;
 				responseBody.payload = data;
 				res.write(JSON.stringify(responseBody));

@@ -166,10 +166,10 @@
 						</select>
 					</div>
 					<div class="medium-5 column">
-						<input type="text" id="newBroadInput" placeholder="Message">
+						<input type="text" id="newBroadInput" placeholder="Message" [(ngModel)]="broadcastText">
 					</div>
 					<div class="medium-2 column">
-						<button class="button newBroadButton"><i class="fa fa-bullhorn"></i> Broadcast</button>
+						<button class="button newBroadButton"(click) = "sendBroadcast()"><i class="fa fa-bullhorn"></i> Broadcast</button>
 					</div>
 				</div>
 				<div class="medium-12 column" id="filterBroadcast" [ngClass]="{' ' : filterBroadcast, 'none' : !filterBroadcast }"> 
@@ -227,8 +227,8 @@
 								</div>
 							</div>
 							<div id="broadResponse">
-								<input type="text" id="broadInput" [(ngModel)]="broadcastText">
-								<button class="button broadInputButton" (click) = "sendBroadcast()"><i class="fa fa-paper-plane"></i> Send</button>
+								<input type="text" id="broadInput">
+								<button class="button broadInputButton"><i class="fa fa-paper-plane"></i> Send</button>
 							</div>
 						</div>
 				</div>
