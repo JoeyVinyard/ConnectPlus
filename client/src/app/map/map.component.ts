@@ -18,6 +18,8 @@ export class MapComponent implements OnInit {
   editMood = false;
 	editRange = false;
 	viewBroadcasts = false;
+	newBroadcast = false;
+	filterBroadcast = false;
 
 	testArray = [1, 2, 3, 4, 5, 6]
 
@@ -50,6 +52,20 @@ export class MapComponent implements OnInit {
 	
 	toggleBroadcasts(){
 		this.viewBroadcasts = !this.viewBroadcasts;
+	}
+
+	toggleNewBroadcast(){
+		this.newBroadcast = !this.newBroadcast;
+		if(this.filterBroadcast){
+			this.filterBroadcast = false;
+		}
+	}
+
+	toggleFilterBroadcast(){
+		this.filterBroadcast = !this.filterBroadcast;
+		if(this.newBroadcast){
+			this.newBroadcast = false;
+		}
 	}
 
   model = {
