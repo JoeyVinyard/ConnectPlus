@@ -524,13 +524,12 @@ agm-map {
 	background: transparent;
 	border: 2px solid  #0076BB;
 	border-radius: 25px;
-	color:  #0076BB;
+	color:  white;
 }
 
 .newBroadButton:hover{
-	background: #004E7F;
-	color: #01A2FF;
-	border: 2px solid #01A2FF;
+	background: #0076BB;
+	border: 2px solid #0076BB;
 }
 
 #filterBroadcast{
@@ -572,6 +571,65 @@ agm-map {
 	  height: 78vh;
 	  width: 100%;
 	  position: relative;
+	  overflow: scroll;
+  }
+
+  #threadHeader{
+	  background: #dbdbdb;
+	  border: 2px solid #004E7F;
+	  border-top-left-radius: 25px;
+	  border-top-right-radius: 25px;
+	  margin-top: 2.5%;
+	  width: 95%;
+	  height: 20%;
+	  margin-left: 2.5%;
+  }
+
+  #threadUser{
+	  margin-bottom: 1.5%;
+  }
+
+  #threadPic{
+	  /* width: 11%;
+	height: 11%; */
+	/* width: 5.5rem;
+	height: 5.5rem; */
+	width: 5vw;
+	height: 5vw;
+	/* margin-left: 10%; */
+	margin-top: 0.5rem;
+	border: 2px solid #004E7F;
+	border-radius: 50%;
+
+	object-fit: cover;
+	pointer-events: none;
+  }
+
+  #commentPic{
+	/* width: 11%;
+	height: 11%; */
+	/* width: 5.5rem;
+	height: 5.5rem; */
+	width: 3vw;
+	height: 3vw;
+	margin-left: 5%;
+	margin-top: 5%;
+	border: 2px solid #004E7F;
+	border-radius: 50%;
+
+	object-fit: cover;
+	pointer-events: none;
+  }
+
+  #threadComment{
+	min-height: 10%;
+	height: auto;
+	width: 90%;
+	margin-left: 7.5%;
+	border: 2px solid #004E7F;
+	border-top: none;
+	float: left;
+	background: #f4f4f4;
   }
 
   #broadResponse{
