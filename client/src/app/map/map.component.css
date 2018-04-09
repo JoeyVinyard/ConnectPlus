@@ -665,3 +665,106 @@ agm-map {
 	color: white;
 	float: center;
 }
+
+#messagesDiv{
+	border: 2px solid #004E7F;
+	border-radius: 25px;
+	margin: 0px;
+	padding: 0px;
+	margin-bottom: 1rem;
+	color: #004E7F;
+	height: 95vh;
+	overflow: hidden;
+	float: left;
+
+	position: relative;
+	z-index: 1;
+  
+}
+
+#messagesPanel{
+	border-bottom: 2px solid #004E7F;
+	width: 100%;
+	height: 20%;
+	float: center;
+	position: relative;
+	/* margin-left: 2.5%; */
+	/* margin-top: 2.5%;  */
+	cursor: pointer;
+}
+
+#messagesPanel:hover{
+	background: #01A2FF;
+}
+
+#messagesPic{
+	width: 6vw;
+	height: 6vw;
+	margin-left: 5%;
+	margin-top: 10%;
+	border: 2px solid #004E7F;
+	border-radius: 50%;
+
+	object-fit: cover;
+	pointer-events: none;
+}
+
+#messagesInfo{
+	margin-top: 0.75rem;
+}
+
+#messagesText{
+	font-size: 1.25vw;
+	margin: 0px;
+	padding: 0px;
+}
+
+#messagesView{
+	/* padding-top: 2.5%; */
+	/* width: 100%; */
+	margin: 0px;
+	padding: 0px;
+}
+
+#messagesThread{
+	height: 78vh;
+	width: 100%;
+	position: relative;
+	overflow: scroll;
+	padding-top: 2.5%;
+}
+
+#messageResponse{
+	border-top: 2px solid #004E7F;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	float: left;
+	position: relative;
+}
+
+#message{
+	width: 25%;
+	height: auto;
+	color: #004E7F;
+	padding-left: 2.5%;
+	padding-top: 1%;
+}
+
+.messageLeft{
+	margin-left: 5%;
+	background: #f4f4f4;
+	border: 2px solid #dbdbdb;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+	border-bottom-right-radius: 25px;
+}
+
+.messageRight{
+	margin-left: 70%;
+	background: #01A2FF;
+	border: 2px solid #0076BB;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+	border-bottom-left-radius: 25px;
+}

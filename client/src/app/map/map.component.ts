@@ -21,6 +21,8 @@ export class MapComponent implements OnInit {
 	newBroadcast = false;
 	filterBroadcast = false;
 
+	viewMessages = false;
+
 	testArray = [1, 2, 3, 4, 5, 6]
 
 	broadcastText = "";
@@ -53,6 +55,16 @@ export class MapComponent implements OnInit {
 	
 	toggleBroadcasts(){
 		this.viewBroadcasts = !this.viewBroadcasts;
+		if(this.viewMessages){
+			this.viewMessages = false;
+		}
+	}
+
+	toggleMessages(){
+		this.viewMessages = !this.viewMessages;
+		if(this.viewBroadcasts){
+			this.viewBroadcasts = false;
+		}
 	}
 
 	toggleNewBroadcast(){
