@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
+import { Commonalities } from '../services/commonalities';
 import { DatabaseService } from '../services/database.service';
 import { LocationService } from '../services/location.service';
 
@@ -30,7 +31,15 @@ export class MapComponent implements OnInit {
 	nearbyUsers = [];
 	filteredUsers =[];
 	displayedUser: any={};
-	facebookCommon = 0;;
+	facebookCommon: number = 0;
+
+
+commonMap = new Map();
+	CommonUsersList = [];
+	CommonUsersListtemp = [];
+	temp;
+	holder;
+
 
 
 
@@ -38,7 +47,7 @@ export class MapComponent implements OnInit {
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 				console.log("Nearby:",nearbyUsers);
-
+				this.getCommon();
 				this.nearbyUsers = nearbyUsers;
 				//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 				this.maintainFilter();
@@ -100,14 +109,10 @@ export class MapComponent implements OnInit {
     mood: ""
   }
 
-  common = {
-  	user: User,
-  	facebook: 0,
-
-
-
+  commonalities = {
+  	commonalities: new Commonalities(),
   }
-  CommonUsers = [this.common];
+ 
 
 
   MoodStatus = "Mood Status";
@@ -480,6 +485,10 @@ export class MapComponent implements OnInit {
 								this.nearbyUsers = nearbyUsers;
 								// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 								this.maintainFilter();
+								this.generateCommonMap();
+								this.getCommon();
+	
+								
 
 		          }).catch((err) => {
 		            console.error(err);
@@ -489,8 +498,9 @@ export class MapComponent implements OnInit {
 		        })
 		      })
 		    })
-
-this.getCommon();
+			// this.generateCommonMap();
+			// this.getCommon();
+	
 		    // this.auth.isAuthed().then((user) => {
 		    //   console.log("Authed:",user)
 		    //   this.model.user.uid = user.uid;
@@ -649,53 +659,60 @@ this.getCommon();
   }
 
   filterUsersBasedOnFacebook(num:number) {
-  	
-	  	var filterUsersArray = [];
-	  	if(true /*check facebook thing*/){
+	  	// this.facebookCommon = 0;
+		  	var filterUsersArray = [];
+		  	if(true /*check facebook thing*/){
 
-	  		this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
-	  			var friendMap = new Map();
+		  		this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
+		  			var friendMap = new Map();
 
-	  			friends.forEach((friend) => {
-	  				friendMap.set(friend, 1);
-	  				
-	  			});
-	  			var p = new Promise((resolve, reject) => {
-	  				this.filteredUsers.forEach((user) => {
-	  					this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
-	  						var match = false;
-	  						nearbyFriend.forEach((friend) => {
-									//console.log(friend);
-									if(friendMap.get(friend)){
-										match = true;
-										this.facebookCommon++;
-									}
-								});
+		  			friends.forEach((friend) => {
+		  				friendMap.set(friend, 1);
+		  				
+		  			});
+		  			var p = new Promise((resolve, reject) => {
+		  				this.filteredUsers.forEach((user) => {
+		  					this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
+		  						var match = false;
+		  						nearbyFriend.forEach((friend) => {
+										//console.log(friend);
+										if(friendMap.get(friend)){
+											match = true;
 
-	  						if(match){
+											this.facebookCommon = this.facebookCommon +1;
+											this.holder = this.commonMap.get(user.uid);
+											this.holder.facebookNum = this.facebookCommon;
+											this.holder.facebook = true;
+											this.commonMap.delete(user.uid);
+											this.commonMap.set(user.uid, this.holder);
+											
+										}
+									});
 
-									filterUsersArray.push(user);
-	  						}									
-	  						resolve(filterUsersArray);
-	  					}).catch((err) => {
-	  						console.log(err);
-	  						reject(err);
-	  					});
-	  				});
-	  			}).then((users: any) => {
-	  				if(num === 0) {
-	  					this.filteredUsers = filterUsersArray;
-	  					console.log("Filtered Users Facebook:", filterUsersArray); 
-	  				}
-	  				else {
-	  
-	  					// console.log(this.facebookCommon);
-	  				}
-	  			});
-	  		}).catch((err) => {
-	  			console.error(err);
-	  		});
-	  	}
+		  						if(match){
+
+										filterUsersArray.push(user);
+		  						}									
+		  						resolve(filterUsersArray);
+		  					}).catch((err) => {
+		  						console.log(err);
+		  						reject(err);
+		  					});
+		  				});
+		  			}).then((users: any) => {
+		  				if(num === 0) {
+		  					this.filteredUsers = filterUsersArray;
+		  					console.log("Filtered Users Facebook:", filterUsersArray); 
+		  				}
+		  				else {
+		  						//this.temp.facebook = this.facebookCommon;
+		  					 console.log("facebookcommon", this.commonMap);
+		  				}
+		  			});
+		  		}).catch((err) => {
+		  			console.error(err);
+		  		});
+		  	}
   }
 
   filterUsersBasedOnTwitter(){
@@ -792,20 +809,11 @@ this.getCommon();
 
 
 
-	CommonUsersList = [];
-	tempCommon;
-	clearCommon(common){
-		//this.common.user = null;
-		//this.common.facebook = 0;
-		common =  this.common;
+	
+	
 
-	}
-	getCommon(){
+	generateCommonMap(){
 		console.log("i got called");
-		
-		// this.facebookCommon = 0;
-		// this.filterUsersBasedOnFacebook(1);
-
 		this.auth.getUser().then((u) => {
 					this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 						console.log("Nearby:",nearbyUsers);
@@ -817,26 +825,42 @@ this.getCommon();
 						this.CommonUsersList = this.nearbyUsers;
 						nearbyUsers.forEach((nearbyUser) => {
 							//console.log("check if diff", nearbyUser);
-							this.facebookCommon = 0;
 							this.filterUsersBasedOnFacebook(1);
-							this.common.user = nearbyUser;
-							//console.log("are the users stored:" , this.common.user)
-							this.common.facebook = this.facebookCommon;
-							this.CommonUsers.push(this.common);
-							console.log("are the common  stored:" , this.common)
+							
+							// console.log(this.facebookCommon)
+							//this.facebookCommon = 0;
+							this.temp = new Commonalities();
+							console.log(this.facebookCommon)
 
-							this.clearCommon(this.common);
+							this.temp.uid = nearbyUser.uid;
+							this.temp.facebook = false;
+							this.temp.facebookNum = 0;
+							//console.log("the uid", nearbyUser.uid);
+							//this.CommonUsersListtemp.push(this.temp);
+							this.commonMap.set(nearbyUser.uid, this.temp);
+							//console.log(this.commonMap)
+							
 	  						
 	  					});
-		
-						//console.log("check if this worked", this.CommonUsers)
+	  					// this.getCommon();
+	  					// this.getCommon();
 
+						// console.log("check if this worked", this.commonMap)
 
+						
 		      }).catch((err) => {
 		        console.error(err);
 		      })
 		    })
+	
 
+
+	}
+	getCommon(){
+
+		this.filterUsersBasedOnFacebook(1);
+
+		console.log("facebookcommon", this.commonMap);
 
 	}
 }
