@@ -191,13 +191,13 @@
 					</div>
 				<div class="medium-12 column" id="broadContent">
 						<div class="medium-5 medium-centered column" id="broadcastList">
-								<div id="broadcastPanel" *ngFor="let num of testArray">
+								<div id="broadcastPanel" *ngFor="let broad of broadcasts">
 									<div class="medium-4 column">
-											<img id="broadPic" [src]="model.user.url"/><br>
+											<img id="broadPic" [src]="broad.user.url"/><br>
 									</div>
 									<div class="medium-8 column">
-										<p class="broadcastText">Subject</p>
-										<p class="broadcastText">Message</p>
+										<p class="broadcastText">Subject (Will be set later)</p>
+										<p class="broadcastText">{{broad.message}}</p>
 										<div class="medium-4 column">
 											<button class="button broadButton">View</button>
 										</div>
