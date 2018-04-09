@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
+import { Commonalities } from '../services/commonalities';
 import { DatabaseService } from '../services/database.service';
 import { LocationService } from '../services/location.service';
 
@@ -30,9 +31,7 @@ export class MapComponent implements OnInit {
 	nearbyUsers = [];
 	filteredUsers = [];
 	displayedUser: any = {};
-	facebookCommon = 0;
-
-
+	facebookCommon: number = 0;
 
 	interestObject: any = {};
 	interestKeys = [];
@@ -40,11 +39,21 @@ export class MapComponent implements OnInit {
 	currentFilter = "";
 	currentFilterArray = [];
 
+
+	commonMap = new Map();
+	CommonUsersList = [];
+	CommonUsersListtemp = [];
+	temp;
+	holder;
+
+
+
+
 	refreshMap() {
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
-
+				this.getCommon();
 				this.nearbyUsers = nearbyUsers;
 				//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 				this.maintainFilter();
@@ -106,14 +115,10 @@ export class MapComponent implements OnInit {
 		mood: ""
 	}
 
-	common = {
-		user: User,
-		facebook: 0,
-
-
-
+	commonalities = {
+		commonalities: new Commonalities(),
 	}
-	CommonUsers = [this.common];
+
 
 
 	MoodStatus = "Mood Status";
@@ -226,71 +231,72 @@ export class MapComponent implements OnInit {
 			}).catch((err) => {
 				console.error(err);
 				//this.errors.changeInfoE = "Your information has NOT been updated!"
-
 				//Form rejected for some reason
 			})
 			//this.success.changeInfoS = "Your information has been updated!"
-
 		});
+
+
+
 	}
 
 	addFilter() {
-		if (this.currentFilterArray.indexOf(this.currentFilter) == -1) {
-			this.currentFilterArray.push(this.currentFilter);
-		}
+        if (this.currentFilterArray.indexOf(this.currentFilter) == -1) {
+            this.currentFilterArray.push(this.currentFilter);
+        }
 
-		console.log("Filter Added: " + this.currentFilter);
-		if (this.currentFilter == "Facebook") {
-			this.model.user.filterFacebook = true;
-			this.facebookFilter()
-		}
-		else if (this.currentFilter == "Twitter") {
-			this.model.user.filterTwitter = true;
-			this.twitterFilter();
-		}
-		else if (this.currentFilter == "Youtube") {
-			//do something eventually
-		}
-		else if (this.currentFilter == "Blackboard") {
-			this.model.user.filterBlackBoard = true;
-			this.blackboardFilter();
-		}
-		else {
-			//interest filtering
-			this.model.user.filteredInterests.push(this.currentFilter);
-		}
-	}
+        console.log("Filter Added: " + this.currentFilter);
+        if (this.currentFilter == "Facebook") {
+            this.model.user.filterFacebook = true;
+            this.facebookFilter()
+        }
+        else if (this.currentFilter == "Twitter") {
+            this.model.user.filterTwitter = true;
+            this.twitterFilter();
+        }
+        else if (this.currentFilter == "Youtube") {
+            //do something eventually
+        }
+        else if (this.currentFilter == "Blackboard") {
+            this.model.user.filterBlackBoard = true;
+            this.blackboardFilter();
+        }
+        else {
+            //interest filtering
+            this.model.user.filteredInterests.push(this.currentFilter);
+        }
+    }
 
-	removeFilter(filter) {
-		console.log("Filter Removed: " + filter);
-		// var index = this.currentFilterArray.indexOf(filter);
-		// this.currentFilterArray.splice(index, 1);
+    removeFilter(filter) {
+        console.log("Filter Removed: " + filter);
+        // var index = this.currentFilterArray.indexOf(filter);
+        // this.currentFilterArray.splice(index, 1);
 
-		if (filter == "Facebook") {
-			this.model.user.filterFacebook = false;
-			this.maintainFilter();
-		}
-		else if (filter == "Twitter") {
-			this.model.user.filterTwitter = false;
-			this.maintainFilter();
-			// this.twitterFilter();
-		}
-		else if (filter == "Youtube") {
-			this.maintainFilter();
-			//do something eventually
-		}
-		else if (filter == "Blackboard") {
-			this.model.user.filterBlackBoard = false;
-			this.maintainFilter();
-			// this.blackboardFilter();
-		}
-		else {
-			//interest filtering
-			var index = this.model.user.filteredInterests.indexOf(filter);
-			this.model.user.filteredInterests.splice(index, 1);
-			this.maintainFilter();
-		}
-	}
+        if (filter == "Facebook") {
+            this.model.user.filterFacebook = false;
+            this.maintainFilter();
+        }
+        else if (filter == "Twitter") {
+            this.model.user.filterTwitter = false;
+            this.maintainFilter();
+            // this.twitterFilter();
+        }
+        else if (filter == "Youtube") {
+            this.maintainFilter();
+            //do something eventually
+        }
+        else if (filter == "Blackboard") {
+            this.model.user.filterBlackBoard = false;
+            this.maintainFilter();
+            // this.blackboardFilter();
+        }
+        else {
+            //interest filtering
+            var index = this.model.user.filteredInterests.indexOf(filter);
+            this.model.user.filteredInterests.splice(index, 1);
+            this.maintainFilter();
+        }
+    }
 
 	sportsFilter() {
 		this.auth.getUser().then((user) => {
@@ -429,56 +435,56 @@ export class MapComponent implements OnInit {
 	}
 
 	maintainFilter() {
-		this.filteredUsers = this.nearbyUsers;
-		this.currentFilterArray = [];
-		var count = 0;
+        this.filteredUsers = this.nearbyUsers;
+        this.currentFilterArray = [];
+        var count = 0;
 
-		if (this.model.user.filterSports) {
-			this.filterUsersBasedOnSports();
-			count++;
-		}
-		if (this.model.user.filterMusic) {
-			this.filterUsersBasedOnMusic();
-			count++;
-		}
-		if (this.model.user.filterFood) {
-			this.filterUsersBasedOnFood();
-			count++;
-		}
-		if (this.model.user.filterFacebook) {
-			this.currentFilterArray.push("Facebook");
-			this.filterUsersBasedOnFacebook(0);
-			count++;
-		}
-		if (this.model.user.filterTwitter) {
-			this.currentFilterArray.push("Twitter")
-			this.filterUsersBasedOnTwitter();
-			count++;
-		}
-		if (this.model.user.filterLinkedIn) {
+        if (this.model.user.filterSports) {
+            this.filterUsersBasedOnSports();
+            count++;
+        }
+        if (this.model.user.filterMusic) {
+            this.filterUsersBasedOnMusic();
+            count++;
+        }
+        if (this.model.user.filterFood) {
+            this.filterUsersBasedOnFood();
+            count++;
+        }
+        if (this.model.user.filterFacebook) {
+            this.currentFilterArray.push("Facebook");
+            this.filterUsersBasedOnFacebook(0);
+            count++;
+        }
+        if (this.model.user.filterTwitter) {
+            this.currentFilterArray.push("Twitter")
+            this.filterUsersBasedOnTwitter();
+            count++;
+        }
+        if (this.model.user.filterLinkedIn) {
 
-			count++;
-		}
-		if (this.model.user.filterBlackBoard) {
-			this.currentFilterArray.push("Blackboard")
-			this.filterUsersBasedOnBlackboard();
-			count++;
-		}
+            count++;
+        }
+        if (this.model.user.filterBlackBoard) {
+            this.currentFilterArray.push("Blackboard")
+            this.filterUsersBasedOnBlackboard();
+            count++;
+        }
 
-		if (this.model.user.filteredInterests.length != 0) {
-			for (var i = 0; i < this.model.user.filteredInterests.length; i++) {
-				if(this.model.user.filteredInterests[i] != ""){
-					this.currentFilterArray.push(this.model.user.filteredInterests[i]);
-					//call filterInterest([i])
-					count++;
-				}
-			}
-		}
+        if (this.model.user.filteredInterests.length != 0) {
+            for (var i = 0; i < this.model.user.filteredInterests.length; i++) {
+                if(this.model.user.filteredInterests[i] != ""){
+                    this.currentFilterArray.push(this.model.user.filteredInterests[i]);
+                    //call filterInterest([i])
+                    count++;
+                }
+            }
+        }
 
-		if (count == 0) {
-			this.filteredUsers = this.nearbyUsers;
-		}
-	}
+        if (count == 0) {
+            this.filteredUsers = this.nearbyUsers;
+        }
+    }
 
 	particlesConfig;
 	submitted = false;
@@ -566,6 +572,10 @@ export class MapComponent implements OnInit {
 						this.nearbyUsers = nearbyUsers;
 						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 						this.maintainFilter();
+						this.generateCommonMap();
+						this.getCommon();
+
+
 
 					}).catch((err) => {
 						console.error(err);
@@ -575,12 +585,12 @@ export class MapComponent implements OnInit {
 				})
 			})
 		})
+		// this.generateCommonMap();
+		// this.getCommon();
 
-		this.getCommon();
 		// this.auth.isAuthed().then((user) => {
 		//   console.log("Authed:",user)
 		//   this.model.user.uid = user.uid;
-
 		// });  
 	}
 
@@ -735,7 +745,7 @@ export class MapComponent implements OnInit {
 	}
 
 	filterUsersBasedOnFacebook(num: number) {
-
+		// this.facebookCommon = 0;
 		var filterUsersArray = [];
 		if (true /*check facebook thing*/) {
 
@@ -754,7 +764,14 @@ export class MapComponent implements OnInit {
 								//console.log(friend);
 								if (friendMap.get(friend)) {
 									match = true;
-									this.facebookCommon++;
+
+									this.facebookCommon = this.facebookCommon + 1;
+									this.holder = this.commonMap.get(user.uid);
+									this.holder.facebookNum = this.facebookCommon;
+									this.holder.facebook = true;
+									this.commonMap.delete(user.uid);
+									this.commonMap.set(user.uid, this.holder);
+
 								}
 							});
 
@@ -774,8 +791,8 @@ export class MapComponent implements OnInit {
 						console.log("Filtered Users Facebook:", filterUsersArray);
 					}
 					else {
-
-						// console.log(this.facebookCommon);
+						//this.temp.facebook = this.facebookCommon;
+						console.log("facebookcommon", this.commonMap);
 					}
 				});
 			}).catch((err) => {
@@ -878,20 +895,11 @@ export class MapComponent implements OnInit {
 
 
 
-	CommonUsersList = [];
-	tempCommon;
-	clearCommon(common) {
-		//this.common.user = null;
-		//this.common.facebook = 0;
-		common = this.common;
 
-	}
-	getCommon() {
+
+
+	generateCommonMap() {
 		console.log("i got called");
-
-		// this.facebookCommon = 0;
-		// this.filterUsersBasedOnFacebook(1);
-
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
@@ -899,30 +907,43 @@ export class MapComponent implements OnInit {
 				this.nearbyUsers = nearbyUsers;
 				//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 				//this.maintainFilter();
-
 				this.CommonUsersList = this.nearbyUsers;
 				nearbyUsers.forEach((nearbyUser) => {
 					//console.log("check if diff", nearbyUser);
-					this.facebookCommon = 0;
 					this.filterUsersBasedOnFacebook(1);
-					this.common.user = nearbyUser;
-					//console.log("are the users stored:" , this.common.user)
-					this.common.facebook = this.facebookCommon;
-					this.CommonUsers.push(this.common);
-					console.log("are the common  stored:", this.common)
 
-					this.clearCommon(this.common);
+					// console.log(this.facebookCommon)
+					//this.facebookCommon = 0;
+					this.temp = new Commonalities();
+					console.log(this.facebookCommon)
+
+					this.temp.uid = nearbyUser.uid;
+					this.temp.facebook = false;
+					this.temp.facebookNum = 0;
+					//console.log("the uid", nearbyUser.uid);
+					//this.CommonUsersListtemp.push(this.temp);
+					this.commonMap.set(nearbyUser.uid, this.temp);
+					//console.log(this.commonMap)
+
 
 				});
-
-				//console.log("check if this worked", this.CommonUsers)
-
+				// this.getCommon();
+				// this.getCommon();
+				// console.log("check if this worked", this.commonMap)
 
 			}).catch((err) => {
 				console.error(err);
 			})
 		})
 
+
+
+	}
+	getCommon() {
+
+		this.filterUsersBasedOnFacebook(1);
+
+		console.log("facebookcommon", this.commonMap);
 
 	}
 }
