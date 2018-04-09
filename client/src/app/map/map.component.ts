@@ -25,7 +25,9 @@ export class MapComponent implements OnInit {
 
 	testArray = [1, 2, 3, 4, 5, 6]
 
+	selectedBroadcastID = "";
 	broadcastText = "";
+	responseText = "";
 	broadcasts = [];
 	nearbyUsers = [];
 	filteredUsers =[];
@@ -765,5 +767,18 @@ export class MapComponent implements OnInit {
 			console.error(err);
 		})
 		console.log(this.broadcastText);
+	}
+	respondToBroadcast() {
+		console.log("woo");
+		this.db.storeBroadcastRespone(this.model.user.uid, this.selectedBroadcastID, this.responseText).then((data) => {
+			console.log("Response sent");
+		}).catch((err) => {
+
+		});
+	}
+
+	selectBroadcast(broadcast) {
+		console.log(broadcast);
+		this.selectedBroadcastID = broadcast.broadcastID;
 	}
 }

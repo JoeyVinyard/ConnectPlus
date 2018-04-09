@@ -228,7 +228,7 @@
 										<p class="broadcastText">Subject (Will be set later)</p>
 										<p class="broadcastText">{{broad.message}}</p>
 										<div class="medium-4 column">
-											<button class="button broadButton">View</button>
+											<button class="button broadButton" (click) = "selectBroadcast(broad)">View</button>
 										</div>
 									</div>
 								</div>
@@ -256,8 +256,8 @@
 								</div>
 							</div>
 							<div id="broadResponse">
-								<input type="text" id="broadInput">
-								<button class="button broadInputButton"><i class="fa fa-paper-plane"></i> Send</button>
+								<input type="text" id="broadInput" [(ngModel)]="responseText">
+								<button class="button broadInputButton" (click)= "respondToBroadcast()"><i class="fa fa-paper-plane"></i> Send</button>
 						</div>
 					</div>
 				</div>
@@ -289,8 +289,8 @@
 							</div>
 						</div>
 						<div id="messageResponse">
-							<input type="text" id="broadInput" [(ngModel)]="broadcastText">
-							<button class="button broadInputButton" (click)="sendBroadcast()">
+							<input type="text" id="broadInput" >
+							<button class="button broadInputButton">
 								<i class="fa fa-paper-plane"></i> Send</button>
 						</div>
 					</div>

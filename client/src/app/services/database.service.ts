@@ -381,6 +381,22 @@ export class DatabaseService {
 			})
 		})
 	}
+	storeBroadcastRespone(uid, broadcastID, response: string){
+		return new Promise((resolve, reject) => {
+			var responseObject = {
+				uid: uid,
+				broadcastID: broadcastID,
+				response: response
+			}
+
+			this.http.post("http://localhost:3000/storeBroadcastResponse", JSON.stringify(responseObject), this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
 	constructor(private http: HttpClient) {}
 
 }

@@ -967,20 +967,6 @@ module.exports = {
 				res.end();
 			})
 		});
-			/*firebase.database().ref("broadcasts/").push(data).then(() => {
-				res.statusCode = 200;
-				responseBody.payload = data;
-				res.write(JSON.stringify(responseBody));
-				res.end();
-			}).catch((err) => {
-				console.error(err);
-				responseBody.err = err;
-				res.statusCode = 400;
-				res.write(JSON.stringify(responseBody));
-				res.end();
-			})
-		});*/
-
 	},
 	getNearbyBroadcasts: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
@@ -1008,9 +994,8 @@ module.exports = {
 				firebase.database().ref("broadcasts").once("value").then((s) => {
 					res.statusCode=200;
 					var nearbyUids = [];
-					console.log(s);
+
 					s.forEach((loc) => {
-						console.log(loc.val());
 						var c2 = {
 							lat: loc.val().lat,
 							lon: loc.val().lon
@@ -1024,7 +1009,7 @@ module.exports = {
 								lat: loc.val().lat,
 								lon: loc.val().lon,
 								message: loc.val().broadcast,
-								boadcastID: loc.val().broadcastID
+								broadcastID: loc.val().broadcastID
 							});
 						}
 					})
@@ -1046,6 +1031,39 @@ module.exports = {
 			})
 		})
 	},
+	storeBroadcastResponse: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var body = "";
+		// console.log(req);
+		req.on('data', function(data){
+			body += data;
+			if(body.length > 1e6){ 
+				req.connection.destroy();
+			}
+		});
+		req.on('end', function() {
+			var data = JSON.parse(body);
+			if(!data || !data.uid){
+				res.statusCode = 400;
+				responseBody.err = "Data or UID not supplied";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
+			firebase.database().ref("broadcasts/" + data.broadcastID + "/responses/").push(data).then((data) => {
 
+				res.statusCode = 200;
+				responseBody.payload = data;
+				res.write(JSON.stringify(responseBody));
+				res.end();	
+			}).catch((err) => {
+				console.error(err);
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
 
+		});
+	}
 }
