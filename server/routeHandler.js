@@ -996,14 +996,43 @@ module.exports = {
 
 						var d = distanceCalc.getDistance(c1,c2);
 						if(d <= 15840 ){//3 miles
-							nearbyUids.push({
-								uid: loc.val().uid,
-								distance: d,
-								lat: loc.val().lat,
-								lon: loc.val().lon,
-								message: loc.val().broadcast,
-								broadcastID: loc.val().broadcastID
-							});
+							var responses = [];
+							console.log(loc.val().broadcastID);
+							if(!loc.val().responses){
+								console.log("No responses");
+								nearbyUids.push({
+									uid: loc.val().uid,
+									distance: d,
+									lat: loc.val().lat,
+									lon: loc.val().lon,
+									message: loc.val().broadcast,
+									broadcastID: loc.val().broadcastID,
+									responses: responses
+								});
+
+							}else {
+								firebase.database().ref("broadcasts/" + loc.val().broadcastID + "/responses/").once("value").then((stuffFromDatabase) => {
+									console.log(stufFromDatabase);
+									stuffFromDatabase.forEach((individual) => {
+										responses.push({
+											uid: individual.uid,
+											response: individual.response
+										})
+									}).then((data) => {
+										console.log("we get here");
+										nearbyUids.push({
+											uid: loc.val().uid,
+											distance: d,
+											lat: loc.val().lat,
+											lon: loc.val().lon,
+											message: loc.val().broadcast,
+											broadcastID: loc.val().broadcastID,
+											responses: responses
+										});		
+									}).catch((err) => {console.error(err)});
+
+								}).catch((err) => { console.log(err)});
+							}
 						}
 					})
 					resolve(nearbyUids);
@@ -1011,10 +1040,10 @@ module.exports = {
 					reject(err);
 				});
 			}).then((closeBroadcasts) => {
-					res.statusCode = 200;
-					responseBody.payload = closeBroadcasts;
-					res.write(JSON.stringify(responseBody));
-					res.end();
+				res.statusCode = 200;
+				responseBody.payload = closeBroadcasts;
+				res.write(JSON.stringify(responseBody));
+				res.end();
 			}).catch((err) => {
 				res.statusCode = 400;
 				responseBody.err = err;

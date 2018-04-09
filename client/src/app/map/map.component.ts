@@ -24,7 +24,12 @@ export class MapComponent implements OnInit {
 	viewMessages = false;
 
 	testArray = [1, 2, 3, 4, 5, 6]
-
+	selectedBroadcast:any = {
+		user: {
+			name: "asdfasdfasdfasdf",
+			url: ""
+		}
+	};
 	selectedBroadcastID = "";
 	broadcastText = "";
 	responseText = "";
@@ -446,17 +451,36 @@ export class MapComponent implements OnInit {
           });
           db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
           	console.log("Broadcasts: ", broadcasts);
+
           	broadcasts.forEach((broad) => {
-          		db.getUser(broad.uid).then((fetchedUser) => {
-          			var broadcast = {
+          		var broadcast = {
+
           			message: broad.message,
           			broadcastID: broad.broadcastID,
-		      		user: fetchedUser
-					//responses, subject		      	
-	          		};	
+		      		user: null,
+		      		responses: null
+          		};
+          		db.getUser(broad.uid).then((fetchedUser) => {
 
-	          		this.broadcasts.push(broadcast);
-          		})
+          			broadcast.user = fetchedUser;
+          			var responsesList = [];
+          			var list : any = broad.responses;
+          			console.log(list);
+        			list.forEach((response) => {
+        				db.getUser(response.uid).then((responseUser) => {
+        					var nextResponse = {
+        						responseText: broad.response.response,
+        						user: responseUser
+        					};
+        					responsesList.push(nextResponse);
+        				});
+        			}).then((data) => {
+        				broadcast.responses = responsesList;
+        				this.broadcasts.push(broadcast);
+        				this.selectedBroadcast = broadcast;
+        			})
+
+          		});
           		
     
           	});
@@ -780,5 +804,6 @@ export class MapComponent implements OnInit {
 	selectBroadcast(broadcast) {
 		console.log(broadcast);
 		this.selectedBroadcastID = broadcast.broadcastID;
+		this.selectedBroadcast = broadcast;
 	}
 }
