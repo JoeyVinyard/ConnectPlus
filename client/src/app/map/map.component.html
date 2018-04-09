@@ -55,7 +55,22 @@
 				<!-- <div class="medium-3 column" class="hidden">A</div> -->
 				<div class="medium-12 column" id="filterContent">
 					<p id="filterTitle">Only see those with similar...</p>
-					<input id="sports" type="checkbox" name="Sports" [(ngModel)]="model.user.filterSports" (click)="sportsFilter()">
+					<div class="medium-10 column">
+						<select id="filterSelect" [(ngModel)]="currentFilter">
+							<option value="facebook">Facebook</option>
+							<option value="twitter">Twitter</option>
+							<option value="youtube">Youtube</option>
+							<option value="blackboard">Blackboard</option>
+							<option *ngFor="let inter of interestKeys" [value]="inter">Interest: {{inter}}</option>
+						</select>
+					</div>
+					<div class="medium-2 column">
+						<button class="button addFilterButton" (click)="addFilter()"><i class="fa fa-plus"></i></button>
+					</div>
+					<div class="medium-12 column" id="currentFilters">
+						<p id="currentFilterText" *ngFor="let filter of currentFilterArray">{{filter}}	<i class="fa fa-times" (click)="removeFilter(inter)"></i></p>
+					</div>
+					<!-- <input id="sports" type="checkbox" name="Sports" [(ngModel)]="model.user.filterSports" (click)="sportsFilter()">
 					<label for="sports">Sports</label>
 					<input id="music" type="checkbox" name="Music" [(ngModel)]="model.user.filterMusic" (click)="musicFilter()">
 					<label for="music">Music</label>
@@ -69,7 +84,8 @@
 					<input id="LinkedIn" type="checkbox" name="LinkedIn" [(ngModel)]="model.user.filterLinkedIn" (click)="linkedinFilter()">
 					<label for="LinkedIn">LinkedIn</label>
 					<input id="BlackBoard" type="checkbox" name="BlackBoard" [(ngModel)]="model.user.filterBlackBoard" (click)="blackboardFilter()">
-					<label for="BlackBoard">BlackBoard</label>
+					<label for="BlackBoard">BlackBoard</label> -->
+
 
 					<div class="medium-6 column">
 						<!-- <button class="button selectedButton" (click)="updateFilter()"><i class="fa fa-check"></i> Update</button> -->

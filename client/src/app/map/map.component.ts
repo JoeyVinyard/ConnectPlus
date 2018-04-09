@@ -31,6 +31,12 @@ export class MapComponent implements OnInit {
 	filteredUsers =[];
 	displayedUser: any={};
 
+	interestObject: any={};
+	interestKeys = [];
+
+	currentFilter = "";
+	currentFilterArray = [];
+
 	refreshMap(){
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
@@ -170,8 +176,18 @@ export class MapComponent implements OnInit {
   }
 
   toggleFilter(){
-    this.filterVisible = !this.filterVisible;
-    console.log("hit");
+		this.filterVisible = !this.filterVisible;
+		if(this.filterVisible){
+			this.db.getInterests(this.model.user.uid).then((interests) => {
+				this.interestObject = interests;
+				this.interestKeys = Object.keys(this.interestObject);
+				console.log(this.interestKeys)
+				//this.getArrayOfInterestKeys();
+				
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
   }
 
   nearbyPin = ("../../assets/NearbyPin.png");
@@ -203,9 +219,32 @@ export class MapComponent implements OnInit {
 			//this.success.changeInfoS = "Your information has been updated!"
 
 		});
+	}
 
+	addFilter(){
+		if(this.currentFilterArray.indexOf(this.currentFilter) == -1){
+			this.currentFilterArray.push(this.currentFilter);
+		}
 
-
+		console.log("Filter Added: " + this.currentFilter);
+		if(this.currentFilter == "facebook"){
+			this.model.user.filterFacebook = !this.model.user.filterFacebook;
+			this.facebookFilter()
+		}
+		else if(this.currentFilter == "twitter"){
+			this.model.user.filterTwitter = !this.model.user.filterTwitter;
+			this.twitterFilter();
+		}
+		else if(this.currentFilter == "youtube"){
+			//do something eventually
+		}
+		else if(this.currentFilter == "blackboard"){
+			this.model.user.filterBlackBoard = !this.model.user.filterBlackBoard;
+			this.blackboardFilter();
+		}
+		else{
+			//interest filtering
+		}
 	}
 
 	sportsFilter(){
