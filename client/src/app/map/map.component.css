@@ -140,6 +140,37 @@
 	color: white;
 }
 
+#filterSelect{
+	background: transparent;
+	border: 2px solid #004E7F;
+	border-radius: 25px;
+	color: #004E7F;
+
+}
+
+.addFilterButton{
+	background: transparent;
+	color: #004E7F;
+	border: 2px solid #004E7F;
+	border-radius: 25px;
+}
+
+.addFilterButton:hover{
+	background: #004E7F;
+	color: white;
+}
+
+#currentFilterText{
+	font-size: 1.5rem;
+}
+#deleteFilter{
+	cursor: pointer;
+}
+
+#deleteFilter:hover{
+	color: red;
+}
+
 #listUser{
 	/* width: 80px;
 	height: 80px; */

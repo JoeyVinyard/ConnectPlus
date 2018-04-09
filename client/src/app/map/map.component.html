@@ -57,10 +57,10 @@
 					<p id="filterTitle">Only see those with similar...</p>
 					<div class="medium-10 column">
 						<select id="filterSelect" [(ngModel)]="currentFilter">
-							<option value="facebook">Facebook</option>
-							<option value="twitter">Twitter</option>
-							<option value="youtube">Youtube</option>
-							<option value="blackboard">Blackboard</option>
+							<option value="Facebook">Facebook</option>
+							<option value="Twitter">Twitter</option>
+							<option value="Youtube">Youtube</option>
+							<option value="Blackboard">Blackboard</option>
 							<option *ngFor="let inter of interestKeys" [value]="inter">Interest: {{inter}}</option>
 						</select>
 					</div>
@@ -68,7 +68,7 @@
 						<button class="button addFilterButton" (click)="addFilter()"><i class="fa fa-plus"></i></button>
 					</div>
 					<div class="medium-12 column" id="currentFilters">
-						<p id="currentFilterText" *ngFor="let filter of currentFilterArray">{{filter}}	<i class="fa fa-times" (click)="removeFilter(inter)"></i></p>
+						<p id="currentFilterText" *ngFor="let filter of currentFilterArray">{{filter}}	<i class="fa fa-times" id="deleteFilter" (click)="removeFilter(filter)"></i></p>
 					</div>
 					<!-- <input id="sports" type="checkbox" name="Sports" [(ngModel)]="model.user.filterSports" (click)="sportsFilter()">
 					<label for="sports">Sports</label>

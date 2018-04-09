@@ -754,7 +754,7 @@ module.exports = {
 		while(inter.includes("%20")){
 			inter = inter.replace("%20", " ");
 		}
-		
+		console.log("nilu: ", inter);
 		firebase.database().ref("interests/"+uid+"/"+sub).once("value").then((s) => {
 			var ent = Object.entries(s.val());
 			var found = false;
@@ -776,6 +776,7 @@ module.exports = {
 					break;
 				}
 			}
+
 			if(!found){
 				res.statusCode = 400;
 				responseBody.payload = "Interest not found";
