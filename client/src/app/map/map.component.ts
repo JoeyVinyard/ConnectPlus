@@ -26,6 +26,7 @@ export class MapComponent implements OnInit {
 	testArray = [1, 2, 3, 4, 5, 6]
 
 	broadcastText = "";
+	broadcasts = [];
 	nearbyUsers = [];
 	filteredUsers =[];
 	displayedUser: any={};
@@ -443,6 +444,21 @@ export class MapComponent implements OnInit {
           });
           db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
           	console.log("Broadcasts: ", broadcasts);
+          	broadcasts.forEach((broad) => {
+          		db.getUser(broad.uid).then((fetchedUser) => {
+          			var broadcast = {
+          			message: broad.message,
+          			broadcastID: broad.broadcastID,
+		      		user: fetchedUser
+					//responses, subject		      	
+	          		};	
+
+	          		this.broadcasts.push(broadcast);
+          		})
+          		
+    
+          	});
+          	//this.broadcasts = broadcasts;
           });
           db.getNearbyUsers(u.uid).then((nearbyUsers) => {
             console.log("Nearby:",nearbyUsers);

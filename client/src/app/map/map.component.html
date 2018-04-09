@@ -194,11 +194,10 @@
 						</select>
 					</div>
 					<div class="medium-5 column">
-						<input type="text" id="newBroadInput" placeholder="Message">
+						<input type="text" id="newBroadInput" placeholder="Message" [(ngModel)]="broadcastText">
 					</div>
 					<div class="medium-2 column">
-						<button class="button newBroadButton">
-							<i class="fa fa-bullhorn"></i> Broadcast</button>
+						<button class="button newBroadButton"(click) = "sendBroadcast()"><i class="fa fa-bullhorn"></i> Broadcast</button>
 					</div>
 				</div>
 				<div class="medium-12 column" id="filterBroadcast" [ngClass]="{' ' : filterBroadcast, 'none' : !filterBroadcast }">
@@ -220,49 +219,45 @@
 					</div>
 				</div>
 				<div class="medium-12 column" id="broadContent">
-					<div class="medium-5 medium-centered column" id="broadcastList">
-						<div id="broadcastPanel" *ngFor="let num of testArray">
-							<div class="medium-4 column">
-								<img id="broadPic" [src]="model.user.url" />
-								<br>
-							</div>
-							<div class="medium-8 column">
-								<p class="broadcastText">Subject</p>
-								<p class="broadcastText">Message</p>
-								<div class="medium-4 column">
-									<button class="button broadButton">View</button>
+						<div class="medium-5 medium-centered column" id="broadcastList">
+								<div id="broadcastPanel" *ngFor="let broad of broadcasts">
+									<div class="medium-4 column">
+											<img id="broadPic" [src]="broad.user.url"/><br>
+									</div>
+									<div class="medium-8 column">
+										<p class="broadcastText">Subject (Will be set later)</p>
+										<p class="broadcastText">{{broad.message}}</p>
+										<div class="medium-4 column">
+											<button class="button broadButton">View</button>
+										</div>
+									</div>
 								</div>
-							</div>
 						</div>
-					</div>
-					<div class="medium-7 column" id="threadView">
-						<div id="threadExpanded">
-							<div class="medium-12 column" id="threadHeader">
-								<div class="medium-3 column">
-									<img id="threadPic" [src]="model.user.url" />
-									<br>
-									<p id="threadUser">[Member Name]</p>
+						<div class="medium-7 column" id="threadView">
+							<div id="threadExpanded">
+								<div class="medium-12 column" id="threadHeader">
+									<div class="medium-3 column">
+										<img id="threadPic" [src]="model.user.url"/><br>
+										<p id="threadUser">[Member Name]</p>
+									</div>
+									<div class="medium-9 column">
+										<p class="broadcastText">In: [Subject]</p>
+										<p class="broadcastText">[Message]</p>
+									</div>
 								</div>
-								<div class="medium-9 column">
-									<p class="broadcastText">In: [Subject]</p>
-									<p class="broadcastText">[Message]</p>
-								</div>
-							</div>
-							<div class="medium-12 column" id="threadComment" *ngFor="let com of testArray">
-								<div class="medium-2 column">
-									<img id="commentPic" [src]="model.user.url" />
-									<br>
-								</div>
-								<div class="medium-10 column">
-									<p class="broadcastText">[Member Name]</p>
-									<p class="broadcastText">[Comment]</p>
+								<div class="medium-12 column" id="threadComment" *ngFor="let com of testArray">
+									<div class="medium-2 column">
+										<img id="commentPic" [src]="model.user.url"/><br>
+									</div>
+									<div class="medium-10 column">
+										<p class="broadcastText">[Member Name]</p>
+										<p class="broadcastText">[Comment]</p>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div id="broadResponse">
-							<input type="text" id="broadInput" [(ngModel)]="broadcastText">
-							<button class="button broadInputButton" (click)="sendBroadcast()">
-								<i class="fa fa-paper-plane"></i> Send</button>
+							<div id="broadResponse">
+								<input type="text" id="broadInput">
+								<button class="button broadInputButton"><i class="fa fa-paper-plane"></i> Send</button>
 						</div>
 					</div>
 				</div>
@@ -273,48 +268,7 @@
 					<div class="medium-12 column" id="broadHeader">
 						<p id="bHeaderText">Current Messages</p>
 					</div>
-					<!-- <div class="medium-7 column" id="broadHeader">
-								<button class="button bHeaderButton" (click)="toggleFilterBroadcast()"><i class="fa fa-filter"></i> Filter</button>
-								<button class="button bHeaderButton" (click)="toggleNewBroadcast()"><i class="fa fa-plus"></i> Add New</button>
-						</div> -->
 				</div>
-				<!-- <div class="medium-12 column" id="newBroadcast" [ngClass]="{' ' : newBroadcast, 'none' : !newBroadcast }"> 
-						<div class="medium-2 column">
-							<select id="broadSelect">
-								<option selected="true" disabled="disabled">Interest Category</option>
-								<option *ngFor="let cat of testArray" [value]=cat>{{cat}}</option>
-							</select>
-						</div>
-						<div class="medium-3 column">
-							<select id="broadSelect">
-								<option selected="true" disabled="disabled">Specific Interest</option>
-								<option *ngFor="let interest of testArray" [value]=interest>{{interest}}</option>
-							</select>
-						</div>
-						<div class="medium-5 column">
-							<input type="text" id="newBroadInput" placeholder="Message">
-						</div>
-						<div class="medium-2 column">
-							<button class="button newBroadButton"><i class="fa fa-bullhorn"></i> Broadcast</button>
-						</div>
-					</div>
-					<div class="medium-12 column" id="filterBroadcast" [ngClass]="{' ' : filterBroadcast, 'none' : !filterBroadcast }"> 
-							<div class="medium-4 column">
-								<select id="broadSelect">
-									<option selected="true" disabled="disabled">Interest Category</option>
-									<option *ngFor="let cat of testArray" [value]=cat>{{cat}}</option>
-								</select>
-							</div>
-							<div class="medium-5 column">
-								<select id="broadSelect">
-									<option selected="true" disabled="disabled">Specific Interest</option>
-									<option *ngFor="let interest of testArray" [value]=interest>{{interest}}</option>
-								</select>
-							</div>
-							<div class="medium-3 column">
-								<button class="button newBroadButton"><i class="fa fa-floppy-o"></i> Save</button>
-							</div>
-						</div> -->
 				<div class="medium-12 column" id="broadContent">
 					<div class="medium-3 medium-centered column" id="broadcastList">
 						<div id="messagesPanel" *ngFor="let num of testArray">
