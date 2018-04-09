@@ -24,6 +24,8 @@ export class User {
 	public filterLinkedIn: boolean;
 	public filterBlackBoard: boolean;
 
+	public filteredInterests: [string];
+
 
 
 	public sports1: Boolean;
