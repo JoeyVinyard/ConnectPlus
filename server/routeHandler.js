@@ -755,7 +755,7 @@ module.exports = {
 		while(inter.includes("%20")){
 			inter = inter.replace("%20", " ");
 		}
-		
+		console.log("nilu: ", inter);
 		firebase.database().ref("interests/"+uid+"/"+sub).once("value").then((s) => {
 			var ent = Object.entries(s.val());
 			console.log("Inter: " + inter)
@@ -781,15 +781,15 @@ module.exports = {
 					break;
 				}
 			}
-			console.log("below for loop");
-			if(anything){
-				console.log("jsdhfasdfkajsdf")
-				res.statusCode = 400;
-				responseBody.payload = "Interest not found";
-				res.write(JSON.stringify(responseBody));
-				res.end();
-				return;
-			}
+			// console.log("below for loop");
+			// if(anything){
+			// 	console.log("jsdhfasdfkajsdf")
+			// 	res.statusCode = 400;
+			// 	responseBody.payload = "Interest not found";
+			// 	res.write(JSON.stringify(responseBody));
+			// 	res.end();
+			// 	return;
+			// }
 		}).catch((err) => {
 			console.error(err);
 			responseBody.err = err;
