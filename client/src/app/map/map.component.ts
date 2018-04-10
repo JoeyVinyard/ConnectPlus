@@ -539,13 +539,8 @@ export class MapComponent implements OnInit {
 							modelInterests = Object.values(mi[interest]);
 							// console.log("MI: " +modelInterests;
 						}
-<<<<<<< HEAD
 				})
 				console.log(modelInterests);
-=======
-						/*}*/
-					})
->>>>>>> 38bfa3609f416770f3f1d40fa4a009c2b8d1cefc
 				this.filteredUsers.forEach((user) => {
 					var match = false;
 					
