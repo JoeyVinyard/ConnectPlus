@@ -5,6 +5,7 @@ import { ParticlesConfigService } from '../services/particles-config.service';
 import { User } from '../services/user';
 import { DatabaseService } from '../services/database.service';
 import { LocationService } from '../services/location.service';
+import { interestsList } from '../services/interests.service';
 
 @Component({
 	selector: 'app-list',
@@ -21,6 +22,7 @@ export class ListComponent implements OnInit {
 	displayedUser: any = {};
 
 	refreshList() {
+		var ph;
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
@@ -30,7 +32,7 @@ export class ListComponent implements OnInit {
 				this.nearbyUsers.forEach((user) => {
 					user.distanceInMiles = Math.round((user.distance / 5280) * 100) / 100;
 				})
-				this.maintainFilter();
+				this.maintainFilter(ph);
 
 			}).catch((err) => {
 				console.error(err);
@@ -140,66 +142,27 @@ export class ListComponent implements OnInit {
 		});
 	}
 
-	sportsFilter() {
+	interestsFilter(interest) {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
 
-				if (this.model.user.filterSports) {
-					this.filterUsersBasedOnSports();
+				if (this.model.user.filterInterests) {
+					this.filterUsersBasedOnInterests(interest);
 				}
 				else {
-					this.maintainFilter();
+					this.maintainFilter(interest);
 				}
 
 			}).catch((err) => {
 				console.error(err);
 
 			})
-
-		});
-
-
-	}
-	musicFilter() {
-		this.auth.getUser().then((user) => {
-			this.db.updateUser(this.model.user).then((data) => {
-				console.log(data);
-
-				if (this.model.user.filterMusic) {
-					this.filterUsersBasedOnMusic();
-				}
-				else {
-					this.maintainFilter();
-				}
-
-			}).catch((err) => {
-				console.error(err);
-
-			})
-
 		});
 	}
-	foodFilter() {
-		this.auth.getUser().then((user) => {
-			this.db.updateUser(this.model.user).then((data) => {
-				console.log(data);
 
-				if (this.model.user.filterFood) {
-					this.filterUsersBasedOnFood();
-				}
-				else {
-					this.maintainFilter();
-				}
-
-			}).catch((err) => {
-				console.error(err);
-
-			})
-
-		});
-	}
 	facebookFilter() {
+		var ph;
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
@@ -208,18 +171,17 @@ export class ListComponent implements OnInit {
 					this.filterUsersBasedOnFacebook();
 				}
 				else {
-					this.maintainFilter();
+					this.maintainFilter(ph);
 				}
 
 			}).catch((err) => {
 				console.error(err);
-
 			})
-
 		});
 
 	}
 	twitterFilter() {
+		var ph;
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
@@ -228,7 +190,7 @@ export class ListComponent implements OnInit {
 					this.filterUsersBasedOnTwitter();
 				}
 				else {
-					this.maintainFilter();
+					this.maintainFilter(ph);
 				}
 
 			}).catch((err) => {
@@ -239,6 +201,7 @@ export class ListComponent implements OnInit {
 		});
 	}
 	linkedinFilter() {
+		var ph;
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
@@ -247,7 +210,7 @@ export class ListComponent implements OnInit {
 
 				}
 				else {
-					this.maintainFilter();
+					this.maintainFilter(ph);
 				}
 
 			}).catch((err) => {
@@ -258,6 +221,7 @@ export class ListComponent implements OnInit {
 		});
 	}
 	blackboardFilter() {
+		var ph;
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
@@ -266,7 +230,7 @@ export class ListComponent implements OnInit {
 					this.filterUsersBasedOnBlackboard();
 				}
 				else {
-					this.maintainFilter();
+					this.maintainFilter(ph);
 				}
 
 			}).catch((err) => {
@@ -277,19 +241,11 @@ export class ListComponent implements OnInit {
 		});
 	}
 
-	maintainFilter() {
+	maintainFilter(interest) {
 		this.filteredUsers = this.nearbyUsers;
 		var count = 0;
-		if (this.model.user.filterSports) {
-			this.filterUsersBasedOnSports();
-			count++;
-		}
-		if (this.model.user.filterMusic) {
-			this.filterUsersBasedOnMusic();
-			count++;
-		}
-		if (this.model.user.filterFood) {
-			this.filterUsersBasedOnFood();
+		if (this.model.user.filterInterests) {
+			this.filterUsersBasedOnInterests(interest);
 			count++;
 		}
 		if (this.model.user.filterFacebook) {
@@ -357,12 +313,12 @@ export class ListComponent implements OnInit {
 		        this.localStorage();
 		      })
 	   		}
-
 	    });
 
 
 
 		loc.getLocation().then((l) => {
+			var ph;
 			auth.getUser().then((u) => {
 				db.storeLocation(l, u.uid).then((d) => {
 					console.log(d);
@@ -375,7 +331,7 @@ export class ListComponent implements OnInit {
 						this.nearbyUsers.forEach((user) => {
 							user.distanceInMiles = Math.round((user.distance / 5280) * 100) / 100;
 						})
-						this.maintainFilter();
+						this.maintainFilter(ph);
 
 					}).catch((err) => {
 						console.error(err);
@@ -391,141 +347,41 @@ export class ListComponent implements OnInit {
 	ngOnInit() {
 	}
 
-	filterUsersBasedOnSports() {
+	filterUsersBasedOnInterests(interest) {
 		var filterUsersArray = [];
-		if (true /*check facebook thing*/) {
-			var p = new Promise((resolve, reject) => {
-				this.filteredUsers.forEach((user) => {
-					var match = false;
-					if (user.sports1 == true && this.model.user.sports1 == true) {
-						match = true;
-					}
-					if (user.sports2 == true && this.model.user.sports2 == true) {
-						match = true;
-					}
-					if (user.sports3 == true && this.model.user.sports3 == true) {
-						match = true;
-					}
-					if (user.sporst4 == true && this.model.user.sports4 == true) {
-						match = true;
-					}
-					if (user.sports5 == true && this.model.user.sports5 == true) {
-						match = true;
-					}
-					if (user.sports6 == true && this.model.user.sports6 == true) {
-						match = true;
-					}
-					if (user.sports7 == true && this.model.user.sports7 == true) {
-						match = true;
-					}
-					if (user.sports8 == true && this.model.user.sports8 == true) {
-						match = true;
-					}
-					if (user.sports9 == true && this.model.user.sports9 == true) {
-						match = true;
-					}
-					if (user.sports10 == true && this.model.user.sports10 == true) {
-						match = true;
-					}
+		var modelInterests = [];
+		var userInterests = [];
 
-					if (match) {
-						filterUsersArray.push(user);
-					}
-					resolve(filterUsersArray);
+		if (true) {
+			var p = new Promise((resolve, reject) => {
+				this.db.getInterests(this.model.user.uid).then((mi) => {
+					/*if(typeof mi !== 'undefined'){*/
+						if(interest in mi){
+							modelInterests = mi[interest];
+						}
+					/*}*/
 				})
-			}).then((users: any) => {
-				this.filteredUsers = filterUsersArray;
-				console.log("Filtered Users:", filterUsersArray);
-			});
-		}
-	}
-
-	filterUsersBasedOnMusic() {
-		var filterUsersArray = [];
-		if (true /*check facebook thing*/) {
-			var p = new Promise((resolve, reject) => {
 				this.filteredUsers.forEach((user) => {
 					var match = false;
-					if (user.music1 == true && this.model.user.music1 == true) {
-						match = true;
+					
+					this.db.getInterests(user.uid).then((ui) => {
+						if(typeof ui !== 'undefined'){
+							if(interest in ui){
+								userInterests = ui[interest];
+							}
+						}
+					})
+					for(var i = 0; i < modelInterests.length; i++){
+						for(var j = 0; j < userInterests.length; j++){
+							if(modelInterests[i] == userInterests[j]){
+								console.log(modelInterests[i]);
+								console.log(userInterests[j]);
+								console.log("hwiehfoawh;oaweij;gaw");
+								match = true;
+								break;
+							}
+						}
 					}
-					if (user.music2 == true && this.model.user.music2 == true) {
-						match = true;
-					}
-					if (user.music3 == true && this.model.user.music3 == true) {
-						match = true;
-					}
-					if (user.music4 == true && this.model.user.music4 == true) {
-						match = true;
-					}
-					if (user.music5 == true && this.model.user.music5 == true) {
-						match = true;
-					}
-					if (user.music6 == true && this.model.user.music6 == true) {
-						match = true;
-					}
-					if (user.music7 == true && this.model.user.music7 == true) {
-						match = true;
-					}
-					if (user.music8 == true && this.model.user.music8 == true) {
-						match = true;
-					}
-					if (user.music9 == true && this.model.user.music9 == true) {
-						match = true;
-					}
-					if (user.music10 == true && this.model.user.music10 == true) {
-						match = true;
-					}
-
-					if (match) {
-						filterUsersArray.push(user);
-					}
-					resolve(filterUsersArray);
-				})
-			}).then((users: any) => {
-				this.filteredUsers = filterUsersArray;
-				console.log("Filtered Users:", filterUsersArray);
-			});
-		}
-	}
-
-	filterUsersBasedOnFood() {
-		var filterUsersArray = [];
-		if (true /*check facebook thing*/) {
-			var p = new Promise((resolve, reject) => {
-				this.filteredUsers.forEach((user) => {
-					var match = false;
-					if (user.food1 == true && this.model.user.food1 == true) {
-						match = true;
-					}
-					if (user.food2 == true && this.model.user.food2 == true) {
-						match = true;
-					}
-					if (user.food3 == true && this.model.user.food3 == true) {
-						match = true;
-					}
-					if (user.food4 == true && this.model.user.food4 == true) {
-						match = true;
-					}
-					if (user.food5 == true && this.model.user.food5 == true) {
-						match = true;
-					}
-					if (user.food6 == true && this.model.user.food6 == true) {
-						match = true;
-					}
-					if (user.food7 == true && this.model.user.food7 == true) {
-						match = true;
-					}
-					if (user.food8 == true && this.model.user.food8 == true) {
-						match = true;
-					}
-					if (user.food9 == true && this.model.user.food9 == true) {
-						match = true;
-					}
-					if (user.food10 == true && this.model.user.food10 == true) {
-						match = true;
-					}
-
 					if (match) {
 						filterUsersArray.push(user);
 					}
@@ -662,3 +518,369 @@ export class ListComponent implements OnInit {
 	}
 
 }
+
+/*	filterUsersBasedOnAnimals() {
+		var filterUsersArray = [];
+		if (true) {
+			var p = new Promise((resolve, reject) => {
+				this.filteredUsers.forEach((user) => {
+					var match = false;
+					this.db.getInterests(user.uid).forEach((interest) => {
+
+					});
+
+					if (match) {
+						filterUsersArray.push(user);
+					}
+					resolve(filterUsersArray);
+				})
+			}).then((users: any) => {
+				this.filteredUsers = filterUsersArray;
+				console.log("Filtered Users:", filterUsersArray);
+			});
+		}
+	}
+
+	filterUsersBasedOnTV() {
+		var filterUsersArray = [];
+		if (true) {
+			var p = new Promise((resolve, reject) => {
+				this.filteredUsers.forEach((user) => {
+					var match = false;
+					if (user.sports1 == true && this.model.user.sports1 == true) {
+						match = true;
+					}
+					if (user.sports2 == true && this.model.user.sports2 == true) {
+						match = true;
+					}
+					if (user.sports3 == true && this.model.user.sports3 == true) {
+						match = true;
+					}
+					if (user.sporst4 == true && this.model.user.sports4 == true) {
+						match = true;
+					}
+					if (user.sports5 == true && this.model.user.sports5 == true) {
+						match = true;
+					}
+					if (user.sports6 == true && this.model.user.sports6 == true) {
+						match = true;
+					}
+					if (user.sports7 == true && this.model.user.sports7 == true) {
+						match = true;
+					}
+					if (user.sports8 == true && this.model.user.sports8 == true) {
+						match = true;
+					}
+					if (user.sports9 == true && this.model.user.sports9 == true) {
+						match = true;
+					}
+					if (user.sports10 == true && this.model.user.sports10 == true) {
+						match = true;
+					}
+
+					if (match) {
+						filterUsersArray.push(user);
+					}
+					resolve(filterUsersArray);
+				})
+			}).then((users: any) => {
+				this.filteredUsers = filterUsersArray;
+				console.log("Filtered Users:", filterUsersArray);
+			});
+		}
+	}
+
+	filterUsersBasedOnMovies() {
+		var filterUsersArray = [];
+		if (true) {
+			var p = new Promise((resolve, reject) => {
+				this.filteredUsers.forEach((user) => {
+					var match = false;
+					if (user.sports1 == true && this.model.user.sports1 == true) {
+						match = true;
+					}
+					if (user.sports2 == true && this.model.user.sports2 == true) {
+						match = true;
+					}
+					if (user.sports3 == true && this.model.user.sports3 == true) {
+						match = true;
+					}
+					if (user.sporst4 == true && this.model.user.sports4 == true) {
+						match = true;
+					}
+					if (user.sports5 == true && this.model.user.sports5 == true) {
+						match = true;
+					}
+					if (user.sports6 == true && this.model.user.sports6 == true) {
+						match = true;
+					}
+					if (user.sports7 == true && this.model.user.sports7 == true) {
+						match = true;
+					}
+					if (user.sports8 == true && this.model.user.sports8 == true) {
+						match = true;
+					}
+					if (user.sports9 == true && this.model.user.sports9 == true) {
+						match = true;
+					}
+					if (user.sports10 == true && this.model.user.sports10 == true) {
+						match = true;
+					}
+
+					if (match) {
+						filterUsersArray.push(user);
+					}
+					resolve(filterUsersArray);
+				})
+			}).then((users: any) => {
+				this.filteredUsers = filterUsersArray;
+				console.log("Filtered Users:", filterUsersArray);
+			});
+		}
+	}
+
+	filterUsersBasedOnHobbies() {
+		var filterUsersArray = [];
+		if (true) {
+			var p = new Promise((resolve, reject) => {
+				this.filteredUsers.forEach((user) => {
+					var match = false;
+					if (user.sports1 == true && this.model.user.sports1 == true) {
+						match = true;
+					}
+					if (user.sports2 == true && this.model.user.sports2 == true) {
+						match = true;
+					}
+					if (user.sports3 == true && this.model.user.sports3 == true) {
+						match = true;
+					}
+					if (user.sporst4 == true && this.model.user.sports4 == true) {
+						match = true;
+					}
+					if (user.sports5 == true && this.model.user.sports5 == true) {
+						match = true;
+					}
+					if (user.sports6 == true && this.model.user.sports6 == true) {
+						match = true;
+					}
+					if (user.sports7 == true && this.model.user.sports7 == true) {
+						match = true;
+					}
+					if (user.sports8 == true && this.model.user.sports8 == true) {
+						match = true;
+					}
+					if (user.sports9 == true && this.model.user.sports9 == true) {
+						match = true;
+					}
+					if (user.sports10 == true && this.model.user.sports10 == true) {
+						match = true;
+					}
+
+					if (match) {
+						filterUsersArray.push(user);
+					}
+					resolve(filterUsersArray);
+				})
+			}).then((users: any) => {
+				this.filteredUsers = filterUsersArray;
+				console.log("Filtered Users:", filterUsersArray);
+			});
+		}
+	}
+
+	filterUsersBasedOnCountry() {
+		var filterUsersArray = [];
+		if (true) {
+			var p = new Promise((resolve, reject) => {
+				this.filteredUsers.forEach((user) => {
+					var match = false;
+					if (user.sports1 == true && this.model.user.sports1 == true) {
+						match = true;
+					}
+					if (user.sports2 == true && this.model.user.sports2 == true) {
+						match = true;
+					}
+					if (user.sports3 == true && this.model.user.sports3 == true) {
+						match = true;
+					}
+					if (user.sporst4 == true && this.model.user.sports4 == true) {
+						match = true;
+					}
+					if (user.sports5 == true && this.model.user.sports5 == true) {
+						match = true;
+					}
+					if (user.sports6 == true && this.model.user.sports6 == true) {
+						match = true;
+					}
+					if (user.sports7 == true && this.model.user.sports7 == true) {
+						match = true;
+					}
+					if (user.sports8 == true && this.model.user.sports8 == true) {
+						match = true;
+					}
+					if (user.sports9 == true && this.model.user.sports9 == true) {
+						match = true;
+					}
+					if (user.sports10 == true && this.model.user.sports10 == true) {
+						match = true;
+					}
+
+					if (match) {
+						filterUsersArray.push(user);
+					}
+					resolve(filterUsersArray);
+				})
+			}).then((users: any) => {
+				this.filteredUsers = filterUsersArray;
+				console.log("Filtered Users:", filterUsersArray);
+			});
+		}
+	}
+
+	filterUsersBasedOnSports() {
+		var filterUsersArray = [];
+		if (true) {
+			var p = new Promise((resolve, reject) => {
+				this.filteredUsers.forEach((user) => {
+					var match = false;
+					if (user.sports1 == true && this.model.user.sports1 == true) {
+						match = true;
+					}
+					if (user.sports2 == true && this.model.user.sports2 == true) {
+						match = true;
+					}
+					if (user.sports3 == true && this.model.user.sports3 == true) {
+						match = true;
+					}
+					if (user.sporst4 == true && this.model.user.sports4 == true) {
+						match = true;
+					}
+					if (user.sports5 == true && this.model.user.sports5 == true) {
+						match = true;
+					}
+					if (user.sports6 == true && this.model.user.sports6 == true) {
+						match = true;
+					}
+					if (user.sports7 == true && this.model.user.sports7 == true) {
+						match = true;
+					}
+					if (user.sports8 == true && this.model.user.sports8 == true) {
+						match = true;
+					}
+					if (user.sports9 == true && this.model.user.sports9 == true) {
+						match = true;
+					}
+					if (user.sports10 == true && this.model.user.sports10 == true) {
+						match = true;
+					}
+
+					if (match) {
+						filterUsersArray.push(user);
+					}
+					resolve(filterUsersArray);
+				})
+			}).then((users: any) => {
+				this.filteredUsers = filterUsersArray;
+				console.log("Filtered Users:", filterUsersArray);
+			});
+		}
+	}
+
+	filterUsersBasedOnMusic() {
+		var filterUsersArray = [];
+		if (true ) {
+			var p = new Promise((resolve, reject) => {
+				this.filteredUsers.forEach((user) => {
+					var match = false;
+					if (user.music1 == true && this.model.user.music1 == true) {
+						match = true;
+					}
+					if (user.music2 == true && this.model.user.music2 == true) {
+						match = true;
+					}
+					if (user.music3 == true && this.model.user.music3 == true) {
+						match = true;
+					}
+					if (user.music4 == true && this.model.user.music4 == true) {
+						match = true;
+					}
+					if (user.music5 == true && this.model.user.music5 == true) {
+						match = true;
+					}
+					if (user.music6 == true && this.model.user.music6 == true) {
+						match = true;
+					}
+					if (user.music7 == true && this.model.user.music7 == true) {
+						match = true;
+					}
+					if (user.music8 == true && this.model.user.music8 == true) {
+						match = true;
+					}
+					if (user.music9 == true && this.model.user.music9 == true) {
+						match = true;
+					}
+					if (user.music10 == true && this.model.user.music10 == true) {
+						match = true;
+					}
+
+					if (match) {
+						filterUsersArray.push(user);
+					}
+					resolve(filterUsersArray);
+				})
+			}).then((users: any) => {
+				this.filteredUsers = filterUsersArray;
+				console.log("Filtered Users:", filterUsersArray);
+			});
+		}
+	}
+
+	filterUsersBasedOnFood() {
+		var filterUsersArray = [];
+		if (true) {
+			var p = new Promise((resolve, reject) => {
+				this.filteredUsers.forEach((user) => {
+					var match = false;
+					if (user.food1 == true && this.model.user.food1 == true) {
+						match = true;
+					}
+					if (user.food2 == true && this.model.user.food2 == true) {
+						match = true;
+					}
+					if (user.food3 == true && this.model.user.food3 == true) {
+						match = true;
+					}
+					if (user.food4 == true && this.model.user.food4 == true) {
+						match = true;
+					}
+					if (user.food5 == true && this.model.user.food5 == true) {
+						match = true;
+					}
+					if (user.food6 == true && this.model.user.food6 == true) {
+						match = true;
+					}
+					if (user.food7 == true && this.model.user.food7 == true) {
+						match = true;
+					}
+					if (user.food8 == true && this.model.user.food8 == true) {
+						match = true;
+					}
+					if (user.food9 == true && this.model.user.food9 == true) {
+						match = true;
+					}
+					if (user.food10 == true && this.model.user.food10 == true) {
+						match = true;
+					}
+
+					if (match) {
+						filterUsersArray.push(user);
+					}
+					resolve(filterUsersArray);
+				})
+			}).then((users: any) => {
+				this.filteredUsers = filterUsersArray;
+				console.log("Filtered Users:", filterUsersArray);
+			});
+		}
+	}
+*/

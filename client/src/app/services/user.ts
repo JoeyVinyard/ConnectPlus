@@ -16,16 +16,17 @@ export class User {
 
 	public screenName: string;//Twitter ScreenName
 
-	public filterSports: boolean;
+	public filterInterests: boolean;
+/*	public filterSports: boolean;
 	public filterMusic: boolean;
 	public filterFood: boolean;
-	public filterFacebook: boolean;
+*/	public filterFacebook: boolean;
 	public filterTwitter: boolean;
 	public filterLinkedIn: boolean;
 	public filterBlackBoard: boolean;
 
 
-
+/*
 	public sports1: Boolean;
 	public sports2: Boolean;
 	public sports3: Boolean;
@@ -58,7 +59,7 @@ export class User {
 	public food8: Boolean;
 	public food9: Boolean;
 	public food10: Boolean;
-
+*/
 	constructor(){
 
 	}
