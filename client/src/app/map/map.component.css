@@ -160,8 +160,19 @@
 	color: white;
 }
 
+#currentFilters{
+	border: 2px solid white;
+	border-radius: 25px;
+	width: 95%;
+	height: 125px;
+	overflow: scroll;
+	background: #004E7F;
+}
+
 #currentFilterText{
 	font-size: 1.5rem;
+	width: 50%;
+	float: left;
 }
 #deleteFilter{
 	cursor: pointer;

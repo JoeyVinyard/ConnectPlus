@@ -194,7 +194,7 @@ export class MapComponent implements OnInit {
 	}
 
 	toggleFilter() {
-		this.filterVisible = !this.filterVisible;
+		this.filterVisible = true;
 		if (this.filterVisible) {
 			this.db.getInterests(this.model.user.uid).then((interests) => {
 				this.interestObject = interests;
@@ -255,6 +255,8 @@ export class MapComponent implements OnInit {
             this.twitterFilter();
         }
         else if (this.currentFilter == "Youtube") {
+			this.model.user.filterYoutube = true;
+			this.youtubeFilter();
             //do something eventually
         }
         else if (this.currentFilter == "Blackboard") {
@@ -282,8 +284,8 @@ export class MapComponent implements OnInit {
             // this.twitterFilter();
         }
         else if (filter == "Youtube") {
+			this.model.user.filterYoutube = false;
             this.maintainFilter();
-            //do something eventually
         }
         else if (filter == "Blackboard") {
             this.model.user.filterBlackBoard = false;
@@ -395,13 +397,13 @@ export class MapComponent implements OnInit {
 			})
 		});
 	}
-	linkedinFilter() {
+	youtubeFilter() {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				console.log(data);
 
-				if (this.model.user.filterLinkedIn) {
-
+				if (this.model.user.filterYoutube) {
+					this.filterUsersBasedOnYoutube();
 				}
 				else {
 					this.maintainFilter();
@@ -461,8 +463,9 @@ export class MapComponent implements OnInit {
             this.filterUsersBasedOnTwitter();
             count++;
         }
-        if (this.model.user.filterLinkedIn) {
-
+        if (this.model.user.filterYoutube) {
+			this.currentFilterArray.push("Youtube")
+			this.filterUsersBasedOnYoutube();
             count++;
         }
         if (this.model.user.filterBlackBoard) {
@@ -817,6 +820,46 @@ export class MapComponent implements OnInit {
 							var match = false;
 							nearbyFollowee.forEach((followee) => {
 								if (followeeMap.get(followee)) {
+									match = true;
+								}
+							});
+							if (match) {
+								filterUsersArray.push(user);
+							}
+							resolve(filterUsersArray);
+						}).catch((err) => {
+							console.log(err);
+							reject(err);
+						});
+					});
+				}).then((users: any) => {
+					this.filteredUsers = filterUsersArray;
+					console.log("Filtered Users:", filterUsersArray);
+				});
+			}).catch((err) => {
+				console.error(err);
+			});
+
+		}
+
+	}
+
+	filterUsersBasedOnYoutube() {
+
+		var filterUsersArray = [];
+		if (true) {
+			this.db.getYoutubeSubscribers(this.model.user.uid).then((subscribers) => {
+				var subscriberMap = new Map();
+
+				Object.values(subscribers).forEach((subscriber) => {
+					subscriberMap.set(subscriber, 1);
+				});
+				var p = new Promise((resolve, reject) => {
+					this.filteredUsers.forEach((user) => {
+						this.db.getTwitterFollowees(user.uid).then((nearbySubscriber) => {
+							var match = false;
+							nearbySubscriber.forEach((subscriber) => {
+								if (subscriberMap.get(subscriber)) {
 									match = true;
 								}
 							});
