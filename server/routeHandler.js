@@ -751,22 +751,17 @@ module.exports = {
 		var uid = urlData[1];
 		var sub = urlData[2];
 		var inter = urlData[3];
-		//sub = sub.replace("%20", " ");
 		while(inter.includes("%20")){
 			inter = inter.replace("%20", " ");
 		}
-		
+		console.log("nilu: ", inter);
 		firebase.database().ref("interests/"+uid+"/"+sub).once("value").then((s) => {
 			var ent = Object.entries(s.val());
-			console.log("Inter: " + inter)
-			var anything = false;
+			var found = false;
 			for(var i = 0; i < ent.length; i++){
-				console.log("Current Entry: " + ent[i][1])
 				if(ent[i][1] == inter){
-					anything = true;
-					console.log("Found")
+					found = true;
 					firebase.database().ref("interests/"+uid+"/"+ sub + "/" +ent[i][0]).remove().then(() => {
-						console.log("In Interests Firebase")
 						res.statusCode = 200;
 						responseBody.payload = true;
 						res.write(JSON.stringify(responseBody));
@@ -781,9 +776,8 @@ module.exports = {
 					break;
 				}
 			}
-			console.log("below for loop");
-			if(anything){
-				console.log("jsdhfasdfkajsdf")
+
+			if(!found){
 				res.statusCode = 400;
 				responseBody.payload = "Interest not found";
 				res.write(JSON.stringify(responseBody));
@@ -944,7 +938,30 @@ module.exports = {
 				res.end();
 				return;
 			}
-			firebase.database().ref("broadcasts/" + data.uid).append(data).then(() => {
+			var v = firebase.database().ref("broadcasts/").push(data);
+			v.then((data) => {
+				firebase.database().ref("broadcasts/" + v.key + "/broadcastID").set(v.key).then((data) => {
+					res.statusCode = 200;
+					responseBody.payload = data;
+					res.write(JSON.stringify(responseBody));
+					res.end();	
+				}).catch((err) => {
+					console.error(err);
+					responseBody.err = err;
+					res.statusCode = 400;
+					res.write(JSON.stringify(responseBody));
+					res.end();
+				})
+				
+			}).catch((err) => {
+				console.error(err);
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
+		});
+			/*firebase.database().ref("broadcasts/").push(data).then(() => {
 				res.statusCode = 200;
 				responseBody.payload = data;
 				res.write(JSON.stringify(responseBody));
@@ -956,7 +973,8 @@ module.exports = {
 				res.write(JSON.stringify(responseBody));
 				res.end();
 			})
-		});
+		});*/
+
 	},
 	getNearbyBroadcasts: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
@@ -982,10 +1000,11 @@ module.exports = {
 			}
 			var p = new Promise((resolve, reject) => {
 				firebase.database().ref("broadcasts").once("value").then((s) => {
-
 					res.statusCode=200;
 					var nearbyUids = [];
+					console.log(s);
 					s.forEach((loc) => {
+						console.log(loc.val());
 						var c2 = {
 							lat: loc.val().lat,
 							lon: loc.val().lon
@@ -998,7 +1017,8 @@ module.exports = {
 								distance: d,
 								lat: loc.val().lat,
 								lon: loc.val().lon,
-								message: loc.val().broadcast
+								message: loc.val().broadcast,
+								boadcastID: loc.val().broadcastID
 							});
 						}
 					})
@@ -1007,7 +1027,6 @@ module.exports = {
 					reject(err);
 				});
 			}).then((closeBroadcasts) => {
-
 					res.statusCode = 200;
 					responseBody.payload = closeBroadcasts;
 					res.write(JSON.stringify(responseBody));

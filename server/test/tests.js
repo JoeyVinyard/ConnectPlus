@@ -583,6 +583,63 @@ describe('HTTP Unit Tests', function () {
 
 		});
 	});
+
+	describe('Sprint 3 Story 1',function(){
+		it('Should return 400 With no UID Given', function(done) {
+			var options = {
+				url: 'http://localhost:3000/storeTwitterFollowees/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Should return 200 When given valid friends object and uid', function(done) {
+			var friends = {
+				friends: {
+					friend: "a"
+				},
+				uid: testID
+			}
+			var options = {
+				url: 'http://localhost:3000/storeTwitterFollowees/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: JSON.stringify(friends)
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(200);
+				done();
+			});
+
+		});
+		it('Should return 200 When given invalid UID', function(done) {
+			var friends = {
+				friends: {
+					friend: "a"
+				},
+				uid: "asdfasdf"
+			}
+			var options = {
+				url: 'http://localhost:3000/storeTwitterFollowees/',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: JSON.stringify(friends)
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(200);
+				done();
+			});
+
+		});
+	});
 });
 
 

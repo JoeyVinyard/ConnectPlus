@@ -22,8 +22,10 @@ export class User {
 	public filterFood: boolean;
 */	public filterFacebook: boolean;
 	public filterTwitter: boolean;
-	public filterLinkedIn: boolean;
+	public filterYoutube: boolean;
 	public filterBlackBoard: boolean;
+
+	public filteredInterests: [string];
 
 
 /*
