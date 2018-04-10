@@ -110,6 +110,8 @@ export class SettingsComponent implements OnInit {
 	interestList;
 	arrayOfInterestKeys:string[];
 	interestSubArray:string[];
+	arraytemp: string[];
+
 	subtemp:String;
 	intertemp:String;
 
@@ -639,6 +641,20 @@ export class SettingsComponent implements OnInit {
 		}).catch((err) => {
 			console.log(err);
 		})
+	}
+	clearAllCatInterests(sub: string){
+		console.log(sub);
+		// this.db.clearAllCatInterests(this.model.user.uid, sub).then((data) => {
+		// 	console.log("hi there");
+		// 	this.updateInterest();
+		// }).catch((err) => {
+		// 	console.log(err);
+		// })
+		this.arraytemp = this.getArrayInter(sub);
+		this.arraytemp.forEach((inter) => {
+					this.deleteInterest(sub, inter);
+
+				});
 	}
 
 	updateInterest(){

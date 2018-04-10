@@ -793,6 +793,61 @@ module.exports = {
 			return;
 		});
 	},
+	// clearAllCatInterests: function(req, res, urlData){
+	// 	console.log("in the method")
+	// 	var responseBody = Object.create(responseForm);
+	// 	if(!urlData || !urlData[1] || !urlData[2]){
+	// 		res.statusCode = 400;
+	// 		responseBody.err = "No UID or Cat provided";
+	// 		res.write(JSON.stringify(responseBody));
+	// 		res.end();
+	// 		return;
+	// 	}
+	// 	var uid = urlData[1];
+	// 	var sub = urlData[2];
+		
+	// 	while(sub.includes("%20")){
+	// 		sub = sub.replace("%20", " ");
+	// 	}
+	// 	console.log("nilu: ", sub);
+	// 	firebase.database().ref("interests/"+uid).once("value").then((s) => {
+	// 		var ent = Object.entries(s.val());
+	// 		var found = false;
+	// 		for(var i = 0; i < ent.length; i++){
+	// 			if(ent[i][1] == sub){
+	// 				found = true;
+	// 				firebase.database().ref("interests/"+uid+"/"+ ent[i][0]).remove().then(() => {
+	// 					res.statusCode = 200;
+	// 					responseBody.payload = true;
+	// 					res.write(JSON.stringify(responseBody));
+	// 					res.end();
+	// 				}).catch((err) => {
+	// 					console.error(err);
+	// 					responseBody.err = err;
+	// 					res.statusCode = 400;
+	// 					res.write(JSON.stringify(responseBody));
+	// 					res.end();
+	// 				})
+	// 				break;
+	// 			}
+	// 		}
+
+	// 		if(!found){
+	// 			res.statusCode = 400;
+	// 			responseBody.payload = "Interest not found";
+	// 			res.write(JSON.stringify(responseBody));
+	// 			res.end();
+	// 			return;
+	// 		}
+	// 	}).catch((err) => {
+	// 		console.error(err);
+	// 		responseBody.err = err;
+	// 		res.statusCode = 400;
+	// 		res.write(JSON.stringify(responseBody));
+	// 		res.end();
+	// 		return;
+	// 	});
+	// },
 	storeYoutubeSubscribers(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		var subs = {};
