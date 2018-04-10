@@ -643,7 +643,7 @@ export class SettingsComponent implements OnInit {
 		})
 	}
 	clearAllCatInterests(sub: string){
-		console.log(sub);
+		console.log("not printing", sub);
 		// this.db.clearAllCatInterests(this.model.user.uid, sub).then((data) => {
 		// 	console.log("hi there");
 		// 	this.updateInterest();
