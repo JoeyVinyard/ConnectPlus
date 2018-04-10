@@ -170,7 +170,8 @@ export class ListComponent implements OnInit {
         }
         else {
             //interest filtering
-            this.model.user.filteredInterests.push(this.currentFilter);
+			this.model.user.filteredInterests.push(this.currentFilter);
+			this.filterUsersBasedOnInterests(this.currentFilter);
         }
     }
 
@@ -332,7 +333,7 @@ export class ListComponent implements OnInit {
             for (var i = 0; i < this.model.user.filteredInterests.length; i++) {
                 if(this.model.user.filteredInterests[i] != ""){
                     this.currentFilterArray.push(this.model.user.filteredInterests[i]);
-                    //call filterInterest([i])
+                    this.filterUsersBasedOnInterests(this.model.user.filteredInterests[i]);
                     count++;
                 }
             }
@@ -429,37 +430,42 @@ export class ListComponent implements OnInit {
 			var p = new Promise((resolve, reject) => {
 				this.db.getInterests(this.model.user.uid).then((mi) => {
 					/*if(typeof mi !== 'undefined'){*/
-						if(interest in mi){
-							modelInterests = mi[interest];
+						if(Object.keys(mi).indexOf(interest) != -1){
+							
+							modelInterests = Object.values(mi[interest]);
+							// console.log("MI: " +modelInterests;
 						}
-					/*}*/
 				})
+				console.log(modelInterests);
 				this.filteredUsers.forEach((user) => {
 					var match = false;
 					
 					this.db.getInterests(user.uid).then((ui) => {
-						if(typeof ui !== 'undefined'){
-							if(interest in ui){
-								userInterests = ui[interest];
+						if(ui != null){
+							if(Object.keys(ui).indexOf(interest) != -1){
+								
+								userInterests = Object.values(ui[interest]);
+								// console.log("UI: " +userInterests);
 							}
 						}
-					})
-					for(var i = 0; i < modelInterests.length; i++){
-						for(var j = 0; j < userInterests.length; j++){
-							if(modelInterests[i] == userInterests[j]){
-								console.log(modelInterests[i]);
-								console.log(userInterests[j]);
-								console.log("hwiehfoawh;oaweij;gaw");
-								match = true;
-								break;
+						for(var i = 0; i < modelInterests.length; i++){
+							for(var j = 0; j < userInterests.length; j++){
+								// console.log(modelInterests[i] + " + " + userInterests[j]);
+								if(modelInterests[i] == userInterests[j]){
+									match = true;
+									break;
+								}
 							}
 						}
-					}
-					if (match) {
-						filterUsersArray.push(user);
-					}
-					resolve(filterUsersArray);
-				})
+						if (match) {
+							filterUsersArray.push(user);
+						}
+						resolve(filterUsersArray);
+					}).catch((err) => {
+						console.log(err);
+						reject(err);
+					});
+				});
 			}).then((users: any) => {
 				this.filteredUsers = filterUsersArray;
 				console.log("Filtered Users:", filterUsersArray);
