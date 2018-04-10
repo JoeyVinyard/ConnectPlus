@@ -21,6 +21,9 @@ export class ListComponent implements OnInit {
 	filteredUsers = [];
 	displayedUser: any = {};
 
+	interestObject: any = {};
+	interestKeys = [];
+
 	currentFilter = "";
 	currentFilterArray = [];
 
@@ -76,8 +79,17 @@ export class ListComponent implements OnInit {
 	}
 
 	toggleFilter() {
-		this.filterVisible = !this.filterVisible;
-		console.log("hit");
+		this.filterVisible = true;
+		if (this.filterVisible) {
+			this.db.getInterests(this.model.user.uid).then((interests) => {
+				this.interestObject = interests;
+				this.interestKeys = Object.keys(this.interestObject);
+				console.log(this.interestKeys)
+				//this.getArrayOfInterestKeys();
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
 	}
 
 	model = {
