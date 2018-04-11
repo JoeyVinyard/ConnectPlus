@@ -224,13 +224,13 @@
 						<div class="medium-5 medium-centered column" id="broadcastList">
 								<div id="broadcastPanel" *ngFor="let broad of broadcasts">
 									<div class="medium-4 column">
-											<img id="broadPic" [src]="broad.user.url"/><br>
+											<img id="broadPic" [src]="broad.url"/><br>
 									</div>
 									<div class="medium-8 column">
 										<p class="broadcastText">Subject (Will be set later)</p>
 										<p class="broadcastText">{{broad.message}}</p>
 										<div class="medium-4 column">
-											<button class="button broadButton">View</button>
+											<button class="button broadButton" (click)= "viewBroadcast(broad)">View</button>
 										</div>
 									</div>
 								</div>
@@ -258,8 +258,8 @@
 								</div>
 							</div>
 							<div id="broadResponse">
-								<input type="text" id="broadInput">
-								<button class="button broadInputButton"><i class="fa fa-paper-plane"></i> Send</button>
+								<input type="text" id="broadInput" [(ngModel)]="responseText">
+								<button class="button broadInputButton"><i class="fa fa-paper-plane"(click)="respondToBroadcast()"></i> Send</button>
 						</div>
 					</div>
 				</div>
@@ -291,8 +291,8 @@
 							</div>
 						</div>
 						<div id="messageResponse">
-							<input type="text" id="broadInput" [(ngModel)]="broadcastText">
-							<button class="button broadInputButton" (click)="sendBroadcast()">
+							<input type="text" id="broadInput">
+							<button class="button broadInputButton">
 								<i class="fa fa-paper-plane"></i> Send</button>
 						</div>
 					</div>
