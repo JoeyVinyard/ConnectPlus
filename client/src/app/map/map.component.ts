@@ -151,13 +151,19 @@ export class MapComponent implements OnInit {
 	}
 
 	userVisible = false;
-
+	vis;
 	viewUser(user: any = {}) {
 		this.userVisible = true;
 		this.displayedUser = user;
 		this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance / 5280) * 100) / 100;
 		if (isNaN(this.displayedUser.distanceInMiles))
 			this.displayedUser.distanceInMiles = 0;
+		this.vis = this.commonMap.get(user.uid);
+
+		this.displayedUser.commons = this.vis.FB + ": " + this.vis.facebookNum
+		+ "  " + this.vis.TW + ": " + this.vis.twitterNum
+		+ "  " + this.vis.BB + ": " + this.vis.blackboardNum
+		+ "  " + this.vis.YT + ": " + this.vis.youtubeNum
 	}
 
 	closeUser() {
@@ -487,7 +493,9 @@ export class MapComponent implements OnInit {
 						this.nearbyUsers = nearbyUsers;
 						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 						this.maintainFilter();
-						// this.generateCommonMap();
+						this.generateCommonMap();
+
+
 					}).catch((err) => {
 						console.error(err);
 					})
@@ -584,12 +592,12 @@ export class MapComponent implements OnInit {
 								if (friendMap.get(friend)) {
 									match = true;
 									this.facebookCommon = this.facebookCommon + 1;
-							
+									console.log(this.facebookCommon)
 									this.holder.facebook = true;
 									this.holder.FB = "Facebook"
 								}
 							});
-							this.holder.facebookNum = this.facebookCommon ;
+							this.holder.facebookNum = this.facebookCommon;
 							if (match) {
 
 								filterUsersArray.push(user);
@@ -605,7 +613,7 @@ export class MapComponent implements OnInit {
 						
 					});
 				}).then((users: any) => {
-					if (num === 0) {
+					if (!num) {
 						this.filteredUsers = filterUsersArray;
 						console.log("Filtered Users Facebook:", filterUsersArray);
 					}
@@ -656,7 +664,7 @@ export class MapComponent implements OnInit {
 						});
 					});
 				}).then((users: any) => {
-					if (num === 0) {
+					if (!num) {
 						this.filteredUsers = filterUsersArray;
 						console.log("Filtered Users:", filterUsersArray);
 					}
@@ -682,7 +690,7 @@ export class MapComponent implements OnInit {
 				});
 				var p = new Promise((resolve, reject) => {
 					this.filteredUsers.forEach((user) => {
-						//this.youtubeCommon = 0;
+						this.youtubeCommon = 0;
 						this.db.getTwitterFollowees(user.uid).then((nearbySubscriber) => {
 							var match = false;
 							this.holder = this.commonMap.get(user.uid);
@@ -706,17 +714,18 @@ export class MapComponent implements OnInit {
 						});
 					});
 				}).then((users: any) => {
-					if (num === 0) {
+					if (!num) {
 						this.filteredUsers = filterUsersArray;
 						console.log("Filtered Users:", filterUsersArray);
 					}
 					else {
 
 					}
+				}).catch((err) => {
+					console.error(err);
 				});
 			}).catch((err) => {
-				//console.error(err); 
-				//leave here for now
+				console.error(err); 
 			});
 		}
 	}
@@ -761,17 +770,19 @@ export class MapComponent implements OnInit {
 					});
 				});
 			}).then((users: any) => {
-				if (num === 0) {
+				if (!num) {
 					this.filteredUsers = filterUsersArray;
 					console.log("Filtered Users:", filterUsersArray);
 				}
 				else {
 
 				}
+			}).catch((err) => {
+				console.error(err);
 			});
 		}).catch((err) => {
-			//console.log(err);
-			//leave here for now!
+			console.log(err);
+			
 		})
 	}
 
@@ -792,11 +803,15 @@ export class MapComponent implements OnInit {
 		console.log("i got called");
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
-				console.log("Nearby:", nearbyUsers);
+				//console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
 				this.CommonUsersList = this.nearbyUsers;
 				nearbyUsers.forEach((nearbyUser) => {
 			
+						// this.facebookCommon = 0;
+						// this.twitterCommon = 0;
+						// this.blackboardCommon = 0;
+						// this.youtubeCommon = 0;
 					this.temp = new Commonalities();
 					this.temp.uid = nearbyUser.uid;
 					this.temp.facebook = false;
@@ -807,10 +822,10 @@ export class MapComponent implements OnInit {
 					this.temp.blackboardNum = 0;
 					this.temp.youtube = false;
 					this.temp.youtubeNum = 0;
-					this.temp.FB = "";
-					this.temp.TW = "";
-					this.temp.BB = "";
-					this.temp.YT = "";
+					this.temp.FB = "Facebook";
+					this.temp.TW = "Twitter";
+					this.temp.BB = "BlackBoard";
+					this.temp.YT = "Youtube";
 			
 					this.commonMap.set(nearbyUser.uid, this.temp);
 					// if(this.commonMap.get(nearbyUser.uid)){

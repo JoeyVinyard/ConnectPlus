@@ -4,272 +4,229 @@
   <div class="row">
     <div class="medium-12 medium-centered column">
 
-        <div class="medium-3" id="invisible">.</div>
-        <div class="medium-6 medium-centered column" id="topText">
-          <p id="header">You're almost there!</p>
-          <p id="subtext">Tell us more about you below so you can easily match those around you</p>
-        </div>
-        <div class="medium-3" id="invisible"></div>
+      <div class="medium-3" id="invisible">.</div>
+      <div class="medium-6 medium-centered column" id="topText">
+        <p id="header">You're almost there!</p>
+        <p id="subtext">Tell us more about you below so you can easily match those around you</p>
+      </div>
+      <div class="medium-3" id="invisible"></div>
 
-        <div id="basicInfo">
-          <p id="iconSubtext">Lets start with some basic information</p>
-          <p id="iconSubtext">----------------------------------------------------</p>
-          <div class="medium-4 column">
-            <!-- <img id="profileIcon" src="../../assets/profileicon.ico"/><br>
+      <div id="basicInfo">
+        <p id="iconSubtext">Lets start with some basic information</p>
+        <p id="iconSubtext">----------------------------------------------------</p>
+        <div class="medium-4 column">
+          <!-- <img id="profileIcon" src="../../assets/profileicon.ico"/><br>
           <button id="addProfile" type="button" class="button">Upload Profile Picture</button>-->
-            <img id="profileIcon" [src]="model.user.url" />
-            <br>
-            <div class="upload-buttonPhoto-wrapper">
-              <button class="button buttonPhoto">Change Profile Picture</button>
-              <input type='file' (change)="onSelectFile($event)" id="hiddenFile">
-            </div>
-
+          <img id="profileIcon" [src]="model.user.url" />
+          <br>
+          <div class="upload-buttonPhoto-wrapper">
+            <button class="button buttonPhoto">Change Profile Picture</button>
+            <input type='file' (change)="onSelectFile($event)" id="hiddenFile">
           </div>
-          <div class="medium-8 column">
-            <p id="formTitle">First Name:</p>
-            <input class="textInput" type="text" name="firstName" [(ngModel)]="model.user.firstName">
-            <p id="fnameError" class="error">{{errors.fName}}</p>
-            <p id="formTitle">Last Name:</p>
-            <input class="textInput" type="text" name="lastName" [(ngModel)]="model.user.lastName">
-            <p id="lnameError" class="error">{{errors.lName}}</p>
-            <p id="formTitle">Gender:</p>
-            <select id="gender" name="gender" [(ngModel)]="model.user.gender">
-              <option selected="true" disabled="disabled">Please select an option</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
 
-            </select>
-            <p class="error">{{errors.genderE}}</p>
-            <p id="formTitle">Age:</p>
-            <input class="textInput" type="number" name="age" min="0" max="100" id="age" [(ngModel)]="model.user.age">
-            <p class="error">{{errors.ageE}}</p>
-          </div>
         </div>
+        <div class="medium-8 column">
+          <p id="formTitle">First Name:</p>
+          <input class="textInput" type="text" name="firstName" [(ngModel)]="model.user.firstName">
+          <p id="fnameError" class="error">{{errors.fName}}</p>
+          <p id="formTitle">Last Name:</p>
+          <input class="textInput" type="text" name="lastName" [(ngModel)]="model.user.lastName">
+          <p id="lnameError" class="error">{{errors.lName}}</p>
+          <p id="formTitle">Gender:</p>
+          <select id="gender" name="gender" [(ngModel)]="model.user.gender">
+            <option selected="true" disabled="disabled">Please select an option</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
 
-        <div id="socialMedia" class="icons">
+          </select>
+          <p class="error">{{errors.genderE}}</p>
+          <p id="formTitle">Age:</p>
+          <input class="textInput" type="number" name="age" min="0" max="100" id="age" [(ngModel)]="model.user.age">
+          <p class="error">{{errors.ageE}}</p>
+        </div>
+      </div>
 
-          <p id="iconSubtext">Now, lets connect some social media profiles</p>
-          <p id="iconSubtext">----------------------------------------------------</p>
-          <div id="connectionContent">
-            <div class="medium-3 column">
-              <a class="social-icon-button facebook" (click)="toggleDiv('faceShow')">
-                <i class="fa fa-facebook" aria-hidden="true"></i>
-                <span></span>
-              </a>
-            </div>
-            <div class="medium-3 column">
-              <a class="social-icon-button twitter" (click)="toggleDiv('twitShow')">
-                <i class="fa fa-twitter"></i>
-                <span></span>
-              </a>
-            </div>
-            <div class="medium-3 column">
-              <a class="social-icon-button linkedin" (click)="toggleDiv('linkShow')">
-                <i class="fa fa-linkedin"></i>
-                <span></span>
-              </a>
-            </div>
-            <div class="medium-3 column">
-              <a class="social-icon-button blackboard" (click)="toggleDiv('blackShow')">
-                <i class="fa fa-pencil-square-o"></i>
-                <span></span>
-              </a>
-            </div>
+      <div id="socialMedia" class="icons">
 
-            <div id="connectionSubContent" *ngIf="faceShow || twitShow || linkShow || blackShow">
-                <div class="medium-3 column social-expanded" id="face-exp" [ngClass]="{'hidden' : !faceShow, 'visible' : faceShow}">
-                  <p>Facebook</p>
-                  <div class="socialConnect" [ngClass]="{'none' : !inFacebook, 'visible' : inFacebook && faceShow}">
-                    <i class="fa fa-check"></i>
-                    <p>Connected</p>
-                  </div>
-                  <div class="socialNotConnect" [ngClass]="{'none' : inFacebook, 'visible' : !inFacebook && faceShow}">
-                    <i class="fa fa-times"></i>
-                    <p>Not Connected</p>
-                  </div>
-                  <button (click)="link_facebook()" class="button socialButton" id="face-con">Connect</button>
-                  <button (click)="logout_facebook()" class="button socialButton" id="face-dis">Disconnect</button>
-                </div>
-                <div class="medium-3 column social-expanded" id="twit-exp" [ngClass]="{'hidden' : !twitShow, 'visible' : twitShow}" >
-                    <p>Twitter</p>
-                    <!-- <div class="socialConnect" [ngClass]="{'none' : !inTwitter, 'visible' : inTwitter && twitShow}"><i class="fa fa-check"></i><p>Connected</p></div>
+        <p id="iconSubtext">Now, lets connect some social media profiles</p>
+        <p id="iconSubtext">----------------------------------------------------</p>
+        <div id="connectionContent">
+          <div class="medium-3 column">
+            <a class="social-icon-button facebook" (click)="toggleDiv('faceShow')">
+              <i class="fa fa-facebook" aria-hidden="true"></i>
+              <span></span>
+            </a>
+          </div>
+          <div class="medium-3 column">
+            <a class="social-icon-button twitter" (click)="toggleDiv('twitShow')">
+              <i class="fa fa-twitter"></i>
+              <span></span>
+            </a>
+          </div>
+          <div class="medium-3 column">
+            <a class="social-icon-button youtube" (click)="toggleDiv('youShow')">
+              <i class="fa fa-youtube-play"></i>
+              <span></span>
+            </a>
+          </div>
+          <div class="medium-3 column">
+            <a class="social-icon-button blackboard" (click)="toggleDiv('blackShow')">
+              <i class="fa fa-pencil-square-o"></i>
+              <span></span>
+            </a>
+          </div>
+
+          <div id="connectionSubContent" *ngIf="faceShow || twitShow || youShow || blackShow">
+            <div class="medium-3 column social-expanded" id="face-exp" [ngClass]="{'hidden' : !faceShow, 'visible' : faceShow}">
+              <p>Facebook</p>
+              <div class="socialConnect" [ngClass]="{'none' : !inFacebook, 'visible' : inFacebook && faceShow}">
+                <i class="fa fa-check"></i>
+                <p>Connected</p>
+              </div>
+              <div class="socialNotConnect" [ngClass]="{'none' : inFacebook, 'visible' : !inFacebook && faceShow}">
+                <i class="fa fa-times"></i>
+                <p>Not Connected</p>
+              </div>
+              <button (click)="link_facebook()" class="button socialButton" id="face-con">Connect</button>
+              <button (click)="logout_facebook()" class="button socialButton" id="face-dis">Disconnect</button>
+            </div>
+            <div class="medium-3 column social-expanded" id="twit-exp" [ngClass]="{'hidden' : !twitShow, 'visible' : twitShow}">
+              <p>Twitter</p>
+              <!-- <div class="socialConnect" [ngClass]="{'none' : !inTwitter, 'visible' : inTwitter && twitShow}"><i class="fa fa-check"></i><p>Connected</p></div>
                     <div class="socialNotConnect" [ngClass]="{'none' : inTwitter, 'visible' : !inTwitter && twitShow}"><i class="fa fa-times"></i><p>Not Connected</p></div>
                     <button class="button socialButton" id="insta-con">Connect</button>
                     <button class="button socialButton" id="intsa-dis">Disconnect</button> -->
-                    <p id="formTitle">Twitter Screen Name:</p>
-                    <input class="textInput" type="text" name="screenName" [(ngModel)]="model.user.screenName">
-                    <button (click)="link_twitter()" class="button socialButton" id="link-con">Connect</button>
-                    <p class="error">{{errors.twitterE}}</p>  
+              <p id="formTitle">Twitter Screen Name:</p>
+              <input class="textInput" type="text" name="screenName" [(ngModel)]="model.user.screenName">
+              <button (click)="link_twitter()" class="button socialButton" id="link-con">Connect</button>
+              <p class="error">{{errors.twitterE}}</p>
+            </div>
+            <div class="medium-3 column social-expanded" id="you-exp" [ngClass]="{'hidden' : !youShow, 'visible' : youShow, 'none' : blackInter}">
+              <p>YouTube</p>
+              <div class="socialConnect" [ngClass]="{'none' : !inYoutube, 'visible' : inYoutube && youShow}">
+                <i class="fa fa-check"></i>
+                <p>Connected</p>
+              </div>
+              <div class="socialNotConnect" [ngClass]="{'none' : inYoutube, 'visible' : !inYoutube && youShow}">
+                <i class="fa fa-times"></i>
+                <p>Not Connected</p>
+              </div>
+              <button (click)="link_youtube()" class="button socialButton" id="link-con">Connect</button>
+              <button class="button socialButton" id="link-dis">Disconnect</button>
+            </div>
+
+            <div id="blackboardInterface" class="medium-3 column social-expanded" *ngIf="blackInter">
+              <div *ngIf="inAdd">
+                <p>Add Classes</p>
+                <!-- List of subjects -->
+                <div id="subjectList" *ngIf="!inSubject">
+                  <div id="subjectListContainer">
+                    <p *ngFor="let subject of subjects" (click)="showClassList(subject.Abbreviation)" class="clickable" id="currentList">
+                      {{subject.Abbreviation}}
+                    </p>
+
+                  </div>
+                  <p (click)="toggleAdd()" class="clickable">
+                    <i class="fa fa-times"></i> Close</p>
                 </div>
-                <div class="medium-3 column social-expanded" id="link-exp" [ngClass]="{'hidden' : !linkShow, 'visible' : linkShow, 'none' : blackInter}">
-                  <p>LinkedIn</p>
-    
-                  <div class="socialConnect" [ngClass]="{'none' : !inLinkedIn, 'visible' : inLinkedIn && linkShow}">
-                    <i class="fa fa-check"></i>
-                    <p>Connected</p>
+                <!-- Course list in subject -->
+                <div id="courseList" *ngIf="inSubject">
+                  <div id="courseListContainer">
+                    <p *ngFor="let cl of classList" (click)="addClass(cl.Number)" class="clickable" id="currentList">
+                      {{currSubject}} {{cl.Number}}
+                    </p>
                   </div>
-                  <div class="socialNotConnect" [ngClass]="{'none' : inLinkedIn, 'visible' : !inLinkedIn && linkShow}">
-                    <i class="fa fa-times"></i>
-                    <p>Not Connected</p>
-                  </div>
-                  <button class="button socialButton" id="link-con">Connect</button>
-                  <button class="button socialButton" id="link-dis">Disconnect</button>
-                  <!-- <p id="formTitle">Twitter Screen Name:</p>
-                    <input class="textInput" type="text" name="screenName" [(ngModel)]="model.user.screenName">
-                    <button (click)="link_linkedin()" class="button socialButton" id="link-con">Connect</button> -->
+                  <p (click)="showSubjectList()" class="clickable">
+                    <i class="fa fa-arrow-left"></i> Back</p>
                 </div>
-    
-                <div id="blackboardInterface" class="medium-3 column social-expanded" *ngIf="blackInter">
-                  <div *ngIf="inAdd">
-                    <p>Add Classes</p>
-                    <!-- List of subjects -->
-                    <div id="subjectList" *ngIf="!inSubject">
-                      <div id="subjectListContainer">
-                        <p *ngFor="let subject of subjects" (click)="showClassList(subject.Abbreviation)" class="clickable" id="currentList"> 
-                          {{subject.Abbreviation}}
-                        </p>
-    
-                      </div>
-                      <p (click)="toggleAdd()" class="clickable"><i class="fa fa-times"></i> Close</p>
-                    </div>
-                    <!-- Course list in subject -->
-                    <div id="courseList" *ngIf="inSubject">
-                      <div id="courseListContainer">
-                        <p *ngFor="let cl of classList" (click)="addClass(cl.Number)" class="clickable" id="currentList">
-                          {{currSubject}} {{cl.Number}}
-                        </p>
-                      </div>
-                      <p (click)="showSubjectList()" class="clickable"><i class="fa fa-arrow-left"></i> Back</p>
-                    </div>
-                  </div>
-                  <div *ngIf="inDelete">
-                    <p>Delete Classes</p>
-                    <!-- Deleting classes menu -->
-                    <!-- List of subjects -->
-                    <div id="subjectListContainer" *ngIf="!inSubject">
-                      <p *ngFor="let cl of userClasses" (click)="deleteClass(cl)" class="clickable" id="currentList">
-                        {{cl}}
-                      </p>
-                    </div>
-                    <p (click)="toggleDelete()" class="clickable"><i class="fa fa-times"></i> Close</p>
-                  </div>
-                </div>
-    
-                <div class="medium-3 column social-expanded" id="black-exp" [ngClass]="{'hidden' : !blackShow, 'visible' : blackShow}">
-                  <p>Blackboard</p>
-                  <p id="currentClasses">Current Classes</p>
-                  <p id="currentList" *ngFor="let cl of userClasses">
+              </div>
+              <div *ngIf="inDelete">
+                <p>Delete Classes</p>
+                <!-- Deleting classes menu -->
+                <!-- List of subjects -->
+                <div id="subjectListContainer" *ngIf="!inSubject">
+                  <p *ngFor="let cl of userClasses" (click)="deleteClass(cl)" class="clickable" id="currentList">
                     {{cl}}
                   </p>
-                  <button class="button socialButton" id="black-con" (click)="toggleAdd()">Add Classes</button>
-                  <button class="button socialButton" id="black-dis" (click)="toggleDelete()">Remove Classes</button>
-                  <!-- Regular adding classes menu -->
-    
                 </div>
-    
+                <p (click)="toggleDelete()" class="clickable">
+                  <i class="fa fa-times"></i> Close</p>
               </div>
+            </div>
+
+            <div class="medium-3 column social-expanded" id="black-exp" [ngClass]="{'hidden' : !blackShow, 'visible' : blackShow}">
+              <p>Blackboard</p>
+              <p id="currentClasses">Current Classes</p>
+              <p id="currentList" *ngFor="let cl of userClasses">
+                {{cl}}
+              </p>
+              <button class="button socialButton" id="black-con" (click)="toggleAdd()">Add Classes</button>
+              <button class="button socialButton" id="black-dis" (click)="toggleDelete()">Remove Classes</button>
+              <!-- Regular adding classes menu -->
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="interests">
+        <p>Interests</p>
+
+        <div id="interestContent" class="medium-12 medium-centered column">
+          <!-- <form (ngSubmit)="updateInfo()" #signupForm="ngForm"> -->
+          <div class="medium-5 column">
+            <select id="interestSelection" [(ngModel)]="model.interestSub">
+              <option value="Sports">Sports</option>
+              <option value="Music">Music Genres</option>
+              <option value="Animals">Animals</option>
+              <option value="Tv">TV Shows</option>
+              <option value="Movies">Movie Genres</option>
+              <option value="Hobbies">Hobbies</option>
+              <option value="Country">Country</option>
+              <option value="Food">Food</option>
+            </select>
+          </div>
+          <div class="medium-6 column">
+            <input type="text" name="interestInput" id="interestInput" list="options" (click)="updateIntArray()" [(ngModel)]="model.interestSelected">
+            <datalist id="options">
+              <option *ngFor="let i of cIntArray" [value]="i">
+            </datalist>
+          </div>
+          <div class="medium-1 column">
+            <button id="interestButton" class="button" (click)="addInterest(model.interestSub,model.interestSelected)">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div id="displayInterests" class="medium-12 column">
+            <div class="medium-3 column interestPanel" *ngFor="let category of arrayOfInterestKeys">
+              <b>
+                <p class="interestTitle">{{category}}</p>
+              </b>
+              <div class="interestList">
+                <div class="interestDiv" *ngFor="let interest of getArrayInter(category)">
+                  <div class="medium-9 column iInterestDiv">
+                    <p class="iInterest">{{interest}}</p>
+                  </div>
+                  <div class="medium-3 column iDeleteDiv">
+                    <i class="fa fa-times iDelete" (click)="deleteInterest(category,interest)"></i>
+                  </div>
+                  <!-- <p class="iInterest">{{interest}} <i class="fa fa-times iDelete" (click)="deleteInterest(category,interest)"></i></p> -->
+                </div>
+              </div>
+              <p class="button iClear" (click)="clearAllCatInterests(category)">
+                <i class="fa fa-trash-o"></i> Clear All</p>
+            </div>
           </div>
         </div>
 
-        <div id="interests">
-          <p id="iconSubtext">Finally, tell us what you're interested in</p>
-          <p id="iconSubtext">----------------------------------------------------</p>
+      </div>
 
-          <div class="medium-4 column" id="sportSection">
-            <p id="iconSubtext">Sports</p>
-            <input id="sports1" type="checkbox" name="Football" [(ngModel)]="model.user.sports1">
-            <label for="sports1">Football</label>
-            <input id="sports2" type="checkbox" name="Basketball" [(ngModel)]="model.user.sports2">
-            <label for="sports2">Basketball</label>
-            <br>
-            <input id="sports3" type="checkbox" name="Hockey" [(ngModel)]="model.user.sports3">
-            <label for="sports3">Ice Hockey</label>
-            <input id="sports4" type="checkbox" name="Baseball" [(ngModel)]="model.user.sports4">
-            <label for="sports4">Baseball</label>
-            <br>
-            <input id="sports5" type="checkbox" name="Soccer" [(ngModel)]="model.user.sports5">
-            <label for="sports5">Soccer</label>
-            <input id="sports6" type="checkbox" name="Boxing" [(ngModel)]="model.user.sports6">
-            <label for="sports6">Boxing</label>
-            <br>
-            <input id="sports7" type="checkbox" name="Tennis" [(ngModel)]="model.user.sports7">
-            <label for="sports7">Tennis</label>
-            <input id="sports8" type="checkbox" name="Golf" [(ngModel)]="model.user.sports8">
-            <label for="sports8">Golf</label>
-            <br>
-            <input id="sports9" type="checkbox" name="Volleyball" [(ngModel)]="model.user.sports9">
-            <label for="sports9">Volleyball</label>
-            <input id="sports10" type="checkbox" name="Swimming" [(ngModel)]="model.user.sports10">
-            <label for="sports10">Swimming</label>
-            <br>
-
-          </div>
-
-          <div class="medium-4 column" id="musicSection">
-            <p id="iconSubtext">Music</p>
-            <input id="music1" type="checkbox" name="Rock" [(ngModel)]="model.user.music1">
-            <label for="music1">Rock</label>
-            <input id="music2" type="checkbox" name="R&B" [(ngModel)]="model.user.music2">
-            <label for="music2">R&B/Hip-Hop</label>
-            <br>
-            <input id="music3" type="checkbox" name="Pop" [(ngModel)]="model.user.music3">
-            <label for="music3">Pop</label>
-            <input id="music4" type="checkbox" name="Country" [(ngModel)]="model.user.music4">
-            <label for="music4">Country</label>
-            <br>
-            <input id="music5" type="checkbox" name="Classical" [(ngModel)]="model.user.music5">
-            <label for="music5">Classical</label>
-            <input id="music6" type="checkbox" name="Jazz" [(ngModel)]="model.user.music6">
-            <label for="music6">Jazz</label>
-            <br>
-            <input id="music7" type="checkbox" name="EDM" [(ngModel)]="model.user.music7">
-            <label for="music7">EDM</label>
-            <input id="music8" type="checkbox" name="K-Pop" [(ngModel)]="model.user.music8">
-            <label for="music8">K-Pop</label>
-            <br>
-            <input id="music9" type="checkbox" name="Christian" [(ngModel)]="model.user.music9">
-            <label for="music9">Christian/Gospel</label>
-            <input id="music10" type="checkbox" name="Latin" [(ngModel)]="model.user.music10">
-            <label for="music10">Latin</label>
-            <br>
-          </div>
-
-          <div class="medium-4 column" id="foodSection">
-            <p id="iconSubtext">Food</p>
-            <input id="food1" type="checkbox" name="American" [(ngModel)]="model.user.food1">
-            <label for="food1">American</label>
-            <input id="food2" type="checkbox" name="Mexican" [(ngModel)]="model.user.food2">
-            <label for="food2">Mexican</label>
-            <br>
-            <input id="food3" type="checkbox" name="Italian" [(ngModel)]="model.user.food3">
-            <label for="food3">Italian</label>
-            <input id="food4" type="checkbox" name="Thai" [(ngModel)]="model.user.food4">
-            <label for="food4">Thai</label>
-            <br>
-            <input id="food5" type="checkbox" name="Chinese" [(ngModel)]="model.user.food5">
-            <label for="food5">Chinese</label>
-            <input id="food6" type="checkbox" name="Cuban" [(ngModel)]="model.user.food6">
-            <label for="food6">Cuban</label>
-            <br>
-            <input id="food7" type="checkbox" name="Indian" [(ngModel)]="model.user.food7">
-            <label for="food7">Indian</label>
-            <input id="food8" type="checkbox" name="Soul Food" [(ngModel)]="model.user.food8">
-            <label for="food8">Soul Food</label>
-            <br>
-            <input id="food9" type="checkbox" name="Greek" [(ngModel)]="model.user.food9">
-            <label for="food9">Greek</label>
-            <input id="food10" type="checkbox" name="Korean" [(ngModel)]="model.user.food10">
-            <label for="food10">Korean</label>
-            <br>
-          </div>
-
-        </div>
-
-        <div id="subBox">
-          <p class="error">{{errors.createError}}</p>
-          <button (click)="submit()" class="button" routerLinkActive="active" id="createSubmit">Let me in</button>
-        </div>
+      <div id="subBox">
+        <p class="error">{{errors.createError}}</p>
+        <button (click)="submit()" class="button" routerLinkActive="active" id="createSubmit">Let me in</button>
+      </div>
     </div>
 
   </div>
