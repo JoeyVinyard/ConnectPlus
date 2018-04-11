@@ -371,13 +371,8 @@ module.exports = {
 					var commonFriendUIDs = [];
 					s.forEach((nextUser) => {
 						var matchFriends = nextUser.val().friends;
-						console.log(nextUser.val().uid);
 						var commonFriend = false;
 						matchFriends.forEach((friend) => {
-							console.log(friend);
-							console.log(friend.id);
-							console.log(friendMap.get(friend.name));
-							//console.log(friendMap);
 							if(friendMap.get(friend.name)){
 								commonFriend = true;
 							}
@@ -754,7 +749,6 @@ module.exports = {
 		while(inter.includes("%20")){
 			inter = inter.replace("%20", " ");
 		}
-		console.log("nilu: ", inter);
 		firebase.database().ref("interests/"+uid+"/"+sub).once("value").then((s) => {
 			var ent = Object.entries(s.val());
 			var found = false;
@@ -985,7 +979,6 @@ module.exports = {
 		});
 		req.on('end', function() {
 			var data = JSON.parse(body);
-			console.log(data);
 			if(!data || !data.uid){
 				res.statusCode = 400;
 				responseBody.err = "Data or UID not supplied";
@@ -1057,9 +1050,7 @@ module.exports = {
 				firebase.database().ref("broadcasts").once("value").then((s) => {
 					res.statusCode=200;
 					var nearbyUids = [];
-					console.log(s);
 					s.forEach((loc) => {
-						console.log(loc.val());
 						var c2 = {
 							lat: loc.val().lat,
 							lon: loc.val().lon
