@@ -592,12 +592,12 @@ export class MapComponent implements OnInit {
 								if (friendMap.get(friend)) {
 									match = true;
 									this.facebookCommon = this.facebookCommon + 1;
-							
+									console.log(this.facebookCommon)
 									this.holder.facebook = true;
 									this.holder.FB = "Facebook"
 								}
 							});
-							this.holder.facebookNum = this.facebookCommon ;
+							this.holder.facebookNum = this.facebookCommon;
 							if (match) {
 
 								filterUsersArray.push(user);
@@ -613,7 +613,7 @@ export class MapComponent implements OnInit {
 						
 					});
 				}).then((users: any) => {
-					if (num === 0) {
+					if (!num) {
 						this.filteredUsers = filterUsersArray;
 						console.log("Filtered Users Facebook:", filterUsersArray);
 					}
@@ -664,7 +664,7 @@ export class MapComponent implements OnInit {
 						});
 					});
 				}).then((users: any) => {
-					if (num === 0) {
+					if (!num) {
 						this.filteredUsers = filterUsersArray;
 						console.log("Filtered Users:", filterUsersArray);
 					}
@@ -690,7 +690,7 @@ export class MapComponent implements OnInit {
 				});
 				var p = new Promise((resolve, reject) => {
 					this.filteredUsers.forEach((user) => {
-						//this.youtubeCommon = 0;
+						this.youtubeCommon = 0;
 						this.db.getTwitterFollowees(user.uid).then((nearbySubscriber) => {
 							var match = false;
 							this.holder = this.commonMap.get(user.uid);
@@ -714,7 +714,7 @@ export class MapComponent implements OnInit {
 						});
 					});
 				}).then((users: any) => {
-					if (num === 0) {
+					if (!num) {
 						this.filteredUsers = filterUsersArray;
 						console.log("Filtered Users:", filterUsersArray);
 					}
@@ -770,7 +770,7 @@ export class MapComponent implements OnInit {
 					});
 				});
 			}).then((users: any) => {
-				if (num === 0) {
+				if (!num) {
 					this.filteredUsers = filterUsersArray;
 					console.log("Filtered Users:", filterUsersArray);
 				}
