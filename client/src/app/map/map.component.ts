@@ -26,7 +26,9 @@ export class MapComponent implements OnInit {
 
 	testArray = [1, 2, 3, 4, 5, 6]
 
+	responseText = "";
 	broadcastText = "";
+
 	broadcasts = [];
 	nearbyUsers = [];
 	filteredUsers =[];
@@ -461,15 +463,14 @@ commonMap = new Map();
 		          db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
 		            console.log("Followees: ", twitterFollowees);
 		          });
-		          db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
+		         /* db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
 		          	console.log("Broadcasts: ", broadcasts);
 		          	broadcasts.forEach((broad) => {
 		          		db.getUser(broad.uid).then((fetchedUser) => {
 		          			var broadcast = {
 		          			message: broad.message,
 		          			broadcastID: broad.broadcastID,
-				      		user: fetchedUser
-							//responses, subject		      	
+				      		user: fetchedUser	      	
 			          		};	
 
 			          		this.broadcasts.push(broadcast);
@@ -478,7 +479,7 @@ commonMap = new Map();
 		    
 		          	});
 		          	//this.broadcasts = broadcasts;
-		          });
+		          });*/
 		          db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 		            console.log("Nearby:",nearbyUsers);
 
@@ -795,30 +796,29 @@ commonMap = new Map();
 	}
 
 	sendBroadcast(){
-			var location = {
-				latitude: this.lat,
-				longitude: this.lng
-			};
-			this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText).then((data) => {
-				console.log("broadcast sent");
-			}).catch((err) => {
-				console.error(err);
-			})
-			console.log(this.broadcastText);
-		}
+		var location = {
+			latitude: this.lat,
+			longitude: this.lng
+		};
+		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText).then((data) => {
+			console.log("broadcast sent");
+		}).catch((err) => {
+			console.error(err);
+		})
+		console.log(this.broadcastText);
+	}
 
+	respondToBroadcast(){
 
-
-	
-	
+	}
 
 	generateCommonMap(){
 		console.log("i got called");
 		this.auth.getUser().then((u) => {
-					this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
-						console.log("Nearby:",nearbyUsers);
+			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+				console.log("Nearby:",nearbyUsers);
 
-						this.nearbyUsers = nearbyUsers;
+				this.nearbyUsers = nearbyUsers;
 						//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 						//this.maintainFilter();
 

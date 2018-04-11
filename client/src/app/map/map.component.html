@@ -256,8 +256,8 @@
 								</div>
 							</div>
 							<div id="broadResponse">
-								<input type="text" id="broadInput">
-								<button class="button broadInputButton"><i class="fa fa-paper-plane"></i> Send</button>
+								<input type="text" id="broadInput" [(ngModel)]="responseText">
+								<button class="button broadInputButton"><i class="fa fa-paper-plane"(click)="respondToBroadcast()"></i> Send</button>
 						</div>
 					</div>
 				</div>
@@ -289,8 +289,8 @@
 							</div>
 						</div>
 						<div id="messageResponse">
-							<input type="text" id="broadInput" [(ngModel)]="broadcastText">
-							<button class="button broadInputButton" (click)="sendBroadcast()">
+							<input type="text" id="broadInput">
+							<button class="button broadInputButton">
 								<i class="fa fa-paper-plane"></i> Send</button>
 						</div>
 					</div>

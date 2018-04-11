@@ -381,6 +381,9 @@ export class DatabaseService {
 			})
 		})
 	}
+	respondToBroadcast(uid, broadcastID, response){
+		
+	}
 	constructor(private http: HttpClient) {}
 
 }
