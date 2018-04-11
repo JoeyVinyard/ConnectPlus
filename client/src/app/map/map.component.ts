@@ -306,7 +306,7 @@ export class MapComponent implements OnInit {
     facebookFilter() {
     	this.auth.getUser().then((user) => {
     		this.db.updateUser(this.model.user).then((data) => {
-    			console.log(data);
+    			console.log("from facebook filter " , data);
 
     			if (this.model.user.filterFacebook) {
     				this.filterUsersBasedOnFacebook(0);
@@ -378,6 +378,7 @@ export class MapComponent implements OnInit {
     }
 
     maintainFilter() {
+    	//this.generateCommonMap();
     	this.filteredUsers = this.nearbyUsers;
     	this.currentFilterArray = [];
     	var count = 0;
@@ -447,6 +448,7 @@ export class MapComponent implements OnInit {
 				this.model.moodStatus = localStorage.getItem("localMood");
 				console.log(userData)
 			})
+			this.generateCommonMap();
 
 		});
 
@@ -492,10 +494,10 @@ export class MapComponent implements OnInit {
 
 						this.nearbyUsers = nearbyUsers;
 						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
+						
+						//this.generateCommonMap();
+
 						this.maintainFilter();
-						this.generateCommonMap();
-
-
 					}).catch((err) => {
 						console.error(err);
 					})
@@ -586,18 +588,21 @@ export class MapComponent implements OnInit {
 						this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
 							var match = false;
 							this.holder = this.commonMap.get(user.uid);
-
+							console.log(this.holder);
 							nearbyFriend.forEach((friend) => {
 								//console.log(friend);
 								if (friendMap.get(friend)) {
 									match = true;
 									this.facebookCommon = this.facebookCommon + 1;
-									console.log(this.facebookCommon)
-									this.holder.facebook = true;
-									this.holder.FB = "Facebook"
+									//console.log(this.facebookCommon)
+									// this.holder.facebook = true;
+									// this.holder.FB = "Facebook"
+									(this.commonMap.get(user.uid)).facebook = true;
+									(this.commonMap.get(user.uid)).FB = "Facebook"
 								}
 							});
-							this.holder.facebookNum = this.facebookCommon;
+							// this.holder.facebookNum = this.facebookCommon;
+							(this.commonMap.get(user.uid)).facebookNum = this.facebookCommon;
 							if (match) {
 
 								filterUsersArray.push(user);
@@ -684,19 +689,24 @@ export class MapComponent implements OnInit {
 		if (true) {
 			this.db.getYoutubeSubscribers(this.model.user.uid).then((subscribers) => {
 				var subscriberMap = new Map();
-
-				Object.values(subscribers).forEach((subscriber) => {
+				console.log("this is the subs" , subscribers)
+				Object.keys(subscribers).forEach((subscriber) => {
 					subscriberMap.set(subscriber, 1);
 				});
 				var p = new Promise((resolve, reject) => {
+					//console.log("youtube map works?", subscriberMap)
 					this.filteredUsers.forEach((user) => {
 						this.youtubeCommon = 0;
-						this.db.getTwitterFollowees(user.uid).then((nearbySubscriber) => {
+						this.db.getYoutubeSubscribers(user.uid).then((nearbySubscriber) => {
 							var match = false;
 							this.holder = this.commonMap.get(user.uid);
-							nearbySubscriber.forEach((subscriber) => {
+							Object.keys(nearbySubscriber).forEach((subscriber) => {
+								
+							//console.log(subscriber)
+							//console.log(subscriberMap);
 								if (subscriberMap.get(subscriber)) {
 									match = true;
+									//console.log("hellllllllllooooooooooo")
 									this.youtubeCommon = this.youtubeCommon + 1;
 									this.holder.youtube = true;	
 									this.holder.YT = "Youtube"								
