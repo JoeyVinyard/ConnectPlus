@@ -378,6 +378,7 @@ export class MapComponent implements OnInit {
     }
 
     maintainFilter() {
+		console.log("Maintain Called")
     	this.filteredUsers = this.nearbyUsers;
     	this.currentFilterArray = [];
     	var count = 0;
