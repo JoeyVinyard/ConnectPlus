@@ -1074,7 +1074,7 @@ module.exports = {
 							var d = distanceCalc.getDistance(c1,c2);
 						if(d <= 15840 ){//3 miles
 							firebase.database().ref("users/" + loc.val().uid).once("value").then((broadcastUser) => {
-								nearbyUids.push({
+								var obj = {
 									url: broadcastUser.val().url,
 									fullName: broadcastUser.val().fullName,
 									uid: loc.val().uid,
@@ -1082,24 +1082,36 @@ module.exports = {
 									lat: loc.val().lat,
 									lon: loc.val().lon,
 									message: loc.val().broadcast,
-									broadcastID: loc.val().broadcastID
-								});
+									broadcastID: loc.val().broadcastID,
+									responses: []
+								};
+								if(loc.val().responses){
+									obj.responses = loc.val().responses;
+								}
+								nearbyUids.push(obj);
+								res();
+								
 
-							}).catch((err) => {rej(err)});
+							}).catch((err) => {
+								console.log(err);
+								rej(err);
+							});
+						}else{
+							res();							
 						}
-						else {
-							resolve();
-						}
+
 					}));
 					})
 					Promise.all(promises).then((then) => {
 						resolve(nearbyUids);
-					}).catch(reject('err'));
+					}).catch((err) => {
+						console.log(err);
+						reject('err')
+					});
 
 				});
 
 			}).then((closeBroadcasts) => {
-				console.log(closeBroadcasts);
 				res.statusCode = 200;
 				responseBody.payload = closeBroadcasts;
 				res.write(JSON.stringify(responseBody));
