@@ -591,30 +591,37 @@ export class MapComponent implements OnInit {
 				});
 				var p = new Promise((resolve, reject) => {
 					this.filteredUsers.forEach((user) => {
-						this.facebookCommon = 0;
+						//this.facebookCommon = 0;
+						//this.holder = this.commonMap.get(user.uid);
+
 						this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
 							var match = false;
+							this.holder = this.commonMap.get(user.uid);
+
 							nearbyFriend.forEach((friend) => {
 								//console.log(friend);
 								if (friendMap.get(friend)) {
 									match = true;
 									this.facebookCommon = this.facebookCommon + 1;
-									this.holder = this.commonMap.get(user.uid);
-									this.holder.facebookNum = 0;
-									this.holder.facebookNum = (this.facebookCommon /2);
+							
 									this.holder.facebook = true;
+									this.holder.FB = "Facebook"
 								}
 							});
-
+							this.holder.facebookNum = this.facebookCommon ;
 							if (match) {
 
 								filterUsersArray.push(user);
 							}
 							resolve(filterUsersArray);
+
 						}).catch((err) => {
 							console.log(err);
 							reject(err);
 						});
+						//this.holder.facebookNum = 0;
+						//this.holder.facebookNum = (this.facebookCommon /2);
+						
 					});
 				}).then((users: any) => {
 					if (num === 0) {
@@ -643,19 +650,21 @@ export class MapComponent implements OnInit {
 				});
 				var p = new Promise((resolve, reject) => {
 					this.filteredUsers.forEach((user) => {
-						this.twitterCommon = 0;
+						//this.twitterCommon = 0;
 						this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
 							var match = false;
+							this.holder = this.commonMap.get(user.uid);
+
 							nearbyFollowee.forEach((followee) => {
 								if (followeeMap.get(followee)) {
 									match = true;
 									this.twitterCommon = this.twitterCommon + 1;
-									this.holder = this.commonMap.get(user.uid);
-									this.holder.twitterNum = 0;
-									this.holder.twitterNum = (this.twitterCommon /2);
-									this.holder.twitter = true;									
+									this.holder.twitter = true;		
+									this.holder.TW = "Twitter"							
 								}
 							});
+							this.holder.twitterNum = this.twitterCommon;
+
 							if (match) {
 								filterUsersArray.push(user);
 							}
@@ -692,19 +701,20 @@ export class MapComponent implements OnInit {
 				});
 				var p = new Promise((resolve, reject) => {
 					this.filteredUsers.forEach((user) => {
-						this.youtubeCommon = 0;
+						//this.youtubeCommon = 0;
 						this.db.getTwitterFollowees(user.uid).then((nearbySubscriber) => {
 							var match = false;
+							this.holder = this.commonMap.get(user.uid);
 							nearbySubscriber.forEach((subscriber) => {
 								if (subscriberMap.get(subscriber)) {
 									match = true;
 									this.youtubeCommon = this.youtubeCommon + 1;
-									this.holder = this.commonMap.get(user.uid);
-									this.holder.youtubeNum = 0;
-									this.holder.youtubeNum = (this.youtubeCommon /2);
-									this.holder.youtube = true;									
+									this.holder.youtube = true;	
+									this.holder.YT = "Youtube"								
 								}
 							});
+							this.holder.youtubeNum = this.youtubeCommon ;
+
 							if (match) {
 								filterUsersArray.push(user);
 							}
@@ -743,19 +753,22 @@ export class MapComponent implements OnInit {
 			var p = new Promise((resolve, reject) => {
 				this.filteredUsers.forEach((user) => {
 					this.blackboardCommon = 0;
+
 					this.db.getClasses(user.uid).then((nearbyUser) => {
 						var match = false;
+						this.holder = this.commonMap.get(user.uid);
+
 						if (nearbyUser != null) {
 							nearbyUser.forEach((singleClass) => {
 								if (classesMap.get(singleClass)) {
 									match = true;
 									this.blackboardCommon = this.blackboardCommon + 1;
-									this.holder = this.commonMap.get(user.uid);
-									this.holder.blackboardNum = 0;
-									this.holder.blackboardNum = (this.blackboardCommon /2);
 									this.holder.blackboard = true;	
+									this.holder.BB = "BlackBoard"
 								}
 							});
+							this.holder.blackboardNum = this.blackboardCommon;
+
 						}
 						if (match) {
 							filterUsersArray.push(user);
@@ -807,26 +820,30 @@ export class MapComponent implements OnInit {
 					this.temp.uid = nearbyUser.uid;
 					this.temp.facebook = false;
 					this.temp.facebookNum = 0;
-					this.temp.FBCommon;
 					this.temp.twitter = false;
 					this.temp.twitterNum = 0;
 					this.temp.blackboard = false;
 					this.temp.blackboardNum = 0;
 					this.temp.youtube = false;
 					this.temp.youtubeNum = 0;
+					this.temp.FB = "";
+					this.temp.TW = "";
+					this.temp.BB = "";
+					this.temp.YT = "";
 			
 					this.commonMap.set(nearbyUser.uid, this.temp);
-					if(this.commonMap.get(nearbyUser.uid)){
-						this.getCommon();
-					}
+					// if(this.commonMap.get(nearbyUser.uid)){
+					// 	this.getCommon();
+					// }
 				});
+				this.getCommon();		
 				
 			}).catch((err) => {
 				console.error(err);
 			})
 		})
 		
-		this.getCommon();		
+		//this.getCommon();		
 
 	}
 	getCommon() {
