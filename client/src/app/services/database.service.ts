@@ -344,6 +344,17 @@ export class DatabaseService {
 			});
 		})
 	}
+
+	deleteYoutubeData(uid: String){
+		return new Promise((resolve, reject) => {
+			this.http.delete(this.dbUrl+ "deleteYoutubeData/"+uid, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
 	addFeedback(feedback:String): Promise<any>{
 		var feedbackObject = {
 			

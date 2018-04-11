@@ -376,13 +376,8 @@ module.exports = {
 					var commonFriendUIDs = [];
 					s.forEach((nextUser) => {
 						var matchFriends = nextUser.val().friends;
-						console.log(nextUser.val().uid);
 						var commonFriend = false;
 						matchFriends.forEach((friend) => {
-							console.log(friend);
-							console.log(friend.id);
-							console.log(friendMap.get(friend.name));
-							//console.log(friendMap);
 							if(friendMap.get(friend.name)){
 								commonFriend = true;
 							}
@@ -759,7 +754,6 @@ module.exports = {
 		while(inter.includes("%20")){
 			inter = inter.replace("%20", " ");
 		}
-		console.log("nilu: ", inter);
 		firebase.database().ref("interests/"+uid+"/"+sub).once("value").then((s) => {
 			var ent = Object.entries(s.val());
 			var found = false;
@@ -946,6 +940,28 @@ module.exports = {
 			res.end();
 		})
 	},
+	deleteYoutubeData(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		if(!uid){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("subscriptions/"+uid).remove().then(() => {
+			responseBody.payload = true;
+			res.statusCode = 200;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
+	},
 	addFeedback: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		var body = "";
@@ -990,7 +1006,6 @@ module.exports = {
 		});
 		req.on('end', function() {
 			var data = JSON.parse(body);
-			console.log(data);
 			if(!data || !data.uid){
 				res.statusCode = 400;
 				responseBody.err = "Data or UID not supplied";
@@ -1065,7 +1080,6 @@ module.exports = {
 					var promises = [];
 					s.forEach((loc) => {
 						promises.push( new Promise((res, rej) => {
-
 							console.log("Do we at least get in here?");
 							var c2 = {
 								lat: loc.val().lat,

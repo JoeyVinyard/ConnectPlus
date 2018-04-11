@@ -173,7 +173,7 @@
 								<p>Not Connected</p>
 							</div>
 							<button (click) = "link_youtube()" class="button socialButton" id="link-con">Connect</button>
-							<button class="button socialButton" id="link-dis">Disconnect</button>
+							<button (click) = "unlink_youtube()" class="button socialButton" id="link-dis">Disconnect</button>
 						</div>
 
 						<div id="blackboardInterface" class="medium-3 column social-expanded" *ngIf="blackInter">
@@ -263,10 +263,16 @@
 						</div>
 						<div id="displayInterests" class="medium-12 column">
 							<div class="medium-3 column interestPanel"*ngFor="let category of arrayOfInterestKeys" >
-								<p class="interestTitle" >{{category}}</p>
+								<b><p class="interestTitle" >{{category}}</p></b>
 								<div class="interestList">
 									<div class="interestDiv" *ngFor="let interest of getArrayInter(category)">
-										<p class="iInterest">{{interest}} <i class="fa fa-times iDelete" (click)="deleteInterest(category,interest)"></i></p>
+										<div class="medium-9 column iInterestDiv">
+												<p class="iInterest">{{interest}}</p>
+										</div>
+										<div class="medium-3 column iDeleteDiv">
+												<i class="fa fa-times iDelete" (click)="deleteInterest(category,interest)"></i>
+										</div>
+										<!-- <p class="iInterest">{{interest}} <i class="fa fa-times iDelete" (click)="deleteInterest(category,interest)"></i></p> -->
 									</div>
 								</div>
 								<p class="button iClear"(click)="clearAllCatInterests(category)"><i class="fa fa-trash-o"></i> Clear All</p>

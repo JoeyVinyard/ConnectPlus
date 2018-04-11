@@ -462,6 +462,17 @@ export class SettingsComponent implements OnInit {
 			"&response_type=token"+
 			"&scope=https://www.googleapis.com/auth/youtube.readonly"
 	}
+	unlink_youtube(){
+		this.auth.getUser().then((u) => {
+			this.db.deleteYoutubeData(u.uid).then(() => {
+				this.inYoutube = false;
+			}).catch((err) => {
+				console.error(err);
+			})
+		}).catch((err) => {
+			console.error(err);
+		});
+	}
 	link_twitter(){
 		console.log("Here");
 		this.li.getFriends(this.model.user.screenName).then((data:any) => {
