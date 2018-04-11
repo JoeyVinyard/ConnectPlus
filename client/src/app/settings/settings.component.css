@@ -440,7 +440,7 @@ img {
 }
 
 #interestButton{
-  background:  #0076BB;
+  background:  transparent;
   border: 2px solid #004E7F;
   border-radius: 25px;
   color: #004E7F;
@@ -450,10 +450,8 @@ img {
 }
 
 #interestButton:hover {
-  background:  #004E7F;
-  border: 2px solid #0076BB;
-  border-radius: 25px;
-  color: #0076BB;
+  background:  #0076BB;
+  color: #004E7F;
   /* float: left; */
 }
 
@@ -500,6 +498,17 @@ img {
   padding: 0px;
   border-bottom: 1px solid rgba(255,255,255, 0.5);
   color: white;
+  height: auto !important;
+  /* white-space: nowrap; */
+  overflow: hidden;
+}
+
+.iInterestDiv{
+  overflow: hidden;
+  /* white-space: nowrap; */
+  position: relative;
+  margin: 0px;
+  padding: 0px;
 }
 
 .iIterest{
@@ -508,17 +517,29 @@ img {
   margin: 0px;
   padding: 0px;
   margin-top: 0.33rem;
-  font-size: 2.5vw;
+  font-size: 2vw;
+  /* white-space: nowrap; */
+  height: auto;
+}
+
+.iDeleteDiv{
+  float: left;
+  text-align: center;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
 }
 
 .iDelete{
-  float: right;
-  text-align: right;
-  margin-right: 2rem;
-  margin-left: 0rem;
+  float: center;
+  text-align: center;
+  margin: 0px;
+  padding: 0px;
   margin-top: 0.33rem;
+  /* margin-right: 1rem; */
   cursor: pointer;
   font-size: 1.25rem;
+  position: relative;
 }
 
 .iDelete:hover{
