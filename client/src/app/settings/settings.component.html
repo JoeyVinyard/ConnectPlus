@@ -173,7 +173,7 @@
 								<p>Not Connected</p>
 							</div>
 							<button (click) = "link_youtube()" class="button socialButton" id="link-con">Connect</button>
-							<button class="button socialButton" id="link-dis">Disconnect</button>
+							<button (click) = "unlink_youtube()" class="button socialButton" id="link-dis">Disconnect</button>
 						</div>
 
 						<div id="blackboardInterface" class="medium-3 column social-expanded" *ngIf="blackInter">

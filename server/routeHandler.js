@@ -935,6 +935,28 @@ module.exports = {
 			res.end();
 		})
 	},
+	deleteYoutubeData(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		if(!uid){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("subscriptions/"+uid).remove().then(() => {
+			responseBody.payload = true;
+			res.statusCode = 200;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
+	},
 	addFeedback: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		var body = "";
