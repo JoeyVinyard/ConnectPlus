@@ -1,163 +1,188 @@
 <div class="row" id="mainDiv">
 	<div class="medium-12 medium-centered column" id="welcomeDiv">
-    	<div class="medium-12 medium-centered column" id="messageDiv">
-        	<p class="unselectable" id="title">Explore the World Around You!</p>
-    	</div>
-    	
-    	<div class="medium-12 column" id="listView">
-    		<!-- <div class="medium-3 column"> -->
-				<div class="medium-12 column" id="InnerList" [ngClass]="{'' : !userVisible, 'opacity' : userVisible}">
-					<div class="medium-4 column" id="userDiv" (click)='viewUser(user)' *ngFor="let user of filteredUsers">
-							<div id="userDivInfo" class="medium-8 column">
-								<div class="medium-8 column" id="innerDiv">
-										<p id="userNameSmall">{{user.firstName}} {{user.lastName}}</p>
-								</div>
-								<div class="medium-8 column" id="innerDiv">
-										<p id="lowerText">{{user.moodStatus}}</p>
-								</div>
-								<div class="medium-8 column" id="innerDiv">
-										<p id="lowerText">{{user.distanceInMiles}} Miles</p>
-								</div>
-								<div class="medium-8 column" id="innerDiv">
-										<p id="lowerText">Commonalities</p>
-								</div>
-							</div>
-							<div id="userDivImg" >
-									<img id="listUser" [src]="user.url">
-							</div>
+		<div class="medium-12 medium-centered column" id="messageDiv">
+			<p class="unselectable" id="title">Explore the World Around You!</p>
+		</div>
+
+		<div class="medium-12 column" id="listView">
+			<!-- <div class="medium-3 column"> -->
+			<div class="medium-12 column" id="InnerList" [ngClass]="{'' : !userVisible, 'opacity' : userVisible}">
+				<div class="medium-4 column" id="userDiv" (click)='viewUser(user)' *ngFor="let user of filteredUsers">
+					<div id="userDivInfo" class="medium-8 column">
+						<div class="medium-8 column" id="innerDiv">
+							<p id="userNameSmall">{{user.firstName}} {{user.lastName}}</p>
+						</div>
+						<div class="medium-8 column" id="innerDiv">
+							<p id="lowerText">{{user.moodStatus}}</p>
+						</div>
+						<div class="medium-8 column" id="innerDiv">
+							<p id="lowerText">{{user.distanceInMiles}} Miles</p>
+						</div>
+						<div class="medium-8 column" id="innerDiv">
+							<p id="lowerText">Commonalities</p>
+						</div>
+					</div>
+					<div id="userDivImg">
+						<img id="listUser" [src]="user.url">
+					</div>
+				</div>
+
+			</div>
+
+			<div id="refreshDiv">
+				<button class="button refreshButton" (click)="refreshList()">
+					<i class="fa fa-refresh"></i>
+				</button>
+			</div>
+
+			<div class="medium-12 column" id="selectedUser" [ngClass]="{'' : userVisible, 'none' : !userVisible}">
+				<!-- <div class="medium-3 column" class="hidden">A</div> -->
+				<div class="medium-12 column" id="selectedUserInfo">
+					<img id="listUserSelected" [src]="displayedUser.url">
+					<br>
+
+					<div id="SelectedUserDivInfo" class="medium-12 column">
+						<div class="medium-8 column" id="innerDiv">
+							<p id="SelectedUserNameSmall">{{displayedUser.firstName}} {{displayedUser.lastName}}</p>
+						</div>
+						<div class="medium-8 column" id="innerDiv">
+							<p id="SelectedLowerText">{{displayedUser.moodStatus}}</p>
+						</div>
+						<div class="medium-8 column" id="innerDiv">
+							<p id="SelectedLowerText">{{displayedUser.distanceInMiles}} Miles</p>
+						</div>
+						<div class="medium-8 column" id="innerDiv">
+							<p id="SelectedLowerText">Commonalities</p>
 						</div>
 
-				</div>
-
-				<div id="refreshDiv">
-						<button class="button refreshButton" (click)="refreshList()"><i class="fa fa-refresh"></i></button>
-				</div>
-
-				<div class="medium-12 column" id="selectedUser" [ngClass]="{'' : userVisible, 'none' : !userVisible}">
-					<!-- <div class="medium-3 column" class="hidden">A</div> -->
-					<div class="medium-12 column" id="selectedUserInfo">
-							<img id="listUserSelected" [src]="displayedUser.url"><br>
-
-							<div id="SelectedUserDivInfo" class="medium-12 column">
-									<div class="medium-8 column" id="innerDiv">
-											<p id="SelectedUserNameSmall">{{displayedUser.firstName}} {{displayedUser.lastName}}</p>
-									</div>
-									<div class="medium-8 column" id="innerDiv">
-											<p id="SelectedLowerText">{{displayedUser.moodStatus}}</p>
-									</div>
-									<div class="medium-8 column" id="innerDiv">
-											<p id="SelectedLowerText">{{displayedUser.distanceInMiles}} Miles</p>
-									</div>
-									<div class="medium-8 column" id="innerDiv">
-											<p id="SelectedLowerText">Commonalities</p>
-									</div>
-
-									<div class="medium-6 column">
-										<button class="button selectedButton"><i class="fa fa-pencil"></i> Message</button>
-									</div>
-									<div class="medium-6 column">
-											<button class="button selectedButton" (click)="closeUser()"><i class="fa fa-times"></i> Close</button>
-										</div>
-								</div>
+						<div class="medium-6 column">
+							<button class="button selectedButton">
+								<i class="fa fa-pencil"></i> Message</button>
+						</div>
+						<div class="medium-6 column">
+							<button class="button selectedButton" (click)="closeUser()">
+								<i class="fa fa-times"></i> Close</button>
+						</div>
 					</div>
-					<!-- <div class="medium-3 column" class="hidden">A</div> -->
 				</div>
+				<!-- <div class="medium-3 column" class="hidden">A</div> -->
+			</div>
 
-				<div class="medium-12 column" id="filterSection" [ngClass]="{'' : filterVisible, 'none' : !filterVisible}">
-						<!-- <div class="medium-3 column" class="hidden">A</div> -->
-						<div class="medium-12 column" id="filterContent">
-								<p id="filterTitle">Only see those with similar...</p>
-								<input id="sports" type="checkbox" name="Sports" [(ngModel)]="model.user.filterSports" (click)="sportsFilter()"><label for="sports" >Sports</label>
-										<input id="music" type="checkbox" name="Music"[(ngModel)]="model.user.filterMusic" (click)="musicFilter()"><label for="music">Music</label>
-										<input id="food" type="checkbox" name="Food"[(ngModel)]="model.user.filterFood" (click)="foodFilter()"><label for="food">Food</label><br>
-										<input id="facebook" type="checkbox" name="Facebook"[(ngModel)]="model.user.filterFacebook" (click)="facebookFilter()"><label for="facebook">Facebook</label>
-										<input id="twitter" type="checkbox" name="Twitter"[(ngModel)]="model.user.filterTwitter" (click)="twitterFilter()"><label for="twitter">Twitter</label>
-										<input id="LinkedIn" type="checkbox" name="LinkedIn"[(ngModel)]="model.user.filterLinkedIn" (click)="linkedinFilter()"><label for="LinkedIn">LinkedIn</label>
-										<input id="BlackBoard" type="checkbox" name="BlackBoard"[(ngModel)]="model.user.filterBlackBoard" (click)="blackboardFilter()"><label for="BlackBoard">BlackBoard</label>
-			
-								<div class="medium-6 column">
-									<!-- <button class="button selectedButton" (click)="updateFilter()"><i class="fa fa-check"></i> Update</button> -->
-								</div>
-								<div class="medium-6 column">
-										<button class="button selectedButton" (click)="closeFilter()"><i class="fa fa-times"></i> Close</button>
-									
-								</div>
-							</div>
+			<div class="medium-12 column" id="filterSection" [ngClass]="{'' : filterVisible, 'none' : !filterVisible}">
+				<!-- <div class="medium-3 column" class="hidden">A</div> -->
+				<div class="medium-12 column" id="filterContent">
+					<p id="filterTitle">Only see those with similar...</p>
+
+					<div class="medium-10 column">
+						<select id="filterSelect" [(ngModel)]="currentFilter">
+							<option selected="true" disabled="disabled">Select a Filter</option>
+							<option value="Facebook">Facebook</option>
+							<option value="Twitter">Twitter</option>
+							<option value="Youtube">Youtube</option>
+							<option value="Blackboard">Blackboard</option>
+							<option *ngFor="let inter of interestKeys" [value]="inter">Interest: {{inter}}</option>
+						</select>
 					</div>
-    			
+					<div class="medium-2 column">
+						<button class="button addFilterButton" (click)="addFilter()">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+					<div class="medium-12 column" id="currentFilters">
+						<p id="currentFilterText" *ngFor="let filter of currentFilterArray">{{filter}}
+							<i class="fa fa-times" id="deleteFilter" (click)="removeFilter(filter)"></i>
+						</p>
+					</div>
 
-				
-    	</div>
-    	<!-- <div class="medium-4 column" id="invisible">I</div> -->
-    	<div class="medium-12 column" id="iconDiv">
-<!--	<img id="userpic" src="../../assets/profileicon.ico">-->
-			<img id="userpic" [src]="model.user.url"/><br>    	</div>
-    	<!-- <div class="medium-4 column" id="invisible">I</div> -->
-    	
+					<div class="medium-6 column">
+						<!-- <button class="button selectedButton" (click)="updateFilter()"><i class="fa fa-check"></i> Update</button> -->
+					</div>
+					<div class="medium-6 column">
+						<button class="button selectedButton" (click)="closeFilter()">
+							<i class="fa fa-times"></i> Close</button>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="medium-4 column" id="invisible">I</div> -->
+		<div class="medium-12 column" id="iconDiv">
+			<!--	<img id="userpic" src="../../assets/profileicon.ico">-->
+			<img id="userpic" [src]="model.user.url" />
+			<br> </div>
+		<!-- <div class="medium-4 column" id="invisible">I</div> -->
+
 		<div class="medium-12 column" id="userView">
-				<div class="medium-6 column" id="userNameDiv">
-					  <p id="userName">{{model.user.fullName}} </p>
-				</div>
-				<div class="medium-6 column" id="toggleDiv">
-					  <button type="button" class="button mapButton" id="listButton" routerLink="/map" routerLinkActive="active"><i class="fa fa-map-marker"></i>	Map View</button>
-					  <button type="button" class="button mapButton" id="filterButton" (click)="toggleFilter()"><i class="fa fa-filter"></i>	Filter</button>
-					  <button type="button" class="button mapButton" id="rangeButton" (click)="toggleRange()"><i class="fa fa-sliders"></i>	Range</button>
-				</div>
-  
-				<div class="medium-12 column" id="moodStatusDiv">
+			<div class="medium-6 column" id="userNameDiv">
+				<p id="userName">{{model.user.fullName}} </p>
+			</div>
+			<div class="medium-6 column" id="toggleDiv">
+				<button type="button" class="button mapButton" id="listButton" routerLink="/map" routerLinkActive="active">
+					<i class="fa fa-map-marker"></i> Map View</button>
+				<button type="button" class="button mapButton" id="filterButton" (click)="toggleFilter()">
+					<i class="fa fa-filter"></i> Filter</button>
+				<button type="button" class="button mapButton" id="rangeButton" (click)="toggleRange()">
+					<i class="fa fa-sliders"></i> Range</button>
+			</div>
 
-						<p id="moodStatus">{{model.user.moodStatus}} <i class="fa fa-pencil" id="editMood" (click)="toggleMood()"></i></p>
-				  </div>
-	
-				  <div id="editMoodDiv" class="medium-6 column" [ngClass]="{'' : editMood, 'hidden' : !editMood}">
-				  	<form (ngSubmit)="moodChange()" #signupForm="ngForm">
-					  <div class="medium-6 column">
-							<select id="moodSelect" name="mood" [(ngModel)]="model.moodStatus">
-									<option value="Online">Online</option>
-									<option value="Away">Away</option>
-									<option value="Offline">Offline</option>
-							</select>
-					  </div>
-					  <div class="medium-6 column">
-						  <button class="button updateMood">Update</button>
-					  </div>
-					</form>
-				  </div>
-				  
-				  <div class="medium-6 column" [ngClass]="{'' : editRange, 'hidden' : !editRange}">
-						<div class="medium-8 column">
-							<div class="slidecontainer">
-								<input type="range" min="15" max="19" value="15" step="1" class="slider" id="range" [(ngModel)]="currentZoom"/>
-							</div>
-						</div>
-						<div class="medium-2 column">
-								<p id="sliderValue">{{currentZoom-14}}x</p>
-						</div>
-						<div class="medium-2 column">
-							<button class="button updateMood" (click)="zoomMap()">Update</button>
-						</div>
-						
-					</div>
+			<div class="medium-12 column" id="moodStatusDiv">
 
-				<div id="invisibilityDiv medium-12 column">
-					<!-- <form (ngSubmit)="vis()" #signupForm="ngForm"> -->
-		
-					<div class="mobile-app-toggle" data-mobile-app-toggle>
-						<button class="button" (click)="setVisible(0)" [ngClass]="{' ' : visibility!=0, 'is-active' : visibility==0}">Invisible</button> 
-						<button class="button" (click)="setVisible(4)" [ngClass]="{' ' : visibility!=4, 'is-active' : visibility==4}">Invisible for 4 hours</button>
-						<button class="button" (click)="setVisible(12)" [ngClass]="{' ' : visibility!=12, 'is-active' : visibility==12}">Invisible for 12 hours</button>
-						<button class="button" (click)="setVisible(24)" [ngClass]="{' ' : visibility!=24, 'is-active' : visibility==24}">Invisible for 1 day</button>
-						<button class="button" (click)="setVisible(100)" [ngClass]="{' ' : visibility!=100, 'is-active' : visibility==100}">Visible</button>
+				<p id="moodStatus">{{model.user.moodStatus}}
+					<i class="fa fa-pencil" id="editMood" (click)="toggleMood()"></i>
+				</p>
+			</div>
+
+			<div id="editMoodDiv" class="medium-6 column" [ngClass]="{'' : editMood, 'hidden' : !editMood}">
+				<form (ngSubmit)="moodChange()" #signupForm="ngForm">
+					<div class="medium-6 column">
+						<select id="moodSelect" name="mood" [(ngModel)]="model.moodStatus">
+							<option value="Online">Online</option>
+							<option value="Away">Away</option>
+							<option value="Offline">Offline</option>
+						</select>
 					</div>
-		
-					<!-- </form> -->
-							<!-- localStorage.setItem("localVisibility", visibility);-->		
+					<div class="medium-6 column">
+						<button class="button updateMood">Update</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="medium-6 column" [ngClass]="{'' : editRange, 'hidden' : !editRange}">
+				<div class="medium-8 column">
+					<div class="slidecontainer">
+						<input type="range" min="15" max="19" value="15" step="1" class="slider" id="range" [(ngModel)]="currentZoom" />
+					</div>
 				</div>
-  
-				<div class="medium-12 medium-centered column" id="settingsDiv">
-				  <button class="button mapButton" id="broadcastButton" routerLink="/settings" routerLinkActive="active"><i class="fa fa-bullhorn"></i>	Broadcast</button> <!--fix routing-->
+				<div class="medium-2 column">
+					<p id="sliderValue">{{currentZoom-14}}x</p>
 				</div>
-			  
-		  </div>
-  	</div>
+				<div class="medium-2 column">
+					<button class="button updateMood" (click)="zoomMap()">Update</button>
+				</div>
+
+			</div>
+
+			<div id="invisibilityDiv medium-12 column">
+				<!-- <form (ngSubmit)="vis()" #signupForm="ngForm"> -->
+
+				<div class="mobile-app-toggle" data-mobile-app-toggle>
+					<button class="button" (click)="setVisible(0)" [ngClass]="{' ' : visibility!=0, 'is-active' : visibility==0}">Invisible</button>
+					<button class="button" (click)="setVisible(4)" [ngClass]="{' ' : visibility!=4, 'is-active' : visibility==4}">Invisible for 4 hours</button>
+					<button class="button" (click)="setVisible(12)" [ngClass]="{' ' : visibility!=12, 'is-active' : visibility==12}">Invisible for 12 hours</button>
+					<button class="button" (click)="setVisible(24)" [ngClass]="{' ' : visibility!=24, 'is-active' : visibility==24}">Invisible for 1 day</button>
+					<button class="button" (click)="setVisible(100)" [ngClass]="{' ' : visibility!=100, 'is-active' : visibility==100}">Visible</button>
+				</div>
+
+				<!-- </form> -->
+				<!-- localStorage.setItem("localVisibility", visibility);-->
+			</div>
+
+			<div class="medium-12 medium-centered column" id="settingsDiv">
+				<button class="button mapButton" id="broadcastButton" routerLink="/settings" routerLinkActive="active">
+					<i class="fa fa-bullhorn"></i> Broadcast</button>
+				<!--fix routing-->
+			</div>
+
+		</div>
+	</div>
 </div>

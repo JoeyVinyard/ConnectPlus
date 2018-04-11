@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { User } from "./user";
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class DatabaseService {
 
-	dbUrl = "http://localhost:3000";
+	dbUrl = environment.serverUrl;
 
 	httpOptions = {
 		headers: new HttpHeaders({
@@ -16,7 +17,7 @@ export class DatabaseService {
 	//Create user profile in firebase based on the User object. Returns a promise to the snapshot of the data posted, or an error message
 	createUser(user: User): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.post("http://localhost:3000/createUser", JSON.stringify(user), this.httpOptions).subscribe((data) => {
+			this.http.post(this.dbUrl+ "createUser", JSON.stringify(user), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -27,7 +28,7 @@ export class DatabaseService {
 	//Update user profile in firebase based on the User object. Returns promise to the snapshot of the data posted, or an error message
 	updateUser(user: User): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.post("http://localhost:3000/updateUser", JSON.stringify(user), this.httpOptions).subscribe((data) => {
+			this.http.post(this.dbUrl+ "updateUser", JSON.stringify(user), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -38,7 +39,7 @@ export class DatabaseService {
 	//Update user profile in firebase based on the User object. Returns a promise to the snapshot of the data that was deleted, or an error message
 	deleteUser(user: User): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.delete("http://localhost:3000/deleteUser/"+user.uid, this.httpOptions).subscribe((data) => {
+			this.http.delete(this.dbUrl+ "deleteUser/"+user.uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -49,7 +50,7 @@ export class DatabaseService {
 	//Returns a promise to specific user based on the uid provided, or an error message.
 	getUser(uid: String): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getUser/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getUser/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -60,7 +61,7 @@ export class DatabaseService {
 	//Returns a promise to a list of users based on the uids provided, or an error message.
 	getMultipleUsers(uids: String[]): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getUsers/"+uids.join("&"), this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getUsers/"+uids.join("&"), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -71,7 +72,7 @@ export class DatabaseService {
 	//Returns a promsie to a list of all users, or an error message.
 	getAllUsers(): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getAllUsers", this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getAllUsers", this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -81,7 +82,7 @@ export class DatabaseService {
 	}
 	getNearbyUsers(uid: string): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getNearbyUsers/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getNearbyUsers/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -91,7 +92,7 @@ export class DatabaseService {
 	}
 	getFacebookFriends(uid: String): Promise<any> {
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getFacebookFriends/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getFacebookFriends/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -101,7 +102,7 @@ export class DatabaseService {
 	}
 	getTwitterFollowees(uid: String): Promise<any> {
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getTwitterFollowees/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getTwitterFollowees/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -111,7 +112,7 @@ export class DatabaseService {
 	}
 	getYoutubeFriends(uid: String): Promise<any> {
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getYoutubeFriends/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getYoutubeFriends/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -121,7 +122,7 @@ export class DatabaseService {
 	}
 	getUsersWithCommonFacebookFriends(uid: String): Promise<any> {
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getUsersWithCommonFacebookFriends/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getUsersWithCommonFacebookFriends/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -144,7 +145,7 @@ export class DatabaseService {
 				reject("Invalid location object");
 			}
 				
-			this.http.post("http://localhost:3000/storeLocation", JSON.stringify(locationObject), this.httpOptions).subscribe((data) => {
+			this.http.post(this.dbUrl+ "storeLocation", JSON.stringify(locationObject), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -167,7 +168,7 @@ export class DatabaseService {
 				reject("Invalid Array");
 			}
 
-			this.http.post("http://localhost:3000/storeFacebookFriends", JSON.stringify(friendsObject), this.httpOptions).subscribe((data) => {
+			this.http.post(this.dbUrl+ "storeFacebookFriends", JSON.stringify(friendsObject), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -194,7 +195,7 @@ export class DatabaseService {
 				reject("Invalid Array");
 			}
 			console.log(followObject);
-			this.http.post("http://localhost:3000/storeTwitterFollowees", JSON.stringify(followObject), this.httpOptions).subscribe((data) => {
+			this.http.post(this.dbUrl+ "storeTwitterFollowees", JSON.stringify(followObject), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -204,7 +205,7 @@ export class DatabaseService {
 	}
 	getTwitterScreenName(uid: String): Promise<any> {
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getTwitterScreenName/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getTwitterScreenName/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"]){
 					resolve(data["payload"]);
 				}else{
@@ -216,7 +217,7 @@ export class DatabaseService {
 	getLocation(uid: String): Promise<any>{
 		console.log("Getting location")
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getLocation/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getLocation/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -226,7 +227,7 @@ export class DatabaseService {
 	}
 	getClasses(uid: String): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getClasses/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getClasses/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"] || !data["err"])
 					resolve(data["payload"]);
 				else
@@ -240,7 +241,7 @@ export class DatabaseService {
 			cl: cl
 		}
 		return new Promise((resolve, reject) => {
-			this.http.post("http://localhost:3000/addClass", JSON.stringify(classObject),this.httpOptions).subscribe((data) => {
+			this.http.post(this.dbUrl+ "addClass", JSON.stringify(classObject),this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -250,7 +251,7 @@ export class DatabaseService {
 	}
 	deleteClass(uid: String, cl: String): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.delete("http://localhost:3000/deleteClass/"+uid+"/"+cl, this.httpOptions).subscribe((data) => {
+			this.http.delete(this.dbUrl+ "deleteClass/"+uid+"/"+cl, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -261,7 +262,7 @@ export class DatabaseService {
 
 	getInterests(uid: String): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getInterests/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getInterests/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"] || !data["err"])
 					resolve(data["payload"]);
 				else
@@ -278,7 +279,7 @@ export class DatabaseService {
 		console.log(interestObject)
 		return new Promise((resolve, reject) => {
 			
-			this.http.post("http://localhost:3000/addInterest", JSON.stringify(interestObject),this.httpOptions).subscribe((data) => {
+			this.http.post(this.dbUrl+ "addInterest", JSON.stringify(interestObject),this.httpOptions).subscribe((data) => {
 				if(data["payload"]) {
 					resolve(data["payload"]);
 				}
@@ -291,7 +292,7 @@ export class DatabaseService {
 	
 	deleteInterest(uid: String, sub:String, inter: String): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.delete("http://localhost:3000/deleteInterest/"+uid+"/"+sub+"/"+inter, this.httpOptions).subscribe((data) => {
+			this.http.delete(this.dbUrl+ "deleteInterest/"+uid+"/"+sub+"/"+inter, this.httpOptions).subscribe((data) => {
 				console.log("inside")
 				if(data["payload"])
 					resolve(data["payload"]);
@@ -300,9 +301,20 @@ export class DatabaseService {
 			});
 		})
 	}
+	// clearAllCatInterests(uid: String, sub:String): Promise<any>{
+	// 	return new Promise((resolve, reject) => {
+	// 		this.http.delete(this.dbUrl+ "clearAllCatInterests/"+uid+"/"+sub, this.httpOptions).subscribe((data) => {
+	// 			console.log("inside")
+	// 			if(data["payload"])
+	// 				resolve(data["payload"]);
+	// 			else
+	// 				reject(data["err"]);
+	// 		});
+	// 	})
+	// }
 	storeYoutubeSubscribers(uid: String, access_token: String): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/storeYoutubeSubscribers/"+uid+"/"+access_token, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "storeYoutubeSubscribers/"+uid+"/"+access_token, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -313,7 +325,7 @@ export class DatabaseService {
 
 	getYoutubeSubscribers(uid: String){
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getYoutubeSubscriptions/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getYoutubeSubscriptions/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -324,7 +336,7 @@ export class DatabaseService {
 
 	getYoutubeStatus(uid: String){
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getYoutubeStatus/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getYoutubeStatus/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -338,7 +350,7 @@ export class DatabaseService {
 			feedback: feedback
 		}
 		return new Promise((resolve, reject) => {
-			this.http.post("http://localhost:3000/addFeedback", JSON.stringify(feedbackObject),this.httpOptions).subscribe((data) => {
+			this.http.post(this.dbUrl+ "addFeedback", JSON.stringify(feedbackObject),this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -363,7 +375,7 @@ export class DatabaseService {
 				reject("Invalid broadcast object");
 			}
 			console.log(broadcastObject);
-			this.http.post("http://localhost:3000/storeBroadcast", JSON.stringify(broadcastObject), this.httpOptions).subscribe((data) => {
+			this.http.post(this.dbUrl+ "storeBroadcast", JSON.stringify(broadcastObject), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -373,7 +385,7 @@ export class DatabaseService {
 	}
 	getNearbyBroadcasts(uid: string): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.get("http://localhost:3000/getNearbyBroadcasts/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getNearbyBroadcasts/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else

@@ -1,7 +1,20 @@
 export class Commonalities {
 uid:string;
-facebook: boolean;
 facebookNum: number;
+facebook: boolean;
+FB: string;
+
+twitterNum: number;
+twitter:boolean;
+TW: string;
+
+blackboard:boolean;
+blackboardNum:number;
+BB: string;
+
+youtube:boolean;
+youtubeNum:number;
+YT: string;
 
 
 

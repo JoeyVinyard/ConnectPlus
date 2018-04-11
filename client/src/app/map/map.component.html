@@ -55,21 +55,23 @@
 				<!-- <div class="medium-3 column" class="hidden">A</div> -->
 				<div class="medium-12 column" id="filterContent">
 					<p id="filterTitle">Only see those with similar...</p>
-					<input id="sports" type="checkbox" name="Sports" [(ngModel)]="model.user.filterSports" (click)="sportsFilter()">
-					<label for="sports">Sports</label>
-					<input id="music" type="checkbox" name="Music" [(ngModel)]="model.user.filterMusic" (click)="musicFilter()">
-					<label for="music">Music</label>
-					<input id="food" type="checkbox" name="Food" [(ngModel)]="model.user.filterFood" (click)="foodFilter()">
-					<label for="food">Food</label>
-					<br>
-					<input id="facebook" type="checkbox" name="Facebook" [(ngModel)]="model.user.filterFacebook" (click)="facebookFilter()">
-					<label for="facebook">Facebook</label>
-					<input id="twitter" type="checkbox" name="Twitter" [(ngModel)]="model.user.filterTwitter" (click)="twitterFilter()">
-					<label for="twitter">Twitter</label>
-					<input id="LinkedIn" type="checkbox" name="LinkedIn" [(ngModel)]="model.user.filterLinkedIn" (click)="linkedinFilter()">
-					<label for="LinkedIn">LinkedIn</label>
-					<input id="BlackBoard" type="checkbox" name="BlackBoard" [(ngModel)]="model.user.filterBlackBoard" (click)="blackboardFilter()">
-					<label for="BlackBoard">BlackBoard</label>
+
+					<div class="medium-10 column">
+						<select id="filterSelect" [(ngModel)]="currentFilter">
+							<option selected="true" disabled="disabled">Select a Filter</option>
+							<option value="Facebook">Facebook</option>
+							<option value="Twitter">Twitter</option>
+							<option value="Youtube">Youtube</option>
+							<option value="Blackboard">Blackboard</option>
+							<option *ngFor="let inter of interestKeys" [value]="inter">Interest: {{inter}}</option>
+						</select>
+					</div>
+					<div class="medium-2 column">
+						<button class="button addFilterButton" (click)="addFilter()"><i class="fa fa-plus"></i></button>
+					</div>
+					<div class="medium-12 column" id="currentFilters">
+						<p id="currentFilterText" *ngFor="let filter of currentFilterArray">{{filter}}	<i class="fa fa-times" id="deleteFilter" (click)="removeFilter(filter)"></i></p>
+					</div>
 
 					<div class="medium-6 column">
 						<!-- <button class="button selectedButton" (click)="updateFilter()"><i class="fa fa-check"></i> Update</button> -->
