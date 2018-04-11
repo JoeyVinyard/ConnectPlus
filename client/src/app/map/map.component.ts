@@ -26,7 +26,9 @@ export class MapComponent implements OnInit {
 
 	testArray = [1, 2, 3, 4, 5, 6]
 
+	selectedBroadcast: any = {};
 	broadcastText = "";
+	responseText = "";
 	broadcasts = [];
 	nearbyUsers = [];
 	filteredUsers = [];
@@ -475,7 +477,9 @@ export class MapComponent implements OnInit {
 						console.log("Followees: ", twitterFollowees);
 					});
 					db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
-						console.log("Broadcasts: ", broadcasts);
+						this.broadcasts = broadcasts;
+						console.log(broadcasts);
+					/*	console.log("Broadcasts: ", broadcasts);
 						broadcasts.forEach((broad) => {
 							db.getUser(broad.uid).then((fetchedUser) => {
 								var broadcast = {
@@ -486,7 +490,9 @@ export class MapComponent implements OnInit {
 								};
 								this.broadcasts.push(broadcast);
 							})
-						});
+
+
+						});*/
 						//this.broadcasts = broadcasts;
 					});
 					db.getNearbyUsers(u.uid).then((nearbyUsers) => {
@@ -807,6 +813,15 @@ export class MapComponent implements OnInit {
 			console.error(err);
 		})
 		console.log(this.broadcastText);
+	}
+
+	viewBroadcast(broadcastToView){
+		this.selectedBroadcast = broadcastToView;
+		/*code to display proper messages*/
+	}
+
+	respondToBroadcast(){
+		this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText);
 	}
 
 	generateCommonMap() {

@@ -269,14 +269,19 @@ module.exports = {
 			var userFriends = user.val().friends;
 			var data = [];
 			//var friendMap = new Map();
-
+			console.log(userFriends);
+			console.log(user.val().uid);
 			userFriends.forEach((friend) => {
 				data.push(friend.name);
 
 			});
-
 			res.statusCode = 200;
 			responseBody.payload = data;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			res.statusCode = 200;
+			responseBody.payload = err;
 			res.write(JSON.stringify(responseBody));
 			res.end();
 		});
@@ -1072,33 +1077,59 @@ module.exports = {
 				firebase.database().ref("broadcasts").once("value").then((s) => {
 					res.statusCode=200;
 					var nearbyUids = [];
+					var promises = [];
 					s.forEach((loc) => {
-						var c2 = {
-							lat: loc.val().lat,
-							lon: loc.val().lon
-						};
-
-						var d = distanceCalc.getDistance(c1,c2);
-						if(d <= 15840 ){//3 miles
-							nearbyUids.push({
-								uid: loc.val().uid,
-								distance: d,
+						promises.push( new Promise((res, rej) => {
+							console.log("Do we at least get in here?");
+							var c2 = {
 								lat: loc.val().lat,
-								lon: loc.val().lon,
-								message: loc.val().broadcast,
-								boadcastID: loc.val().broadcastID
+								lon: loc.val().lon
+							};
+							var d = distanceCalc.getDistance(c1,c2);
+						if(d <= 15840 ){//3 miles
+							firebase.database().ref("users/" + loc.val().uid).once("value").then((broadcastUser) => {
+								var obj = {
+									url: broadcastUser.val().url,
+									fullName: broadcastUser.val().fullName,
+									uid: loc.val().uid,
+									distance: d,
+									lat: loc.val().lat,
+									lon: loc.val().lon,
+									message: loc.val().broadcast,
+									broadcastID: loc.val().broadcastID,
+									responses: []
+								};
+								if(loc.val().responses){
+									obj.responses = loc.val().responses;
+								}
+								nearbyUids.push(obj);
+								res();
+								
+
+							}).catch((err) => {
+								console.log(err);
+								rej(err);
 							});
+						}else{
+							res();							
 						}
+
+					}));
 					})
-					resolve(nearbyUids);
-				}).catch((err) => {
-					reject(err);
+					Promise.all(promises).then((then) => {
+						resolve(nearbyUids);
+					}).catch((err) => {
+						console.log(err);
+						reject('err')
+					});
+
 				});
+
 			}).then((closeBroadcasts) => {
-					res.statusCode = 200;
-					responseBody.payload = closeBroadcasts;
-					res.write(JSON.stringify(responseBody));
-					res.end();
+				res.statusCode = 200;
+				responseBody.payload = closeBroadcasts;
+				res.write(JSON.stringify(responseBody));
+				res.end();
 			}).catch((err) => {
 				res.statusCode = 400;
 				responseBody.err = err;
