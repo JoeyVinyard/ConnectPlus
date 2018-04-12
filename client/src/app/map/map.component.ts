@@ -30,6 +30,7 @@ export class MapComponent implements OnInit {
 	broadcastText = "";
 	responseText = "";
 	broadcasts = [];
+	broadcastResponses = [];
 	nearbyUsers = [];
 	filteredUsers = [];
 	displayedUser: any = {};
@@ -468,6 +469,7 @@ export class MapComponent implements OnInit {
 		}
 	});
     	loc.getLocation().then((l) => {
+    		console.log("reeeeeeeeeee")
 			auth.getUser().then((u) => {
 				db.storeLocation(l, u.uid).then((d) => {
 					this.lat = l.latitude;
@@ -812,12 +814,17 @@ export class MapComponent implements OnInit {
 	}
 
 	viewBroadcast(broadcastToView){
+		console.log("viewing");
 		this.selectedBroadcast = broadcastToView;
+		this.broadcastResponses = broadcastToView.responses;
 		/*code to display proper messages*/
 	}
 
 	respondToBroadcast(){
-		this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText);
+		console.log("Here");
+		if(this.selectedBroadcast){
+			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText);
+		}
 	}
 
 	generateCommonMap() {

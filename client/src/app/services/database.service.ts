@@ -405,8 +405,30 @@ export class DatabaseService {
 		})
 	}
 	respondToBroadcast(uid, broadcastID, response){
-		
+		return new Promise((resolve, reject) => {
+			var responseObject = {
+				uid: "",
+				response: "",
+				broadcastID: ""
+			}
+			if(!!uid){
+
+				responseObject.uid = uid;
+				responseObject.response = response;
+				responseObject.broadcastID = broadcastID
+			}else{
+				reject("Invalid broadcast object");
+			}
+			console.log(responseObject);
+			this.http.post(this.dbUrl+ "storeResponse", JSON.stringify(responseObject), this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		});
 	}
+	
 	constructor(private http: HttpClient) {}
 
 }

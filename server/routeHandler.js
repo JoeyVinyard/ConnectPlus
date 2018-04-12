@@ -1100,12 +1100,38 @@ module.exports = {
 									responses: []
 								};
 								if(loc.val().responses){
-									obj.responses = loc.val().responses;
-								}
-								nearbyUids.push(obj);
-								res();
-								
+									/*I hate my life*/
+									var responseList = [];
+									var responsePromises = [];
+									var responses = loc.val().responses;
+									var responseKeys = Object.keys(responses);
+									responseKeys.forEach((responseKey) => {
+										var response = responses[responseKey];
+										responsePromises.push( new Promise ((yay, boo) => {
+											firebase.database().ref("users/" + response.uid).once("value").then((responseUser) => {
+												responseList.push({
+													url: responseUser.val().url,
+													fullName: responseUser.val().fullName,
+													uid: responseUser.val().uid,
+													response: response.response
+												});
+												yay();
+											}).catch((err) => {
+												boo(err);
+											});
+										}));
+									});
 
+									Promise.all(responsePromises).then(() => {
+										obj.responses = responseList;	
+										nearbyUids.push(obj);
+										res();
+									});
+								} else {
+									nearbyUids.push(obj);
+									res();
+								}
+								
 							}).catch((err) => {
 								console.log(err);
 								rej(err);
@@ -1139,6 +1165,40 @@ module.exports = {
 			})
 		})
 	},
+
+	storeResponse: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var body = "";
+		// console.log(req);
+		req.on('data', function(data){
+			body += data;
+			if(body.length > 1e6){ 
+				req.connection.destroy();
+			}
+		});
+		req.on('end', function() {
+			var data = JSON.parse(body);
+			if(!data || !data.uid || !data.broadcastID){
+				res.statusCode = 400;
+				responseBody.err = "Data or UID not supplied";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
+			firebase.database().ref("broadcasts/" + data.broadcastID + "/responses").push(data).then((data) => {
+				res.statusCode = 200;
+				responseBody.payload = data;
+				res.write(JSON.stringify(responseBody));
+				res.end();	
+			}).catch((err) => {
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			});
+		});	
+
+	}
 
 
 }

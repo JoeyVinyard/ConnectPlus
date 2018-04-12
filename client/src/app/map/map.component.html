@@ -239,21 +239,21 @@
 							<div id="threadExpanded">
 								<div class="medium-12 column" id="threadHeader">
 									<div class="medium-3 column">
-										<img id="threadPic" [src]="model.user.url"/><br>
-										<p id="threadUser">[Member Name]</p>
+										<img id="threadPic" [src]="selectedBroadcast.url"/><br>
+										<p id="threadUser">{{selectedBroadcast.fullName}}</p>
 									</div>
 									<div class="medium-9 column">
 										<p class="broadcastText">In: [Subject]</p>
-										<p class="broadcastText">[Message]</p>
+										<p class="broadcastText">{{selectedBroadcast.message}}</p>
 									</div>
 								</div>
-								<div class="medium-12 column" id="threadComment" *ngFor="let com of testArray">
+								<div class="medium-12 column" id="threadComment" *ngFor="let resp of broadcastResponses">
 									<div class="medium-2 column">
-										<img id="commentPic" [src]="model.user.url"/><br>
+										<img id="commentPic" [src]="resp.url"/><br>
 									</div>
 									<div class="medium-10 column">
-										<p class="broadcastText">[Member Name]</p>
-										<p class="broadcastText">[Comment]</p>
+										<p class="broadcastText">{{resp.fullName}}</p>
+										<p class="broadcastText">{{resp.response}}</p>
 									</div>
 								</div>
 							</div>
