@@ -39,6 +39,7 @@ export class MapComponent implements OnInit {
 	twitterCommon: number = 0;
 	blackboardCommon: number = 0;
 	youtubeCommon: number = 0;
+	interestCommon: number = 0;
 
 	interestObject: any = {};
 	interestKeys = [];
@@ -303,7 +304,7 @@ export class MapComponent implements OnInit {
 		else {
 			//interest filtering
 			this.model.user.filteredInterests.push(this.currentFilter);
-			this.filterUsersBasedOnInterests(this.currentFilter);
+			this.filterUsersBasedOnInterests(this.currentFilter, 1);
 		}
 	}
 
@@ -442,7 +443,7 @@ export class MapComponent implements OnInit {
 			for (var i = 0; i < this.model.user.filteredInterests.length; i++) {
 				if (this.model.user.filteredInterests[i] != "") {
 					this.currentFilterArray.push(this.model.user.filteredInterests[i]);
-					this.filterUsersBasedOnInterests(this.model.user.filteredInterests[i]);
+					this.filterUsersBasedOnInterests(this.model.user.filteredInterests[i], 1);
 					count++;
 				}
 			}
@@ -551,11 +552,11 @@ export class MapComponent implements OnInit {
 	ngOnInit() {
 	}
 
-	filterUsersBasedOnInterests(interest) {
+	filterUsersBasedOnInterests(interest, num:number) {
 		var filterUsersArray = [];
 		var modelInterests = [];
 		var userInterests = [];
-
+		//console.log("this is the interet that was inputed", interest)
 		if (true) {
 			var p = new Promise((resolve, reject) => {
 				this.db.getInterests(this.model.user.uid).then((mi) => {
@@ -566,16 +567,18 @@ export class MapComponent implements OnInit {
 						// console.log("MI: " +modelInterests;
 					}
 				})
-				console.log(modelInterests);
+				//console.log(modelInterests);
 				this.filteredUsers.forEach((user) => {
 					var match = false;
-
 					this.db.getInterests(user.uid).then((ui) => {
 						if (ui != null) {
+							//this.holder = this.commonMap.get(user.uid);
+
 							if (Object.keys(ui).indexOf(interest) != -1) {
 
 								userInterests = Object.values(ui[interest]);
 								// console.log("UI: " +userInterests);
+							//	console.log(Object.values(ui[interest]));
 							}
 						}
 						else{ //if null, empty out the list
@@ -586,10 +589,14 @@ export class MapComponent implements OnInit {
 								// console.log(modelInterests[i] + " + " + userInterests[j]);
 								if (modelInterests[i] == userInterests[j]) {
 									match = true;
-									break;
+									this.interestCommon = this.interestCommon +1;
+									console.log("they are the same" , userInterests[j])
+									//break;
 								}
 							}
 						}
+						(this.commonMap.get(user.uid)).interestSub.set(interest, this.interestCommon)
+						//console.log(this.commonMap)
 						if (match) {
 							filterUsersArray.push(user);
 						}
@@ -600,8 +607,13 @@ export class MapComponent implements OnInit {
 					});
 				});
 			}).then((users: any) => {
+				if (!num) {
 				this.filteredUsers = filterUsersArray;
 				console.log("Filtered Users:", filterUsersArray);
+			}
+			else{
+
+			}
 			});
 		}
 	}
@@ -625,7 +637,7 @@ export class MapComponent implements OnInit {
 						this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
 							var match = false;
 							this.holder = this.commonMap.get(user.uid);
-							console.log(this.holder);
+							//console.log(this.holder);
 							nearbyFriend.forEach((friend) => {
 								//console.log(friend);
 								if (friendMap.get(friend)) {
@@ -725,7 +737,7 @@ export class MapComponent implements OnInit {
 		if (true) {
 			this.db.getYoutubeSubscribers(this.model.user.uid).then((subscribers) => {
 				var subscriberMap = new Map();
-				console.log("this is the subs", subscribers)
+				//console.log("this is the subs", subscribers)
 				Object.keys(subscribers).forEach((subscriber) => {
 					subscriberMap.set(subscriber, 1);
 				});
@@ -887,6 +899,7 @@ export class MapComponent implements OnInit {
 					this.temp.TW = "Twitter";
 					this.temp.BB = "BlackBoard";
 					this.temp.YT = "Youtube";
+					this.temp.interestSub = new Map();
 
 					this.commonMap.set(nearbyUser.uid, this.temp);
 					// if(this.commonMap.get(nearbyUser.uid)){
@@ -911,6 +924,8 @@ export class MapComponent implements OnInit {
 		this.filterUsersBasedOnTwitter(1);
 		this.filterUsersBasedOnYoutube(1);
 		this.filterUsersBasedOnBlackboard(1);
+
+		
 
 		console.log("common", this.commonMap);
 

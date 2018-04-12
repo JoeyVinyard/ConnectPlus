@@ -16,6 +16,7 @@ youtube:boolean;
 youtubeNum:number;
 YT: string;
 
+interestSub = new Map();
 
 
 
