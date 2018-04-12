@@ -1078,6 +1078,7 @@ module.exports = {
 					res.statusCode=200;
 					var nearbyUids = [];
 					var promises = [];
+
 					s.forEach((loc) => {
 						promises.push( new Promise((res, rej) => {
 							console.log("Do we at least get in here?");
@@ -1134,6 +1135,7 @@ module.exports = {
 										res();
 									});
 								} else {
+															console.log("nearbyStuff", nearbyUids);
 									nearbyUids.push(obj);
 									res();
 								}
@@ -1153,6 +1155,7 @@ module.exports = {
 							return b.time - a.time;
 						});*/
 						nearbyUids.reverse();
+						console.log("nearbyStuff", nearbyUids);
 						resolve(nearbyUids);
 					}).catch((err) => {
 						console.log(err);

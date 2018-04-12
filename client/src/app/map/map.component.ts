@@ -31,6 +31,7 @@ export class MapComponent implements OnInit {
 	broadcastText = "";
 	responseText = "";
 	broadcasts = [];
+	filteredBroadcasts = [];
 	broadcastResponses = [];
 	nearbyUsers = [];
 	filteredUsers = [];
@@ -44,6 +45,8 @@ export class MapComponent implements OnInit {
 	interestObject: any = {};
 	interestKeys = [];
 
+	specificInterest = "";
+	filterInterest = "";
 	currentFilter = "";
 	currentFilterArray = [];
 
@@ -132,6 +135,10 @@ export class MapComponent implements OnInit {
 		}
 		
 		console.log("UpdateBroadInterests")
+	}
+
+	refreshBroadcasts(){
+		console.log("Hi Calvin! Code here")
 	}
 
 	model = {
@@ -512,6 +519,7 @@ export class MapComponent implements OnInit {
 					});
 					db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
 						this.broadcasts = broadcasts;
+						this.filteredBroadcasts = broadcasts;
 						console.log(broadcasts);
 						/*	console.log("Broadcasts: ", broadcasts);
 							broadcasts.forEach((broad) => {
@@ -849,7 +857,10 @@ export class MapComponent implements OnInit {
 			latitude: this.lat,
 			longitude: this.lng
 		};
-		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText, (new Date).getMilliseconds()).then((data) => {
+		console.log("date:", (new Date).getTime());
+		console.log("Hours:", (new Date))
+		console.log(this.specificInterest);
+		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText, (new Date).getTime(), this.specificInterest).then((data) => {
 			console.log("broadcast sent");
 		}).catch((err) => {
 			console.error(err);
@@ -868,8 +879,23 @@ export class MapComponent implements OnInit {
 	respondToBroadcast() {
 		console.log("Here");
 		if (this.selectedBroadcast) {
-			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getMilliseconds());
+			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getTime());
 		}
+	}
+
+	filterBroadcasts(){
+
+		this.filteredBroadcasts = [];
+		if(this.filterInterest == ""){
+			this.filteredBroadcasts = this.broadcasts;
+		}
+		this.broadcasts.forEach((cast) => {
+			console.log("filter: ", this.filterInterest);
+			if(this.filterInterest == cast.subject){
+				this.filteredBroadcasts.push(cast);
+			}
+		})
+
 	}
 
 	generateCommonMap() {
@@ -930,4 +956,24 @@ export class MapComponent implements OnInit {
 		console.log("common", this.commonMap);
 
 	}
+
+	generateTiers(){
+		this.commonMap.forEach((user) =>{
+			var tempTotal = 0;
+
+			if(user.facebook){
+				tempTotal += user.facebookNum;
+			}
+			if(user.twitter){
+				tempTotal += user.twitterNum;
+			}
+			if(user.blackboard){
+				tempTotal += user.blackboard;
+			}
+			if(user.youtube){
+				tempTotal += user.youtube;
+			}
+		});
+	}
+
 }

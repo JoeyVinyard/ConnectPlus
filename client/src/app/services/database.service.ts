@@ -369,16 +369,18 @@ export class DatabaseService {
 			});
 		})
 	}
-	storeBroadcast(uid, loc, broadcast, time): Promise<any>{
+	storeBroadcast(uid, loc, broadcast, time, subject): Promise<any>{
 		return new Promise((resolve, reject) => {
 			var broadcastObject = {
 				time: 0,
 				lat: 0,
 				lon: 0,
 				uid: "",
-				broadcast: ""
+				broadcast: "",
+				subject: ""
 			}
 			if(!!loc){
+				broadcastObject.subject = subject;
 				broadcastObject.time = time;
 				broadcastObject.lat = loc.latitude;
 				broadcastObject.lon = loc.longitude;
@@ -419,6 +421,7 @@ export class DatabaseService {
 				responseObject.uid = uid;
 				responseObject.response = response;
 				responseObject.broadcastID = broadcastID
+
 			}else{
 				reject("Invalid broadcast object");
 			}
