@@ -841,9 +841,10 @@ export class MapComponent implements OnInit {
 			latitude: this.lat,
 			longitude: this.lng
 		};
-		console
+		console.log("date:", (new Date).getTime());
+		console.log("Hours:", (new Date))
 		console.log(this.specificInterest);
-		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText, (new Date).getMilliseconds(), this.specificInterest).then((data) => {
+		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText, (new Date).getTime(), this.specificInterest).then((data) => {
 			console.log("broadcast sent");
 		}).catch((err) => {
 			console.error(err);
@@ -862,7 +863,7 @@ export class MapComponent implements OnInit {
 	respondToBroadcast() {
 		console.log("Here");
 		if (this.selectedBroadcast) {
-			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getMilliseconds());
+			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getTime());
 		}
 	}
 
