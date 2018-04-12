@@ -490,8 +490,6 @@ export class MapComponent implements OnInit {
 								};
 								this.broadcasts.push(broadcast);
 							})
-
-
 						});*/
 						//this.broadcasts = broadcasts;
 					});
@@ -502,7 +500,6 @@ export class MapComponent implements OnInit {
 						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 						
 						//this.generateCommonMap();
-
 						this.maintainFilter();
 					}).catch((err) => {
 						console.error(err);
@@ -590,7 +587,6 @@ export class MapComponent implements OnInit {
 					this.filteredUsers.forEach((user) => {
 						//this.facebookCommon = 0;
 						//this.holder = this.commonMap.get(user.uid);
-
 						this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
 							var match = false;
 							this.holder = this.commonMap.get(user.uid);
@@ -695,7 +691,7 @@ export class MapComponent implements OnInit {
 		if (true) {
 			this.db.getYoutubeSubscribers(this.model.user.uid).then((subscribers) => {
 				var subscriberMap = new Map();
-				console.log("this is the subs" , subscribers)
+				//console.log("this is the subs" , subscribers)
 				Object.keys(subscribers).forEach((subscriber) => {
 					subscriberMap.set(subscriber, 1);
 				});
@@ -865,7 +861,6 @@ export class MapComponent implements OnInit {
 		})
 		
 		//this.getCommon();		
-
 	}
 	getCommon() {
 		this.facebookCommon = 0;
