@@ -136,6 +136,10 @@ export class MapComponent implements OnInit {
 		console.log("UpdateBroadInterests")
 	}
 
+	refreshBroadcasts(){
+		console.log("Hi Calvin! Code here")
+	}
+
 	model = {
 		user: new User(),
 		moodStatus: "",
@@ -936,4 +940,24 @@ export class MapComponent implements OnInit {
 		console.log("common", this.commonMap);
 
 	}
+
+	generateTiers(){
+		this.commonMap.forEach((user) =>{
+			var tempTotal = 0;
+
+			if(user.facebook){
+				tempTotal += user.facebookNum;
+			}
+			if(user.twitter){
+				tempTotal += user.twitterNum;
+			}
+			if(user.blackboard){
+				tempTotal += user.blackboard;
+			}
+			if(user.youtube){
+				tempTotal += user.youtube;
+			}
+		});
+	}
+
 }

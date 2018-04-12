@@ -180,6 +180,7 @@
 							<i class="fa fa-filter"></i> Filter</button>
 						<button class="button bHeaderButton" (click)="toggleNewBroadcast()">
 							<i class="fa fa-plus"></i> Add New</button>
+							<i class="fa fa-refresh" id="refreshBroadcasts" (click)="refreshBroadcasts()"></i>
 					</div>
 				</div>
 				<div class="medium-12 column" id="newBroadcast" [ngClass]="{' ' : newBroadcast, 'none' : !newBroadcast }">

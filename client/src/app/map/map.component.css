@@ -461,6 +461,7 @@ agm-map {
 	  font-size: 1.5rem;
 	  color: white;
 	  text-align: center;
+	  position: relative;
   }
 
   #bHeaderText{
@@ -468,6 +469,14 @@ agm-map {
 	margin-bottom: 1%;
 	
   }
+
+  #refreshBroadcasts{
+	float: right;
+	align-content: right;	
+	cursor: pointer;
+	margin-right: 1rem;
+	margin-top: 1%;
+}
 
   .bHeaderButton{
 	background: transparent;
@@ -557,7 +566,7 @@ agm-map {
 
 #broadSelect{
 	background: transparent;
-	color: white;
+	color: #55C1FE;
 	border: 2px solid #0076BB;
 	border-radius: 25px;
 }
