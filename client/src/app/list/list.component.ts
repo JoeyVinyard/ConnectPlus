@@ -442,28 +442,31 @@ export class ListComponent implements OnInit {
 			var p = new Promise((resolve, reject) => {
 				this.db.getInterests(this.model.user.uid).then((mi) => {
 					/*if(typeof mi !== 'undefined'){*/
-						if(Object.keys(mi).indexOf(interest) != -1){
-							
-							modelInterests = Object.values(mi[interest]);
-							// console.log("MI: " +modelInterests;
-						}
+					if (Object.keys(mi).indexOf(interest) != -1) {
+
+						modelInterests = Object.values(mi[interest]);
+						// console.log("MI: " +modelInterests;
+					}
 				})
 				console.log(modelInterests);
 				this.filteredUsers.forEach((user) => {
 					var match = false;
-					
+
 					this.db.getInterests(user.uid).then((ui) => {
-						if(ui != null){
-							if(Object.keys(ui).indexOf(interest) != -1){
-								
+						if (ui != null) {
+							if (Object.keys(ui).indexOf(interest) != -1) {
+
 								userInterests = Object.values(ui[interest]);
 								// console.log("UI: " +userInterests);
 							}
 						}
-						for(var i = 0; i < modelInterests.length; i++){
-							for(var j = 0; j < userInterests.length; j++){
+						else{ //if null, empty out the list
+							userInterests = [];
+						}
+						for (var i = 0; i < modelInterests.length; i++) {
+							for (var j = 0; j < userInterests.length; j++) {
 								// console.log(modelInterests[i] + " + " + userInterests[j]);
-								if(modelInterests[i] == userInterests[j]){
+								if (modelInterests[i] == userInterests[j]) {
 									match = true;
 									break;
 								}

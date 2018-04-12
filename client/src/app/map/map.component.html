@@ -184,15 +184,16 @@
 				</div>
 				<div class="medium-12 column" id="newBroadcast" [ngClass]="{' ' : newBroadcast, 'none' : !newBroadcast }">
 					<div class="medium-2 column">
-						<select id="broadSelect">
+						<select id="broadSelect" [(ngModel)]="broadcastCategory" (blur)="updateBroadInterests()"> 
 							<option selected="true" disabled="disabled">Interest Category</option>
-							<option *ngFor="let cat of testArray" [value]=cat>{{cat}}</option>
+							<option value="blackboard">Blackboard</option>
+							<option *ngFor="let inter of interestKeys" [value]="inter">{{inter}}</option>
 						</select>
 					</div>
 					<div class="medium-3 column">
-						<select id="broadSelect">
+						<select id="broadSelect" >
 							<option selected="true" disabled="disabled">Specific Interest</option>
-							<option *ngFor="let interest of testArray" [value]=interest>{{interest}}</option>
+							<option *ngFor="let interest of broadInterests" [value]=interest>{{interest}}</option>
 						</select>
 					</div>
 					<div class="medium-5 column">
@@ -204,15 +205,16 @@
 				</div>
 				<div class="medium-12 column" id="filterBroadcast" [ngClass]="{' ' : filterBroadcast, 'none' : !filterBroadcast }">
 					<div class="medium-4 column">
-						<select id="broadSelect">
+						<select id="broadSelect" [(ngModel)]="broadcastCategory" (blur)="updateBroadInterests()">
 							<option selected="true" disabled="disabled">Interest Category</option>
-							<option *ngFor="let cat of testArray" [value]=cat>{{cat}}</option>
+							<option value="blackboard">Blackboard</option>
+							<option *ngFor="let inter of interestKeys" [value]="inter">{{inter}}</option>
 						</select>
 					</div>
 					<div class="medium-5 column">
 						<select id="broadSelect">
 							<option selected="true" disabled="disabled">Specific Interest</option>
-							<option *ngFor="let interest of testArray" [value]=interest>{{interest}}</option>
+							<option *ngFor="let interest of broadInterests" [value]=interest>{{interest}}</option>
 						</select>
 					</div>
 					<div class="medium-3 column">
@@ -222,44 +224,41 @@
 				</div>
 				<div class="medium-12 column" id="broadContent">
 						<div class="medium-5 medium-centered column" id="broadcastList">
-								<div id="broadcastPanel" *ngFor="let broad of broadcasts">
+								<div id="broadcastPanel" *ngFor="let broad of broadcasts" (click)= "viewBroadcast(broad)">
 									<div class="medium-4 column">
 											<img id="broadPic" [src]="broad.url"/><br>
 									</div>
 									<div class="medium-8 column">
-										<p class="broadcastText">Subject (Will be set later)</p>
+										<b><p class="broadcastText">Subject (Will be set later)</p></b>
 										<p class="broadcastText">{{broad.message}}</p>
-										<div class="medium-4 column">
-											<button class="button broadButton" (click)= "viewBroadcast(broad)">View</button>
-										</div>
 									</div>
 								</div>
 						</div>
 						<div class="medium-7 column" id="threadView">
-							<div id="threadExpanded">
-								<div class="medium-12 column" id="threadHeader">
+							<div id="threadExpanded" [ngClass]="{' ' : selectedBroadcast.hasOwnProperty('url'), 'hidden' : !selectedBroadcast.hasOwnProperty('url') }">
+								<div class="medium-12 column" id="threadHeader"> 
 									<div class="medium-3 column">
-										<img id="threadPic" [src]="model.user.url"/><br>
-										<p id="threadUser">[Member Name]</p>
+										<img id="threadPic" [src]="selectedBroadcast.url"/><br>
+										<p id="threadUser">{{selectedBroadcast.fullName}}</p>
 									</div>
 									<div class="medium-9 column">
-										<p class="broadcastText">In: [Subject]</p>
-										<p class="broadcastText">[Message]</p>
+										<b><p class="broadcastText">In: [Subject]</p></b>
+										<p class="broadcastText">{{selectedBroadcast.message}}</p>
 									</div>
 								</div>
-								<div class="medium-12 column" id="threadComment" *ngFor="let com of testArray">
+								<div class="medium-12 column" id="threadComment" *ngFor="let resp of broadcastResponses">
 									<div class="medium-2 column">
-										<img id="commentPic" [src]="model.user.url"/><br>
+										<img id="commentPic" [src]="resp.url"/><br>
 									</div>
 									<div class="medium-10 column">
-										<p class="broadcastText">[Member Name]</p>
-										<p class="broadcastText">[Comment]</p>
+										<p class="broadcastText">{{resp.fullName}}</p>
+										<p class="broadcastText">{{resp.response}}</p>
 									</div>
 								</div>
 							</div>
 							<div id="broadResponse">
 								<input type="text" id="broadInput" [(ngModel)]="responseText">
-								<button class="button broadInputButton"><i class="fa fa-paper-plane"(click)="respondToBroadcast()"></i> Send</button>
+								<button class="button broadInputButton" (click)="respondToBroadcast()"><i class="fa fa-paper-plane"></i> Send</button>
 						</div>
 					</div>
 				</div>
