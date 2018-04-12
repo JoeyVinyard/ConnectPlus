@@ -30,6 +30,7 @@ export class MapComponent implements OnInit {
 	broadcastText = "";
 	responseText = "";
 	broadcasts = [];
+	broadcastResponses = [];
 	nearbyUsers = [];
 	filteredUsers = [];
 	displayedUser: any = {};
@@ -819,6 +820,7 @@ export class MapComponent implements OnInit {
 	viewBroadcast(broadcastToView){
 		console.log("viewing");
 		this.selectedBroadcast = broadcastToView;
+		this.broadcastResponses = broadcastToView.responses;
 		/*code to display proper messages*/
 	}
 
