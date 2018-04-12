@@ -6,6 +6,7 @@ import { User } from '../services/user';
 import { Commonalities } from '../services/commonalities';
 import { DatabaseService } from '../services/database.service';
 import { LocationService } from '../services/location.service';
+import { ClassesService } from '../services/classes.service';
 
 @Component({
 	selector: 'app-map',
@@ -45,6 +46,10 @@ export class MapComponent implements OnInit {
 	currentFilter = "";
 	currentFilterArray = [];
 
+	broadcastCategory = "";
+	broadInterests = [];
+	broadClasses = [];
+
 	commonMap = new Map();
 	CommonUsersList = [];
 	CommonUsersListtemp = [];
@@ -79,6 +84,21 @@ export class MapComponent implements OnInit {
 		if (this.viewMessages) {
 			this.viewMessages = false;
 		}
+
+		this.db.getInterests(this.model.user.uid).then((interests) => {
+			this.interestObject = interests;
+			this.interestKeys = Object.keys(this.interestObject);
+			console.log(this.interestKeys)
+			//this.getArrayOfInterestKeys();
+		}).catch((err) => {
+			console.log(err);
+		})
+
+		this.db.getClasses(this.model.user.uid).then((classes) => {
+			this.broadInterests = classes;
+		}).catch((err) => {
+			console.log(err);
+		})
 	}
 
 	toggleMessages() {
@@ -100,6 +120,17 @@ export class MapComponent implements OnInit {
 		if (this.newBroadcast) {
 			this.newBroadcast = false;
 		}
+	}
+
+	updateBroadInterests(){
+		if(this.broadcastCategory != 'blackboard'){
+			this.broadInterests = Object.values(this.interestObject[this.broadcastCategory]);
+		}
+		else{
+			this.broadInterests = this.broadClasses;
+		}
+		
+		console.log("UpdateBroadInterests")
 	}
 
 	model = {

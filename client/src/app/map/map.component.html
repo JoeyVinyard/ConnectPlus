@@ -184,15 +184,16 @@
 				</div>
 				<div class="medium-12 column" id="newBroadcast" [ngClass]="{' ' : newBroadcast, 'none' : !newBroadcast }">
 					<div class="medium-2 column">
-						<select id="broadSelect">
+						<select id="broadSelect" [(ngModel)]="broadcastCategory" (blur)="updateBroadInterests()"> 
 							<option selected="true" disabled="disabled">Interest Category</option>
-							<option *ngFor="let cat of testArray" [value]=cat>{{cat}}</option>
+							<option value="blackboard">Blackboard</option>
+							<option *ngFor="let inter of interestKeys" [value]="inter">{{inter}}</option>
 						</select>
 					</div>
 					<div class="medium-3 column">
-						<select id="broadSelect">
+						<select id="broadSelect" >
 							<option selected="true" disabled="disabled">Specific Interest</option>
-							<option *ngFor="let interest of testArray" [value]=interest>{{interest}}</option>
+							<option *ngFor="let interest of broadInterests" [value]=interest>{{interest}}</option>
 						</select>
 					</div>
 					<div class="medium-5 column">
