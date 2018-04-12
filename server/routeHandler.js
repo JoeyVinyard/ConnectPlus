@@ -1089,6 +1089,7 @@ module.exports = {
 						if(d <= 15840 ){//3 miles
 							firebase.database().ref("users/" + loc.val().uid).once("value").then((broadcastUser) => {
 								var obj = {
+									subject: loc.val().subject,
 									url: broadcastUser.val().url,
 									fullName: broadcastUser.val().fullName,
 									uid: loc.val().uid,

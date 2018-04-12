@@ -191,7 +191,7 @@
 						</select>
 					</div>
 					<div class="medium-3 column">
-						<select id="broadSelect" >
+						<select id="broadSelect" [(ngModel)]="specificInterest">
 							<option selected="true" disabled="disabled">Specific Interest</option>
 							<option *ngFor="let interest of broadInterests" [value]=interest>{{interest}}</option>
 						</select>
@@ -212,19 +212,19 @@
 						</select>
 					</div>
 					<div class="medium-5 column">
-						<select id="broadSelect">
+						<select id="broadSelect" [(ngModel)]="filterInterest">
 							<option selected="true" disabled="disabled">Specific Interest</option>
 							<option *ngFor="let interest of broadInterests" [value]=interest>{{interest}}</option>
 						</select>
 					</div>
 					<div class="medium-3 column">
-						<button class="button newBroadButton">
+						<button class="button newBroadButton" (click)="filterBroadcasts()">
 							<i class="fa fa-floppy-o"></i> Save</button>
 					</div>
 				</div>
 				<div class="medium-12 column" id="broadContent">
 						<div class="medium-5 medium-centered column" id="broadcastList">
-								<div id="broadcastPanel" *ngFor="let broad of broadcasts" (click)= "viewBroadcast(broad)">
+								<div id="broadcastPanel" *ngFor="let broad of filteredBroadcasts" (click)= "viewBroadcast(broad)">
 									<div class="medium-4 column">
 											<img id="broadPic" [src]="broad.url"/><br>
 									</div>
