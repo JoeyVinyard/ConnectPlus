@@ -164,9 +164,9 @@ export class MapComponent implements OnInit {
 		this.vis = this.commonMap.get(user.uid);
 
 		this.displayedUser.commons = this.vis.FB + ": " + this.vis.facebookNum
-		+ "  " + this.vis.TW + ": " + this.vis.twitterNum
-		+ "  " + this.vis.BB + ": " + this.vis.blackboardNum
-		+ "  " + this.vis.YT + ": " + this.vis.youtubeNum
+			+ "  " + this.vis.TW + ": " + this.vis.twitterNum
+			+ "  " + this.vis.BB + ": " + this.vis.blackboardNum
+			+ "  " + this.vis.YT + ": " + this.vis.youtubeNum
 	}
 
 	closeUser() {
@@ -263,185 +263,185 @@ export class MapComponent implements OnInit {
 		else if (this.currentFilter == "Youtube") {
 			this.model.user.filterYoutube = true;
 			this.youtubeFilter();
-            //do something eventually
-        }
-        else if (this.currentFilter == "Blackboard") {
-        	this.model.user.filterBlackBoard = true;
-        	this.blackboardFilter();
-        }
-        else {
-            //interest filtering
+			//do something eventually
+		}
+		else if (this.currentFilter == "Blackboard") {
+			this.model.user.filterBlackBoard = true;
+			this.blackboardFilter();
+		}
+		else {
+			//interest filtering
 			this.model.user.filteredInterests.push(this.currentFilter);
 			this.filterUsersBasedOnInterests(this.currentFilter);
-        }
-    }
+		}
+	}
 
-    removeFilter(filter) {
-    	console.log("Filter Removed: " + filter);
-        // var index = this.currentFilterArray.indexOf(filter);
-        // this.currentFilterArray.splice(index, 1);
-        if (filter == "Facebook") {
-        	this.model.user.filterFacebook = false;
-        	this.maintainFilter();
-        }
-        else if (filter == "Twitter") {
-        	this.model.user.filterTwitter = false;
-        	this.maintainFilter();
-            // this.twitterFilter();
-        }
-        else if (filter == "Youtube") {
-        	this.model.user.filterYoutube = false;
-        	this.maintainFilter();
-        }
-        else if (filter == "Blackboard") {
-        	this.model.user.filterBlackBoard = false;
-        	this.maintainFilter();
-            // this.blackboardFilter();
-        }
-        else {
-            //interest filtering
-            var index = this.model.user.filteredInterests.indexOf(filter);
-            this.model.user.filteredInterests.splice(index, 1);
-            this.maintainFilter();
-        }
-    }
+	removeFilter(filter) {
+		console.log("Filter Removed: " + filter);
+		// var index = this.currentFilterArray.indexOf(filter);
+		// this.currentFilterArray.splice(index, 1);
+		if (filter == "Facebook") {
+			this.model.user.filterFacebook = false;
+			this.maintainFilter();
+		}
+		else if (filter == "Twitter") {
+			this.model.user.filterTwitter = false;
+			this.maintainFilter();
+			// this.twitterFilter();
+		}
+		else if (filter == "Youtube") {
+			this.model.user.filterYoutube = false;
+			this.maintainFilter();
+		}
+		else if (filter == "Blackboard") {
+			this.model.user.filterBlackBoard = false;
+			this.maintainFilter();
+			// this.blackboardFilter();
+		}
+		else {
+			//interest filtering
+			var index = this.model.user.filteredInterests.indexOf(filter);
+			this.model.user.filteredInterests.splice(index, 1);
+			this.maintainFilter();
+		}
+	}
 
-    facebookFilter() {
-    	this.auth.getUser().then((user) => {
-    		this.db.updateUser(this.model.user).then((data) => {
-    			console.log("from facebook filter " , data);
+	facebookFilter() {
+		this.auth.getUser().then((user) => {
+			this.db.updateUser(this.model.user).then((data) => {
+				console.log("from facebook filter ", data);
 
-    			if (this.model.user.filterFacebook) {
-    				this.filterUsersBasedOnFacebook(0);
+				if (this.model.user.filterFacebook) {
+					this.filterUsersBasedOnFacebook(0);
 
-    			}
-    			else {
-    				this.maintainFilter();
-    			}
+				}
+				else {
+					this.maintainFilter();
+				}
 
-    		}).catch((err) => {
-    			console.error(err);
-    		})
-    	});
-    }
-    twitterFilter() {
-    	this.auth.getUser().then((user) => {
-    		this.db.updateUser(this.model.user).then((data) => {
-    			console.log(data);
+			}).catch((err) => {
+				console.error(err);
+			})
+		});
+	}
+	twitterFilter() {
+		this.auth.getUser().then((user) => {
+			this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
 
-    			if (this.model.user.filterTwitter) {
-    				this.filterUsersBasedOnTwitter(0);
-    			}
-    			else {
-    				this.maintainFilter();
-    			}
+				if (this.model.user.filterTwitter) {
+					this.filterUsersBasedOnTwitter(0);
+				}
+				else {
+					this.maintainFilter();
+				}
 
-    		}).catch((err) => {
-    			console.error(err);
-    		})
-    	});
-    }
-    youtubeFilter() {
-    	this.auth.getUser().then((user) => {
-    		this.db.updateUser(this.model.user).then((data) => {
-    			console.log(data);
+			}).catch((err) => {
+				console.error(err);
+			})
+		});
+	}
+	youtubeFilter() {
+		this.auth.getUser().then((user) => {
+			this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
 
-    			if (this.model.user.filterYoutube) {
-    				this.filterUsersBasedOnYoutube(0);
-    			}
-    			else {
-    				this.maintainFilter();
-    			}
+				if (this.model.user.filterYoutube) {
+					this.filterUsersBasedOnYoutube(0);
+				}
+				else {
+					this.maintainFilter();
+				}
 
-    		}).catch((err) => {
-    			console.error(err);
+			}).catch((err) => {
+				console.error(err);
 
-    		})
+			})
 
-    	});
-    }
-    blackboardFilter() {
-    	this.auth.getUser().then((user) => {
-    		this.db.updateUser(this.model.user).then((data) => {
-    			console.log(data);
+		});
+	}
+	blackboardFilter() {
+		this.auth.getUser().then((user) => {
+			this.db.updateUser(this.model.user).then((data) => {
+				console.log(data);
 
-    			if (this.model.user.filterBlackBoard) {
-    				this.filterUsersBasedOnBlackboard(0);
-    			}
-    			else {
-    				this.maintainFilter();
-    			}
+				if (this.model.user.filterBlackBoard) {
+					this.filterUsersBasedOnBlackboard(0);
+				}
+				else {
+					this.maintainFilter();
+				}
 
-    		}).catch((err) => {
-    			console.error(err);
+			}).catch((err) => {
+				console.error(err);
 
-    		})
+			})
 
-    	});
-    }
+		});
+	}
 
-    maintainFilter() {
-    	//this.generateCommonMap();
-    	this.filteredUsers = this.nearbyUsers;
-    	this.currentFilterArray = [];
-    	var count = 0;
+	maintainFilter() {
+		//this.generateCommonMap();
+		this.filteredUsers = this.nearbyUsers;
+		this.currentFilterArray = [];
+		var count = 0;
 
-    	if (this.model.user.filterFacebook) {
-    		this.currentFilterArray.push("Facebook");
-    		this.filterUsersBasedOnFacebook(0);
-    		count++;
-    	}
-    	if (this.model.user.filterTwitter) {
-    		this.currentFilterArray.push("Twitter")
-    		this.filterUsersBasedOnTwitter(0);
-    		count++;
-    	}
-    	if (this.model.user.filterYoutube) {
-    		this.currentFilterArray.push("Youtube")
-    		this.filterUsersBasedOnYoutube(0);
-    		count++;
-    	}
-    	if (this.model.user.filterBlackBoard) {
-    		this.currentFilterArray.push("Blackboard")
-    		this.filterUsersBasedOnBlackboard(0);
-    		count++;
-    	}
+		if (this.model.user.filterFacebook) {
+			this.currentFilterArray.push("Facebook");
+			this.filterUsersBasedOnFacebook(0);
+			count++;
+		}
+		if (this.model.user.filterTwitter) {
+			this.currentFilterArray.push("Twitter")
+			this.filterUsersBasedOnTwitter(0);
+			count++;
+		}
+		if (this.model.user.filterYoutube) {
+			this.currentFilterArray.push("Youtube")
+			this.filterUsersBasedOnYoutube(0);
+			count++;
+		}
+		if (this.model.user.filterBlackBoard) {
+			this.currentFilterArray.push("Blackboard")
+			this.filterUsersBasedOnBlackboard(0);
+			count++;
+		}
 
-    	if (this.model.user.filteredInterests.length != 0) {
-            for (var i = 0; i < this.model.user.filteredInterests.length; i++) {
-                if(this.model.user.filteredInterests[i] != ""){
-                    this.currentFilterArray.push(this.model.user.filteredInterests[i]);
-                    this.filterUsersBasedOnInterests(this.model.user.filteredInterests[i]);
-                    count++;
-                }
-            }
-        }
+		if (this.model.user.filteredInterests.length != 0) {
+			for (var i = 0; i < this.model.user.filteredInterests.length; i++) {
+				if (this.model.user.filteredInterests[i] != "") {
+					this.currentFilterArray.push(this.model.user.filteredInterests[i]);
+					this.filterUsersBasedOnInterests(this.model.user.filteredInterests[i]);
+					count++;
+				}
+			}
+		}
 
-        if (count == 0) {
-        	this.filteredUsers = this.nearbyUsers;
-        }
-    }
+		if (count == 0) {
+			this.filteredUsers = this.nearbyUsers;
+		}
+	}
 
-    particlesConfig;
-    submitted = false;
-
-
-    localStorage() {
-    	localStorage.setItem("localVisibility", String(this.visibility));
-    	localStorage.setItem("localMood", this.model.user.moodStatus);
-    }
+	particlesConfig;
+	submitted = false;
 
 
-    constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService) {
+	localStorage() {
+		localStorage.setItem("localVisibility", String(this.visibility));
+		localStorage.setItem("localMood", this.model.user.moodStatus);
+	}
 
 
-    	this.auth.isAuthed().then((user) => {
-    		console.log("Authed:", user)
-    		this.model.user.uid = user.uid;
-    	});
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService) {
 
 
-    	this.auth.getUser().then((user) => {
+		this.auth.isAuthed().then((user) => {
+			console.log("Authed:", user)
+			this.model.user.uid = user.uid;
+		});
+
+
+		this.auth.getUser().then((user) => {
 
 			//this.localStorage();
 			this.db.getUser(user.uid).then((userData) => {
@@ -455,21 +455,21 @@ export class MapComponent implements OnInit {
 
 		});
 
-    	this.auth.getUser().then((user) => {
-		if (localStorage.getItem("localVisibility") == null || localStorage.getItem("localMood") == null) { //only call Database if necessary
-			this.db.getUser(user.uid).then((userData) => {
-				console.log("localStorage Missing");
-				this.model.user = userData;
-				console.log(userData)
-				this.visibility = this.model.user.visibility;
-				this.model.moodStatus = userData.moodStatus;
-				this.localStorage();
-				this.generateCommonMap();
-			})
-		}
-	});
-    	loc.getLocation().then((l) => {
-    		console.log("reeeeeeeeeee")
+		this.auth.getUser().then((user) => {
+			if (localStorage.getItem("localVisibility") == null || localStorage.getItem("localMood") == null) { //only call Database if necessary
+				this.db.getUser(user.uid).then((userData) => {
+					console.log("localStorage Missing");
+					this.model.user = userData;
+					console.log(userData)
+					this.visibility = this.model.user.visibility;
+					this.model.moodStatus = userData.moodStatus;
+					this.localStorage();
+					this.generateCommonMap();
+				})
+			}
+		});
+		loc.getLocation().then((l) => {
+			console.log("reeeeeeeeeee")
 			auth.getUser().then((u) => {
 				db.storeLocation(l, u.uid).then((d) => {
 					this.lat = l.latitude;
@@ -481,18 +481,18 @@ export class MapComponent implements OnInit {
 					db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
 						this.broadcasts = broadcasts;
 						console.log(broadcasts);
-					/*	console.log("Broadcasts: ", broadcasts);
-						broadcasts.forEach((broad) => {
-							db.getUser(broad.uid).then((fetchedUser) => {
-								var broadcast = {
-									message: broad.message,
-									broadcastID: broad.broadcastID,
-									user: fetchedUser
-									//responses, subject		      	
-								};
-								this.broadcasts.push(broadcast);
-							})
-						});*/
+						/*	console.log("Broadcasts: ", broadcasts);
+							broadcasts.forEach((broad) => {
+								db.getUser(broad.uid).then((fetchedUser) => {
+									var broadcast = {
+										message: broad.message,
+										broadcastID: broad.broadcastID,
+										user: fetchedUser
+										//responses, subject		      	
+									};
+									this.broadcasts.push(broadcast);
+								})
+							});*/
 						//this.broadcasts = broadcasts;
 					});
 					db.getNearbyUsers(u.uid).then((nearbyUsers) => {
@@ -500,7 +500,7 @@ export class MapComponent implements OnInit {
 
 						this.nearbyUsers = nearbyUsers;
 						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
-						
+
 						//this.generateCommonMap();
 						this.maintainFilter();
 					}).catch((err) => {
@@ -530,28 +530,31 @@ export class MapComponent implements OnInit {
 			var p = new Promise((resolve, reject) => {
 				this.db.getInterests(this.model.user.uid).then((mi) => {
 					/*if(typeof mi !== 'undefined'){*/
-						if(Object.keys(mi).indexOf(interest) != -1){
-							
-							modelInterests = Object.values(mi[interest]);
-							// console.log("MI: " +modelInterests;
-						}
+					if (Object.keys(mi).indexOf(interest) != -1) {
+
+						modelInterests = Object.values(mi[interest]);
+						// console.log("MI: " +modelInterests;
+					}
 				})
 				console.log(modelInterests);
 				this.filteredUsers.forEach((user) => {
 					var match = false;
-					
+
 					this.db.getInterests(user.uid).then((ui) => {
-						if(ui != null){
-							if(Object.keys(ui).indexOf(interest) != -1){
-								
+						if (ui != null) {
+							if (Object.keys(ui).indexOf(interest) != -1) {
+
 								userInterests = Object.values(ui[interest]);
 								// console.log("UI: " +userInterests);
 							}
 						}
-						for(var i = 0; i < modelInterests.length; i++){
-							for(var j = 0; j < userInterests.length; j++){
+						else{ //if null, empty out the list
+							userInterests = [];
+						}
+						for (var i = 0; i < modelInterests.length; i++) {
+							for (var j = 0; j < userInterests.length; j++) {
 								// console.log(modelInterests[i] + " + " + userInterests[j]);
-								if(modelInterests[i] == userInterests[j]){
+								if (modelInterests[i] == userInterests[j]) {
 									match = true;
 									break;
 								}
@@ -619,7 +622,7 @@ export class MapComponent implements OnInit {
 						});
 						//this.holder.facebookNum = 0;
 						//this.holder.facebookNum = (this.facebookCommon /2);
-						
+
 					});
 				}).then((users: any) => {
 					if (!num) {
@@ -627,7 +630,7 @@ export class MapComponent implements OnInit {
 						console.log("Filtered Users Facebook:", filterUsersArray);
 					}
 					else {
-						
+
 					}
 				});
 			}).catch((err) => {
@@ -636,7 +639,7 @@ export class MapComponent implements OnInit {
 		}
 	}
 
-	filterUsersBasedOnTwitter(num:number) {
+	filterUsersBasedOnTwitter(num: number) {
 
 		var filterUsersArray = [];
 		if (true) {
@@ -657,8 +660,8 @@ export class MapComponent implements OnInit {
 								if (followeeMap.get(followee)) {
 									match = true;
 									this.twitterCommon = this.twitterCommon + 1;
-									this.holder.twitter = true;		
-									this.holder.TW = "Twitter"							
+									this.holder.twitter = true;
+									this.holder.TW = "Twitter"
 								}
 							});
 							this.holder.twitterNum = this.twitterCommon;
@@ -687,13 +690,13 @@ export class MapComponent implements OnInit {
 		}
 	}
 
-	filterUsersBasedOnYoutube(num:number) {
+	filterUsersBasedOnYoutube(num: number) {
 
 		var filterUsersArray = [];
 		if (true) {
 			this.db.getYoutubeSubscribers(this.model.user.uid).then((subscribers) => {
 				var subscriberMap = new Map();
-				console.log("this is the subs" , subscribers)
+				console.log("this is the subs", subscribers)
 				Object.keys(subscribers).forEach((subscriber) => {
 					subscriberMap.set(subscriber, 1);
 				});
@@ -705,18 +708,18 @@ export class MapComponent implements OnInit {
 							var match = false;
 							this.holder = this.commonMap.get(user.uid);
 							Object.keys(nearbySubscriber).forEach((subscriber) => {
-								
-							//console.log(subscriber)
-							//console.log(subscriberMap);
+
+								//console.log(subscriber)
+								//console.log(subscriberMap);
 								if (subscriberMap.get(subscriber)) {
 									match = true;
 									//console.log("hellllllllllooooooooooo")
 									this.youtubeCommon = this.youtubeCommon + 1;
-									this.holder.youtube = true;	
-									this.holder.YT = "Youtube"								
+									this.holder.youtube = true;
+									this.holder.YT = "Youtube"
 								}
 							});
-							this.holder.youtubeNum = this.youtubeCommon ;
+							this.holder.youtubeNum = this.youtubeCommon;
 
 							if (match) {
 								filterUsersArray.push(user);
@@ -739,12 +742,12 @@ export class MapComponent implements OnInit {
 					console.error(err);
 				});
 			}).catch((err) => {
-				console.error(err); 
+				console.error(err);
 			});
 		}
 	}
 
-	filterUsersBasedOnBlackboard(num:number) {
+	filterUsersBasedOnBlackboard(num: number) {
 		//console.log("Blackboard");
 		var filterUsersArray = [];
 		this.db.getClasses(this.model.user.uid).then((classes) => {
@@ -767,7 +770,7 @@ export class MapComponent implements OnInit {
 								if (classesMap.get(singleClass)) {
 									match = true;
 									this.blackboardCommon = this.blackboardCommon + 1;
-									this.holder.blackboard = true;	
+									this.holder.blackboard = true;
 									this.holder.BB = "BlackBoard"
 								}
 							});
@@ -796,7 +799,7 @@ export class MapComponent implements OnInit {
 			});
 		}).catch((err) => {
 			console.log(err);
-			
+
 		})
 	}
 
@@ -813,16 +816,16 @@ export class MapComponent implements OnInit {
 		console.log(this.broadcastText);
 	}
 
-	viewBroadcast(broadcastToView){
+	viewBroadcast(broadcastToView) {
 		console.log("viewing");
 		this.selectedBroadcast = broadcastToView;
 		this.broadcastResponses = broadcastToView.responses;
 		/*code to display proper messages*/
 	}
 
-	respondToBroadcast(){
+	respondToBroadcast() {
 		console.log("Here");
-		if(this.selectedBroadcast){
+		if (this.selectedBroadcast) {
 			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText);
 		}
 	}
@@ -835,11 +838,11 @@ export class MapComponent implements OnInit {
 				this.nearbyUsers = nearbyUsers;
 				this.CommonUsersList = this.nearbyUsers;
 				nearbyUsers.forEach((nearbyUser) => {
-			
-						// this.facebookCommon = 0;
-						// this.twitterCommon = 0;
-						// this.blackboardCommon = 0;
-						// this.youtubeCommon = 0;
+
+					// this.facebookCommon = 0;
+					// this.twitterCommon = 0;
+					// this.blackboardCommon = 0;
+					// this.youtubeCommon = 0;
 					this.temp = new Commonalities();
 					this.temp.uid = nearbyUser.uid;
 					this.temp.facebook = false;
@@ -854,19 +857,19 @@ export class MapComponent implements OnInit {
 					this.temp.TW = "Twitter";
 					this.temp.BB = "BlackBoard";
 					this.temp.YT = "Youtube";
-			
+
 					this.commonMap.set(nearbyUser.uid, this.temp);
 					// if(this.commonMap.get(nearbyUser.uid)){
 					// 	this.getCommon();
 					// }
 				});
-				this.getCommon();		
-				
+				this.getCommon();
+
 			}).catch((err) => {
 				console.error(err);
 			})
 		})
-		
+
 		//this.getCommon();		
 	}
 	getCommon() {
