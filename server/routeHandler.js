@@ -1097,7 +1097,8 @@ module.exports = {
 									lon: loc.val().lon,
 									message: loc.val().broadcast,
 									broadcastID: loc.val().broadcastID,
-									responses: []
+									responses: [],
+									time: loc.val().time
 								};
 								if(loc.val().responses){
 									/*I hate my life*/
@@ -1113,7 +1114,8 @@ module.exports = {
 													url: responseUser.val().url,
 													fullName: responseUser.val().fullName,
 													uid: responseUser.val().uid,
-													response: response.response
+													response: response.response,
+													time: loc.val().time
 												});
 												yay();
 											}).catch((err) => {
@@ -1123,6 +1125,10 @@ module.exports = {
 									});
 
 									Promise.all(responsePromises).then(() => {
+										/*responseList.sort(function(a,b) {
+											return b.time - a.time;
+										})*/
+										responseList.reverse();
 										obj.responses = responseList;	
 										nearbyUids.push(obj);
 										res();
@@ -1143,6 +1149,10 @@ module.exports = {
 					}));
 					})
 					Promise.all(promises).then((then) => {
+						/*nearbyUids.sort(function(a,b) {
+							return b.time - a.time;
+						});*/
+						nearbyUids.reverse();
 						resolve(nearbyUids);
 					}).catch((err) => {
 						console.log(err);

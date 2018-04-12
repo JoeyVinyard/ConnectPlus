@@ -369,15 +369,17 @@ export class DatabaseService {
 			});
 		})
 	}
-	storeBroadcast(uid, loc, broadcast): Promise<any>{
+	storeBroadcast(uid, loc, broadcast, time): Promise<any>{
 		return new Promise((resolve, reject) => {
 			var broadcastObject = {
+				time: 0,
 				lat: 0,
 				lon: 0,
 				uid: "",
 				broadcast: ""
 			}
 			if(!!loc){
+				broadcastObject.time = time;
 				broadcastObject.lat = loc.latitude;
 				broadcastObject.lon = loc.longitude;
 				broadcastObject.uid = uid;
@@ -404,15 +406,16 @@ export class DatabaseService {
 			})
 		})
 	}
-	respondToBroadcast(uid, broadcastID, response){
+	respondToBroadcast(uid, broadcastID, response, time){
 		return new Promise((resolve, reject) => {
 			var responseObject = {
+				time: 0,
 				uid: "",
 				response: "",
 				broadcastID: ""
 			}
 			if(!!uid){
-
+				responseObject.time = time;
 				responseObject.uid = uid;
 				responseObject.response = response;
 				responseObject.broadcastID = broadcastID
@@ -428,7 +431,7 @@ export class DatabaseService {
 			});
 		});
 	}
-	
+
 	constructor(private http: HttpClient) {}
 
 }

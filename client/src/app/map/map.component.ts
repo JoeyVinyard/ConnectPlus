@@ -808,7 +808,7 @@ export class MapComponent implements OnInit {
 			latitude: this.lat,
 			longitude: this.lng
 		};
-		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText).then((data) => {
+		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText, (new Date).getMilliseconds()).then((data) => {
 			console.log("broadcast sent");
 		}).catch((err) => {
 			console.error(err);
@@ -818,6 +818,7 @@ export class MapComponent implements OnInit {
 
 	viewBroadcast(broadcastToView) {
 		console.log("viewing");
+
 		this.selectedBroadcast = broadcastToView;
 		this.broadcastResponses = broadcastToView.responses;
 		/*code to display proper messages*/
@@ -826,7 +827,7 @@ export class MapComponent implements OnInit {
 	respondToBroadcast() {
 		console.log("Here");
 		if (this.selectedBroadcast) {
-			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText);
+			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getMilliseconds());
 		}
 	}
 
