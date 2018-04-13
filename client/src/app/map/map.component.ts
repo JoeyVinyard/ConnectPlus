@@ -487,6 +487,7 @@ export class MapComponent implements OnInit {
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:", user)
 			this.model.user.uid = user.uid;
+			//this.generateCommonMap();
 		});
 
 
@@ -500,9 +501,10 @@ export class MapComponent implements OnInit {
 				this.model.moodStatus = localStorage.getItem("localMood");
 				//console.log(userData)
 			})
-			this.generateCommonMap();
+			// this.generateCommonMap();
 
 		});
+		//this.generateCommonMap();
 
 		this.auth.getUser().then((user) => {
 			if (localStorage.getItem("localVisibility") == null || localStorage.getItem("localMood") == null) { //only call Database if necessary
@@ -513,9 +515,12 @@ export class MapComponent implements OnInit {
 					this.visibility = this.model.user.visibility;
 					this.model.moodStatus = userData.moodStatus;
 					this.localStorage();
-					this.generateCommonMap();
+					//this.generateCommonMap();
+					console.log("inside getuser")
 				})
 			}
+					//this.generateCommonMap();
+
 		});
 		loc.getLocation().then((l) => {
 			console.log("retrieved the correct location");
@@ -531,7 +536,7 @@ export class MapComponent implements OnInit {
 			//console.log("reeeeeeeeeee")
 			
 		});
-
+		//this.generateCommonMap();
 		
 		setTimeout(() => {
 			if(!this.locationFound){
@@ -568,7 +573,9 @@ export class MapComponent implements OnInit {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
+				this.generateCommonMap();
 				this.maintainFilter();
+
 			}).catch((err) => {
 				console.error(err);
 			})
@@ -608,7 +615,7 @@ export class MapComponent implements OnInit {
 						else{ //if null, empty out the list
 							userInterests = [];
 						}
-						//this.interestCommon = 0;
+						this.interestCommon = 0;
 						for (var i = 0; i < modelInterests.length; i++) {
 							for (var j = 0; j < userInterests.length; j++) {
 								if (modelInterests[i] == userInterests[j]) {
@@ -1013,6 +1020,7 @@ export class MapComponent implements OnInit {
 			console.log("Promises: " + promises)
 			this.generateTiers();
 		})
+		console.log(this.commonMap)
 	}
 
 
