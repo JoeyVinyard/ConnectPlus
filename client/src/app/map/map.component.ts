@@ -141,10 +141,10 @@ export class MapComponent implements OnInit {
 
 	refreshBroadcasts(){
 		this.db.getNearbyBroadcasts(this.model.user.uid.toString()).then((broadcasts) => {
-				this.broadcasts = broadcasts;
-				this.filteredBroadcasts = broadcasts;
-				console.log(broadcasts);
-			});
+			this.broadcasts = broadcasts;
+			this.filteredBroadcasts = broadcasts;
+			console.log(broadcasts);
+		});
 	}
 
 	model = {
@@ -199,27 +199,24 @@ export class MapComponent implements OnInit {
 	}
 
 	userVisible = false;
-	vis;
+	//vis;
 	viewUser(user: any = {}) {
 		this.userVisible = true;
 		this.displayedUser = user;
 		this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance / 5280) * 100) / 100;
 		if (isNaN(this.displayedUser.distanceInMiles))
 			this.displayedUser.distanceInMiles = 0;
-		this.vis = this.commonMap.get(user.uid);
+		var vis = this.commonMap.get(user.uid);
 
-		this.displayedUser.commons = this.vis.FB + ": " + this.vis.facebookNum
-			+ "  " + this.vis.TW + ": " + this.vis.twitterNum
-			+ "  " + this.vis.BB + ": " + this.vis.blackboardNum
-			+ "  " + this.vis.YT + ": " + this.vis.youtubeNum;
-		console.log("is there anything here", this.vis.interestSub)
-		var keys = Object.keys(this.vis.interestSub);
-		console.log(keys)
-		keys.forEach((gg) => {
-
-			this.displayedUser.commons = this.displayedUser.commons
-				+ "  " + gg + ": " + this.vis.interestSub.get(gg);
-		});
+		this.displayedUser.commons = vis.FB + ": " + vis.facebookNum
+		+ "  " + vis.TW + ": " + vis.twitterNum
+		+ "  " + vis.BB + ": " + vis.blackboardNum
+		+ "  " + vis.YT + ": " + vis.youtubeNum;
+	
+		vis.interestSub.forEach((value: string, key: string) => {
+    		this.displayedUser.commons = this.displayedUser.commons
+    		+ "  " + key + ": " + value;
+    	});
 	}
 
 	closeUser() {
@@ -245,7 +242,6 @@ export class MapComponent implements OnInit {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				//console.log(data);
-
 			}).catch((err) => {
 				console.error(err);
 
@@ -360,7 +356,6 @@ export class MapComponent implements OnInit {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				//console.log("from facebook filter ", data);
-
 				if (this.model.user.filterFacebook) {
 					this.filterUsersBasedOnFacebook(0);
 
@@ -378,7 +373,6 @@ export class MapComponent implements OnInit {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				//console.log(data);
-
 				if (this.model.user.filterTwitter) {
 					this.filterUsersBasedOnTwitter(0);
 				}
@@ -395,7 +389,6 @@ export class MapComponent implements OnInit {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				//console.log(data);
-
 				if (this.model.user.filterYoutube) {
 					this.filterUsersBasedOnYoutube(0);
 				}
@@ -414,7 +407,6 @@ export class MapComponent implements OnInit {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				//console.log(data);
-
 				if (this.model.user.filterBlackBoard) {
 					this.filterUsersBasedOnBlackboard(0);
 				}
@@ -503,10 +495,8 @@ export class MapComponent implements OnInit {
 				//console.log(userData)
 			})
 			// this.generateCommonMap();
-
 		});
 		//this.generateCommonMap();
-
 		this.auth.getUser().then((user) => {
 			if (localStorage.getItem("localVisibility") == null || localStorage.getItem("localMood") == null) { //only call Database if necessary
 				this.db.getUser(user.uid).then((userData) => {
@@ -521,8 +511,7 @@ export class MapComponent implements OnInit {
 				})
 			}
 					//this.generateCommonMap();
-
-		});
+				});
 		loc.getLocation().then((l) => {
 			console.log("retrieved the correct location");
 			this.auth.getUser().then((u) => {
@@ -535,10 +524,8 @@ export class MapComponent implements OnInit {
 			});
 
 			//console.log("reeeeeeeeeee")
-
 		});
-		//this.generateCommonMap();
-		
+
 		setTimeout(() => {
 			if (!this.locationFound) {
 				db.getLocation(this.model.user.uid).then((l) => {
@@ -594,9 +581,9 @@ export class MapComponent implements OnInit {
 			var p = new Promise((resolve, reject) => {
 				this.db.getInterests(this.model.user.uid).then((mi) => {
 					/*if(typeof mi !== 'undefined'){*/
-					if (Object.keys(mi).indexOf(interest) != -1) {
+						if (Object.keys(mi).indexOf(interest) != -1) {
 
-						modelInterests = Object.values(mi[interest]);
+							modelInterests = Object.values(mi[interest]);
 						// console.log("MI: " +modelInterests;
 					}
 				})
@@ -606,7 +593,6 @@ export class MapComponent implements OnInit {
 					this.db.getInterests(user.uid).then((ui) => {
 						if (ui != null) {
 							//this.holder = this.commonMap.get(user.uid);
-
 							if (Object.keys(ui).indexOf(interest) != -1) {
 
 								userInterests = Object.values(ui[interest]);
@@ -704,7 +690,6 @@ export class MapComponent implements OnInit {
 						}
 						else {
 							//console.log("Facebook Filtering Done")
-
 						}
 						mainResolve("Facebook")
 					});
@@ -804,7 +789,7 @@ export class MapComponent implements OnInit {
 										}
 									});
 								}
-
+								console.log("youtube in common", this.youtubeCommon);
 								(this.commonMap.get(user.uid)).youtubeNum = this.youtubeCommon;
 
 								if (match) {
@@ -1002,11 +987,10 @@ export class MapComponent implements OnInit {
 		var promises = [];
 		promises.push(this.filterUsersBasedOnFacebook(1));
 		promises.push(this.filterUsersBasedOnTwitter(1));
-		// promises.push(this.filterUsersBasedOnYoutube(1));
+		promises.push(this.filterUsersBasedOnYoutube(1));
 		promises.push(this.filterUsersBasedOnBlackboard(1));
 
 		//console.log();
-
 		this.db.getInterests(this.model.user.uid).then((interests) => {
 			this.interestObject = interests;
 			this.interestKeys = Object.keys(this.interestObject);
@@ -1042,16 +1026,12 @@ export class MapComponent implements OnInit {
 			do {
 				tempTotal += (user.facebookNum * 0.1);
 				// console.log("User got in facebook " + tempTotal)
-
 				tempTotal += (user.twitterNum * 0.1);
 				// console.log("User got in twitter " + tempTotal)
-
 				tempTotal += (user.youtubeNum * 0.1);
 				// console.log("User got in youtube " + tempTotal)
-
 				tempTotal += user.blackboardNum;
 				// console.log("User got in blackboard " + tempTotal)
-
 				var intCatNum = user.interestSub.size;
 				var intSubNum = 0;
 				user.interestSub.forEach((interest) => {
