@@ -120,7 +120,7 @@ export class DatabaseService {
 			})
 		});
 	}
-	getUsersWithCommonFacebookFriends(uid: String): Promise<any> {
+	getUsersWithCommonFacebookFriends(uid: String): 			Promise<any> {
 		return new Promise((resolve, reject) => {
 			this.http.get(this.dbUrl+ "getUsersWithCommonFacebookFriends/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
@@ -137,14 +137,14 @@ export class DatabaseService {
 				lon: 0,
 				uid: ""
 			}
-			if(!!loc){
+			if(!!loc.latitude && !!loc.longitude){
 				locationObject.lat = loc.latitude;
 				locationObject.lon = loc.longitude;
 				locationObject.uid = uid;
 			}else{
 				reject("Invalid location object");
 			}
-				
+							
 			this.http.post(this.dbUrl+ "storeLocation", JSON.stringify(locationObject), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
