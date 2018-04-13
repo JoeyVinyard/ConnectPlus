@@ -800,7 +800,7 @@ export class MapComponent implements OnInit {
 										}
 									});
 								}
-
+								console.log("youtube in common", this.youtubeCommon);
 								(this.commonMap.get(user.uid)).youtubeNum = this.youtubeCommon;
 
 								if (match) {
@@ -998,7 +998,7 @@ export class MapComponent implements OnInit {
 		var promises = [];
 		promises.push(this.filterUsersBasedOnFacebook(1));
 		promises.push(this.filterUsersBasedOnTwitter(1));
-		// promises.push(this.filterUsersBasedOnYoutube(1));
+		promises.push(this.filterUsersBasedOnYoutube(1));
 		promises.push(this.filterUsersBasedOnBlackboard(1));
 
 		//console.log();
