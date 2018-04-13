@@ -107,6 +107,7 @@ export class SettingsComponent implements OnInit {
 	tvShows: string[] = this.interestObj.tvShows;
 	sports: string[] = this.interestObj.sports;
 	musicGenre: string[] = this.interestObj.musicGenre;
+	allMap;
 	interestList;
 	arrayOfInterestKeys:string[];
 	interestSubArray:string[];
@@ -632,9 +633,41 @@ export class SettingsComponent implements OnInit {
 		})
 	}
 
-    addInterest(sub: String, inter: String){
+	verifyInterest(sub:string, inter:string){
+		var verify = new Map();
+		this.allMap.get(sub).forEach((interests) => {
+					verify.set(interests, 1);
+					//console.log(interests)
+
+		});
+		if(verify.get(inter)){
+
+			var ver1 = new Map();
+					this.arraytemp = this.getArrayInter(sub);
+
+			
+			this.arraytemp.forEach((interests1) => {
+					ver1.set(interests1, 1)
+
+				});
+			if(ver1.get(inter)){
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		else{
+			return false;
+		}
+
+	}
+
+
+    addInterest(sub: string, inter: string){
 		console.log(sub + " " + inter);
 		this.model.interestSelected = "";
+		if(this.verifyInterest(sub, inter)){
 		this.db.addInterest(this.model.user.uid, sub , inter).then((success) => {
 				this.model.interestSelected = ""
 
@@ -644,6 +677,7 @@ export class SettingsComponent implements OnInit {
 		}).catch((err) => {
 			console.log(err);
 		})
+	}
 	}
 	deleteInterest(sub: String, inter: String){
 		this.db.deleteInterest(this.model.user.uid, sub , inter).then((data) => {
@@ -655,12 +689,7 @@ export class SettingsComponent implements OnInit {
 	}
 	clearAllCatInterests(sub: string){
 		console.log("not printing", sub);
-		// this.db.clearAllCatInterests(this.model.user.uid, sub).then((data) => {
-		// 	console.log("hi there");
-		// 	this.updateInterest();
-		// }).catch((err) => {
-		// 	console.log(err);
-		// })
+	
 		this.arraytemp = this.getArrayInter(sub);
 		this.arraytemp.forEach((inter) => {
 					this.deleteInterest(sub, inter);
@@ -748,6 +777,20 @@ addFeedback(feedback: String){
 				})
 			})
 		});
+
+
+		this.allMap = new Map();
+		this.allMap.set("Country",this.interestObj.country )
+		this.allMap.set("Movies",this.interestObj.movieGenre )
+		this.allMap.set("Animals",this.interestObj.animal )
+		this.allMap.set("Hobbies",this.interestObj.hobbies )
+		this.allMap.set("Tv",this.interestObj.tvShows )
+		this.allMap.set("Sports",this.interestObj.sports )
+		this.allMap.set("Music",this.interestObj.musicGenre )
+	
+	
+
+
 
 		fb.init({
 			appId: '146089319399243',

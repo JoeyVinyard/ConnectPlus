@@ -640,7 +640,7 @@ export class MapComponent implements OnInit {
 				});
 				var p = new Promise((resolve, reject) => {
 					this.filteredUsers.forEach((user) => {
-						//this.facebookCommon = 0;
+						this.facebookCommon = 0;
 						//this.holder = this.commonMap.get(user.uid);
 						this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
 							var match = false;
@@ -655,11 +655,13 @@ export class MapComponent implements OnInit {
 									// this.holder.facebook = true;
 									// this.holder.FB = "Facebook"
 									(this.commonMap.get(user.uid)).facebook = true;
+									console.log("facceeeeebooookkkkk", (this.commonMap.get(user.uid)).facebook );
 									(this.commonMap.get(user.uid)).FB = "Facebook"
 								}
 							});
 							// this.holder.facebookNum = this.facebookCommon;
 							(this.commonMap.get(user.uid)).facebookNum = this.facebookCommon;
+							console.log("what is was", this.facebookCommon)
 							if (match) {
 
 								filterUsersArray.push(user);
@@ -946,6 +948,7 @@ export class MapComponent implements OnInit {
 		this.twitterCommon = 0;
 		this.blackboardCommon = 0;
 		this.youtubeCommon = 0;
+		console.log("it got restarted", this.facebookCommon)
 		this.filterUsersBasedOnFacebook(1);
 		this.filterUsersBasedOnTwitter(1);
 		this.filterUsersBasedOnYoutube(1);
