@@ -101,7 +101,7 @@ export class MapComponent implements OnInit {
 		})
 
 		this.db.getClasses(this.model.user.uid).then((classes) => {
-			this.broadInterests = classes;
+			this.broadClasses = classes;
 		}).catch((err) => {
 			console.log(err);
 		})
@@ -277,7 +277,7 @@ export class MapComponent implements OnInit {
 	setVisible(number) {
 
 		this.visibility = number;
-		this.model.user.visibility = !number;
+		this.model.user.visibility = (number == 100);
 		localStorage.setItem("localVisibility", number);
 
 		this.auth.getUser().then((user) => {
