@@ -3,7 +3,7 @@ export class User {
 	public uid: String;
 	public email: string;
 	public moodStatus: string;
-	public visibility: number;
+	public visibility: boolean;
 
 	public url: string;
 
