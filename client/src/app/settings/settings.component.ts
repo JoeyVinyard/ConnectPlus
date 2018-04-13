@@ -457,11 +457,11 @@ export class SettingsComponent implements OnInit {
 	}
 	link_youtube() {
 		window.location.href =
-			"https://accounts.google.com/o/oauth2/v2/auth" +
-			"?client_id=374666659146-c9n74gdloum89050ckabsfssh0oe4qkl.apps.googleusercontent.com" +
-			"&redirect_uri=http://localhost:4200/settings" +
-			"&response_type=token" +
-			"&scope=https://www.googleapis.com/auth/youtube.readonly"
+		"https://accounts.google.com/o/oauth2/v2/auth" +
+		"?client_id=374666659146-c9n74gdloum89050ckabsfssh0oe4qkl.apps.googleusercontent.com" +
+		"&redirect_uri=http://localhost:4200/settings" +
+		"&response_type=token" +
+		"&scope=https://www.googleapis.com/auth/youtube.readonly"
 	}
 	unlink_youtube() {
 		this.auth.getUser().then((u) => {
@@ -522,36 +522,36 @@ export class SettingsComponent implements OnInit {
 	}
 	logout_facebook() {
 		this.fb.getLoginStatus()
-			.then(res => {
-				if (res && res.status === 'connected') {
-					console.log("Logging out")
-					this.fb.logout()
-						.then(res => { console.log(res) })
-						.catch(this.handleError);
-					this.inFacebook = false;
-				}
-			}).catch(this.handleError);
+		.then(res => {
+			if (res && res.status === 'connected') {
+				console.log("Logging out")
+				this.fb.logout()
+				.then(res => { console.log(res) })
+				.catch(this.handleError);
+				this.inFacebook = false;
+			}
+		}).catch(this.handleError);
 		this.getLoginStatus();
 	}
 	returnLoginStatus(): boolean {
 		this.fb.getLoginStatus()
-			.then(res => {
-				if (res && res.status === 'connected') {
-					this.inFacebook = true;
-					console.log(true);
-					return true;
-				} else {
-					this.inFacebook = false;
-					console.log(false);
-					return false;
-				}
-			})
+		.then(res => {
+			if (res && res.status === 'connected') {
+				this.inFacebook = true;
+				console.log(true);
+				return true;
+			} else {
+				this.inFacebook = false;
+				console.log(false);
+				return false;
+			}
+		})
 		return false;
 	}
 	getLoginStatus() {
 		this.fb.getLoginStatus()
-			.then(console.log.bind(console))
-			.catch(console.error.bind(console));
+		.then(console.log.bind(console))
+		.catch(console.error.bind(console));
 	}
 	showClassList(subject: String) {
 		this.inSubject = true;
@@ -635,15 +635,19 @@ export class SettingsComponent implements OnInit {
 
 	verifyInterest(sub: string, inter: string) {
 		var verify = new Map();
+		console.log("this is what we got ", sub);
+		console.log("looking in here ", this.allMap)
 		this.allMap.get(sub).forEach((interests) => {
 			verify.set(interests, 1);
 			// console.log(interests)
 
 		});
+		//console.log("can find?", this.getArrayInter12(sub))
+		console.log("looking through here ", verify)
 		if (verify.get(inter)) {
 
 			var ver1 = new Map();
-			this.arraytemp = this.getArrayInter(sub);
+			this.arraytemp = this.getArrayInter12(sub);
 
 
 			this.arraytemp.forEach((interests1) => {
@@ -712,8 +716,19 @@ export class SettingsComponent implements OnInit {
 		})
 	}
 	getArrayInter(sub: string): string[] {
-
+		//console.log("it got here fine")
 		this.interestSubArray = Object.values(this.interestList[sub]);
+		//console.log("what cause problems: ", this.interestSubArray)
+		return this.interestSubArray;
+
+
+	}
+	getArrayInter12(sub: string): string[] {
+		console.log("it got here fine ", sub)
+		if(this.interestList[sub])
+		this.interestSubArray = Object.values(this.interestList[sub]);
+		else
+			this.interestSubArray = [];
 		return this.interestSubArray;
 
 
