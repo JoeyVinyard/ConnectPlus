@@ -387,14 +387,17 @@ export class DatabaseService {
 				broadcastObject.uid = uid;
 				broadcastObject.broadcast = broadcast;
 			}else{
+				console.log("this won't print");
 				reject("Invalid broadcast object");
 			}
 			console.log(broadcastObject);
 			this.http.post(this.dbUrl+ "storeBroadcast", JSON.stringify(broadcastObject), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
-				else
+				else{
+					console.log("heres the issue");
 					reject(data["err"]);
+				}
 			});
 		});
 	}

@@ -214,12 +214,11 @@ export class MapComponent implements OnInit {
 			+ "  " + this.vis.YT + ": " + this.vis.youtubeNum;
 		console.log("is there anything here", this.vis.interestSub)
 		var keys = Object.keys(this.vis.interestSub);
-
+		console.log(keys)
 		keys.forEach((gg) => {
+
 			this.displayedUser.commons = this.displayedUser.commons
 				+ "  " + gg + ": " + this.vis.interestSub.get(gg);
-
-
 		});
 	}
 
@@ -489,6 +488,7 @@ export class MapComponent implements OnInit {
 		this.auth.isAuthed().then((user) => {
 			console.log("Authed:", user)
 			this.model.user.uid = user.uid;
+			//this.generateCommonMap();
 		});
 
 
@@ -502,9 +502,10 @@ export class MapComponent implements OnInit {
 				this.model.moodStatus = localStorage.getItem("localMood");
 				//console.log(userData)
 			})
-			this.generateCommonMap();
+			// this.generateCommonMap();
 
 		});
+		//this.generateCommonMap();
 
 		this.auth.getUser().then((user) => {
 			if (localStorage.getItem("localVisibility") == null || localStorage.getItem("localMood") == null) { //only call Database if necessary
@@ -515,9 +516,12 @@ export class MapComponent implements OnInit {
 					this.visibility = this.model.user.visibility;
 					this.model.moodStatus = userData.moodStatus;
 					this.localStorage();
-					this.generateCommonMap();
+					//this.generateCommonMap();
+					console.log("inside getuser")
 				})
 			}
+					//this.generateCommonMap();
+
 		});
 		loc.getLocation().then((l) => {
 			console.log("retrieved the correct location");
@@ -533,8 +537,13 @@ export class MapComponent implements OnInit {
 			//console.log("reeeeeeeeeee")
 
 		});
+<<<<<<< HEAD
+		//this.generateCommonMap();
+		
+=======
 
 
+>>>>>>> 4f2b59d3701b5ec2f6b52501b83401bb8dcbf431
 		setTimeout(() => {
 			if (!this.locationFound) {
 				db.getLocation(this.model.user.uid).then((l) => {
@@ -570,7 +579,9 @@ export class MapComponent implements OnInit {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
+				this.generateCommonMap();
 				this.maintainFilter();
+
 			}).catch((err) => {
 				console.error(err);
 			})
@@ -901,6 +912,7 @@ export class MapComponent implements OnInit {
 		console.log(this.specificInterest);
 		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText, (new Date).getTime(), this.specificInterest).then((data) => {
 			console.log("broadcast sent");
+			this.refreshBroadcasts();
 		}).catch((err) => {
 			console.error(err);
 		})
@@ -918,7 +930,16 @@ export class MapComponent implements OnInit {
 	respondToBroadcast() {
 		console.log("Here");
 		if (this.selectedBroadcast) {
-			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getTime());
+			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getTime()).then(() => {
+				var p = new Promise((good, bad) => {
+					this.refreshBroadcasts();
+					good();	
+				}).then(() => {
+
+				})
+				
+				
+			});
 		}
 	}
 
@@ -1005,14 +1026,12 @@ export class MapComponent implements OnInit {
 
 
 
-
-
-
 		Promise.all(promises).then(() => {
 			console.log("common", this.commonMap.get("ZVmOhUAURNOD8t4zqunUdUtjc4B3"));
 			console.log("Promises: " + promises)
 			this.generateTiers();
 		})
+		console.log(this.commonMap)
 	}
 
 	generateTiers(){

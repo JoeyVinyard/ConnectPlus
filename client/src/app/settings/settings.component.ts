@@ -667,6 +667,7 @@ export class SettingsComponent implements OnInit {
 	addInterest(sub: string, inter: string) {
 		console.log(sub + " " + inter);
 		this.model.interestSelected = "";
+
 		if (this.verifyInterest(sub, inter)) {
 			this.db.addInterest(this.model.user.uid, sub, inter).then((success) => {
 				this.model.interestSelected = ""
