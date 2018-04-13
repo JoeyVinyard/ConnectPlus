@@ -321,6 +321,7 @@ export class MapComponent implements OnInit {
 		}
 		else {
 			//interest filtering
+			console.log("INTEREST FILTER: " + this.currentFilter)
 			this.model.user.filteredInterests.push(this.currentFilter);
 			this.filterUsersBasedOnInterests(this.currentFilter, 1);
 		}
@@ -620,10 +621,12 @@ export class MapComponent implements OnInit {
 								}
 							}
 						}
-						(this.commonMap.get(user.uid)).interestSub.set(interest, this.interestCommon)
+						
 						//console.log(interest, " ", this.interestCommon)
 						if (match) {
+							console.log("Got a match")
 							filterUsersArray.push(user);
+							(this.commonMap.get(user.uid)).interestSub.set(interest, this.interestCommon)
 						}
 						resolve(filterUsersArray);
 					}).catch((err) => {
