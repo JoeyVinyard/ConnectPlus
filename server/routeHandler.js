@@ -224,8 +224,7 @@ module.exports = {
 				firebase.database().ref("users").once("value").then((users) => {
 					var data = [];
 					closeUsers.forEach((closeUser) => {
-						//Nirali fix the spelling of visibility
-						if(users.val()[closeUser.uid] && (users.val()[closeUser.uid]).visibility == 100){
+						if(users.val()[closeUser.uid] && (users.val()[closeUser.uid]).visibility){
 							data.push(users.val()[closeUser.uid]);
 							data[data.length-1].distance = closeUser.distance;
 							data[data.length-1].lat = closeUser.lat;
@@ -269,14 +268,19 @@ module.exports = {
 			var userFriends = user.val().friends;
 			var data = [];
 			//var friendMap = new Map();
-
+			// console.log(userFriends);
+			// console.log(user.val().uid);
 			userFriends.forEach((friend) => {
 				data.push(friend.name);
 
 			});
-
 			res.statusCode = 200;
 			responseBody.payload = data;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			res.statusCode = 200;
+			responseBody.payload = err;
 			res.write(JSON.stringify(responseBody));
 			res.end();
 		});
@@ -371,13 +375,8 @@ module.exports = {
 					var commonFriendUIDs = [];
 					s.forEach((nextUser) => {
 						var matchFriends = nextUser.val().friends;
-						console.log(nextUser.val().uid);
 						var commonFriend = false;
 						matchFriends.forEach((friend) => {
-							console.log(friend);
-							console.log(friend.id);
-							console.log(friendMap.get(friend.name));
-							//console.log(friendMap);
 							if(friendMap.get(friend.name)){
 								commonFriend = true;
 							}
@@ -754,7 +753,6 @@ module.exports = {
 		while(inter.includes("%20")){
 			inter = inter.replace("%20", " ");
 		}
-		console.log("nilu: ", inter);
 		firebase.database().ref("interests/"+uid+"/"+sub).once("value").then((s) => {
 			var ent = Object.entries(s.val());
 			var found = false;
@@ -896,7 +894,6 @@ module.exports = {
 			})
 		}
 	},
-
 	getYoutubeSubscriptions(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		var uid = urlData[1];
@@ -931,6 +928,28 @@ module.exports = {
 		}
 		firebase.database().ref("subscriptions/"+uid).once("value").then((s) => {
 			responseBody.payload = s.val();
+			res.statusCode = 200;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
+	},
+	deleteYoutubeData(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		if(!uid){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("subscriptions/"+uid).remove().then(() => {
+			responseBody.payload = true;
 			res.statusCode = 200;
 			res.write(JSON.stringify(responseBody));
 			res.end();
@@ -985,7 +1004,6 @@ module.exports = {
 		});
 		req.on('end', function() {
 			var data = JSON.parse(body);
-			console.log(data);
 			if(!data || !data.uid){
 				res.statusCode = 400;
 				responseBody.err = "Data or UID not supplied";
@@ -1057,35 +1075,97 @@ module.exports = {
 				firebase.database().ref("broadcasts").once("value").then((s) => {
 					res.statusCode=200;
 					var nearbyUids = [];
-					console.log(s);
-					s.forEach((loc) => {
-						console.log(loc.val());
-						var c2 = {
-							lat: loc.val().lat,
-							lon: loc.val().lon
-						};
+					var promises = [];
 
-						var d = distanceCalc.getDistance(c1,c2);
-						if(d <= 15840 ){//3 miles
-							nearbyUids.push({
-								uid: loc.val().uid,
-								distance: d,
+					s.forEach((loc) => {
+						promises.push( new Promise((res, rej) => {
+							console.log("Do we at least get in here?");
+							var c2 = {
 								lat: loc.val().lat,
-								lon: loc.val().lon,
-								message: loc.val().broadcast,
-								boadcastID: loc.val().broadcastID
+								lon: loc.val().lon
+							};
+							var d = distanceCalc.getDistance(c1,c2);
+						if(d <= 15840 ){//3 miles
+							firebase.database().ref("users/" + loc.val().uid).once("value").then((broadcastUser) => {
+								var obj = {
+									subject: loc.val().subject,
+									url: broadcastUser.val().url,
+									fullName: broadcastUser.val().fullName,
+									uid: loc.val().uid,
+									distance: d,
+									lat: loc.val().lat,
+									lon: loc.val().lon,
+									message: loc.val().broadcast,
+									broadcastID: loc.val().broadcastID,
+									responses: [],
+									time: loc.val().time
+								};
+								if(loc.val().responses){
+									/*I hate my life*/
+									var responseList = [];
+									var responsePromises = [];
+									var responses = loc.val().responses;
+									var responseKeys = Object.keys(responses);
+									responseKeys.forEach((responseKey) => {
+										var response = responses[responseKey];
+										responsePromises.push( new Promise ((yay, boo) => {
+											firebase.database().ref("users/" + response.uid).once("value").then((responseUser) => {
+												responseList.push({
+													url: responseUser.val().url,
+													fullName: responseUser.val().fullName,
+													uid: responseUser.val().uid,
+													response: response.response,
+													time: response.time
+												});
+												yay();
+											}).catch((err) => {
+												boo(err);
+											});
+										}));
+									});
+
+									Promise.all(responsePromises).then(() => {
+										responseList.sort(function(a,b) {
+											return a.time - b.time;
+										})
+										//responseList.reverse();
+										obj.responses = responseList;	
+										nearbyUids.push(obj);
+										res();
+									});
+								} else {
+									nearbyUids.push(obj);
+									res();
+								}
+								
+							}).catch((err) => {
+								console.log(err);
+								rej(err);
 							});
+						}else{
+							res();							
 						}
+
+					}));
 					})
-					resolve(nearbyUids);
-				}).catch((err) => {
-					reject(err);
+					Promise.all(promises).then((then) => {
+						nearbyUids.sort(function(a,b) {
+							return b.time - a.time;
+						});
+						//nearbyUids.reverse();
+						resolve(nearbyUids);
+					}).catch((err) => {
+						console.log(err);
+						reject('err')
+					});
+
 				});
+
 			}).then((closeBroadcasts) => {
-					res.statusCode = 200;
-					responseBody.payload = closeBroadcasts;
-					res.write(JSON.stringify(responseBody));
-					res.end();
+				res.statusCode = 200;
+				responseBody.payload = closeBroadcasts;
+				res.write(JSON.stringify(responseBody));
+				res.end();
 			}).catch((err) => {
 				res.statusCode = 400;
 				responseBody.err = err;
@@ -1095,6 +1175,63 @@ module.exports = {
 			})
 		})
 	},
-
-
+	storeResponse: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var body = "";
+		// console.log(req);
+		req.on('data', function(data){
+			body += data;
+			if(body.length > 1e6){ 
+				req.connection.destroy();
+			}
+		});
+		req.on('end', function() {
+			var data = JSON.parse(body);
+			if(!data || !data.uid || !data.broadcastID){
+				res.statusCode = 400;
+				responseBody.err = "Data or UID not supplied";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
+			firebase.database().ref("broadcasts/" + data.broadcastID + "/responses").push(data).then((data) => {
+				res.statusCode = 200;
+				responseBody.payload = data;
+				res.write(JSON.stringify(responseBody));
+				res.end();	
+			}).catch((err) => {
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			});
+		});	
+	},
+	scheduleVisibility: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		var time = parseInt(urlData[2]);
+		if(!uid || !time){
+			res.statusCode = 400;
+			responseBody.err = "No UID or Time provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		setTimeout(() => {
+			firebase.database().ref("users/"+uid+"/visibility").set(true).then(() => {
+				responseBody.payload = "success";
+				res.statusCode = 200;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			}).catch((err) => {
+				console.log("Error?", err);
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
+		}, time*60*60*1000)
+		console.log("Scheduled visibility for", uid, ",",time, "hours from now");
+	}
 }

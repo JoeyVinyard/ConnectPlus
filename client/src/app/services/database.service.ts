@@ -120,7 +120,7 @@ export class DatabaseService {
 			})
 		});
 	}
-	getUsersWithCommonFacebookFriends(uid: String): Promise<any> {
+	getUsersWithCommonFacebookFriends(uid: String): 			Promise<any> {
 		return new Promise((resolve, reject) => {
 			this.http.get(this.dbUrl+ "getUsersWithCommonFacebookFriends/"+uid, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
@@ -137,14 +137,14 @@ export class DatabaseService {
 				lon: 0,
 				uid: ""
 			}
-			if(!!loc){
+			if(!!loc.latitude && !!loc.longitude){
 				locationObject.lat = loc.latitude;
 				locationObject.lon = loc.longitude;
 				locationObject.uid = uid;
 			}else{
 				reject("Invalid location object");
 			}
-				
+							
 			this.http.post(this.dbUrl+ "storeLocation", JSON.stringify(locationObject), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
@@ -344,6 +344,17 @@ export class DatabaseService {
 			});
 		})
 	}
+
+	deleteYoutubeData(uid: String){
+		return new Promise((resolve, reject) => {
+			this.http.delete(this.dbUrl+ "deleteYoutubeData/"+uid, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
 	addFeedback(feedback:String): Promise<any>{
 		var feedbackObject = {
 			
@@ -358,15 +369,19 @@ export class DatabaseService {
 			});
 		})
 	}
-	storeBroadcast(uid, loc, broadcast): Promise<any>{
+	storeBroadcast(uid, loc, broadcast, time, subject): Promise<any>{
 		return new Promise((resolve, reject) => {
 			var broadcastObject = {
+				time: 0,
 				lat: 0,
 				lon: 0,
 				uid: "",
-				broadcast: ""
+				broadcast: "",
+				subject: ""
 			}
 			if(!!loc){
+				broadcastObject.subject = subject;
+				broadcastObject.time = time;
 				broadcastObject.lat = loc.latitude;
 				broadcastObject.lon = loc.longitude;
 				broadcastObject.uid = uid;
@@ -393,6 +408,43 @@ export class DatabaseService {
 			})
 		})
 	}
+	respondToBroadcast(uid, broadcastID, response, time): Promise<any>{
+		return new Promise((resolve, reject) => {
+			var responseObject = {
+				time: 0,
+				uid: "",
+				response: "",
+				broadcastID: ""
+			}
+			if(!!uid){
+				responseObject.time = time;
+				responseObject.uid = uid;
+				responseObject.response = response;
+				responseObject.broadcastID = broadcastID
+
+			}else{
+				reject("Invalid broadcast object");
+			}
+			console.log(responseObject);
+			this.http.post(this.dbUrl+ "storeResponse", JSON.stringify(responseObject), this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		});
+	}
+	scheduleVisibility(uid, time): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get(this.dbUrl+ "scheduleVisibility/"+uid+"/"+time, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		})
+	}
+
 	constructor(private http: HttpClient) {}
 
 }

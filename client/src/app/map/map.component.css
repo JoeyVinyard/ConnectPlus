@@ -36,6 +36,8 @@
     text-align: center;
 	margin-bottom: -50px;
 	position: relative;
+	padding: 0px;
+	overflow: hidden;
 }
 
 #refreshDiv{
@@ -459,6 +461,7 @@ agm-map {
 	  font-size: 1.5rem;
 	  color: white;
 	  text-align: center;
+	  position: relative;
   }
 
   #bHeaderText{
@@ -466,6 +469,14 @@ agm-map {
 	margin-bottom: 1%;
 	
   }
+
+  #refreshBroadcasts{
+	float: right;
+	align-content: right;	
+	cursor: pointer;
+	margin-right: 1rem;
+	margin-top: 1%;
+}
 
   .bHeaderButton{
 	background: transparent;
@@ -508,16 +519,21 @@ agm-map {
   }
 
   #broadcastPanel{
-	border: 2px solid #004E7F;
-	border-radius: 25px;
-	width: 95%;
-	height: 20%;
+	border-bottom: 2px solid #004E7F;
+	/* border-radius: 25px; */
+	width: 100%;
+	height: auto;
+	min-height: 20%;
 	float: center;
 	position: relative;
-	margin-left: 2.5%;
-	margin-top: 2.5%; 
-	background: #01A2FF;
+	background: transparent;
+	overflow:hidden;
 
+  }
+
+  #broadcastPanel:hover{
+	  background: #01A2FF;
+	  cursor: pointer;
   }
 
   #broadPic{
@@ -550,7 +566,7 @@ agm-map {
 
 #broadSelect{
 	background: transparent;
-	color: white;
+	color: #55C1FE;
 	border: 2px solid #0076BB;
 	border-radius: 25px;
 }
@@ -632,13 +648,9 @@ agm-map {
   }
 
   #threadPic{
-	  /* width: 11%;
-	height: 11%; */
-	/* width: 5.5rem;
-	height: 5.5rem; */
 	width: 5vw;
 	height: 5vw;
-	/* margin-left: 10%; */
+	/* margin-left: 1vw; */
 	margin-top: 0.5rem;
 	border: 2px solid #004E7F;
 	border-radius: 50%;
