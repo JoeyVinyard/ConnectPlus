@@ -901,6 +901,7 @@ export class MapComponent implements OnInit {
 		console.log(this.specificInterest);
 		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText, (new Date).getTime(), this.specificInterest).then((data) => {
 			console.log("broadcast sent");
+			this.refreshBroadcasts();
 		}).catch((err) => {
 			console.error(err);
 		})
@@ -918,7 +919,16 @@ export class MapComponent implements OnInit {
 	respondToBroadcast() {
 		console.log("Here");
 		if (this.selectedBroadcast) {
-			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getTime());
+			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getTime()).then(() => {
+				var p = new Promise((good, bad) => {
+					this.refreshBroadcasts();
+					good();	
+				}).then(() => {
+
+				})
+				
+				
+			});
 		}
 	}
 
@@ -1002,9 +1012,6 @@ export class MapComponent implements OnInit {
 		}).catch((err) => {
 			console.log(err);
 		})
-
-
-
 
 
 

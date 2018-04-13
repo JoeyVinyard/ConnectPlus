@@ -1015,24 +1015,29 @@ module.exports = {
 			var v = firebase.database().ref("broadcasts/").push(data);
 			v.then((data) => {
 				firebase.database().ref("broadcasts/" + v.key + "/broadcastID").set(v.key).then((data) => {
+					console.log("All good in da hood");
 					res.statusCode = 200;
-					responseBody.payload = data;
+					responseBody.payload = "OK";
 					res.write(JSON.stringify(responseBody));
 					res.end();	
+					return;
 				}).catch((err) => {
 					console.error(err);
 					responseBody.err = err;
 					res.statusCode = 400;
 					res.write(JSON.stringify(responseBody));
 					res.end();
+					return;
 				})
 				
 			}).catch((err) => {
+				console.log("Not too weird");
 				console.error(err);
 				responseBody.err = err;
 				res.statusCode = 400;
 				res.write(JSON.stringify(responseBody));
 				res.end();
+				return;
 			})
 		});
 			/*firebase.database().ref("broadcasts/").push(data).then(() => {
