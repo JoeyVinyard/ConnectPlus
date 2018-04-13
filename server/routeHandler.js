@@ -225,7 +225,7 @@ module.exports = {
 					var data = [];
 					closeUsers.forEach((closeUser) => {
 						//Nirali fix the spelling of visibility
-						if(users.val()[closeUser.uid] && (users.val()[closeUser.uid]).visibility == 100){
+						if(users.val()[closeUser.uid] && (users.val()[closeUser.uid]).visibility){
 							data.push(users.val()[closeUser.uid]);
 							data[data.length-1].distance = closeUser.distance;
 							data[data.length-1].lat = closeUser.lat;
@@ -269,8 +269,8 @@ module.exports = {
 			var userFriends = user.val().friends;
 			var data = [];
 			//var friendMap = new Map();
-			console.log(userFriends);
-			console.log(user.val().uid);
+			// console.log(userFriends);
+			// console.log(user.val().uid);
 			userFriends.forEach((friend) => {
 				data.push(friend.name);
 
@@ -895,7 +895,6 @@ module.exports = {
 			})
 		}
 	},
-
 	getYoutubeSubscriptions(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		var uid = urlData[1];
@@ -1135,7 +1134,7 @@ module.exports = {
 										res();
 									});
 								} else {
-															console.log("nearbyStuff", nearbyUids);
+									// console.log("nearbyStuff", nearbyUids);
 									nearbyUids.push(obj);
 									res();
 								}
@@ -1155,7 +1154,6 @@ module.exports = {
 							return b.time - a.time;
 						});*/
 						nearbyUids.reverse();
-						console.log("nearbyStuff", nearbyUids);
 						resolve(nearbyUids);
 					}).catch((err) => {
 						console.log(err);
@@ -1178,7 +1176,6 @@ module.exports = {
 			})
 		})
 	},
-
 	storeResponse: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		var body = "";
@@ -1210,8 +1207,32 @@ module.exports = {
 				res.end();
 			});
 		});	
-
+	},
+	scheduleVisibility: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		var time = parseInt(urlData[2]);
+		if(!uid || !time){
+			res.statusCode = 400;
+			responseBody.err = "No UID or Time provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		setTimeout(() => {
+			firebase.database().ref("users/"+uid+"/visibility").set(true).then(() => {
+				responseBody.payload = "success";
+				res.statusCode = 200;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			}).catch((err) => {
+				console.log("Error?", err);
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
+		}, time*60*60*1000)
+		console.log("Scheduled visibility for", uid, ",",time, "hours from now");
 	}
-
-
 }
