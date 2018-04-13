@@ -274,26 +274,22 @@ export class MapComponent implements OnInit {
 
 	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
 	visibility;
-	// visibility = this.model.user.visability;
 	setVisible(number) {
 
 		this.visibility = number;
-		this.model.user.visibility = number;
+		this.model.user.visibility = !number;
 		localStorage.setItem("localVisibility", number);
 
-
 		this.auth.getUser().then((user) => {
-			//this.model.user.uid = user.uid;
 			this.db.updateUser(this.model.user).then((data) => {
-				//console.log(data);
-				//this.success.changeInfoS = "Your information has been updated!"
-				//this.router.navigateByUrl('map');
+				this.db.scheduleVisibility(this.model.user.uid, number).then(() => {
+					
+				}).catch((err) => {
+					console.error(err);
+				})
 			}).catch((err) => {
 				console.error(err);
-				//this.errors.changeInfoE = "Your information has NOT been updated!"
-				//Form rejected for some reason
 			})
-			//this.success.changeInfoS = "Your information has been updated!"
 		});
 
 
