@@ -624,6 +624,7 @@ export class MapComponent implements OnInit {
 						
 						//console.log(interest, " ", this.interestCommon)
 						if (match) {
+							console.log("Got a match")
 							filterUsersArray.push(user);
 							(this.commonMap.get(user.uid)).interestSub.set(interest, this.interestCommon)
 						}
