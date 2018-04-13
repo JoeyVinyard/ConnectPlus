@@ -138,7 +138,7 @@ export class ListComponent implements OnInit {
 
 	setVisible(number) {
 		this.visibility = number;
-		this.model.user.visibility = !number;
+		this.model.user.visibility = (number == 100);
 		localStorage.setItem("localVisibility", number);
 
 		this.auth.getUser().then((user) => {

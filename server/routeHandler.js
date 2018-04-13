@@ -224,7 +224,6 @@ module.exports = {
 				firebase.database().ref("users").once("value").then((users) => {
 					var data = [];
 					closeUsers.forEach((closeUser) => {
-						//Nirali fix the spelling of visibility
 						if(users.val()[closeUser.uid] && (users.val()[closeUser.uid]).visibility){
 							data.push(users.val()[closeUser.uid]);
 							data[data.length-1].distance = closeUser.distance;
