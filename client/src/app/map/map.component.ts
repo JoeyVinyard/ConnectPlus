@@ -537,13 +537,8 @@ export class MapComponent implements OnInit {
 			//console.log("reeeeeeeeeee")
 
 		});
-<<<<<<< HEAD
 		//this.generateCommonMap();
 		
-=======
-
-
->>>>>>> 4f2b59d3701b5ec2f6b52501b83401bb8dcbf431
 		setTimeout(() => {
 			if (!this.locationFound) {
 				db.getLocation(this.model.user.uid).then((l) => {
@@ -1041,7 +1036,7 @@ export class MapComponent implements OnInit {
 
 		this.commonMap.forEach((user) => {
 			tempTotal = 0;
-			//console.log(user);
+			console.log(user);
 
 			var flag = true;
 			do {
