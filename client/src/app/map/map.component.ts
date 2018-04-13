@@ -938,10 +938,10 @@ export class MapComponent implements OnInit {
 				console.error(err);
 			})
 		})
-
 		//this.getCommon();		
 	}
 	getCommon() {
+		var p = new Promise((resolve, reject) => {
 		this.facebookCommon = 0;
 		this.twitterCommon = 0;
 		this.blackboardCommon = 0;
@@ -950,29 +950,48 @@ export class MapComponent implements OnInit {
 		this.filterUsersBasedOnTwitter(1);
 		this.filterUsersBasedOnYoutube(1);
 		this.filterUsersBasedOnBlackboard(1);
-
-		
-
-		console.log("common", this.commonMap);
+			resolve();
+		}).then(() =>{
+			console.log("common", this.commonMap);
+			this.generateTiers();
+		})
 
 	}
 
 	generateTiers(){
+		var allTotals = [];
+		var tempTotal = 0;
+		
 		this.commonMap.forEach((user) =>{
-			var tempTotal = 0;
+			var p = new Promise((resolve, reject) => {
+				tempTotal = 0;
+				console.log(user);
+				if(user.facebook){
+					tempTotal += (user.facebookNum * 0.1);
+				}
+				if(user.twitter){
+					tempTotal += (user.twitterNum * 0.1);
+				}
+				if(user.youtube){
+					tempTotal += (user.youtube * 0.1);
+				}
+				if(user.blackboard){
+					tempTotal += user.blackboard;
+				}
+				if(user.interestSub.size != 0){
+					var intCatNum = user.interestSub.size;
+					var intSubNum = 0;
+					user.interestSub.forEach((interest) =>{
+						intSubNum += interest.value;
+					});
 
-			if(user.facebook){
-				tempTotal += user.facebookNum;
-			}
-			if(user.twitter){
-				tempTotal += user.twitterNum;
-			}
-			if(user.blackboard){
-				tempTotal += user.blackboard;
-			}
-			if(user.youtube){
-				tempTotal += user.youtube;
-			}
+					tempTotal += (intCatNum + intSubNum);
+				}
+				// resolve(tempTotal);
+			}).then(() =>{
+				allTotals.push(tempTotal);
+				console.log(tempTotal);
+			})
 		});
 	}
 
