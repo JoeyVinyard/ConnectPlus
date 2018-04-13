@@ -626,7 +626,7 @@ export class MapComponent implements OnInit {
 
 						//console.log(interest, " ", this.interestCommon)
 						if (match) {
-							console.log("Got a match")
+							// console.log("Got a match")
 							filterUsersArray.push(user);
 							(this.commonMap.get(user.uid)).interestSub.set(interest, this.interestCommon)
 						}
@@ -1032,7 +1032,7 @@ export class MapComponent implements OnInit {
 
 		this.commonMap.forEach((user) => {
 			tempTotal = 0;
-			//console.log(user);
+			console.log(user);
 
 			var flag = true;
 			do {
