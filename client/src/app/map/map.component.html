@@ -212,15 +212,19 @@
 							<option *ngFor="let inter of interestKeys" [value]="inter">{{inter}}</option>
 						</select>
 					</div>
-					<div class="medium-5 column">
+					<div class="medium-4 column">
 						<select id="broadSelect" [(ngModel)]="filterInterest">
 							<option selected="true" disabled="disabled">Specific Interest</option>
 							<option *ngFor="let interest of broadInterests" [value]=interest>{{interest}}</option>
 						</select>
 					</div>
-					<div class="medium-3 column">
+					<div class="medium-2 column">
 						<button class="button newBroadButton" (click)="filterBroadcasts()">
 							<i class="fa fa-floppy-o"></i> Save</button>
+					</div>
+					<div class="medium-2 column">
+						<button class="button newBroadButton" (click)="clearBroadcasts()">
+							<i class="fa fa-trash-o"></i> Clear</button>
 					</div>
 				</div>
 				<div class="medium-12 column" id="broadContent">
