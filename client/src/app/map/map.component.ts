@@ -972,6 +972,7 @@ export class MapComponent implements OnInit {
 		this.twitterCommon = 0;
 		this.blackboardCommon = 0;
 		this.youtubeCommon = 0;
+<<<<<<< HEAD
 
 		var promises = [];
 		promises.push(this.filterUsersBasedOnFacebook(1));
@@ -982,6 +983,16 @@ export class MapComponent implements OnInit {
 		Promise.all(promises).then(() =>{
 			console.log("common", this.commonMap.get("ZVmOhUAURNOD8t4zqunUdUtjc4B3"));
 			console.log("Promises: " + promises)
+=======
+		console.log("it got restarted", this.facebookCommon)
+		this.filterUsersBasedOnFacebook(1);
+		this.filterUsersBasedOnTwitter(1);
+		this.filterUsersBasedOnYoutube(1);
+		this.filterUsersBasedOnBlackboard(1);
+			resolve();
+		}).then(() =>{
+			console.log("common", this.commonMap);
+>>>>>>> bb34157b1d8cf27027e4abc258ca022f0d1b4a85
 			this.generateTiers();
 		})
 	}
