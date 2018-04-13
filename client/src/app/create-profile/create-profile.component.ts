@@ -130,7 +130,6 @@ export class CreateProfileComponent implements OnInit {
 			if (this.verifyValid()) {
 				this.model.user.fullName = this.model.user.firstName + " " + this.model.user.lastName;
 				this.model.user.moodStatus = "Online";
-				this.model.user.visibility = 100;
 				this.auth.getUser().then((user) => {
 					this.model.user.uid = user.uid;
 					this.db.createUser(this.model.user).then((data) => {

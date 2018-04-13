@@ -387,14 +387,17 @@ export class DatabaseService {
 				broadcastObject.uid = uid;
 				broadcastObject.broadcast = broadcast;
 			}else{
+				console.log("this won't print");
 				reject("Invalid broadcast object");
 			}
 			console.log(broadcastObject);
 			this.http.post(this.dbUrl+ "storeBroadcast", JSON.stringify(broadcastObject), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
-				else
+				else{
+					console.log("heres the issue");
 					reject(data["err"]);
+				}
 			});
 		});
 	}
@@ -408,7 +411,7 @@ export class DatabaseService {
 			})
 		})
 	}
-	respondToBroadcast(uid, broadcastID, response, time){
+	respondToBroadcast(uid, broadcastID, response, time): Promise<any>{
 		return new Promise((resolve, reject) => {
 			var responseObject = {
 				time: 0,
@@ -433,6 +436,16 @@ export class DatabaseService {
 					reject(data["err"]);
 			});
 		});
+	}
+	scheduleVisibility(uid, time): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get(this.dbUrl+ "scheduleVisibility/"+uid+"/"+time, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		})
 	}
 
 	constructor(private http: HttpClient) {}

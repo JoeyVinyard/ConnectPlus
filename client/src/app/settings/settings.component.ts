@@ -18,9 +18,9 @@ export class SettingsComponent implements OnInit {
 	errors = {
 		//change info errors
 		changeInfoE: "",
-		FnameError:"",
-		LnameError:"",
-		AgeError:"",
+		FnameError: "",
+		LnameError: "",
+		AgeError: "",
 		//change email errors
 		emailChangeE: "",
 		currentEmailChange: "",
@@ -30,41 +30,41 @@ export class SettingsComponent implements OnInit {
 		passwordChangeE: "",
 		newPass: "",
 		oldPass: "",
-		conPass: "", 
+		conPass: "",
 		//delete user
 		email: "",
 		pass: "",
 		cred: "",
 		//twitter error
 		twitterE: "",
-		feedbackE:""
+		feedbackE: ""
 	}
 	success = {
 		//change email success
 		emailChangeS: "",
 		//change password success
-		passwordChangeS:"",
+		passwordChangeS: "",
 		//change info success
 		changeInfoS: "",
 		//feedback
-		feedbackS:""
+		feedbackS: ""
 	}
 	model = {
 		user: new User(),
 		//del user var
 		password: "",
-		email:"",
+		email: "",
 		//change email vars
 		currentEmail: "",
-		newEmail: "", 
+		newEmail: "",
 		emailChangePass: "",
 		//change password vars
-		currentPassword:"",
-		newPassword:"",
-		conPassword:"",
+		currentPassword: "",
+		newPassword: "",
+		conPassword: "",
 		//feedback
-		feedback:"",
-		interestSub: "", 
+		feedback: "",
+		interestSub: "",
 		interestSelected: ""
 
 	}
@@ -73,28 +73,28 @@ export class SettingsComponent implements OnInit {
 	// cInterest = this.model.interest;
 	cIntArray = [];
 
-	updateIntArray(){
+	updateIntArray() {
 		console.log("Interests Updated");
 		console.log(this.model.interestSub);
-		if(this.model.interestSub == "Country"){
+		if (this.model.interestSub == "Country") {
 			this.cIntArray = this.country;
 		}
-		else if(this.model.interestSub == "Movies"){
+		else if (this.model.interestSub == "Movies") {
 			this.cIntArray = this.movies;
 		}
-		else if(this.model.interestSub == "Animals"){
+		else if (this.model.interestSub == "Animals") {
 			this.cIntArray = this.animals;
 		}
-		else if(this.model.interestSub == "Hobbies"){
+		else if (this.model.interestSub == "Hobbies") {
 			this.cIntArray = this.hobbies;
 		}
-		else if(this.model.interestSub == "Tv"){
+		else if (this.model.interestSub == "Tv") {
 			this.cIntArray = this.tvShows;
 		}
-		else if(this.model.interestSub == "Sports"){
+		else if (this.model.interestSub == "Sports") {
 			this.cIntArray = this.sports;
 		}
-		else if(this.model.interestSub == "Music"){
+		else if (this.model.interestSub == "Music") {
 			this.cIntArray = this.musicGenre;
 		}
 
@@ -109,12 +109,12 @@ export class SettingsComponent implements OnInit {
 	musicGenre: string[] = this.interestObj.musicGenre;
 	allMap;
 	interestList;
-	arrayOfInterestKeys:string[];
-	interestSubArray:string[];
+	arrayOfInterestKeys: string[];
+	interestSubArray: string[];
 	arraytemp: string[];
 
-	subtemp:String;
-	intertemp:String;
+	subtemp: String;
+	intertemp: String;
 
 
 	particlesConfig;
@@ -157,7 +157,7 @@ export class SettingsComponent implements OnInit {
 		if (event.target.files && event.target.files[0]) {
 			var reader = new FileReader();
 			reader.readAsDataURL(event.target.files[0]); // read file as data url
-			reader.onload = (event:any) => { // called once readAsDataURL is completed
+			reader.onload = (event: any) => { // called once readAsDataURL is completed
 				// this.url = event.target.result;
 				this.model.user.url = event.target.result;
 				this.updateInfo();
@@ -168,48 +168,48 @@ export class SettingsComponent implements OnInit {
 
 
 
-	toggleDiv(name){
+	toggleDiv(name) {
 
-		if(name == "invShow"){
+		if (name == "invShow") {
 			this.invShow = !this.invShow;
 		}
-		else if(name == "genShow"){
+		else if (name == "genShow") {
 			this.genShow = !this.genShow;
 		}
-		else if(name == "secShow"){
+		else if (name == "secShow") {
 			this.secShow = !this.secShow;
 		}
-		else if(name == "conShow"){
+		else if (name == "conShow") {
 			this.conShow = !this.conShow;
 		}
-		else if(name == "intShow"){
+		else if (name == "intShow") {
 			this.intShow = !this.intShow;
 		}
-		else if(name == "fedShow"){
+		else if (name == "fedShow") {
 			this.fedShow = !this.fedShow;
 		}
-		else if(name == "delShow"){
+		else if (name == "delShow") {
 			this.delShow = !this.delShow;
 		}
-		else if(name == "faceShow"){
+		else if (name == "faceShow") {
 			this.faceShow = !this.faceShow;
 		}
-		else if(name == "twitShow"){
+		else if (name == "twitShow") {
 			this.twitShow = !this.twitShow;
 		}
-		else if(name == "youShow"){
+		else if (name == "youShow") {
 			this.youShow = !this.youShow;
 		}
-		else if(name == "blackShow"){
+		else if (name == "blackShow") {
 			this.blackShow = !this.blackShow;
 		}
 		this.clearing();
 	}
-	setVisible(number){
+	setVisible(number) {
 		this.visibility = number;
-			//this.model.user.visability = number;
+		//this.model.user.visability = number;
 	}
-	clearing(){
+	clearing() {
 		this.errors.email = "";
 		this.errors.pass = "";
 		this.errors.newEmail = "";
@@ -227,7 +227,7 @@ export class SettingsComponent implements OnInit {
 		this.errors.FnameError = "";
 		this.errors.LnameError = "";
 		this.errors.twitterE = "";
-		this.model.user.screenName="";
+		this.model.user.screenName = "";
 		this.success.feedbackS = "";
 		this.errors.feedbackE = "";
 		this.errors.AgeError = "";
@@ -242,99 +242,99 @@ export class SettingsComponent implements OnInit {
 			})
 		});
 	}
-	verifyValid(){
-		Object.keys(this.errors).forEach((key)=>{
+	verifyValid() {
+		Object.keys(this.errors).forEach((key) => {
 			this.errors[key] = null;
 		})
 		var noErr = true;
 		//Sanitize input here
-		if(!this.model.user.firstName || !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.firstName))
+		if (!this.model.user.firstName || !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.firstName))
 			this.errors.FnameError = "Please provide a valid first name."
-		if(!this.model.user.lastName || !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
+		if (!this.model.user.lastName || !(new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")).exec(this.model.user.lastName))
 			this.errors.LnameError = "Please provide a valid last name."
-		if(!this.model.user.age)
+		if (!this.model.user.age)
 			this.errors.AgeError = "Please enter your age";
-		else if(this.model.user.age <0)
+		else if (this.model.user.age < 0)
 			this.errors.AgeError = "Unfortunately, time travel is not possible yet.";
-		Object.keys(this.errors).forEach((key)=>{
-			if(this.errors[key])
+		Object.keys(this.errors).forEach((key) => {
+			if (this.errors[key])
 				noErr = false;
 		})
-		
+
 		// console.log(this.errors, noErr);
 		return noErr;
 	}
-	updateInfo(){
+	updateInfo() {
 		console.log(this.model);
-		if(this.verifyValid()){
+		if (this.verifyValid()) {
 			this.model.user.fullName = this.model.user.firstName + " " + this.model.user.lastName;
 			this.auth.getUser().then((user) => {
 				this.db.updateUser(this.model.user).then((data) => {
 					console.log(data);
 					this.success.changeInfoS = "Your information has been updated!"
-				}).catch((err)=>{
+				}).catch((err) => {
 					console.error(err);
 					this.errors.changeInfoE = "Your information has NOT been updated!"
 				})
 				this.success.changeInfoS = "Your information has been updated!"
 			});
 		}
-		else{
+		else {
 			this.errors.changeInfoE = "Looks like you tried to change your information to something invalid. \nYour information has NOT been updated!"
 		}
 	}
 
 
-	feedback(){
-		if(this.model.feedback){
+	feedback() {
+		if (this.model.feedback) {
 			//not storing it anywhere
 			this.success.feedbackS = "Thank you for your feedback! Your feedback has been recorded."
 			this.model.feedback = "";
 		}
 	}
 
-	verifyEmail(){
-		Object.keys(this.errors).forEach((key)=>{
+	verifyEmail() {
+		Object.keys(this.errors).forEach((key) => {
 			this.errors[key] = null;
 		})
 		var noErr = true;
 		//Sanitize input here
-		if(!this.model.newEmail || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.newEmail)){
+		if (!this.model.newEmail || !(new RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+")).exec(this.model.newEmail)) {
 			this.errors.newEmail = "Please provide a valid email.";
 		}
-		else if(this.model.newEmail == this.model.currentEmail)
+		else if (this.model.newEmail == this.model.currentEmail)
 			this.errors.newEmail = "Please provide differnt email.";
 
-		Object.keys(this.errors).forEach((key)=>{
-			if(this.errors[key])
+		Object.keys(this.errors).forEach((key) => {
+			if (this.errors[key])
 				noErr = false;
 		})
 		return noErr;
 	}
 
-	changeemail(){
-		this.success.emailChangeS ="";
+	changeemail() {
+		this.success.emailChangeS = "";
 		console.log(this.model);
-		if(this.verifyEmail()){
-			this.auth.reauthenticate2(this.model.currentEmail,this.model.emailChangePass).then((credential) => {
-				if(this.model.newEmail){
+		if (this.verifyEmail()) {
+			this.auth.reauthenticate2(this.model.currentEmail, this.model.emailChangePass).then((credential) => {
+				if (this.model.newEmail) {
 					var changeemail = this.model.newEmail;
 					this.auth.getUser().then((user) => {
 						user.updateEmail(changeemail).then(() => {
 							this.model.user.email = this.model.newEmail;
-							this.model.email="";
+							this.model.email = "";
 							this.success.emailChangeS = "Email Change Successful";
 							this.model.newEmail = "";
 							this.model.emailChangePass = "";
 							this.errors.emailChangeE = "";
 						}).catch((err) => {
 							this.errors.emailChangeE = "Email Change Failed1";
-							if(err.code == "auth/invalid-user-token" || err.code == "auth/email-already-in-use" || err.code == "auth/invalid-email" )
+							if (err.code == "auth/invalid-user-token" || err.code == "auth/email-already-in-use" || err.code == "auth/invalid-email")
 								this.errors.newEmail = "Email already in use!"
 						});
 					});
 				}
-				else{
+				else {
 					this.auth.getUser().then((user) => {
 						console.log(this.model);
 						this.model.user.uid = user.uid;
@@ -347,53 +347,53 @@ export class SettingsComponent implements OnInit {
 				this.model.newEmail = "";
 			});
 		}
-		else{
+		else {
 			this.errors.emailChangeE = "Email Change Failed2";
 			this.model.newEmail = "";
 			this.model.emailChangePass = "";
 		}
 	}
 
-	verifyPass(){
-		Object.keys(this.errors).forEach((key)=>{
+	verifyPass() {
+		Object.keys(this.errors).forEach((key) => {
 			this.errors[key] = null;
 		})
 		var noErr = true;
-		
-		if(!this.model.currentPassword)
+
+		if (!this.model.currentPassword)
 			this.errors.oldPass = "Please enter your password.";
-		if(!this.model.newPassword)
+		if (!this.model.newPassword)
 			this.errors.newPass = "Please enter your new password.";
-		else if(this.model.newPassword.length<6)
+		else if (this.model.newPassword.length < 6)
 			this.errors.newPass = "Password must be at least 6 characters long.";
-		if(!this.model.conPassword)
+		if (!this.model.conPassword)
 			this.errors.conPass = "Please confirm your password.";
-		if(this.model.newPassword != this.model.conPassword && !this.errors.oldPass && !this.errors.conPass)
+		if (this.model.newPassword != this.model.conPassword && !this.errors.oldPass && !this.errors.conPass)
 			this.errors.conPass = "Passwords must match!";
 		var noErr = true;
-		Object.keys(this.errors).forEach((key)=>{
-			if(this.errors[key])
+		Object.keys(this.errors).forEach((key) => {
+			if (this.errors[key])
 				noErr = false;
 		})
 		return noErr;
 	}
-	changepass(){
+	changepass() {
 		console.log(this.model)
-		if(this.verifyPass()){
+		if (this.verifyPass()) {
 			this.auth.reauthenticate(this.model.currentPassword).then((credential) => {
-				if((this.model.newPassword ==this.model.currentPassword || this.model.currentPassword == this.model.conPassword)){
+				if ((this.model.newPassword == this.model.currentPassword || this.model.currentPassword == this.model.conPassword)) {
 					this.errors.newPass = "Please pick a different password";
 					this.errors.conPass = "Please pick a different password";
 					this.model.newPassword = "";
 					this.model.conPassword = "";
 				}
-				else if((this.model.newPassword == this.model.conPassword)){
+				else if ((this.model.newPassword == this.model.conPassword)) {
 					var changepass1 = this.model.newPassword;
 					this.auth.getUser().then((user) => {
 						console.log(user);
 						console.log(this.model);
 						user.updatePassword(changepass1).then(() => {
-							this.model.newPassword = "" 
+							this.model.newPassword = ""
 							this.model.conPassword = ""
 							this.model.currentPassword = ""
 							this.success.passwordChangeS = "password change worked!!!";
@@ -402,14 +402,14 @@ export class SettingsComponent implements OnInit {
 							this.errors.newPass = ""
 							this.errors.conPass = ""
 							this.errors.oldPass = ""
-							this.model.newPassword = "" 
+							this.model.newPassword = ""
 							this.model.conPassword = ""
 							this.model.currentPassword = ""
 							this.errors.passwordChangeE = "Password Change Failed1"
 						});
 					});
 				}
-				else{
+				else {
 					this.auth.getUser().then((user) => {
 						console.log(this.model);
 						this.model.user.uid = user.uid;
@@ -421,49 +421,49 @@ export class SettingsComponent implements OnInit {
 				this.errors.conPass = "";
 				this.errors.oldPass = "Please enter your password.";
 				this.errors.passwordChangeE = "Password Change Failed2";
-				this.model.newPassword = "" ;
+				this.model.newPassword = "";
 				this.model.conPassword = "";
 				this.model.currentPassword = "";
 			});
 		}
-		else if (!this.verifyPass()){
+		else if (!this.verifyPass()) {
 			this.errors.passwordChangeE = "Password Change Failed";
-			this.model.newPassword = "" ;
+			this.model.newPassword = "";
 			this.model.conPassword = "";
 			this.model.currentPassword = "";
 		}
 	}
-	del(){
-		if(this.model.password && this.model.email){
+	del() {
+		if (this.model.password && this.model.email) {
 			this.auth.reauthenticate2(this.model.email, this.model.password).then((credential) => {
 				this.auth.getUser().then((user) => {
 					this.db.deleteUser(user);
-						this.auth.deleteUser(user);	
-						this.model.password = "";
-						this.model.email = "";
-						this.router.navigateByUrl("");
+					this.auth.deleteUser(user);
+					this.model.password = "";
+					this.model.email = "";
+					this.router.navigateByUrl("");
 				});
 			}).catch((err) => {
 				this.errors.cred = "Incorrect Email and/or Password";
 				this.model.password = "";
 			});
 		}
-		else{
+		else {
 			this.errors.cred = "No Email and/or Password entered";
 		}
 	}
 	handleError(error) {
 		console.error('Error processing action', error);
 	}
-	link_youtube(){
-		window.location.href = 
-			"https://accounts.google.com/o/oauth2/v2/auth"+
-			"?client_id=374666659146-c9n74gdloum89050ckabsfssh0oe4qkl.apps.googleusercontent.com"+
-			"&redirect_uri=http://localhost:4200/settings"+
-			"&response_type=token"+
+	link_youtube() {
+		window.location.href =
+			"https://accounts.google.com/o/oauth2/v2/auth" +
+			"?client_id=374666659146-c9n74gdloum89050ckabsfssh0oe4qkl.apps.googleusercontent.com" +
+			"&redirect_uri=http://localhost:4200/settings" +
+			"&response_type=token" +
 			"&scope=https://www.googleapis.com/auth/youtube.readonly"
 	}
-	unlink_youtube(){
+	unlink_youtube() {
 		this.auth.getUser().then((u) => {
 			this.db.deleteYoutubeData(u.uid).then(() => {
 				this.inYoutube = false;
@@ -474,9 +474,9 @@ export class SettingsComponent implements OnInit {
 			console.error(err);
 		});
 	}
-	link_twitter(){
+	link_twitter() {
 		console.log("Here");
-		this.li.getFriends(this.model.user.screenName).then((data:any) => {
+		this.li.getFriends(this.model.user.screenName).then((data: any) => {
 			console.log("Storing in database" + this.model.user.uid);
 			this.db.storeTwitterFollowees(data.users, this.model.user.screenName, this.model.user.uid).then((data) => {
 				console.log(data);
@@ -484,13 +484,13 @@ export class SettingsComponent implements OnInit {
 		}).catch((err) => {
 			console.log("Issue here");
 			this.errors.twitterE = "you were not able to connect to twitter"
-			this.model.user.screenName="";
-				/*If the code reaches this block it means we have an error */
+			this.model.user.screenName = "";
+			/*If the code reaches this block it means we have an error */
 
-				
+
 		});
 	}
-	link_facebook(){
+	link_facebook() {
 		const loginOptions: LoginOptions = {
 			enable_profile_selector: true,
 			return_scopes: true,
@@ -498,62 +498,62 @@ export class SettingsComponent implements OnInit {
 		};
 		console.log(this.returnLoginStatus());
 		/*todo: Check if loggedin already */
-		this.fb.getLoginStatus().then(res=>{
+		this.fb.getLoginStatus().then(res => {
 			console.log(res.status);
-			if(res && res.status === 'unknown' || res.status === 'not_authorized'){
+			if (res && res.status === 'unknown' || res.status === 'not_authorized') {
 				this.fb.login(loginOptions).then((res: LoginResponse) => {
 					console.log('Logged in', res);
 				}).then(() => {
 					this.fb.api('/me/taggable_friends?limit=5000').then((res: any) => {
 						console.log(res);
-						this.db.storeFacebookFriends(res.data,this.model.user.uid).then((data) => {
+						this.db.storeFacebookFriends(res.data, this.model.user.uid).then((data) => {
 							console.log(data);
-						}).catch((err)=>{
+						}).catch((err) => {
 							console.error(err);
 						})
 						console.log('Got the users friends', res);
 						this.inFacebook = true;
 					})
 				}).catch(this.handleError);
-			}else{
+			} else {
 				console.log("Attempted to login when already logged in. We probably want to display an error message here");
 			}
 		})
 	}
-	logout_facebook(){
+	logout_facebook() {
 		this.fb.getLoginStatus()
-		.then(res=>{
-			if(res && res.status === 'connected'){
-				console.log("Logging out")
-				this.fb.logout()
-				.then(res=>{console.log(res)})
-				.catch(this.handleError);
-				this.inFacebook = false;
-			}
-		}).catch(this.handleError);
+			.then(res => {
+				if (res && res.status === 'connected') {
+					console.log("Logging out")
+					this.fb.logout()
+						.then(res => { console.log(res) })
+						.catch(this.handleError);
+					this.inFacebook = false;
+				}
+			}).catch(this.handleError);
 		this.getLoginStatus();
 	}
-	returnLoginStatus(): boolean{
+	returnLoginStatus(): boolean {
 		this.fb.getLoginStatus()
-		.then(res=>{
-			if(res && res.status === 'connected'){
-				this.inFacebook = true;
-				console.log(true);
-				return true;
-			}else{
-				this.inFacebook = false;
-				console.log(false);
-				return false;
-			}
-		})
+			.then(res => {
+				if (res && res.status === 'connected') {
+					this.inFacebook = true;
+					console.log(true);
+					return true;
+				} else {
+					this.inFacebook = false;
+					console.log(false);
+					return false;
+				}
+			})
 		return false;
 	}
 	getLoginStatus() {
 		this.fb.getLoginStatus()
-		.then(console.log.bind(console))
-		.catch(console.error.bind(console));
+			.then(console.log.bind(console))
+			.catch(console.error.bind(console));
 	}
-	showClassList(subject: String){
+	showClassList(subject: String) {
 		this.inSubject = true;
 		this.currSubject = subject;
 		this.cs.getClasses(subject).then((classes) => {
@@ -562,19 +562,19 @@ export class SettingsComponent implements OnInit {
 			console.log(err);
 		})
 	}
-	showSubjectList(){
+	showSubjectList() {
 		this.inSubject = false;
 		this.classList = [];
 	}
-	toggleDelete(){
-		if(this.inDelete){ //currently true
+	toggleDelete() {
+		if (this.inDelete) { //currently true
 			this.inDelete = false;
 			this.blackInter = false;
 		}
-		else{ //currently false
+		else { //currently false
 			this.inDelete = true;
 			this.blackInter = true;
-			if(this.inAdd){
+			if (this.inAdd) {
 				this.inAdd = false;
 			}
 
@@ -586,23 +586,23 @@ export class SettingsComponent implements OnInit {
 		}
 	}
 
-	toggleAdd(){
-		if(this.inAdd){ //currently true
+	toggleAdd() {
+		if (this.inAdd) { //currently true
 			this.inAdd = false;
 			this.blackInter = false;
 		}
-		else{ //currently false
+		else { //currently false
 			this.inAdd = true;
 			this.blackInter = true;
-			if(this.inDelete){
+			if (this.inDelete) {
 				this.inDelete = false;
 			}
 		}
 	}
 
 
-	addClass(cl: String){
-		this.db.addClass(this.model.user.uid, this.currSubject + " "  + cl).then((success) => {
+	addClass(cl: String) {
+		this.db.addClass(this.model.user.uid, this.currSubject + " " + cl).then((success) => {
 			this.inSubject = false;
 			this.classList = [];
 			console.log("Added class:", success);
@@ -612,7 +612,7 @@ export class SettingsComponent implements OnInit {
 			console.log(err);
 		})
 	}
-	deleteClass(cl: String){
+	deleteClass(cl: String) {
 		this.userClasses.splice(this.userClasses.indexOf(cl), 1);
 		this.db.deleteClass(this.model.user.uid, cl).then((data) => {
 			console.log(data);
@@ -623,7 +623,7 @@ export class SettingsComponent implements OnInit {
 		})
 	}
 
-	updateClasses(){
+	updateClasses() {
 		this.db.getClasses(this.model.user.uid).then((classes) => {
 			this.classList = classes;
 			this.userClasses = classes;
@@ -633,43 +633,44 @@ export class SettingsComponent implements OnInit {
 		})
 	}
 
-	verifyInterest(sub:string, inter:string){
+	verifyInterest(sub: string, inter: string) {
 		var verify = new Map();
 		this.allMap.get(sub).forEach((interests) => {
-					verify.set(interests, 1);
-					//console.log(interests)
+			verify.set(interests, 1);
+			// console.log(interests)
 
 		});
-		if(verify.get(inter)){
+		if (verify.get(inter)) {
 
 			var ver1 = new Map();
-					this.arraytemp = this.getArrayInter(sub);
+			this.arraytemp = this.getArrayInter(sub);
 
-			
+
 			this.arraytemp.forEach((interests1) => {
-					ver1.set(interests1, 1)
+				ver1.set(interests1, 1)
 
-				});
-			if(ver1.get(inter)){
+			});
+			if (ver1.get(inter)) {
 				return false;
 			}
-			else{
+			else {
 				return true;
 			}
 		}
-		else{
+		else {
 			return false;
 		}
 
 	}
 
 
-    addInterest(sub: string, inter: string){
+	addInterest(sub: string, inter: string) {
 		console.log(sub + " " + inter);
 		this.model.interestSelected = "";
-		if(this.verifyInterest(sub, inter)){
-			this.db.addInterest(this.model.user.uid, sub , inter).then((success) => {
-					this.model.interestSelected = ""
+
+		if (this.verifyInterest(sub, inter)) {
+			this.db.addInterest(this.model.user.uid, sub, inter).then((success) => {
+				this.model.interestSelected = ""
 
 				//this.interestList = [];
 				console.log("why")
@@ -679,25 +680,25 @@ export class SettingsComponent implements OnInit {
 			})
 		}
 	}
-	deleteInterest(sub: String, inter: String){
-		this.db.deleteInterest(this.model.user.uid, sub , inter).then((data) => {
+	deleteInterest(sub: String, inter: String) {
+		this.db.deleteInterest(this.model.user.uid, sub, inter).then((data) => {
 			console.log("hi there");
 			this.updateInterest();
 		}).catch((err) => {
 			console.log(err);
 		})
 	}
-	clearAllCatInterests(sub: string){
+	clearAllCatInterests(sub: string) {
 		console.log("not printing", sub);
-	
+
 		this.arraytemp = this.getArrayInter(sub);
 		this.arraytemp.forEach((inter) => {
-					this.deleteInterest(sub, inter);
+			this.deleteInterest(sub, inter);
 
-				});
+		});
 	}
 
-	updateInterest(){
+	updateInterest() {
 		this.db.getInterests(this.model.user.uid).then((interests) => {
 			this.interestList = interests;
 			console.log("in update")
@@ -705,19 +706,19 @@ export class SettingsComponent implements OnInit {
 			this.arrayOfInterestKeys = Object.keys(this.interestList);
 			console.log(this.arrayOfInterestKeys)
 			//this.getArrayOfInterestKeys();
-			
+
 		}).catch((err) => {
 			console.log(err);
 		})
 	}
-	getArrayInter(sub:string):string[]{
+	getArrayInter(sub: string): string[] {
 
 		this.interestSubArray = Object.values(this.interestList[sub]);
 		return this.interestSubArray;
 
 
 	}
-	getArrayOfInterestKeys():string[]{
+	getArrayOfInterestKeys(): string[] {
 
 		this.arrayOfInterestKeys = Object.keys(this.interestList);
 		return this.arrayOfInterestKeys;
@@ -725,32 +726,32 @@ export class SettingsComponent implements OnInit {
 	}
 
 
-addFeedback(feedback: String){
-	if(this.model.feedback){
-		this.db.addFeedback(feedback).then((success) => {
+	addFeedback(feedback: String) {
+		if (this.model.feedback) {
+			this.db.addFeedback(feedback).then((success) => {
 				this.model.feedback = "";
 				this.success.feedbackS = "Thank you for your feedback. It has been sent to our developers."
-			//this.interestList = [];
-			console.log("why")
-			
-		}).catch((err) => {
-			this.errors.feedbackE = "Looks like there was an error. Please try again."
-			console.log(err);
-		})
-	} else {
-		this.errors.feedbackE = "Looks like you are tyring to submit nothing."
+				//this.interestList = [];
+				console.log("why")
 
+			}).catch((err) => {
+				this.errors.feedbackE = "Looks like there was an error. Please try again."
+				console.log(err);
+			})
+		} else {
+			this.errors.feedbackE = "Looks like you are tyring to submit nothing."
+
+		}
 	}
-	}
 
 
 
 
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private ar: ActivatedRoute, private db: DatabaseService, private fb : FacebookService, private li : twitterService, private cs: ClassesService, private loc: Location){
-		
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private ar: ActivatedRoute, private db: DatabaseService, private fb: FacebookService, private li: twitterService, private cs: ClassesService, private loc: Location) {
+
 		this.auth.isAuthed().then((user) => {
-			console.log("Authed:",user)
-		});	
+			console.log("Authed:", user)
+		});
 
 		this.auth.getUser().then((user) => {
 			this.model.user.uid = user.uid;
@@ -767,7 +768,7 @@ addFeedback(feedback: String){
 				});
 				this.db.getYoutubeStatus(user.uid).then((status) => {
 					this.inYoutube = !!status;
-					if(status){
+					if (status) {
 						this.db.getYoutubeSubscribers(user.uid).then((subs) => {
 							console.log(subs);
 						})
@@ -780,15 +781,15 @@ addFeedback(feedback: String){
 
 
 		this.allMap = new Map();
-		this.allMap.set("Country",this.interestObj.country )
-		this.allMap.set("Movies",this.interestObj.movieGenre )
-		this.allMap.set("Animals",this.interestObj.animal )
-		this.allMap.set("Hobbies",this.interestObj.hobbies )
-		this.allMap.set("Tv",this.interestObj.tvShows )
-		this.allMap.set("Sports",this.interestObj.sports )
-		this.allMap.set("Music",this.interestObj.musicGenre )
-	
-	
+		this.allMap.set("Country", this.interestObj.country)
+		this.allMap.set("Movies", this.interestObj.movieGenre)
+		this.allMap.set("Animals", this.interestObj.animal)
+		this.allMap.set("Hobbies", this.interestObj.hobbies)
+		this.allMap.set("Tv", this.interestObj.tvShows)
+		this.allMap.set("Sports", this.interestObj.sports)
+		this.allMap.set("Music", this.interestObj.musicGenre)
+
+
 
 
 
@@ -805,10 +806,10 @@ addFeedback(feedback: String){
 
 		//Detect Youtube access_token
 		this.ar.fragment.subscribe((fragment) => {
-			if(fragment){
+			if (fragment) {
 				var accessToken = fragment.split("&")[0];
-				accessToken = accessToken.substring(accessToken.indexOf("=")+1);
-				if(!!accessToken){
+				accessToken = accessToken.substring(accessToken.indexOf("=") + 1);
+				if (!!accessToken) {
 					this.auth.getUser().then((user) => {
 						this.db.storeYoutubeSubscribers(user.uid, accessToken).then((data) => {
 							console.log("Successfully stored youtube subscribers:", data);
@@ -821,5 +822,5 @@ addFeedback(feedback: String){
 		});
 
 	}
-	ngOnInit() {}
+	ngOnInit() { }
 }
