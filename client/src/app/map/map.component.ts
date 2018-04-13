@@ -209,12 +209,11 @@ export class MapComponent implements OnInit {
 			+ "  " + this.vis.YT + ": " + this.vis.youtubeNum;
 			console.log("is there anything here", this.vis.interestSub)
 		var keys = Object.keys(this.vis.interestSub);
-
+		console.log(keys)
 		keys.forEach((gg) => {
+			console.log(gg + ": " + this.vis.interestSub.get(gg));
 			this.displayedUser.commons = this.displayedUser.commons 
 				+ "  " + gg + ": " + this.vis.interestSub.get(gg);
-
-
 		});
 	}
 
@@ -601,7 +600,7 @@ export class MapComponent implements OnInit {
 						else{ //if null, empty out the list
 							userInterests = [];
 						}
-						this.interestCommon = 0;
+						//this.interestCommon = 0;
 						for (var i = 0; i < modelInterests.length; i++) {
 							for (var j = 0; j < userInterests.length; j++) {
 								if (modelInterests[i] == userInterests[j]) {
