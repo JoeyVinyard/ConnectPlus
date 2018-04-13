@@ -17,6 +17,7 @@ export class MapComponent implements OnInit {
 	lat: number = this.lat;
 	lng: number = this.lng;
 
+	locationFound = false;
 	editMood = false;
 	editRange = false;
 	viewBroadcasts = false;
@@ -519,48 +520,32 @@ export class MapComponent implements OnInit {
 			}
 		});
 		loc.getLocation().then((l) => {
+			console.log("retrieved the correct location");
+			this.auth.getUser().then((u) => {
+			this.db.storeLocation(l, u.uid).then((d) => {
+				this.lat = l.latitude;
+				this.lng = l.longitude;
+				this.locationFound = true;
+				this.loadLocationDependentData(l);
+			});
+		});
+			
 			//console.log("reeeeeeeeeee")
-			auth.getUser().then((u) => {
-				db.storeLocation(l, u.uid).then((d) => {
-					this.lat = l.latitude;
-					this.lng = l.longitude;
+			
+		});
 
-					db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
-						//console.log("Followees: ", twitterFollowees);
-					});
-					db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
-						this.broadcasts = broadcasts;
-						this.filteredBroadcasts = broadcasts;
-						console.log(broadcasts);
-						/*	console.log("Broadcasts: ", broadcasts);
-							broadcasts.forEach((broad) => {
-								db.getUser(broad.uid).then((fetchedUser) => {
-									var broadcast = {
-										message: broad.message,
-										broadcastID: broad.broadcastID,
-										user: fetchedUser
-										//responses, subject		      	
-									};
-									this.broadcasts.push(broadcast);
-								})
-							});*/
-						//this.broadcasts = broadcasts;
-					});
-					db.getNearbyUsers(u.uid).then((nearbyUsers) => {
-						console.log("Nearby:", nearbyUsers);
-
-						this.nearbyUsers = nearbyUsers;
-						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
-						//this.generateCommonMap();
-						this.maintainFilter();
-					}).catch((err) => {
-						console.error(err);
-					})
-				}).catch((e) => {
-					console.error(e);
-				})
-			})
-		})
+		
+		setTimeout(() => {
+			if(!this.locationFound){
+				db.getLocation(this.model.user.uid).then((l) => {
+					this.lat = l.lat
+					this.lng = l.lon;
+					console.log(l);
+					this.loadLocationDependentData(l);
+				});
+			}
+		}, 3000);
+		
 		// this.generateCommonMap();
 		// this.auth.isAuthed().then((user) => {
 		//   console.log("Authed:",user)
@@ -569,6 +554,29 @@ export class MapComponent implements OnInit {
 	}
 
 	ngOnInit() {
+	}
+
+	loadLocationDependentData(l){
+		this.auth.getUser().then((u) => {
+
+			this.db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
+						//console.log("Followees: ", twitterFollowees);
+					});
+			this.db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
+				this.broadcasts = broadcasts;
+				this.filteredBroadcasts = broadcasts;
+				console.log(broadcasts);
+			});
+			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+				console.log("Nearby:", nearbyUsers);
+				this.nearbyUsers = nearbyUsers;
+				this.maintainFilter();
+			}).catch((err) => {
+				console.error(err);
+			})
+		}).catch((e) => {
+			console.error(e);
+		});
 	}
 
 	filterUsersBasedOnInterests(interest, num:number) {
