@@ -1089,6 +1089,7 @@ module.exports = {
 						if(d <= 15840 ){//3 miles
 							firebase.database().ref("users/" + loc.val().uid).once("value").then((broadcastUser) => {
 								var obj = {
+									subject: loc.val().subject,
 									url: broadcastUser.val().url,
 									fullName: broadcastUser.val().fullName,
 									uid: loc.val().uid,
@@ -1115,7 +1116,7 @@ module.exports = {
 													fullName: responseUser.val().fullName,
 													uid: responseUser.val().uid,
 													response: response.response,
-													time: loc.val().time
+													time: response.time
 												});
 												yay();
 											}).catch((err) => {
@@ -1125,16 +1126,15 @@ module.exports = {
 									});
 
 									Promise.all(responsePromises).then(() => {
-										/*responseList.sort(function(a,b) {
-											return b.time - a.time;
-										})*/
-										responseList.reverse();
+										responseList.sort(function(a,b) {
+											return a.time - b.time;
+										})
+										//responseList.reverse();
 										obj.responses = responseList;	
 										nearbyUids.push(obj);
 										res();
 									});
 								} else {
-									// console.log("nearbyStuff", nearbyUids);
 									nearbyUids.push(obj);
 									res();
 								}
@@ -1150,10 +1150,10 @@ module.exports = {
 					}));
 					})
 					Promise.all(promises).then((then) => {
-						/*nearbyUids.sort(function(a,b) {
+						nearbyUids.sort(function(a,b) {
 							return b.time - a.time;
-						});*/
-						nearbyUids.reverse();
+						});
+						//nearbyUids.reverse();
 						resolve(nearbyUids);
 					}).catch((err) => {
 						console.log(err);
