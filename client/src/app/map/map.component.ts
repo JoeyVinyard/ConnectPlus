@@ -141,10 +141,10 @@ export class MapComponent implements OnInit {
 
 	refreshBroadcasts(){
 		this.db.getNearbyBroadcasts(this.model.user.uid.toString()).then((broadcasts) => {
-				this.broadcasts = broadcasts;
-				this.filteredBroadcasts = broadcasts;
-				console.log(broadcasts);
-			});
+			this.broadcasts = broadcasts;
+			this.filteredBroadcasts = broadcasts;
+			console.log(broadcasts);
+		});
 	}
 
 	model = {
@@ -199,27 +199,24 @@ export class MapComponent implements OnInit {
 	}
 
 	userVisible = false;
-	vis;
+	//vis;
 	viewUser(user: any = {}) {
 		this.userVisible = true;
 		this.displayedUser = user;
 		this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance / 5280) * 100) / 100;
 		if (isNaN(this.displayedUser.distanceInMiles))
 			this.displayedUser.distanceInMiles = 0;
-		this.vis = this.commonMap.get(user.uid);
+		var vis = this.commonMap.get(user.uid);
 
-		this.displayedUser.commons = this.vis.FB + ": " + this.vis.facebookNum
-			+ "  " + this.vis.TW + ": " + this.vis.twitterNum
-			+ "  " + this.vis.BB + ": " + this.vis.blackboardNum
-			+ "  " + this.vis.YT + ": " + this.vis.youtubeNum;
-		console.log("is there anything here", this.vis.interestSub)
-		var keys = Object.keys(this.vis.interestSub);
-		console.log(keys)
-		keys.forEach((gg) => {
-
-			this.displayedUser.commons = this.displayedUser.commons
-				+ "  " + gg + ": " + this.vis.interestSub.get(gg);
-		});
+		this.displayedUser.commons = vis.FB + ": " + vis.facebookNum
+		+ "  " + vis.TW + ": " + vis.twitterNum
+		+ "  " + vis.BB + ": " + vis.blackboardNum
+		+ "  " + vis.YT + ": " + vis.youtubeNum;
+	
+		vis.interestSub.forEach((value: string, key: string) => {
+    		this.displayedUser.commons = this.displayedUser.commons
+    		+ "  " + key + ": " + value;
+    	});
 	}
 
 	closeUser() {
@@ -522,7 +519,7 @@ export class MapComponent implements OnInit {
 			}
 					//this.generateCommonMap();
 
-		});
+				});
 		loc.getLocation().then((l) => {
 			console.log("retrieved the correct location");
 			this.auth.getUser().then((u) => {
@@ -537,13 +534,7 @@ export class MapComponent implements OnInit {
 			//console.log("reeeeeeeeeee")
 
 		});
-<<<<<<< HEAD
-		//this.generateCommonMap();
-		
-=======
 
-
->>>>>>> 4f2b59d3701b5ec2f6b52501b83401bb8dcbf431
 		setTimeout(() => {
 			if (!this.locationFound) {
 				db.getLocation(this.model.user.uid).then((l) => {
@@ -599,9 +590,9 @@ export class MapComponent implements OnInit {
 			var p = new Promise((resolve, reject) => {
 				this.db.getInterests(this.model.user.uid).then((mi) => {
 					/*if(typeof mi !== 'undefined'){*/
-					if (Object.keys(mi).indexOf(interest) != -1) {
+						if (Object.keys(mi).indexOf(interest) != -1) {
 
-						modelInterests = Object.values(mi[interest]);
+							modelInterests = Object.values(mi[interest]);
 						// console.log("MI: " +modelInterests;
 					}
 				})
