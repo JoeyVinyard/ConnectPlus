@@ -101,7 +101,7 @@ export class MapComponent implements OnInit {
 		})
 
 		this.db.getClasses(this.model.user.uid).then((classes) => {
-			this.broadInterests = classes;
+			this.broadClasses = classes;
 		}).catch((err) => {
 			console.log(err);
 		})
