@@ -140,7 +140,11 @@ export class MapComponent implements OnInit {
 	}
 
 	refreshBroadcasts(){
-		console.log("Hi Calvin! Code here")
+		this.db.getNearbyBroadcasts(this.model.user.uid.toString()).then((broadcasts) => {
+				this.broadcasts = broadcasts;
+				this.filteredBroadcasts = broadcasts;
+				console.log(broadcasts);
+			});
 	}
 
 	model = {
@@ -963,11 +967,7 @@ export class MapComponent implements OnInit {
 					this.temp.BB = "BlackBoard";
 					this.temp.YT = "Youtube";
 					this.temp.interestSub = new Map();
-
 					this.commonMap.set(nearbyUser.uid, this.temp);
-					// if(this.commonMap.get(nearbyUser.uid)){
-					// 	this.getCommon();
-					// }
 				});
 				this.getCommon();
 
@@ -1015,7 +1015,6 @@ export class MapComponent implements OnInit {
 			this.generateTiers();
 		})
 	}
-
 
 	generateTiers(){
 		console.log("generateTiers Called")

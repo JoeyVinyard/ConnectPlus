@@ -1135,7 +1135,7 @@ module.exports = {
 										res();
 									});
 								} else {
-															console.log("nearbyStuff", nearbyUids);
+									console.log("nearbyStuff", nearbyUids);
 									nearbyUids.push(obj);
 									res();
 								}
