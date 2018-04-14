@@ -143,10 +143,19 @@ export class MapComponent implements OnInit {
 		//console.log("UpdateBroadInterests")
 	}
 
-	refreshBroadcasts(){
+	refreshBroadcasts(selectedBroadcast){
 		this.db.getNearbyBroadcasts(this.model.user.uid.toString()).then((broadcasts) => {
 			this.broadcasts = broadcasts;
 			this.filteredBroadcasts = broadcasts;
+			if(!!selectedBroadcast){
+				broadcasts.forEach((broad) => {
+					if(broad.broadcastID = selectedBroadcast.broadcastID){
+						this.selectedBroadcast = broad;
+						this.broadcastResponses = broad.responses;
+					}
+				});
+			}
+			
 			console.log(broadcasts);
 		});
 	}
@@ -956,7 +965,7 @@ export class MapComponent implements OnInit {
 		console.log(this.specificInterest);
 		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText, (new Date).getTime(), this.specificInterest).then((data) => {
 			console.log("broadcast sent");
-			this.refreshBroadcasts();
+			this.refreshBroadcasts(this.selectedBroadcast);
 		}).catch((err) => {
 			console.error(err);
 		})
@@ -976,7 +985,7 @@ export class MapComponent implements OnInit {
 		if (this.selectedBroadcast) {
 			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getTime()).then(() => {
 				var p = new Promise((good, bad) => {
-					this.refreshBroadcasts();
+					this.refreshBroadcasts(this.selectedBroadcast);
 					good();	
 				}).then(() => {
 
