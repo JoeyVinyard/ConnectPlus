@@ -80,9 +80,9 @@ export class DatabaseService {
 			})
 		});
 	}
-	getNearbyUsers(uid: string): Promise<any>{
+	getNearbyUsers(uid: string, miles): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.get(this.dbUrl+ "getNearbyUsers/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getNearbyUsers/"+uid + "/" + miles, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else

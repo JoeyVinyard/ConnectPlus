@@ -30,7 +30,7 @@ export class ListComponent implements OnInit {
 	refreshList() {
 		var ph;
 		this.auth.getUser().then((u) => {
-			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+			this.db.getNearbyUsers(u.uid, this.currentZoom - 14).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
 				// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
@@ -339,7 +339,7 @@ export class ListComponent implements OnInit {
             count++;
         }
 
-        if (this.model.user.filteredInterests.length != 0) {
+        if (<number>this.model.user.filteredInterests.length != <number>0) {
             for (var i = 0; i < this.model.user.filteredInterests.length; i++) {
                 if(this.model.user.filteredInterests[i] != ""){
                     this.currentFilterArray.push(this.model.user.filteredInterests[i]);
@@ -407,7 +407,8 @@ export class ListComponent implements OnInit {
 				db.storeLocation(l, u.uid).then((d) => {
 					console.log(d);
 
-					db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+
+					db.getNearbyUsers(u.uid, this.currentZoom - 14).then((nearbyUsers) => {
 						console.log("Nearby:", nearbyUsers);
 						this.nearbyUsers = nearbyUsers;
 						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
@@ -415,6 +416,8 @@ export class ListComponent implements OnInit {
 						this.nearbyUsers.forEach((user) => {
 							user.distanceInMiles = Math.round((user.distance / 5280) * 100) / 100;
 						})
+
+
 						this.maintainFilter();
 
 					}).catch((err) => {
