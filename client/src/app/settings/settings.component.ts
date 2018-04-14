@@ -672,7 +672,7 @@ export class SettingsComponent implements OnInit {
 		console.log(sub + " " + inter);
 		this.model.interestSelected = "";
 
-		// if (this.verifyInterest(sub, inter)) {
+		if (this.verifyInterest(sub, inter)) {
 			this.db.addInterest(this.model.user.uid, sub, inter).then((success) => {
 				this.model.interestSelected = ""
 
@@ -682,7 +682,7 @@ export class SettingsComponent implements OnInit {
 			}).catch((err) => {
 				console.log(err);
 			})
-		// }
+		}
 	}
 	deleteInterest(sub: String, inter: String) {
 		this.db.deleteInterest(this.model.user.uid, sub, inter).then((data) => {

@@ -806,7 +806,8 @@ export class MapComponent implements OnInit {
 								resolve(filterUsersArray);
 							}).catch((err) => {
 								console.log(err);
-								reject(err);
+								//reject(err);
+								resolve(filterUsersArray);
 							});
 						});
 					}).then((users: any) => {
@@ -1014,7 +1015,7 @@ export class MapComponent implements OnInit {
 
 
 		Promise.all(promises).then(() => {
-			console.log("common", this.commonMap.get("ZVmOhUAURNOD8t4zqunUdUtjc4B3"));
+			console.log("common", this.commonMap);
 			console.log("Promises: " + promises)
 			this.generateTiers();
 		})
