@@ -647,7 +647,7 @@ export class SettingsComponent implements OnInit {
 		if (verify.get(inter)) {
 
 			var ver1 = new Map();
-			this.arraytemp = this.getArrayInter12(sub);
+			this.arraytemp = this.getArrayInter(sub);
 
 
 			this.arraytemp.forEach((interests1) => {
@@ -715,17 +715,20 @@ export class SettingsComponent implements OnInit {
 			console.log(err);
 		})
 	}
+	// getArrayInter(sub: string): string[] {
+	// 	//console.log("it got here fine")
+	// 	this.interestSubArray = Object.values(this.interestList[sub]);
+	// 	//console.log("what cause problems: ", this.interestSubArray)
+	// 	return this.interestSubArray;
+
+
+	// }
 	getArrayInter(sub: string): string[] {
-		//console.log("it got here fine")
-		this.interestSubArray = Object.values(this.interestList[sub]);
-		//console.log("what cause problems: ", this.interestSubArray)
-		return this.interestSubArray;
-
-
-	}
-	getArrayInter12(sub: string): string[] {
-		console.log("it got here fine ", sub)
-		if(this.interestList[sub])
+		//console.log("it got here fine ", sub)
+		//console.log("it got here fine 2 ", this.interestList);
+		if(!this.interestList)
+			this.interestSubArray = [];
+		else if(this.interestList[sub])
 		this.interestSubArray = Object.values(this.interestList[sub]);
 		else
 			this.interestSubArray = [];
