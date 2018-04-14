@@ -397,6 +397,7 @@ export class MapComponent implements OnInit {
 				//console.log(data);
 				if (this.model.user.filterYoutube) {
 					this.filterUsersBasedOnYoutube(0);
+					
 				}
 				else {
 					this.maintainFilter();
@@ -637,6 +638,7 @@ export class MapComponent implements OnInit {
 					if (!num) {
 						this.filteredUsers = filterUsersArray;
 						console.log("Filtered Users:", filterUsersArray);
+						this.generateCommonMap();
 					}
 					else {
 						console.log("Interest Filtering Done")
@@ -707,6 +709,7 @@ export class MapComponent implements OnInit {
 						if (!num) {
 							this.filteredUsers = filterUsersArray;
 							console.log("Filtered Users Facebook:", filterUsersArray);
+							this.generateCommonMap();
 						}
 						else {
 							console.log("Facebook Filtering Done")
@@ -767,6 +770,7 @@ export class MapComponent implements OnInit {
 						if (!num) {
 							this.filteredUsers = filterUsersArray;
 							console.log("Filtered Users:", filterUsersArray);
+							this.generateCommonMap();
 						}
 						else {
 							console.log("Twitter Filtering Done")
@@ -846,6 +850,7 @@ export class MapComponent implements OnInit {
 						if (!num) {
 							this.filteredUsers = filterUsersArray;
 							console.log("Filtered Users:", filterUsersArray);
+							this.generateCommonMap();
 						}
 						else {
 							console.log("Youtube Filtering Done")
@@ -921,6 +926,7 @@ export class MapComponent implements OnInit {
 					if (!num) {
 						this.filteredUsers = filterUsersArray;
 						console.log("Filtered Users:", filterUsersArray);
+						this.generateCommonMap();
 					}
 					else {
 						console.log("Blackboard Filtering Done")
