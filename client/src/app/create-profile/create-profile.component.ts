@@ -132,6 +132,8 @@ export class CreateProfileComponent implements OnInit {
 				this.model.user.moodStatus = "Online";
 				this.auth.getUser().then((user) => {
 					this.model.user.uid = user.uid;
+					this.model.user.filteredInterests = [""]
+					this.model.user.visibility = true;
 					this.db.createUser(this.model.user).then((data) => {
 						this.router.navigateByUrl('map');
 					}).catch((err) => {
