@@ -718,6 +718,7 @@ export class MapComponent implements OnInit {
 					});
 				}).catch((err) => {
 					console.error(err);
+					mainResolve("Facebook")
 				});
 			}
 		});
@@ -779,6 +780,7 @@ export class MapComponent implements OnInit {
 					});
 				}).catch((err) => {
 					console.error(err);
+					mainResolve("Twitter")
 				});
 			}
 		})
@@ -862,6 +864,7 @@ export class MapComponent implements OnInit {
 					});
 				}).catch((err) => {
 					console.error(err);
+					mainResolve("Youtube")
 				});
 			}
 		});
@@ -937,6 +940,7 @@ export class MapComponent implements OnInit {
 				});
 			}).catch((err) => {
 				console.log(err);
+				mainResolve("Blackboard")
 
 			})
 		});
