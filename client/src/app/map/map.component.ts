@@ -1047,15 +1047,16 @@ export class MapComponent implements OnInit {
 		var promises = [];
 		var interestPromises = [];
 		this.db.getInterests(this.model.user.uid).then((interests) => {
-			this.interestObject = interests;
-			this.interestKeys = Object.keys(this.interestObject);
-			//console.log(this.interestKeys)
-			this.interestKeys.forEach((gg) => {
-				// promises.push(this.filterUsersBasedOnInterests(gg, 1));
-				interestPromises.push(this.filterUsersBasedOnInterests(gg, 1));
-			});
-			promises.push(interestPromises);
-
+			if(interests != null){
+				this.interestObject = interests;
+				this.interestKeys = Object.keys(this.interestObject);
+				//console.log(this.interestKeys)
+				this.interestKeys.forEach((gg) => {
+					// promises.push(this.filterUsersBasedOnInterests(gg, 1));
+					interestPromises.push(this.filterUsersBasedOnInterests(gg, 1));
+				});
+				promises.push(interestPromises);
+			}
 		}).catch((err) => {
 			console.log(err);
 		})
