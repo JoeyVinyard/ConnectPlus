@@ -62,6 +62,10 @@ export class MapComponent implements OnInit {
 	temp;
 	holder;
 
+	tier1 = [];
+	tier2 = [];
+	tier3 = [];
+
 	refreshMap() {
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
@@ -425,26 +429,27 @@ export class MapComponent implements OnInit {
 	maintainFilter() {
 		this.filteredUsers = this.nearbyUsers;
 		this.currentFilterArray = [];
+		var promises = [];
 		var count = 0;
 
 		if (this.model.user.filterFacebook) {
 			this.currentFilterArray.push("Facebook");
-			this.filterUsersBasedOnFacebook(0);
+			promises.push(this.filterUsersBasedOnFacebook(0));
 			count++;
 		}
 		if (this.model.user.filterTwitter) {
 			this.currentFilterArray.push("Twitter")
-			this.filterUsersBasedOnTwitter(0);
+			promises.push(this.filterUsersBasedOnTwitter(0));
 			count++;
 		}
 		if (this.model.user.filterYoutube) {
 			this.currentFilterArray.push("Youtube")
-			this.filterUsersBasedOnYoutube(0);
+			promises.push(this.filterUsersBasedOnYoutube(0));
 			count++;
 		}
 		if (this.model.user.filterBlackBoard) {
 			this.currentFilterArray.push("Blackboard")
-			this.filterUsersBasedOnBlackboard(0);
+			promises.push(this.filterUsersBasedOnBlackboard(0));
 			count++;
 		}
 
@@ -458,10 +463,13 @@ export class MapComponent implements OnInit {
 			}
 		}
 
-		if (count == 0) {
-			this.filteredUsers = this.nearbyUsers;
-		}
-		this.generateCommonMap();
+		Promise.all(promises).then(() => {
+			if (count == 0) {
+				this.filteredUsers = this.nearbyUsers;
+			}
+			console.log("Filters Maintained: " + count)
+			this.generateCommonMap();
+		})
 	}
 
 	particlesConfig;
@@ -637,7 +645,7 @@ export class MapComponent implements OnInit {
 		});
 	}
 
-	filterUsersBasedOnFacebook(num: number) {
+	filterUsersBasedOnFacebook(num: number){
 		return new Promise((mainResolve, mainReject) => {
 			var filterUsersArray = [];
 			if (true /*check facebook thing*/) {
@@ -1029,66 +1037,100 @@ export class MapComponent implements OnInit {
 		this.youtubeCommon = 0;
 
 		var promises = [];
-		promises.push(this.filterUsersBasedOnFacebook(1));
-		promises.push(this.filterUsersBasedOnTwitter(1));
-		promises.push(this.filterUsersBasedOnYoutube(1));
-		promises.push(this.filterUsersBasedOnBlackboard(1));
-
-		//console.log();
+		var interestPromises = [];
 		this.db.getInterests(this.model.user.uid).then((interests) => {
 			this.interestObject = interests;
 			this.interestKeys = Object.keys(this.interestObject);
 			//console.log(this.interestKeys)
 			this.interestKeys.forEach((gg) => {
-				promises.push(this.filterUsersBasedOnInterests(gg, 1));
+				// promises.push(this.filterUsersBasedOnInterests(gg, 1));
+				interestPromises.push(this.filterUsersBasedOnInterests(gg, 1));
 			});
+			promises.push(interestPromises);
 
 		}).catch((err) => {
 			console.log(err);
 		})
 
+		promises.push(this.filterUsersBasedOnYoutube(1));
+		promises.push(this.filterUsersBasedOnBlackboard(1));
+		promises.push(this.filterUsersBasedOnFacebook(1));
+		promises.push(this.filterUsersBasedOnTwitter(1));
+
+		//console.log();
+
 
 
 		Promise.all(promises).then(() => {
 			console.log("common", this.commonMap);
-			console.log("Promises: " + promises)
+			
+			console.dir(this.commonMap)
 			this.generateTiers();
 		})
-		console.dir(this.commonMap)
 	}
 
 	generateTiers(){
 		console.log("generateTiers Called")
-		var allTotals = [];
+		var allTotals = {};
 		var tempTotal = 0;
+		var minValue;
+		var minUid = "";
+		var maxValue;
+		var maxUid = "";
 
-		this.commonMap.forEach((user) => {
+		this.filteredUsers.forEach((userF) => {
+			var user = this.commonMap.get(userF.uid);
 			tempTotal = 0;
-			console.log(user.blackboardNum);
+			// console.log(user);
 
-			var flag = true;
-			do {
-				tempTotal += (user.facebookNum * 0.1);
-				// console.log("User got in facebook " + tempTotal)
-				tempTotal += (user.twitterNum * 0.1);
-				// console.log("User got in twitter " + tempTotal)
-				tempTotal += (user.youtubeNum * 0.1);
-				// console.log("User got in youtube " + tempTotal)
-				tempTotal += user.blackboardNum;
-				// console.log("User got in blackboard " + tempTotal)
-				var intCatNum = user.interestSub.size;
-				var intSubNum = 0;
-				user.interestSub.forEach((interest) => {
-					intSubNum += interest.value;
-				});
-				tempTotal += (intCatNum + intSubNum);
+			tempTotal += (user.facebookNum * 0.1);
+			// console.log("User got in facebook " + tempTotal)
+			tempTotal += (user.twitterNum * 0.1);
+			// console.log("User got in twitter " + tempTotal)
+			tempTotal += (user.youtubeNum * 0.1);
+			// console.log("User got in youtube " + tempTotal)
+			tempTotal += user.blackboardNum;
+			// console.log("User got in blackboard " + tempTotal)
+			var intCatNum = user.interestSub.size;
+			var intSubNum = 0;
+			user.interestSub.forEach((interest) => {
+				intSubNum += interest;
+			});
+			tempTotal += (intCatNum + intSubNum);
 
-				allTotals.push(tempTotal);
-				flag = false;
-			} while (flag)
+			// allTotals.push(tempTotal);
+			if(minValue == null || tempTotal < minValue){
+				minValue = tempTotal;
+				minUid = userF.uid;
+			}
+			else if(maxValue == null || tempTotal > maxValue){
+				maxValue = tempTotal;
+				maxUid = userF.uid;
+			}
+			// allTotals.set(userF.uid, tempTotal);
+			allTotals[userF.uid] = tempTotal;
 
 		});
+		var cutoff = ((maxValue - minValue) / 3).toFixed(1);
+		var cutoff2 = (((maxValue - minValue) / 3) * 2).toFixed(1);
+		console.log("Cutoffs: " + cutoff + " " + cutoff2);
 		console.log(allTotals);
+		Object.keys(allTotals).forEach((total) =>{
+			console.log("TOTAL: " + total)
+			if(allTotals[total] <= cutoff){
+				this.tier3.push(total)
+			}
+			else if(allTotals[total]  <= cutoff2){
+				this.tier2.push(total)
+			}
+			else{
+				this.tier1.push(total)
+			}
+		})
+		console.log(allTotals);
+		console.log("TIER 3: " + this.tier3);
+		console.log("TIER 2: " + this.tier2);
+		console.log("TIER 1: " + this.tier1);
 	}
 
 }
