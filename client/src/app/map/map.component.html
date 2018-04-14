@@ -9,7 +9,11 @@
 				<agm-map [latitude]="lat" [longitude]="lng" [zoomControl]="false" [mapTypeControl]="false" [scaleControl]="false" [streetViewControl]="false"
 				 [rotateControl]="false" [fullscreenControl]="false" [mapDraggable]="true" [scrollwheel]="false" [zoom]="zoom" [clickableIcons]="false">
 					<agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="userPin" (markerClick)="viewUser(model.user)"></agm-marker>
-					<agm-marker *ngFor="let user of filteredUsers" (markerClick)="viewUser(user)" [iconUrl]="nearbyPin" [latitude]="user.lat"
+					<agm-marker *ngFor="let user of tier1" (markerClick)="viewUser(user)" [iconUrl]="tier1Pin" [latitude]="user.lat"
+					 [longitude]="user.lon"></agm-marker>
+					 <agm-marker *ngFor="let user of tier2" (markerClick)="viewUser(user)" [iconUrl]="tier2Pin" [latitude]="user.lat"
+					 [longitude]="user.lon"></agm-marker>
+					 <agm-marker *ngFor="let user of tier3" (markerClick)="viewUser(user)" [iconUrl]="tier3Pin" [latitude]="user.lat"
 					 [longitude]="user.lon"></agm-marker>
 				</agm-map>
 			</div>

@@ -268,8 +268,10 @@ export class MapComponent implements OnInit {
 		}
 	}
 
-	nearbyPin = ("../../assets/NearbyPin.png");
 	userPin = ("../../assets/UserPin.png");
+	tier3Pin = ("../../assets/Tier3.png")
+	tier2Pin = ("../../assets/Tier2.png")
+	tier1Pin = ("../../assets/Tier1.png");
 
 	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
 	visibility;
@@ -1070,8 +1072,12 @@ export class MapComponent implements OnInit {
 	}
 
 	generateTiers(){
+		this.tier1 = [];
+		this.tier2 = [];
+		this.tier3 = [];
 		console.log("generateTiers Called")
 		var allTotals = {};
+		var allUsers = {};
 		var tempTotal = 0;
 		var minValue;
 		var minUid = "";
@@ -1109,28 +1115,31 @@ export class MapComponent implements OnInit {
 			}
 			// allTotals.set(userF.uid, tempTotal);
 			allTotals[userF.uid] = tempTotal;
+			allUsers[userF.uid] = userF;
 
 		});
 		var cutoff = ((maxValue - minValue) / 3).toFixed(1);
 		var cutoff2 = (((maxValue - minValue) / 3) * 2).toFixed(1);
-		console.log("Cutoffs: " + cutoff + " " + cutoff2);
-		console.log(allTotals);
+		// console.log("Cutoffs: " + cutoff + " " + cutoff2);
+		// console.log(allTotals);
+		var tempTier1 = [];
+		var tempTier2 = [];
+		var tempTier3 = [];
 		Object.keys(allTotals).forEach((total) =>{
-			console.log("TOTAL: " + total)
 			if(allTotals[total] <= cutoff){
-				this.tier3.push(total)
+				this.tier3.push(allUsers[total])
 			}
 			else if(allTotals[total]  <= cutoff2){
-				this.tier2.push(total)
+				this.tier2.push(allUsers[total])
 			}
 			else{
-				this.tier1.push(total)
+				this.tier1.push(allUsers[total])
 			}
 		})
-		console.log(allTotals);
-		console.log("TIER 3: " + this.tier3);
-		console.log("TIER 2: " + this.tier2);
-		console.log("TIER 1: " + this.tier1);
+		// console.log(allTotals);
+		// console.log("TIER 3: " + this.tier3);
+		// console.log("TIER 2: " + this.tier2);
+		// console.log("TIER 1: " + this.tier1);
 	}
 
 }
