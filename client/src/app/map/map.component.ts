@@ -769,8 +769,11 @@ export class MapComponent implements OnInit {
 						console.log("In Youtube Promise")
 						this.filteredUsers.forEach((user) => {
 							this.youtubeCommon = 0;
-							this.holder = this.commonMap.get(user.uid);
-							(this.commonMap.get(user.uid)).YT = "Youtube";
+							// this.holder = this.commonMap.get(user.uid);
+							if(num){
+								(this.commonMap.get(user.uid)).YT = "Youtube";
+							}
+							
 
 							this.db.getYoutubeSubscribers(user.uid).then((nearbySubscriber) => {
 								var match = false;
@@ -784,13 +787,18 @@ export class MapComponent implements OnInit {
 											match = true;
 											//console.log("hellllllllllooooooooooo")
 											this.youtubeCommon = this.youtubeCommon + 1;
-											(this.commonMap.get(user.uid)).youtube = true;
-											(this.commonMap.get(user.uid)).YT = "Youtube";
+											if(num){
+												(this.commonMap.get(user.uid)).youtube = true;
+												(this.commonMap.get(user.uid)).YT = "Youtube";
+											}
+											
 										}
 									});
 								}
 								console.log("youtube in common", this.youtubeCommon);
-								(this.commonMap.get(user.uid)).youtubeNum = this.youtubeCommon;
+								if(num){
+									(this.commonMap.get(user.uid)).youtubeNum = this.youtubeCommon;
+								}
 
 								if (match) {
 									filterUsersArray.push(user);
