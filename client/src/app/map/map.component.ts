@@ -964,6 +964,7 @@ export class MapComponent implements OnInit {
 		console.log("Hours:", (new Date))
 		console.log(this.specificInterest);
 		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText, (new Date).getTime(), this.specificInterest).then((data) => {
+			this.broadcastText = "";
 			console.log("broadcast sent");
 			this.refreshBroadcasts(this.selectedBroadcast);
 		}).catch((err) => {
@@ -984,6 +985,7 @@ export class MapComponent implements OnInit {
 		console.log("Here");
 		if (this.selectedBroadcast) {
 			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getTime()).then(() => {
+				this.responseText = "";
 				var p = new Promise((good, bad) => {
 					this.refreshBroadcasts(this.selectedBroadcast);
 					good();	
