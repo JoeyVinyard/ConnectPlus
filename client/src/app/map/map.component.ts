@@ -68,7 +68,7 @@ export class MapComponent implements OnInit {
 
 	refreshMap() {
 		this.auth.getUser().then((u) => {
-			this.db.getNearbyUsers(u.uid, this.currentZoom - 14).then((nearbyUsers) => {
+			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				// this.generateCommonMap();
 				this.nearbyUsers = nearbyUsers;
@@ -559,7 +559,7 @@ export class MapComponent implements OnInit {
 				this.filteredBroadcasts = broadcasts;
 				console.log(broadcasts);
 			});
-			this.db.getNearbyUsers(u.uid, this.currentZoom - 14).then((nearbyUsers) => {
+			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
 				this.maintainFilter();
@@ -1005,7 +1005,7 @@ export class MapComponent implements OnInit {
 	generateCommonMap() {
 		console.log("i got called");
 		this.auth.getUser().then((u) => {
-			this.db.getNearbyUsers(u.uid, this.currentZoom - 14).then((nearbyUsers) => {
+			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				//console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
 				this.CommonUsersList = this.nearbyUsers;

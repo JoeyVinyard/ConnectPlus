@@ -30,7 +30,7 @@ export class ListComponent implements OnInit {
 	refreshList() {
 		var ph;
 		this.auth.getUser().then((u) => {
-			this.db.getNearbyUsers(u.uid, this.currentZoom - 14).then((nearbyUsers) => {
+			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
 				// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
@@ -408,7 +408,7 @@ export class ListComponent implements OnInit {
 					console.log(d);
 
 
-					db.getNearbyUsers(u.uid, this.currentZoom - 14).then((nearbyUsers) => {
+					db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 						console.log("Nearby:", nearbyUsers);
 						this.nearbyUsers = nearbyUsers;
 						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
