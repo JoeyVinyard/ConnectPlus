@@ -156,7 +156,7 @@ export class ListComponent implements OnInit {
 			this.filteredBroadcasts = broadcasts;
 			if(!!selectedBroadcast){
 				broadcasts.forEach((broad) => {
-					if(broad.broadcastID = selectedBroadcast.broadcastID){
+					if(broad.broadcastID == selectedBroadcast.broadcastID){
 						this.selectedBroadcast = broad;
 						this.broadcastResponses = broad.responses;
 					}
