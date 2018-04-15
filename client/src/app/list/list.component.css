@@ -62,15 +62,33 @@
 	padding: 0px;
 }
 
-#userDiv{
+#tier1{
 	float: left;
 	border: 2px solid white;
 	border-radius: 25px;
-	background: rgba(255, 255, 255, 0.5);
+	background:  #0076BB;
 	cursor: pointer;
 	margin-top: 0.25rem;
 	/* margin-left: 0.125rem; */
 	/* margin-right: 0.125rem; */
+}
+
+#tier2{
+	float: left;
+	border: 2px solid white;
+	border-radius: 25px;
+	background: #01A2FF;
+	cursor: pointer;
+	margin-top: 0.25rem;
+}
+
+#tier3{
+	float: left;
+	border: 2px solid white;
+	border-radius: 25px;
+	background: #55C1FE;
+	cursor: pointer;
+	margin-top: 0.25rem;
 }
 
 #userDivInfo{
@@ -79,7 +97,7 @@
 
 #userNameSmall{
 	font-size: 	1.5rem;
-	color: #004E7F;
+	color: white;
 	/* float: left; */
 	padding: 0px;
 	margin: 0px;
@@ -87,7 +105,7 @@
 
 #lowerText{
 	font-size: 1rem;
-	color: #0076BB;
+	color: white;
 	/* float: left; */
 
 	padding: 0px;
