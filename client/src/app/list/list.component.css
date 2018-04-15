@@ -69,6 +69,9 @@
 	background:  #0076BB;
 	cursor: pointer;
 	margin-top: 0.25rem;
+	height: 10%;
+	max-height: 10%;
+	overflow: hidden;
 	/* margin-left: 0.125rem; */
 	/* margin-right: 0.125rem; */
 }
@@ -80,6 +83,9 @@
 	background: #01A2FF;
 	cursor: pointer;
 	margin-top: 0.25rem;
+	height: 10%;
+	max-height: 10%;
+	overflow: hidden;
 }
 
 #tier3{
@@ -89,6 +95,9 @@
 	background: #55C1FE;
 	cursor: pointer;
 	margin-top: 0.25rem;
+	height: 10%;
+	max-height: 10%;
+	overflow: hidden;
 }
 
 #userDivInfo{
@@ -96,15 +105,17 @@
 }
 
 #userNameSmall{
-	font-size: 	1.5rem;
+	font-size: 2vw;
 	color: white;
 	/* float: left; */
 	padding: 0px;
 	margin: 0px;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 #lowerText{
-	font-size: 1rem;
+	font-size: 1.5vw;
 	color: white;
 	/* float: left; */
 
@@ -124,8 +135,8 @@
 #listUser{
 	/* width: 80px;
 	height: 80px; */
-	width: 5rem;
-	height: 5rem;
+	width: 7vw;
+	height: 7vw;
 	border: 2px solid white;
 	border-radius: 50%;
 	margin-top: 2.5%;
