@@ -175,6 +175,18 @@ export class ListComponent implements OnInit {
 		this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance / 5280) * 100) / 100;
 		if (isNaN(this.displayedUser.distanceInMiles))
 			this.displayedUser.distanceInMiles = 0;
+		var vis = this.commonMap.get(user.uid);
+
+		this.displayedUser.commons = vis.FB + ": " + vis.facebookNum
+		+ "  " + vis.TW + ": " + vis.twitterNum
+		+ "  " + vis.BB + ": " + vis.blackboardNum
+		+ "  " + vis.YT + ": " + vis.youtubeNum;
+	
+		vis.interestSub.forEach((value: string, key: string) => {
+    		this.displayedUser.commons = this.displayedUser.commons
+    		+ "  " + key + ": " + value;
+    	});
+    	console.log("what should print on the cards: ", this.displayedUser.commons)
 	}
 
 	closeUser() {
