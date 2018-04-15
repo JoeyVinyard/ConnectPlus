@@ -554,6 +554,9 @@ export class ListComponent implements OnInit {
 			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
+				this.nearbyUsers.forEach((user) => {
+					user.distanceInMiles = Math.round((user.distance / 5280) * 100) / 100;
+				});
 				this.maintainFilter();
 				// this.generateCommonMap();
 			}).catch((err) => {
