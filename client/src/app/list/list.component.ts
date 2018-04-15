@@ -511,43 +511,57 @@ export class ListComponent implements OnInit {
 
 
 
-		loc.getLocation().then((l) => {
-			var ph;
-			auth.getUser().then((u) => {
-				db.storeLocation(l, u.uid).then((d) => {
-					console.log(d);
+	    loc.getLocation().then((l) => {
+	    	console.log("retrieved the correct location");
+	    	this.auth.getUser().then((u) => {
+	    		this.db.storeLocation(l, u.uid).then((d) => {
+	    			this.lat = l.latitude;
+	    			this.lng = l.longitude;
+	    			this.locationFound = true;
+	    			this.loadLocationDependentData(l);
+	    		});
+	    	});
 
-					this.db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
-						this.broadcasts = broadcasts;
-						this.filteredBroadcasts = broadcasts;
-						console.log(broadcasts);
-					});
+			//console.log("reeeeeeeeeee")
+		});
 
-
-					db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
-						console.log("Nearby:", nearbyUsers);
-						this.nearbyUsers = nearbyUsers;
-						// this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
-
-						this.nearbyUsers.forEach((user) => {
-							user.distanceInMiles = Math.round((user.distance / 5280) * 100) / 100;
-						})
-
-
-						this.maintainFilter();
-
-					}).catch((err) => {
-						console.error(err);
-					})
-
-				}).catch((e) => {
-					console.error(e);
-				})
-			})
-		})
+	    setTimeout(() => {
+	    	if (!this.locationFound) {
+	    		db.getLocation(this.model.user.uid).then((l) => {
+	    			this.lat = l.lat
+	    			this.lng = l.lon;
+	    			console.log(l);
+	    			this.loadLocationDependentData(l);
+	    		});
+	    	}
+	    }, 3000);
 	}
 
 	ngOnInit() {
+	}
+
+	loadLocationDependentData(l) {
+		this.auth.getUser().then((u) => {
+
+			this.db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
+				//console.log("Followees: ", twitterFollowees);
+			});
+			this.db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
+				this.broadcasts = broadcasts;
+				this.filteredBroadcasts = broadcasts;
+				console.log(broadcasts);
+			});
+			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
+				console.log("Nearby:", nearbyUsers);
+				this.nearbyUsers = nearbyUsers;
+				this.maintainFilter();
+				// this.generateCommonMap();
+			}).catch((err) => {
+				console.error(err);
+			})
+		}).catch((e) => {
+			console.error(e);
+		});
 	}
 
 	filterUsersBasedOnInterests(interest, num: number) {
