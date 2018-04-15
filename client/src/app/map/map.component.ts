@@ -1052,6 +1052,7 @@ export class MapComponent implements OnInit {
 		})
 		//this.getCommon();		
 	}
+	
 	getCommon() {
 		console.log("getCommon Called")
 		this.facebookCommon = 0;

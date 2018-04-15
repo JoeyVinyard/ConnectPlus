@@ -470,3 +470,393 @@
 	background: #1779ba;
 	color: #fefefe;
   }
+
+  #broadcastsDiv{
+	border: 2px solid #004E7F;
+	border-radius: 25px;
+	margin: 0px;
+	padding: 0px;
+	margin-bottom: 1rem;
+	color: #004E7F;
+	height: 95vh;
+	overflow: hidden;
+	float: left;
+
+	position: relative;
+	z-index: 1;
+  
+}
+
+#broadHeader{
+	background: #0076BB;
+	/* width: 100%; */
+	/* height: 60px; */
+	height: 10vh;
+	margin: 0px;
+	padding: 0px;
+
+	border-bottom: 2px solid #004E7F;
+	font-size: 1.5rem;
+	color: white;
+	text-align: center;
+	position: relative;
+}
+
+#bHeaderText{
+  margin-top: 1%;
+  margin-bottom: 1%;
+  
+}
+
+#refreshBroadcasts{
+  float: right;
+  align-content: right;	
+  cursor: pointer;
+  margin-right: 1rem;
+  margin-top: 1%;
+}
+
+.bHeaderButton{
+  background: transparent;
+  border: 2px solid white;
+  border-radius: 25px;
+  color: white;
+  margin: 0px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.bHeaderButton:hover{
+  background: white;
+  border: 2px solid #004E7F;
+  border-radius: 25px;
+  color: #004E7F;
+  margin: 0px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+#broadContent{
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+#broadcastList{
+  height: 85vh;
+  background: #f4f4f4;
+  margin: 0px;
+  padding:0px;
+  border-right: 2px solid #004E7F;
+  float: left;
+  overflow: scroll;
+  padding-bottom: 1.5%;
+  position: absolute;
+  z-index: 1;
+}
+
+#broadcastPanel{
+  border-bottom: 2px solid #004E7F;
+  /* border-radius: 25px; */
+  width: 100%;
+  height: auto;
+  min-height: 20%;
+  float: center;
+  position: relative;
+  background: transparent;
+  overflow:hidden;
+
+}
+
+#broadcastPanel:hover{
+	background: #01A2FF;
+	cursor: pointer;
+}
+
+#broadPic{
+  /* width: 11%;
+  height: 11%; */
+  /* width: 5.5rem;
+  height: 5.5rem; */
+  width: 7vw;
+  height: 7vw;
+  margin-left: 5%;
+  margin-top: 0.5rem;
+  border: 2px solid #004E7F;
+  border-radius: 50%;
+
+  object-fit: cover;
+  pointer-events: none;
+}
+
+#newBroadcast{
+  background: #004E7F;
+  width: 100%;
+  height: auto;
+  color: white;
+  padding-top: 0.5rem;
+
+  position: absolute;
+  top: 10vh;
+  z-index: 4;
+}
+
+#broadSelect{
+  background: transparent;
+  color: #55C1FE;
+  border: 2px solid #0076BB;
+  border-radius: 25px;
+}
+
+#newBroadInput{
+  background: transparent;
+  color: white;
+  border: 2px solid #0076BB;
+  border-radius: 25px;
+}
+
+.newBroadButton{
+  background: transparent;
+  border: 2px solid  #0076BB;
+  border-radius: 25px;
+  color:  white;
+}
+
+.newBroadButton:hover{
+  background: #0076BB;
+  border: 2px solid #0076BB;
+}
+
+#filterBroadcast{
+  background: #004E7F;
+  width: 100%;
+  height: auto;
+  color: white;
+  padding-top: 0.5rem;
+
+  position: absolute;
+  top: 10vh;
+  z-index: 4;
+}
+
+#threadView{
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+}
+
+.broadcastText{
+	margin: 0px;
+	height: auto;
+}
+
+.broadButton{
+	background: transparent;
+	border: 2px solid #004E7F;
+	border-radius: 25px;
+	color: #004E7F;
+}
+
+.broadButton:hover{
+	background: #004E7F;
+	color: white;
+}
+
+#threadExpanded{
+	height: 78vh;
+	width: 100%;
+	position: relative;
+	overflow: scroll;
+}
+
+#threadHeader{
+	background: #dbdbdb;
+	border: 2px solid #004E7F;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+	margin-top: 2.5%;
+	width: 95%;
+	height: 20%;
+	margin-left: 2.5%;
+}
+
+#threadUser{
+	margin-bottom: 1.5%;
+}
+
+#threadPic{
+  width: 5vw;
+  height: 5vw;
+  /* margin-left: 1vw; */
+  margin-top: 0.5rem;
+  border: 2px solid #004E7F;
+  border-radius: 50%;
+
+  object-fit: cover;
+  pointer-events: none;
+}
+
+#commentPic{
+  /* width: 11%;
+  height: 11%; */
+  /* width: 5.5rem;
+  height: 5.5rem; */
+  width: 3vw;
+  height: 3vw;
+  margin-left: 5%;
+  margin-top: 5%;
+  border: 2px solid #004E7F;
+  border-radius: 50%;
+
+  object-fit: cover;
+  pointer-events: none;
+}
+
+#threadComment{
+  min-height: 10%;
+  height: auto;
+  width: 90%;
+  margin-left: 7.5%;
+  border: 2px solid #004E7F;
+  border-top: none;
+  float: left;
+  background: #f4f4f4;
+}
+
+#broadResponse{
+	/* height: 10%; */
+	border-top: 2px solid #004E7F;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	float: left;
+	position: relative;
+}
+
+#broadInput{
+	background: transparent;
+	border-right: 2px solid #004E7F;
+	width: 85%;
+	margin: 0px;
+	padding: 0px;
+	float: left;
+	color: #004E7F
+}
+
+.broadInputButton{
+  background: transparent;
+  color: #004E7F;
+  width: 15%;
+  margin: 0px;
+  float: left;
+}
+
+.broadInputButton:hover{
+  background: #004E7F;
+  color: white;
+  float: center;
+}
+
+#messagesDiv{
+  border: 2px solid #004E7F;
+  border-radius: 25px;
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 1rem;
+  color: #004E7F;
+  height: 95vh;
+  overflow: hidden;
+  float: left;
+
+  position: relative;
+  z-index: 1;
+
+}
+
+#messagesPanel{
+  border-bottom: 2px solid #004E7F;
+  width: 100%;
+  height: 20%;
+  float: center;
+  position: relative;
+  /* margin-left: 2.5%; */
+  /* margin-top: 2.5%;  */
+  cursor: pointer;
+}
+
+#messagesPanel:hover{
+  background: #01A2FF;
+}
+
+#messagesPic{
+  width: 6vw;
+  height: 6vw;
+  margin-left: 5%;
+  margin-top: 10%;
+  border: 2px solid #004E7F;
+  border-radius: 50%;
+
+  object-fit: cover;
+  pointer-events: none;
+}
+
+#messagesInfo{
+  margin-top: 0.75rem;
+}
+
+#messagesText{
+  font-size: 1.25vw;
+  margin: 0px;
+  padding: 0px;
+}
+
+#messagesView{
+  /* padding-top: 2.5%; */
+  /* width: 100%; */
+  margin: 0px;
+  padding: 0px;
+}
+
+#messagesThread{
+  height: 78vh;
+  width: 100%;
+  position: relative;
+  overflow: scroll;
+  padding-top: 2.5%;
+}
+
+#messageResponse{
+  border-top: 2px solid #004E7F;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  float: left;
+  position: relative;
+}
+
+#message{
+  width: 25%;
+  height: auto;
+  color: #004E7F;
+  padding-left: 2.5%;
+  padding-top: 1%;
+}
+
+.messageLeft{
+  margin-left: 5%;
+  background: #f4f4f4;
+  border: 2px solid #dbdbdb;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.messageRight{
+  margin-left: 70%;
+  background: #01A2FF;
+  border: 2px solid #0076BB;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
