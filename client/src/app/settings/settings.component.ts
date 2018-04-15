@@ -97,6 +97,22 @@ export class SettingsComponent implements OnInit {
 		else if (this.model.interestSub == "Music") {
 			this.cIntArray = this.musicGenre;
 		}
+		else if (this.model.interestSub == "Dance") {
+			this.cIntArray = this.dance;
+		}
+		else if (this.model.interestSub == "Foods") {
+			this.cIntArray = this.foods;
+		}
+		else if (this.model.interestSub == "Languages") {
+			this.cIntArray = this.languages;
+		}
+		else if (this.model.interestSub == "FavArtists") {
+			this.cIntArray = this.favArtists;
+		}
+		else if (this.model.interestSub == "Majors") {
+			this.cIntArray = this.majors;
+		}
+
 
 	}
 
@@ -107,6 +123,17 @@ export class SettingsComponent implements OnInit {
 	tvShows: string[] = this.interestObj.tvShows;
 	sports: string[] = this.interestObj.sports;
 	musicGenre: string[] = this.interestObj.musicGenre;
+dance: string[] = this.interestObj.dance;
+foods: string[] = this.interestObj.foods;
+languages: string[] = this.interestObj.languages;
+favArtists: string[] = this.interestObj.favArtists;
+majors: string[] = this.interestObj.majors;
+
+
+
+
+
+
 	allMap;
 	interestList;
 	arrayOfInterestKeys: string[];
@@ -806,6 +833,14 @@ export class SettingsComponent implements OnInit {
 		this.allMap.set("Tv", this.interestObj.tvShows)
 		this.allMap.set("Sports", this.interestObj.sports)
 		this.allMap.set("Music", this.interestObj.musicGenre)
+		this.allMap.set("FavArtists", this.interestObj.favArtists)
+		this.allMap.set("Dance", this.interestObj.dance)
+		this.allMap.set("Foods", this.interestObj.foods)
+		this.allMap.set("Languages", this.interestObj.languages)
+		this.allMap.set("Majors", this.interestObj.majors)
+
+
+
 
 
 
