@@ -1004,6 +1004,9 @@ export class MapComponent implements OnInit {
 		})
 
 	}
+	clearBroadcastFilter() {
+		this.filteredBroadcasts = this.broadcasts;
+	}
 
 	generateCommonMap() {
 		console.log("i got called");
