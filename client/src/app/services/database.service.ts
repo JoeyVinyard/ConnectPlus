@@ -447,6 +447,26 @@ export class DatabaseService {
 			})
 		})
 	}
+	storeMessage(to, from, message): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.post(this.dbUrl+ "storeMessage", JSON.stringify({to: to, from: from, message: message}), this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
+	getMessageThread(uid, thread): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get(this.dbUrl+ "getMessageThread/"+uid+"/"+thread, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		})
+	}
 
 	constructor(private http: HttpClient) {}
 

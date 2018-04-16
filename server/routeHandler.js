@@ -1231,13 +1231,72 @@ module.exports = {
 				res.write(JSON.stringify(responseBody));
 				res.end();
 			}).catch((err) => {
-				console.log("Error?", err);
 				responseBody.err = err;
 				res.statusCode = 400;
 				res.write(JSON.stringify(responseBody));
 				res.end();
 			})
 		}, time*60*60*1000)
-		console.log("Scheduled visibility for", uid, ",",time, "hours from now");
+	},
+	storeMessage: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var body = "";
+		req.on('data', function(data){
+			body += data;
+			if(body.length > 1e6){ 
+				req.connection.destroy();
+			}
+		});
+		req.on('end', function() {
+			var data = JSON.parse(body);
+			if(!data || !data.to || !data.from || !data.message){
+				res.statusCode = 400;
+				responseBody.err = "No UID or Time provided";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
+			firebase.database().ref("messages/"+data.from+"/"+data.to).push({fromMe: true, message: data.message}).then(() => {
+				firebase.database().ref("messages/"+data.to+"/"+data.from).push({fromMe: false, message: data.message}).then(() => {
+					responseBody.payload = "success";
+					res.statusCode = 200;
+					res.write(JSON.stringify(responseBody));
+					res.end();
+				}).catch((err) => {
+					responseBody.err = err;
+					res.statusCode = 400;
+					res.write(JSON.stringify(responseBody));
+					res.end();
+				})
+			}).catch((err) => {
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
+		});
+	},
+	getMessageThread: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		var thread = urlData[2];
+		if(!uid){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("messages/"+uid+"/"+thread).once("value").then((s) => {
+			responseBody.payload = Object.values(s.val());
+			res.statusCode = 200;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
 	}
 }
