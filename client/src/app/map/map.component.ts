@@ -66,6 +66,8 @@ export class MapComponent implements OnInit {
 	tier2 = [];
 	tier3 = [];
 
+	messages = [];
+
 	refreshMap() {
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
@@ -495,40 +497,36 @@ export class MapComponent implements OnInit {
 
 
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService) {
-
-
 		this.auth.isAuthed().then((user) => {
-			console.log("Authed:", user)
 			this.model.user.uid = user.uid;
 		});
 
 
 		this.auth.getUser().then((user) => {
-
-			//this.localStorage();
 			this.db.getUser(user.uid).then((userData) => {
 				this.model.user = userData;
-
 				this.visibility = localStorage.getItem("localVisibility");
 				this.model.moodStatus = localStorage.getItem("localMood");
-				//console.log(userData)
+			})
+			this.db.getMessages(user.uid).then((messages) => {
+				if(messages){
+					Object.entries(messages)
+				}
+			}).catch((err) => {
+				console.error("Error getting messages", err);
 			})
 		});
 		this.auth.getUser().then((user) => {
 			if (localStorage.getItem("localVisibility") == null || localStorage.getItem("localMood") == null) { //only call Database if necessary
 				this.db.getUser(user.uid).then((userData) => {
-					console.log("localStorage Missing");
 					this.model.user = userData;
-					//console.log(userData)
 					this.visibility = this.model.user.visibility;
 					this.model.moodStatus = userData.moodStatus;
 					this.localStorage();
-					console.log("inside getuser")
 				})
 			}
 				});
 		loc.getLocation().then((l) => {
-			console.log("retrieved the correct location");
 			this.auth.getUser().then((u) => {
 				this.db.storeLocation(l, u.uid).then((d) => {
 					this.lat = l.latitude;
@@ -537,10 +535,7 @@ export class MapComponent implements OnInit {
 					this.loadLocationDependentData(l);
 				});
 			});
-
-			//console.log("reeeeeeeeeee")
 		});
-
 		setTimeout(() => {
 			if (!this.locationFound) {
 				db.getLocation(this.model.user.uid).then((l) => {
@@ -560,9 +555,9 @@ export class MapComponent implements OnInit {
 	loadLocationDependentData(l) {
 		this.auth.getUser().then((u) => {
 
-			this.db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
-				//console.log("Followees: ", twitterFollowees);
-			});
+			// this.db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
+			// 	//console.log("Followees: ", twitterFollowees);
+			// });
 			this.db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
 				this.broadcasts = broadcasts;
 				this.filteredBroadcasts = broadcasts;
@@ -572,7 +567,6 @@ export class MapComponent implements OnInit {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
 				this.maintainFilter();
-				// this.generateCommonMap();
 			}).catch((err) => {
 				console.error(err);
 			})
@@ -586,8 +580,6 @@ export class MapComponent implements OnInit {
 			var filterUsersArray = [];
 			var modelInterests = [];
 			var userInterests = [];
-			//console.log("this is the interet that was inputed", interest)
-
 			if (true) {
 				var p = new Promise((resolve, reject) => {
 					this.db.getInterests(this.model.user.uid).then((mi) => {

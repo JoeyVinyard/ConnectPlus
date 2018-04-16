@@ -1276,6 +1276,29 @@ module.exports = {
 			})
 		});
 	},
+	getMessages: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		var thread = urlData[2];
+		if(!uid){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("messages/"+uid+"/").once("value").then((s) => {
+			responseBody.payload = s.val();
+			res.statusCode = 200;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
+	},
 	getMessageThread: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		var uid = urlData[1];
