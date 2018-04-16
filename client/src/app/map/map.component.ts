@@ -149,7 +149,7 @@ export class MapComponent implements OnInit {
 			this.filteredBroadcasts = broadcasts;
 			if(!!selectedBroadcast){
 				broadcasts.forEach((broad) => {
-					if(broad.broadcastID = selectedBroadcast.broadcastID){
+					if(broad.broadcastID == selectedBroadcast.broadcastID){
 						this.selectedBroadcast = broad;
 						this.broadcastResponses = broad.responses;
 					}
@@ -1052,6 +1052,7 @@ export class MapComponent implements OnInit {
 		})
 		//this.getCommon();		
 	}
+	
 	getCommon() {
 		console.log("getCommon Called")
 		this.facebookCommon = 0;
