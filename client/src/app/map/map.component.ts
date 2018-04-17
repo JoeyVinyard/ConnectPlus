@@ -71,6 +71,12 @@ export class MapComponent implements OnInit {
 
 	messages = [];
 
+	typedMessage: ""
+	displayedUserMessages: any = {};
+	messagesThereUID = [];
+	messagesUsers = [];
+
+
 	refreshMap() {
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
@@ -121,6 +127,8 @@ export class MapComponent implements OnInit {
 		if (this.viewBroadcasts) {
 			this.viewBroadcasts = false;
 		}
+		this.getMessages()
+
 	}
 
 	toggleNewBroadcast() {
@@ -225,7 +233,7 @@ export class MapComponent implements OnInit {
 		if (isNaN(this.displayedUser.distanceInMiles))
 			this.displayedUser.distanceInMiles = 0;
 		var vis = this.commonMap.get(user.uid);
-
+		this.displayedUser.uid = user.uid;
 		this.displayedUser.commons = vis.FB + ": " + vis.facebookNum
 		+ "  " + vis.TW + ": " + vis.twitterNum
 		+ "  " + vis.BB + ": " + vis.blackboardNum
@@ -1191,5 +1199,68 @@ export class MapComponent implements OnInit {
 		// console.log("TIER 2: " + this.tier2);
 		// console.log("TIER 1: " + this.tier1);
 	}
+
+
+	initMessageThread(Otheruid:string){
+		this.getMessages();
+			this.db.initMessageThread(this.model.user.uid, Otheruid).then((success) => {
+				console.log("why")
+			}).catch((err) => {
+				console.log(err);
+			})
+		
+
+	}
+	storeMessage(to:string, from:string, message:string){
+		from = "ZVmOhUAURNOD8t4zqunUdUtjc4B3"
+		to = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
+		this.db.storeMessage(to, from, message).then((success) => {				
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
+	getMessageThread(uid:string, thread:string){
+		uid = "ZVmOhUAURNOD8t4zqunUdUtjc4B3"
+		thread = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
+		this.db.getMessageThread(uid, thread).then((messages) => {
+			console.log("got messages successfully")	
+			console.log(messages)			
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+	getMessages(){
+		this.db.getMessages(this.model.user.uid).then((messages) => {
+			var here = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
+			console.log(messages)	
+			this.messagesThereUID = Object.keys(messages);
+
+			this.messagesThereUID.forEach((mes) => {
+						console.log(mes)
+						var i = 0;
+				this.db.getUser(mes).then((u) => {
+						this.messagesUsers[i] = u;	
+						i = i+1;
+				})
+
+				});		
+		
+		}).catch((err) => {
+			console.log(err);
+		})
+
+	}
+
+	viewUserMessages(user: any = {}) {
+		this.displayedUserMessages = user;
+		this.displayedUserMessages.uid = user.uid;
+		this.displayedUserMessages.fullName = user.fullName;
+		this.displayedUserMessages.moodStatus = user.moodStatus;
+    
+	}
+
+
+
 
 }
