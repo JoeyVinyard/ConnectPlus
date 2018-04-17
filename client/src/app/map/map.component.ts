@@ -23,6 +23,7 @@ export class MapComponent implements OnInit {
 	viewBroadcasts = false;
 	newBroadcast = false;
 	filterBroadcast = false;
+	sendBroadcastS = "";
 
 	viewMessages = false;
 
@@ -62,11 +63,23 @@ export class MapComponent implements OnInit {
 	temp;
 	holder;
 
+	tier1 = [];
+	tier2 = [];
+	tier3 = [];
+
+	messages = [];
+
+	typedMessage: ""
+	displayedUserMessages: any = {};
+	messagesThereUID = [];
+	messagesUsers = [];
+
+
 	refreshMap() {
 		this.auth.getUser().then((u) => {
-			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
-				this.generateCommonMap();
+				// this.generateCommonMap();
 				this.nearbyUsers = nearbyUsers;
 				//this.filteredUsers = nearbyUsers; //copy of users for filtering ONLY
 				this.maintainFilter();
@@ -101,7 +114,7 @@ export class MapComponent implements OnInit {
 		})
 
 		this.db.getClasses(this.model.user.uid).then((classes) => {
-			this.broadInterests = classes;
+			this.broadClasses = classes;
 		}).catch((err) => {
 			console.log(err);
 		})
@@ -112,6 +125,8 @@ export class MapComponent implements OnInit {
 		if (this.viewBroadcasts) {
 			this.viewBroadcasts = false;
 		}
+		this.getMessages()
+
 	}
 
 	toggleNewBroadcast() {
@@ -139,12 +154,21 @@ export class MapComponent implements OnInit {
 		//console.log("UpdateBroadInterests")
 	}
 
-	refreshBroadcasts(){
+	refreshBroadcasts(selectedBroadcast){
 		this.db.getNearbyBroadcasts(this.model.user.uid.toString()).then((broadcasts) => {
-				this.broadcasts = broadcasts;
-				this.filteredBroadcasts = broadcasts;
-				console.log(broadcasts);
-			});
+			this.broadcasts = broadcasts;
+			this.filteredBroadcasts = broadcasts;
+			if(!!selectedBroadcast){
+				broadcasts.forEach((broad) => {
+					if(broad.broadcastID == selectedBroadcast.broadcastID){
+						this.selectedBroadcast = broad;
+						this.broadcastResponses = broad.responses;
+					}
+				});
+			}
+			
+			console.log(broadcasts);
+		});
 	}
 
 	model = {
@@ -199,28 +223,24 @@ export class MapComponent implements OnInit {
 	}
 
 	userVisible = false;
-	vis;
+	//vis;
 	viewUser(user: any = {}) {
 		this.userVisible = true;
 		this.displayedUser = user;
 		this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance / 5280) * 100) / 100;
 		if (isNaN(this.displayedUser.distanceInMiles))
 			this.displayedUser.distanceInMiles = 0;
-		this.vis = this.commonMap.get(user.uid);
-
-		this.displayedUser.commons = this.vis.FB + ": " + this.vis.facebookNum
-			+ "  " + this.vis.TW + ": " + this.vis.twitterNum
-			+ "  " + this.vis.BB + ": " + this.vis.blackboardNum
-			+ "  " + this.vis.YT + ": " + this.vis.youtubeNum;
-		console.log("is there anything here", this.vis.interestSub)
-		var keys = Object.keys(this.vis.interestSub);
-
-		keys.forEach((gg) => {
-			this.displayedUser.commons = this.displayedUser.commons
-				+ "  " + gg + ": " + this.vis.interestSub.get(gg);
-
-
-		});
+		var vis = this.commonMap.get(user.uid);
+		this.displayedUser.uid = user.uid;
+		this.displayedUser.commons = vis.FB + ": " + vis.facebookNum
+		+ "  " + vis.TW + ": " + vis.twitterNum
+		+ "  " + vis.BB + ": " + vis.blackboardNum
+		+ "  " + vis.YT + ": " + vis.youtubeNum;
+	
+		vis.interestSub.forEach((value: string, key: string) => {
+    		this.displayedUser.commons = this.displayedUser.commons
+    		+ "  " + key + ": " + value;
+    	});
 	}
 
 	closeUser() {
@@ -246,7 +266,6 @@ export class MapComponent implements OnInit {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				//console.log(data);
-
 			}).catch((err) => {
 				console.error(err);
 
@@ -269,8 +288,10 @@ export class MapComponent implements OnInit {
 		}
 	}
 
-	nearbyPin = ("../../assets/NearbyPin.png");
 	userPin = ("../../assets/UserPin.png");
+	tier3Pin = ("../../assets/Tier3.png")
+	tier2Pin = ("../../assets/Tier2.png")
+	tier1Pin = ("../../assets/Tier1.png");
 
 	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
 	visibility;
@@ -361,7 +382,6 @@ export class MapComponent implements OnInit {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				//console.log("from facebook filter ", data);
-
 				if (this.model.user.filterFacebook) {
 					this.filterUsersBasedOnFacebook(0);
 
@@ -379,7 +399,6 @@ export class MapComponent implements OnInit {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				//console.log(data);
-
 				if (this.model.user.filterTwitter) {
 					this.filterUsersBasedOnTwitter(0);
 				}
@@ -396,9 +415,9 @@ export class MapComponent implements OnInit {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				//console.log(data);
-
 				if (this.model.user.filterYoutube) {
 					this.filterUsersBasedOnYoutube(0);
+					
 				}
 				else {
 					this.maintainFilter();
@@ -415,7 +434,6 @@ export class MapComponent implements OnInit {
 		this.auth.getUser().then((user) => {
 			this.db.updateUser(this.model.user).then((data) => {
 				//console.log(data);
-
 				if (this.model.user.filterBlackBoard) {
 					this.filterUsersBasedOnBlackboard(0);
 				}
@@ -432,33 +450,33 @@ export class MapComponent implements OnInit {
 	}
 
 	maintainFilter() {
-		//this.generateCommonMap();
 		this.filteredUsers = this.nearbyUsers;
 		this.currentFilterArray = [];
+		var promises = [];
 		var count = 0;
 
 		if (this.model.user.filterFacebook) {
 			this.currentFilterArray.push("Facebook");
-			this.filterUsersBasedOnFacebook(0);
+			promises.push(this.filterUsersBasedOnFacebook(0));
 			count++;
 		}
 		if (this.model.user.filterTwitter) {
 			this.currentFilterArray.push("Twitter")
-			this.filterUsersBasedOnTwitter(0);
+			promises.push(this.filterUsersBasedOnTwitter(0));
 			count++;
 		}
 		if (this.model.user.filterYoutube) {
 			this.currentFilterArray.push("Youtube")
-			this.filterUsersBasedOnYoutube(0);
+			promises.push(this.filterUsersBasedOnYoutube(0));
 			count++;
 		}
 		if (this.model.user.filterBlackBoard) {
 			this.currentFilterArray.push("Blackboard")
-			this.filterUsersBasedOnBlackboard(0);
+			promises.push(this.filterUsersBasedOnBlackboard(0));
 			count++;
 		}
 
-		if (this.model.user.filteredInterests.length != 0) {
+		if (<number>this.model.user.filteredInterests.length != 0) {
 			for (var i = 0; i < this.model.user.filteredInterests.length; i++) {
 				if (this.model.user.filteredInterests[i] != "") {
 					this.currentFilterArray.push(this.model.user.filteredInterests[i]);
@@ -468,9 +486,13 @@ export class MapComponent implements OnInit {
 			}
 		}
 
-		if (count == 0) {
-			this.filteredUsers = this.nearbyUsers;
-		}
+		Promise.all(promises).then(() => {
+			if (count == 0) {
+				this.filteredUsers = this.nearbyUsers;
+			}
+			console.log("Filters Maintained: " + count)
+			this.generateCommonMap();
+		})
 	}
 
 	particlesConfig;
@@ -484,43 +506,36 @@ export class MapComponent implements OnInit {
 
 
 	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService) {
-
-
 		this.auth.isAuthed().then((user) => {
-			console.log("Authed:", user)
 			this.model.user.uid = user.uid;
 		});
 
 
 		this.auth.getUser().then((user) => {
-
-			//this.localStorage();
 			this.db.getUser(user.uid).then((userData) => {
 				this.model.user = userData;
-
 				this.visibility = localStorage.getItem("localVisibility");
 				this.model.moodStatus = localStorage.getItem("localMood");
-				//console.log(userData)
 			})
-			this.generateCommonMap();
-
+			this.db.getMessages(user.uid).then((messages) => {
+				if(messages){
+					Object.entries(messages)
+				}
+			}).catch((err) => {
+				console.error("Error getting messages", err);
+			})
 		});
-
 		this.auth.getUser().then((user) => {
 			if (localStorage.getItem("localVisibility") == null || localStorage.getItem("localMood") == null) { //only call Database if necessary
 				this.db.getUser(user.uid).then((userData) => {
-					console.log("localStorage Missing");
 					this.model.user = userData;
-					//console.log(userData)
 					this.visibility = this.model.user.visibility;
 					this.model.moodStatus = userData.moodStatus;
 					this.localStorage();
-					this.generateCommonMap();
 				})
 			}
-		});
+				});
 		loc.getLocation().then((l) => {
-			console.log("retrieved the correct location");
 			this.auth.getUser().then((u) => {
 				this.db.storeLocation(l, u.uid).then((d) => {
 					this.lat = l.latitude;
@@ -529,12 +544,7 @@ export class MapComponent implements OnInit {
 					this.loadLocationDependentData(l);
 				});
 			});
-
-			//console.log("reeeeeeeeeee")
-
 		});
-
-
 		setTimeout(() => {
 			if (!this.locationFound) {
 				db.getLocation(this.model.user.uid).then((l) => {
@@ -546,11 +556,6 @@ export class MapComponent implements OnInit {
 			}
 		}, 3000);
 
-		// this.generateCommonMap();
-		// this.auth.isAuthed().then((user) => {
-		//   console.log("Authed:",user)
-		//   this.model.user.uid = user.uid;
-		// });  
 	}
 
 	ngOnInit() {
@@ -559,17 +564,18 @@ export class MapComponent implements OnInit {
 	loadLocationDependentData(l) {
 		this.auth.getUser().then((u) => {
 
-			this.db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
-				//console.log("Followees: ", twitterFollowees);
-			});
+			// this.db.getTwitterFollowees(u.uid).then((twitterFollowees) => {
+			// 	//console.log("Followees: ", twitterFollowees);
+			// });
 			this.db.getNearbyBroadcasts(u.uid).then((broadcasts) => {
 				this.broadcasts = broadcasts;
 				this.filteredBroadcasts = broadcasts;
 				console.log(broadcasts);
 			});
-			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
+				console.log("Clusters",this.loc.getClusters(nearbyUsers, 500));
 				this.maintainFilter();
 			}).catch((err) => {
 				console.error(err);
@@ -580,73 +586,81 @@ export class MapComponent implements OnInit {
 	}
 
 	filterUsersBasedOnInterests(interest, num: number) {
-		var filterUsersArray = [];
-		var modelInterests = [];
-		var userInterests = [];
-		//console.log("this is the interet that was inputed", interest)
-		if (true) {
-			var p = new Promise((resolve, reject) => {
-				this.db.getInterests(this.model.user.uid).then((mi) => {
-					/*if(typeof mi !== 'undefined'){*/
-					if (Object.keys(mi).indexOf(interest) != -1) {
-
-						modelInterests = Object.values(mi[interest]);
-						// console.log("MI: " +modelInterests;
-					}
-				})
-				//console.log(modelInterests);
-				this.filteredUsers.forEach((user) => {
-					var match = false;
-					this.db.getInterests(user.uid).then((ui) => {
-						if (ui != null) {
-							//this.holder = this.commonMap.get(user.uid);
-
-							if (Object.keys(ui).indexOf(interest) != -1) {
-
-								userInterests = Object.values(ui[interest]);
-								// console.log("UI: " +userInterests);
-							}
+		return new Promise((mainResolve, mainReject) => {
+			var filterUsersArray = [];
+			var modelInterests = [];
+			var userInterests = [];
+			if (true) {
+				var p = new Promise((resolve, reject) => {
+					this.db.getInterests(this.model.user.uid).then((mi) => {
+						/*if(typeof mi !== 'undefined'){*/
+							if (Object.keys(mi).indexOf(interest) != -1) {
+	
+								modelInterests = Object.values(mi[interest]);
+							// console.log("MI: " +modelInterests;
 						}
-						else { //if null, empty out the list
-							userInterests = [];
-						}
-						this.interestCommon = 0;
-						for (var i = 0; i < modelInterests.length; i++) {
-							for (var j = 0; j < userInterests.length; j++) {
-								if (modelInterests[i] == userInterests[j]) {
-									match = true;
-									this.interestCommon = this.interestCommon + 1;
-									//console.log("they are the same" , userInterests[j])
-									//break;
+					})
+					//console.log(modelInterests);
+					if(this.filteredUsers.length != 0){
+						this.filteredUsers.forEach((user) => {
+							var match = false;
+							this.db.getInterests(user.uid).then((ui) => {
+								if (ui != null) {
+									//this.holder = this.commonMap.get(user.uid);
+									if (Object.keys(ui).indexOf(interest) != -1) {
+		
+										userInterests = Object.values(ui[interest]);
+										// console.log("UI: " +userInterests);
+									}
 								}
-							}
-						}
-
-						//console.log(interest, " ", this.interestCommon)
-						if (match) {
-							console.log("Got a match")
-							filterUsersArray.push(user);
-							(this.commonMap.get(user.uid)).interestSub.set(interest, this.interestCommon)
-						}
-						resolve(filterUsersArray);
-					}).catch((err) => {
-						console.log(err);
-						reject(err);
-					});
+								else { //if null, empty out the list
+									userInterests = [];
+								}
+								this.interestCommon = 0;
+								for (var i = 0; i < modelInterests.length; i++) {
+									for (var j = 0; j < userInterests.length; j++) {
+										if (modelInterests[i] == userInterests[j]) {
+											match = true;
+											this.interestCommon = this.interestCommon + 1;
+											//console.log("they are the same" , userInterests[j])
+											//break;
+										}
+									}
+								}
+		
+								//console.log(interest, " ", this.interestCommon)
+								if (match) {
+									// console.log("Got a match")
+									filterUsersArray.push(user);
+									(this.commonMap.get(user.uid)).interestSub.set(interest, this.interestCommon)
+								}
+								resolve(filterUsersArray);
+							}).catch((err) => {
+								console.log(err);
+								reject(err);
+							});
+						});
+					}
+					else{
+						console.log("Apparently filteredUsers is empty")
+						resolve(filterUsersArray); //if list is empty
+					}
+				}).then((users: any) => {
+					if (!num) {
+						this.filteredUsers = filterUsersArray;
+						console.log("Filtered Users:", filterUsersArray);
+						this.generateCommonMap();
+					}
+					else {
+						console.log("Interest Filtering Done")
+					}
+					mainResolve("Interests")
 				});
-			}).then((users: any) => {
-				if (!num) {
-					this.filteredUsers = filterUsersArray;
-					console.log("Filtered Users:", filterUsersArray);
-				}
-				else {
-
-				}
-			});
-		}
+			}
+		});
 	}
 
-	filterUsersBasedOnFacebook(num: number) {
+	filterUsersBasedOnFacebook(num: number){
 		return new Promise((mainResolve, mainReject) => {
 			var filterUsersArray = [];
 			if (true /*check facebook thing*/) {
@@ -659,51 +673,63 @@ export class MapComponent implements OnInit {
 
 					});
 					var p = new Promise((resolve, reject) => {
-						this.filteredUsers.forEach((user) => {
-							//reset all commonality values
-							this.facebookCommon = 0;
-							(this.commonMap.get(user.uid)).FB = "Facebook";
-							(this.commonMap.get(user.uid)).facebookNum = 0;
-
-							this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
-								var match = false;
-
-								nearbyFriend.forEach((friend) => {
-									if (friendMap.get(friend)) {
-										match = true;
-										this.facebookCommon = this.facebookCommon + 1;
-
-										(this.commonMap.get(user.uid)).facebook = true;
-										(this.commonMap.get(user.uid)).FB = "Facebook";
-									}
-								});
-
-								if (match) {
-									(this.commonMap.get(user.uid)).facebookNum = this.facebookCommon;
-									filterUsersArray.push(user);
+						if(this.filteredUsers.length != 0){
+							this.filteredUsers.forEach((user) => {
+								//reset all commonality values
+								this.facebookCommon = 0;
+								if(num){
+									(this.commonMap.get(user.uid)).FB = "Facebook";
+									(this.commonMap.get(user.uid)).facebookNum = 0;
 								}
-								resolve(filterUsersArray);
-
-							}).catch((err) => {
-								console.log(err);
-								reject(err);
+	
+								this.db.getFacebookFriends(user.uid).then((nearbyFriend) => {
+									var match = false;
+	
+									nearbyFriend.forEach((friend) => {
+										if (friendMap.get(friend)) {
+											match = true;
+											this.facebookCommon = this.facebookCommon + 1;
+											
+											if(num){
+												(this.commonMap.get(user.uid)).facebook = true;
+												(this.commonMap.get(user.uid)).FB = "Facebook";
+											}
+										}
+									});
+	
+									if (match) {
+										filterUsersArray.push(user);
+	
+										if(num){
+											(this.commonMap.get(user.uid)).facebookNum = this.facebookCommon;
+										}
+									}
+									resolve(filterUsersArray);
+	
+								}).catch((err) => {
+									console.log(err);
+									reject(err);
+								});
 							});
-							//this.holder.facebookNum = 0;
-							//this.holder.facebookNum = (this.facebookCommon /2);
-						});
+						}
+						else{
+							console.log("Apparently filteredUsers is empty")
+							resolve(filterUsersArray); //if list is empty
+						}
 					}).then((users: any) => {
 						if (!num) {
 							this.filteredUsers = filterUsersArray;
 							console.log("Filtered Users Facebook:", filterUsersArray);
+							this.generateCommonMap();
 						}
 						else {
-							//console.log("Facebook Filtering Done")
-
+							console.log("Facebook Filtering Done")
 						}
 						mainResolve("Facebook")
 					});
 				}).catch((err) => {
 					console.error(err);
+					mainResolve("Facebook")
 				});
 			}
 		});
@@ -720,44 +746,52 @@ export class MapComponent implements OnInit {
 						followeeMap.set(followee, 1);
 					});
 					var p = new Promise((resolve, reject) => {
-						this.filteredUsers.forEach((user) => {
-							this.twitterCommon = 0;
-							(this.commonMap.get(user.uid)).TW = "Twitter";
-
-							this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
-								var match = false;
-
-								nearbyFollowee.forEach((followee) => {
-									if (followeeMap.get(followee)) {
-										match = true;
-										this.twitterCommon = this.twitterCommon + 1;
-										(this.commonMap.get(user.uid)).twitter = true;
-										(this.commonMap.get(user.uid)).TW = "Twitter";
+						if(this.filteredUsers.length != 0){
+							this.filteredUsers.forEach((user) => {
+								this.twitterCommon = 0;
+								(this.commonMap.get(user.uid)).TW = "Twitter";
+	
+								this.db.getTwitterFollowees(user.uid).then((nearbyFollowee) => {
+									var match = false;
+	
+									nearbyFollowee.forEach((followee) => {
+										if (followeeMap.get(followee)) {
+											match = true;
+											this.twitterCommon = this.twitterCommon + 1;
+											(this.commonMap.get(user.uid)).twitter = true;
+											(this.commonMap.get(user.uid)).TW = "Twitter";
+										}
+									});
+									(this.commonMap.get(user.uid)).twitterNum = this.twitterCommon;
+	
+									if (match) {
+										filterUsersArray.push(user);
 									}
+									resolve(filterUsersArray);
+								}).catch((err) => {
+									console.log(err);
+									reject(err);
 								});
-								(this.commonMap.get(user.uid)).twitterNum = this.twitterCommon;
-
-								if (match) {
-									filterUsersArray.push(user);
-								}
-								resolve(filterUsersArray);
-							}).catch((err) => {
-								console.log(err);
-								reject(err);
 							});
-						});
+						}
+						else{
+							console.log("Apparently filteredUsers is empty")
+							resolve(filterUsersArray); //if list is empty
+						}
 					}).then((users: any) => {
 						if (!num) {
 							this.filteredUsers = filterUsersArray;
 							console.log("Filtered Users:", filterUsersArray);
+							this.generateCommonMap();
 						}
 						else {
-
+							console.log("Twitter Filtering Done")
 						}
 						mainResolve("Twitter")
 					});
 				}).catch((err) => {
 					console.error(err);
+					mainResolve("Twitter")
 				});
 			}
 		})
@@ -776,44 +810,60 @@ export class MapComponent implements OnInit {
 
 					var p = new Promise((resolve, reject) => {
 						console.log("In Youtube Promise")
-						this.filteredUsers.forEach((user) => {
-							this.youtubeCommon = 0;
-							this.holder = this.commonMap.get(user.uid);
-							(this.commonMap.get(user.uid)).YT = "Youtube";
-
-							this.db.getYoutubeSubscribers(user.uid).then((nearbySubscriber) => {
-								var match = false;
-								console.log("Current User Info: " + nearbySubscriber)
-								if (nearbySubscriber != null) {
-									Object.keys(nearbySubscriber).forEach((subscriber) => {
-
-										//console.log(subscriber)
-										//console.log(subscriberMap);
-										if (subscriberMap.get(subscriber)) {
-											match = true;
-											//console.log("hellllllllllooooooooooo")
-											this.youtubeCommon = this.youtubeCommon + 1;
-											(this.commonMap.get(user.uid)).youtube = true;
-											(this.commonMap.get(user.uid)).YT = "Youtube";
-										}
-									});
+						if(this.filteredUsers.length != 0){
+							this.filteredUsers.forEach((user) => {
+								this.youtubeCommon = 0;
+								// this.holder = this.commonMap.get(user.uid);
+								if(num){
+									(this.commonMap.get(user.uid)).YT = "Youtube";
 								}
-
-								(this.commonMap.get(user.uid)).youtubeNum = this.youtubeCommon;
-
-								if (match) {
-									filterUsersArray.push(user);
-								}
-								resolve(filterUsersArray);
-							}).catch((err) => {
-								console.log(err);
-								reject(err);
+								
+	
+								this.db.getYoutubeSubscribers(user.uid).then((nearbySubscriber) => {
+									var match = false;
+									// console.log("Current User Info: " + nearbySubscriber)
+									if (nearbySubscriber != null) {
+										Object.keys(nearbySubscriber).forEach((subscriber) => {
+	
+											//console.log(subscriber)
+											//console.log(subscriberMap);
+											if (subscriberMap.get(subscriber)) {
+												match = true;
+												//console.log("hellllllllllooooooooooo")
+												this.youtubeCommon = this.youtubeCommon + 1;
+												if(num){
+													(this.commonMap.get(user.uid)).youtube = true;
+													(this.commonMap.get(user.uid)).YT = "Youtube";
+												}
+												
+											}
+										});
+									}
+									if(num){
+										(this.commonMap.get(user.uid)).youtubeNum = this.youtubeCommon;
+										this.youtubeCommon = 0;
+									}
+	
+									if (match) {
+										filterUsersArray.push(user);
+									}
+									resolve(filterUsersArray);
+								}).catch((err) => {
+									console.log(err);
+									//reject(err);
+									resolve(filterUsersArray);
+								});
 							});
-						});
+						}
+						else{
+							console.log("Apparently filteredUsers is empty")
+							resolve(filterUsersArray); //if list is empty
+						}
 					}).then((users: any) => {
 						if (!num) {
 							this.filteredUsers = filterUsersArray;
 							console.log("Filtered Users:", filterUsersArray);
+							this.generateCommonMap();
 						}
 						else {
 							console.log("Youtube Filtering Done")
@@ -825,13 +875,13 @@ export class MapComponent implements OnInit {
 					});
 				}).catch((err) => {
 					console.error(err);
+					mainResolve("Youtube")
 				});
 			}
 		});
 	}
 
 	filterUsersBasedOnBlackboard(num: number) {
-
 		return new Promise((mainResolve, mainReject) => {
 			//console.log("Blackboard");
 			var filterUsersArray = [];
@@ -843,42 +893,57 @@ export class MapComponent implements OnInit {
 				});
 
 				var p = new Promise((resolve, reject) => {
-					this.filteredUsers.forEach((user) => {
-						this.blackboardCommon = 0;
-						(this.commonMap.get(user.uid)).blackboardNum = 0;
-
-						this.db.getClasses(user.uid).then((nearbyUser) => {
-							var match = false;
-
-
-							if (nearbyUser != null) {
-								nearbyUser.forEach((singleClass) => {
-									if (classesMap.get(singleClass)) {
-										match = true;
-										this.blackboardCommon = this.blackboardCommon + 1;
-										(this.commonMap.get(user.uid)).blackboard = true;
-										(this.commonMap.get(user.uid)).BB = "Blackboard";
+					if(this.filteredUsers.length != 0){
+						this.filteredUsers.forEach((user) => {
+							this.blackboardCommon = 0;
+							if(num){
+								(this.commonMap.get(user.uid)).blackboardNum = 0;
+							}
+							
+	
+							this.db.getClasses(user.uid).then((nearbyUser) => {
+								var match = false;
+	
+	
+								if (nearbyUser != null) {
+									nearbyUser.forEach((singleClass) => {
+										if (classesMap.get(singleClass)) {
+											match = true;
+	
+											if(num){
+												this.blackboardCommon = this.blackboardCommon + 1;
+												(this.commonMap.get(user.uid)).blackboard = true;
+												(this.commonMap.get(user.uid)).BB = "Blackboard";
+											}
+										}
+									});
+	
+								}
+								if (match) {
+									filterUsersArray.push(user);
+									if(num){
+										(this.commonMap.get(user.uid)).blackboardNum = this.blackboardCommon;
 									}
-								});
-
-							}
-							if (match) {
-								(this.commonMap.get(user.uid)).blackboardNum = this.blackboardCommon;
-								filterUsersArray.push(user);
-							}
-							resolve(filterUsersArray);
-						}).catch((err) => {
-							console.log(err);
-							reject(err);
+								}
+								resolve(filterUsersArray);
+							}).catch((err) => {
+								console.log(err);
+								reject(err);
+							});
 						});
-					});
+					}
+					else{
+						console.log("Apparently filteredUsers is empty")
+						resolve(filterUsersArray); //if list is empty
+					}
 				}).then((users: any) => {
 					if (!num) {
 						this.filteredUsers = filterUsersArray;
 						console.log("Filtered Users:", filterUsersArray);
+						this.generateCommonMap();
 					}
 					else {
-						//console.log("Blackboard Filtering Done")
+						console.log("Blackboard Filtering Done")
 					}
 					mainResolve("Blackboard")
 				}).catch((err) => {
@@ -886,6 +951,7 @@ export class MapComponent implements OnInit {
 				});
 			}).catch((err) => {
 				console.log(err);
+				mainResolve("Blackboard")
 
 			})
 		});
@@ -900,7 +966,10 @@ export class MapComponent implements OnInit {
 		console.log("Hours:", (new Date))
 		console.log(this.specificInterest);
 		this.db.storeBroadcast(this.model.user.uid, location, this.broadcastText, (new Date).getTime(), this.specificInterest).then((data) => {
+			this.broadcastText = "";
 			console.log("broadcast sent");
+			this.refreshBroadcasts(this.selectedBroadcast);
+			this.sendBroadcastS = "Broadcast successfully sent!";
 		}).catch((err) => {
 			console.error(err);
 		})
@@ -918,7 +987,19 @@ export class MapComponent implements OnInit {
 	respondToBroadcast() {
 		console.log("Here");
 		if (this.selectedBroadcast) {
-			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getTime());
+			this.db.respondToBroadcast(this.model.user.uid, this.selectedBroadcast.broadcastID, this.responseText, (new Date).getTime()).then(() => {
+				this.responseText = "";
+				var p = new Promise((good, bad) => {
+					this.refreshBroadcasts(this.selectedBroadcast);
+					good();	
+					
+			this.sendBroadcastS = "Broadcast successfully sent!";
+				}).then(() => {
+
+				})
+				
+				
+			});
 		}
 	}
 
@@ -936,11 +1017,14 @@ export class MapComponent implements OnInit {
 		})
 
 	}
+	clearBroadcastFilter() {
+		this.filteredBroadcasts = this.broadcasts;
+	}
 
 	generateCommonMap() {
 		console.log("i got called");
 		this.auth.getUser().then((u) => {
-			this.db.getNearbyUsers(u.uid).then((nearbyUsers) => {
+			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				//console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
 				this.CommonUsersList = this.nearbyUsers;
@@ -976,6 +1060,7 @@ export class MapComponent implements OnInit {
 		})
 		//this.getCommon();		
 	}
+	
 	getCommon() {
 		console.log("getCommon Called")
 		this.facebookCommon = 0;
@@ -984,73 +1069,171 @@ export class MapComponent implements OnInit {
 		this.youtubeCommon = 0;
 
 		var promises = [];
-		promises.push(this.filterUsersBasedOnFacebook(1));
-		promises.push(this.filterUsersBasedOnTwitter(1));
-		// promises.push(this.filterUsersBasedOnYoutube(1));
-		promises.push(this.filterUsersBasedOnBlackboard(1));
-
-		//console.log();
-
+		var interestPromises = [];
 		this.db.getInterests(this.model.user.uid).then((interests) => {
-			this.interestObject = interests;
-			this.interestKeys = Object.keys(this.interestObject);
-			//console.log(this.interestKeys)
-			this.interestKeys.forEach((gg) => {
-				promises.push(this.filterUsersBasedOnInterests(gg, 1));
-			});
-
+			if(interests != null){
+				this.interestObject = interests;
+				this.interestKeys = Object.keys(this.interestObject);
+				//console.log(this.interestKeys)
+				this.interestKeys.forEach((gg) => {
+					// promises.push(this.filterUsersBasedOnInterests(gg, 1));
+					interestPromises.push(this.filterUsersBasedOnInterests(gg, 1));
+				});
+				promises.push(interestPromises);
+			}
 		}).catch((err) => {
 			console.log(err);
 		})
 
+		promises.push(this.filterUsersBasedOnYoutube(1));
+		promises.push(this.filterUsersBasedOnBlackboard(1));
+		promises.push(this.filterUsersBasedOnFacebook(1));
+		promises.push(this.filterUsersBasedOnTwitter(1));
 
-
+		//console.log();
 
 
 
 		Promise.all(promises).then(() => {
-			console.log("common", this.commonMap.get("ZVmOhUAURNOD8t4zqunUdUtjc4B3"));
-			console.log("Promises: " + promises)
+			console.log("common", this.commonMap);
+			
+			console.dir(this.commonMap)
 			this.generateTiers();
 		})
 	}
 
 	generateTiers(){
+		this.tier1 = [];
+		this.tier2 = [];
+		this.tier3 = [];
 		console.log("generateTiers Called")
-		var allTotals = [];
+		var allTotals = {};
+		var allUsers = {};
 		var tempTotal = 0;
+		var minValue;
+		var minUid = "";
+		var maxValue;
+		var maxUid = "";
 
-		this.commonMap.forEach((user) => {
+		this.filteredUsers.forEach((userF) => {
+			var user = this.commonMap.get(userF.uid);
 			tempTotal = 0;
-			//console.log(user);
+			// console.log(user);
 
-			var flag = true;
-			do {
-				tempTotal += (user.facebookNum * 0.1);
-				// console.log("User got in facebook " + tempTotal)
+			tempTotal += (user.facebookNum * 0.1);
+			// console.log("User got in facebook " + tempTotal)
+			tempTotal += (user.twitterNum * 0.1);
+			// console.log("User got in twitter " + tempTotal)
+			tempTotal += (user.youtubeNum * 0.1);
+			// console.log("User got in youtube " + tempTotal)
+			tempTotal += user.blackboardNum;
+			// console.log("User got in blackboard " + tempTotal)
+			var intCatNum = user.interestSub.size;
+			var intSubNum = 0;
+			user.interestSub.forEach((interest) => {
+				intSubNum += interest;
+			});
+			tempTotal += (intCatNum + intSubNum);
 
-				tempTotal += (user.twitterNum * 0.1);
-				// console.log("User got in twitter " + tempTotal)
-
-				tempTotal += (user.youtubeNum * 0.1);
-				// console.log("User got in youtube " + tempTotal)
-
-				tempTotal += user.blackboardNum;
-				// console.log("User got in blackboard " + tempTotal)
-
-				var intCatNum = user.interestSub.size;
-				var intSubNum = 0;
-				user.interestSub.forEach((interest) => {
-					intSubNum += interest.value;
-				});
-				tempTotal += (intCatNum + intSubNum);
-
-				allTotals.push(tempTotal);
-				flag = false;
-			} while (flag)
+			// allTotals.push(tempTotal);
+			if(minValue == null || tempTotal < minValue){
+				minValue = tempTotal;
+				minUid = userF.uid;
+			}
+			else if(maxValue == null || tempTotal > maxValue){
+				maxValue = tempTotal;
+				maxUid = userF.uid;
+			}
+			// allTotals.set(userF.uid, tempTotal);
+			allTotals[userF.uid] = tempTotal;
+			allUsers[userF.uid] = userF;
 
 		});
-		console.log(allTotals);
+		var cutoff = ((maxValue - minValue) / 3).toFixed(1);
+		var cutoff2 = (((maxValue - minValue) / 3) * 2).toFixed(1);
+		// console.log("Cutoffs: " + cutoff + " " + cutoff2);
+		// console.log(allTotals);
+		var tempTier1 = [];
+		var tempTier2 = [];
+		var tempTier3 = [];
+		Object.keys(allTotals).forEach((total) =>{
+			if(allTotals[total] <= cutoff){
+				this.tier3.push(allUsers[total])
+			}
+			else if(allTotals[total]  <= cutoff2){
+				this.tier2.push(allUsers[total])
+			}
+			else{
+				this.tier1.push(allUsers[total])
+			}
+		})
+		// console.log(allTotals);
+		// console.log("TIER 3: " + this.tier3);
+		// console.log("TIER 2: " + this.tier2);
+		// console.log("TIER 1: " + this.tier1);
 	}
+
+
+	initMessageThread(Otheruid:string){
+		this.getMessages();
+			this.db.initMessageThread(this.model.user.uid, Otheruid).then((success) => {
+				console.log("why")
+			}).catch((err) => {
+				console.log(err);
+			})
+		
+
+	}
+	storeMessage(to:string, from:string, message:string){
+		from = "ZVmOhUAURNOD8t4zqunUdUtjc4B3"
+		to = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
+		this.db.storeMessage(to, from, message).then((success) => {				
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
+	getMessageThread(uid:string, thread:string){
+		uid = "ZVmOhUAURNOD8t4zqunUdUtjc4B3"
+		thread = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
+		this.db.getMessageThread(uid, thread).then((messages) => {
+			console.log("got messages successfully")	
+			console.log(messages)			
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+	getMessages(){
+		this.db.getMessages(this.model.user.uid).then((messages) => {
+			var here = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
+			console.log(messages)	
+			this.messagesThereUID = Object.keys(messages);
+
+			this.messagesThereUID.forEach((mes) => {
+						console.log(mes)
+						var i = 0;
+				this.db.getUser(mes).then((u) => {
+						this.messagesUsers[i] = u;	
+						i = i+1;
+				})
+
+				});		
+		
+		}).catch((err) => {
+			console.log(err);
+		})
+
+	}
+
+	viewUserMessages(user: any = {}) {
+		this.displayedUserMessages = user;
+		this.displayedUserMessages.uid = user.uid;
+		this.displayedUserMessages.fullName = user.fullName;
+		this.displayedUserMessages.moodStatus = user.moodStatus;
+    
+	}
+
+
+
 
 }

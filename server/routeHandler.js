@@ -185,6 +185,7 @@ module.exports = {
 			return;
 		}
 		var uid = urlData[1];
+		var miles = urlData[2];
 		firebase.database().ref("locations/"+uid).once("value").then((baseLocation) => {
 			if(baseLocation.val() == null){
 				res.statusCode = 400;
@@ -207,7 +208,7 @@ module.exports = {
 							lon: loc.val().lon
 						};
 						var d = distanceCalc.getDistance(c1,c2);
-						if(d <= 15840 && loc.val().uid != uid){//3 miles
+						if(d <= (5280 * miles) && loc.val().uid != uid){
 							nearbyUids.push({
 								uid: loc.val().uid,
 								distance: d,
@@ -1014,24 +1015,29 @@ module.exports = {
 			var v = firebase.database().ref("broadcasts/").push(data);
 			v.then((data) => {
 				firebase.database().ref("broadcasts/" + v.key + "/broadcastID").set(v.key).then((data) => {
+					console.log("All good in da hood");
 					res.statusCode = 200;
-					responseBody.payload = data;
+					responseBody.payload = "OK";
 					res.write(JSON.stringify(responseBody));
 					res.end();	
+					return;
 				}).catch((err) => {
 					console.error(err);
 					responseBody.err = err;
 					res.statusCode = 400;
 					res.write(JSON.stringify(responseBody));
 					res.end();
+					return;
 				})
 				
 			}).catch((err) => {
+				console.log("Not too weird");
 				console.error(err);
 				responseBody.err = err;
 				res.statusCode = 400;
 				res.write(JSON.stringify(responseBody));
 				res.end();
+				return;
 			})
 		});
 			/*firebase.database().ref("broadcasts/").push(data).then(() => {
@@ -1225,13 +1231,128 @@ module.exports = {
 				res.write(JSON.stringify(responseBody));
 				res.end();
 			}).catch((err) => {
-				console.log("Error?", err);
 				responseBody.err = err;
 				res.statusCode = 400;
 				res.write(JSON.stringify(responseBody));
 				res.end();
 			})
 		}, time*60*60*1000)
-		console.log("Scheduled visibility for", uid, ",",time, "hours from now");
+	},
+	storeMessage: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var body = "";
+		req.on('data', function(data){
+			body += data;
+			if(body.length > 1e6){ 
+				req.connection.destroy();
+			}
+		});
+		req.on('end', function() {
+			var data = JSON.parse(body);
+			if(!data || !data.to || !data.from || !data.message){
+				res.statusCode = 400;
+				responseBody.err = "No UID or Time provided";
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
+			firebase.database().ref("messages/"+data.from+"/"+data.to).push({fromMe: true, message: data.message}).then(() => {
+				firebase.database().ref("messages/"+data.to+"/"+data.from).push({fromMe: false, message: data.message}).then(() => {
+					responseBody.payload = "success";
+					res.statusCode = 200;
+					res.write(JSON.stringify(responseBody));
+					res.end();
+				}).catch((err) => {
+					responseBody.err = err;
+					res.statusCode = 400;
+					res.write(JSON.stringify(responseBody));
+					res.end();
+				})
+			}).catch((err) => {
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
+		});
+	},
+	getMessages: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		var thread = urlData[2];
+		if(!uid){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("messages/"+uid+"/").once("value").then((s) => {
+			responseBody.payload = s.val();
+			res.statusCode = 200;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
+	},
+	getMessageThread: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		var thread = urlData[2];
+		if(!uid || !thread){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("messages/"+uid+"/"+thread).once("value").then((s) => {
+			responseBody.payload = Object.values(s.val());
+			res.statusCode = 200;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
+	},
+	initMessageThread: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		var thread = urlData[2];
+		console.log("one")
+		if(!uid || !thread){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			console.log("two")
+			return;
+		}
+		console.log("it reached here")
+		firebase.database().ref("messages/"+uid+"/"+thread).set(" ").then((s) => {
+			firebase.database().ref("messages/"+thread+"/"+uid).set(" ").then((s) => {
+				responseBody.payload = Object.values(s.val());
+				res.statusCode = 200;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			}).catch((err) => {
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
 	}
 }

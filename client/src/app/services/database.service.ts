@@ -80,9 +80,9 @@ export class DatabaseService {
 			})
 		});
 	}
-	getNearbyUsers(uid: string): Promise<any>{
+	getNearbyUsers(uid: string, miles): Promise<any>{
 		return new Promise((resolve, reject) => {
-			this.http.get(this.dbUrl+ "getNearbyUsers/"+uid, this.httpOptions).subscribe((data) => {
+			this.http.get(this.dbUrl+ "getNearbyUsers/"+uid + "/" + miles, this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
@@ -387,14 +387,17 @@ export class DatabaseService {
 				broadcastObject.uid = uid;
 				broadcastObject.broadcast = broadcast;
 			}else{
+				console.log("this won't print");
 				reject("Invalid broadcast object");
 			}
 			console.log(broadcastObject);
 			this.http.post(this.dbUrl+ "storeBroadcast", JSON.stringify(broadcastObject), this.httpOptions).subscribe((data) => {
 				if(data["payload"])
 					resolve(data["payload"]);
-				else
+				else{
+					console.log("heres the issue");
 					reject(data["err"]);
+				}
 			});
 		});
 	}
@@ -437,6 +440,49 @@ export class DatabaseService {
 	scheduleVisibility(uid, time): Promise<any>{
 		return new Promise((resolve, reject) => {
 			this.http.get(this.dbUrl+ "scheduleVisibility/"+uid+"/"+time, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		})
+	}
+	storeMessage(to, from, message): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.post(this.dbUrl+ "storeMessage", JSON.stringify({to: to, from: from, message: message}), this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
+	getMessages(uid): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get(this.dbUrl+ "getMessages/"+uid, this.httpOptions).subscribe((data) => {
+				if(data["payload"] || !data["err"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		})
+	}
+	getMessageThread(uid, thread): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get(this.dbUrl+ "getMessageThread/"+uid+"/"+thread, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		})
+	}
+	initMessageThread(uid, thread): Promise<any>{
+		
+		return new Promise((resolve, reject) => {
+			this.http.get(this.dbUrl+ "initMessageThread/"+uid+"/"+thread, this.httpOptions).subscribe((data) => {
+							console.log("reached here first")
+
 				if(data["payload"])
 					resolve(data["payload"]);
 				else

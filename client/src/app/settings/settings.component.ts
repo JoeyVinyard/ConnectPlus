@@ -97,6 +97,22 @@ export class SettingsComponent implements OnInit {
 		else if (this.model.interestSub == "Music") {
 			this.cIntArray = this.musicGenre;
 		}
+		else if (this.model.interestSub == "Dance") {
+			this.cIntArray = this.dance;
+		}
+		else if (this.model.interestSub == "Foods") {
+			this.cIntArray = this.foods;
+		}
+		else if (this.model.interestSub == "Languages") {
+			this.cIntArray = this.languages;
+		}
+		else if (this.model.interestSub == "FavArtists") {
+			this.cIntArray = this.favArtists;
+		}
+		else if (this.model.interestSub == "Majors") {
+			this.cIntArray = this.majors;
+		}
+
 
 	}
 
@@ -107,6 +123,17 @@ export class SettingsComponent implements OnInit {
 	tvShows: string[] = this.interestObj.tvShows;
 	sports: string[] = this.interestObj.sports;
 	musicGenre: string[] = this.interestObj.musicGenre;
+dance: string[] = this.interestObj.dance;
+foods: string[] = this.interestObj.foods;
+languages: string[] = this.interestObj.languages;
+favArtists: string[] = this.interestObj.favArtists;
+majors: string[] = this.interestObj.majors;
+
+
+
+
+
+
 	allMap;
 	interestList;
 	arrayOfInterestKeys: string[];
@@ -457,11 +484,11 @@ export class SettingsComponent implements OnInit {
 	}
 	link_youtube() {
 		window.location.href =
-			"https://accounts.google.com/o/oauth2/v2/auth" +
-			"?client_id=374666659146-c9n74gdloum89050ckabsfssh0oe4qkl.apps.googleusercontent.com" +
-			"&redirect_uri=http://localhost:4200/settings" +
-			"&response_type=token" +
-			"&scope=https://www.googleapis.com/auth/youtube.readonly"
+		"https://accounts.google.com/o/oauth2/v2/auth" +
+		"?client_id=374666659146-c9n74gdloum89050ckabsfssh0oe4qkl.apps.googleusercontent.com" +
+		"&redirect_uri=http://localhost:4200/settings" +
+		"&response_type=token" +
+		"&scope=https://www.googleapis.com/auth/youtube.readonly"
 	}
 	unlink_youtube() {
 		this.auth.getUser().then((u) => {
@@ -522,36 +549,36 @@ export class SettingsComponent implements OnInit {
 	}
 	logout_facebook() {
 		this.fb.getLoginStatus()
-			.then(res => {
-				if (res && res.status === 'connected') {
-					console.log("Logging out")
-					this.fb.logout()
-						.then(res => { console.log(res) })
-						.catch(this.handleError);
-					this.inFacebook = false;
-				}
-			}).catch(this.handleError);
+		.then(res => {
+			if (res && res.status === 'connected') {
+				console.log("Logging out")
+				this.fb.logout()
+				.then(res => { console.log(res) })
+				.catch(this.handleError);
+				this.inFacebook = false;
+			}
+		}).catch(this.handleError);
 		this.getLoginStatus();
 	}
 	returnLoginStatus(): boolean {
 		this.fb.getLoginStatus()
-			.then(res => {
-				if (res && res.status === 'connected') {
-					this.inFacebook = true;
-					console.log(true);
-					return true;
-				} else {
-					this.inFacebook = false;
-					console.log(false);
-					return false;
-				}
-			})
+		.then(res => {
+			if (res && res.status === 'connected') {
+				this.inFacebook = true;
+				console.log(true);
+				return true;
+			} else {
+				this.inFacebook = false;
+				console.log(false);
+				return false;
+			}
+		})
 		return false;
 	}
 	getLoginStatus() {
 		this.fb.getLoginStatus()
-			.then(console.log.bind(console))
-			.catch(console.error.bind(console));
+		.then(console.log.bind(console))
+		.catch(console.error.bind(console));
 	}
 	showClassList(subject: String) {
 		this.inSubject = true;
@@ -635,11 +662,15 @@ export class SettingsComponent implements OnInit {
 
 	verifyInterest(sub: string, inter: string) {
 		var verify = new Map();
+		console.log("this is what we got ", sub);
+		console.log("looking in here ", this.allMap)
 		this.allMap.get(sub).forEach((interests) => {
 			verify.set(interests, 1);
 			// console.log(interests)
 
 		});
+		//console.log("can find?", this.getArrayInter12(sub))
+		console.log("looking through here ", verify)
 		if (verify.get(inter)) {
 
 			var ver1 = new Map();
@@ -667,6 +698,7 @@ export class SettingsComponent implements OnInit {
 	addInterest(sub: string, inter: string) {
 		console.log(sub + " " + inter);
 		this.model.interestSelected = "";
+
 		if (this.verifyInterest(sub, inter)) {
 			this.db.addInterest(this.model.user.uid, sub, inter).then((success) => {
 				this.model.interestSelected = ""
@@ -710,9 +742,23 @@ export class SettingsComponent implements OnInit {
 			console.log(err);
 		})
 	}
-	getArrayInter(sub: string): string[] {
+	// getArrayInter(sub: string): string[] {
+	// 	//console.log("it got here fine")
+	// 	this.interestSubArray = Object.values(this.interestList[sub]);
+	// 	//console.log("what cause problems: ", this.interestSubArray)
+	// 	return this.interestSubArray;
 
+
+	// }
+	getArrayInter(sub: string): string[] {
+		//console.log("it got here fine ", sub)
+		//console.log("it got here fine 2 ", this.interestList);
+		if(!this.interestList)
+			this.interestSubArray = [];
+		else if(this.interestList[sub])
 		this.interestSubArray = Object.values(this.interestList[sub]);
+		else
+			this.interestSubArray = [];
 		return this.interestSubArray;
 
 
@@ -787,6 +833,14 @@ export class SettingsComponent implements OnInit {
 		this.allMap.set("Tv", this.interestObj.tvShows)
 		this.allMap.set("Sports", this.interestObj.sports)
 		this.allMap.set("Music", this.interestObj.musicGenre)
+		this.allMap.set("FavArtists", this.interestObj.favArtists)
+		this.allMap.set("Dance", this.interestObj.dance)
+		this.allMap.set("Foods", this.interestObj.foods)
+		this.allMap.set("Languages", this.interestObj.languages)
+		this.allMap.set("Majors", this.interestObj.majors)
+
+
+
 
 
 

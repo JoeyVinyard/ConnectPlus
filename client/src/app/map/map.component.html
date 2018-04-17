@@ -9,8 +9,9 @@
 				<agm-map [latitude]="lat" [longitude]="lng" [zoomControl]="false" [mapTypeControl]="false" [scaleControl]="false" [streetViewControl]="false"
 				 [rotateControl]="false" [fullscreenControl]="false" [mapDraggable]="true" [scrollwheel]="false" [zoom]="zoom" [clickableIcons]="false">
 					<agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="userPin" (markerClick)="viewUser(model.user)"></agm-marker>
-					<agm-marker *ngFor="let user of filteredUsers" (markerClick)="viewUser(user)" [iconUrl]="nearbyPin" [latitude]="user.lat"
-					 [longitude]="user.lon"></agm-marker>
+					<agm-marker *ngFor="let user of tier1" (markerClick)="viewUser(user)" [iconUrl]="tier1Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
+					<agm-marker *ngFor="let user of tier2" (markerClick)="viewUser(user)" [iconUrl]="tier2Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
+					<agm-marker *ngFor="let user of tier3" (markerClick)="viewUser(user)" [iconUrl]="tier3Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 				</agm-map>
 			</div>
 
@@ -40,7 +41,7 @@
 							<p id="SelectedLowerText">{{displayedUser.commons}}</p>
 						</div>
 						<div class="medium-6 column">
-							<button class="button selectedButton">
+							<button class="button selectedButton" (click)="initMessageThread(displayedUser.uid)">
 								<i class="fa fa-pencil"></i> Message</button>
 						</div>
 						<div class="medium-6 column">
@@ -67,10 +68,14 @@
 						</select>
 					</div>
 					<div class="medium-2 column">
-						<button class="button addFilterButton" (click)="addFilter()"><i class="fa fa-plus"></i></button>
+						<button class="button addFilterButton" (click)="addFilter()">
+							<i class="fa fa-plus"></i>
+						</button>
 					</div>
 					<div class="medium-12 column" id="currentFilters">
-						<p id="currentFilterText" *ngFor="let filter of currentFilterArray">{{filter}}	<i class="fa fa-times" id="deleteFilter" (click)="removeFilter(filter)"></i></p>
+						<p id="currentFilterText" *ngFor="let filter of currentFilterArray">{{filter}}
+							<i class="fa fa-times" id="deleteFilter" (click)="removeFilter(filter)"></i>
+						</p>
 					</div>
 
 					<div class="medium-6 column">
@@ -180,12 +185,12 @@
 							<i class="fa fa-filter"></i> Filter</button>
 						<button class="button bHeaderButton" (click)="toggleNewBroadcast()">
 							<i class="fa fa-plus"></i> Add New</button>
-							<i class="fa fa-refresh" id="refreshBroadcasts" (click)="refreshBroadcasts()"></i>
+						<i class="fa fa-refresh" id="refreshBroadcasts" (click)="refreshBroadcasts()"></i>
 					</div>
 				</div>
 				<div class="medium-12 column" id="newBroadcast" [ngClass]="{' ' : newBroadcast, 'none' : !newBroadcast }">
 					<div class="medium-2 column">
-						<select id="broadSelect" [(ngModel)]="broadcastCategory" (blur)="updateBroadInterests()"> 
+						<select id="broadSelect" [(ngModel)]="broadcastCategory" (blur)="updateBroadInterests()">
 							<option selected="true" disabled="disabled">Interest Category</option>
 							<option value="blackboard">Blackboard</option>
 							<option *ngFor="let inter of interestKeys" [value]="inter">{{inter}}</option>
@@ -201,7 +206,8 @@
 						<input type="text" id="newBroadInput" placeholder="Message" [(ngModel)]="broadcastText">
 					</div>
 					<div class="medium-2 column">
-						<button class="button newBroadButton"(click) = "sendBroadcast()"><i class="fa fa-bullhorn"></i> Broadcast</button>
+						<button class="button newBroadButton" (click)="sendBroadcast()">
+							<i class="fa fa-bullhorn"></i> Broadcast</button>
 					</div>
 				</div>
 				<div class="medium-12 column" id="filterBroadcast" [ngClass]="{' ' : filterBroadcast, 'none' : !filterBroadcast }">
@@ -212,54 +218,66 @@
 							<option *ngFor="let inter of interestKeys" [value]="inter">{{inter}}</option>
 						</select>
 					</div>
-					<div class="medium-5 column">
+					<div class="medium-4 column">
 						<select id="broadSelect" [(ngModel)]="filterInterest">
 							<option selected="true" disabled="disabled">Specific Interest</option>
 							<option *ngFor="let interest of broadInterests" [value]=interest>{{interest}}</option>
 						</select>
 					</div>
-					<div class="medium-3 column">
+					<div class="medium-2 column">
 						<button class="button newBroadButton" (click)="filterBroadcasts()">
 							<i class="fa fa-floppy-o"></i> Save</button>
 					</div>
+					<div class="medium-2 column">
+						<button class="button newBroadButton" (click)="clearBroadcastFilter()">
+							<i class="fa fa-trash-o"></i> Clear</button>
+					</div>
 				</div>
 				<div class="medium-12 column" id="broadContent">
-						<div class="medium-5 medium-centered column" id="broadcastList">
-								<div id="broadcastPanel" *ngFor="let broad of filteredBroadcasts" (click)= "viewBroadcast(broad)">
-									<div class="medium-4 column">
-											<img id="broadPic" [src]="broad.url"/><br>
-									</div>
-									<div class="medium-8 column">
-										<b><p class="broadcastText">[{{broad.subject}}]</p></b>
-										<p class="broadcastText">{{broad.message}}</p>
-									</div>
-								</div>
+					<div class="medium-5 medium-centered column" id="broadcastList">
+						<div id="broadcastPanel" *ngFor="let broad of filteredBroadcasts" (click)="viewBroadcast(broad)">
+							<div class="medium-4 column">
+								<img id="broadPic" [src]="broad.url" />
+								<br>
+							</div>
+							<div class="medium-8 column">
+								<b>
+									<p class="broadcastText">[{{broad.subject}}]</p>
+								</b>
+								<p class="broadcastText">{{broad.message}}</p>
+							</div>
 						</div>
-						<div class="medium-7 column" id="threadView">
-							<div id="threadExpanded" [ngClass]="{' ' : selectedBroadcast.hasOwnProperty('url'), 'hidden' : !selectedBroadcast.hasOwnProperty('url') }">
-								<div class="medium-12 column" id="threadHeader"> 
-									<div class="medium-3 column">
-										<img id="threadPic" [src]="selectedBroadcast.url"/><br>
-										<p id="threadUser">{{selectedBroadcast.fullName}}</p>
-									</div>
-									<div class="medium-9 column">
-										<b><p class="broadcastText">In: [Subject]</p></b>
-										<p class="broadcastText">{{selectedBroadcast.message}}</p>
-									</div>
+					</div>
+					<div class="medium-7 column" id="threadView">
+						<div id="threadExpanded" [ngClass]="{' ' : selectedBroadcast.hasOwnProperty('url'), 'hidden' : !selectedBroadcast.hasOwnProperty('url') }">
+							<div class="medium-12 column" id="threadHeader">
+								<div class="medium-3 column">
+									<img id="threadPic" [src]="selectedBroadcast.url" />
+									<br>
+									<p id="threadUser">{{selectedBroadcast.fullName}}</p>
 								</div>
-								<div class="medium-12 column" id="threadComment" *ngFor="let resp of broadcastResponses">
-									<div class="medium-2 column">
-										<img id="commentPic" [src]="resp.url"/><br>
-									</div>
-									<div class="medium-10 column">
-										<p class="broadcastText">{{resp.fullName}}</p>
-										<p class="broadcastText">{{resp.response}}</p>
-									</div>
+								<div class="medium-9 column">
+									<b>
+										<p class="broadcastText">In: [{{selectedBroadcast.subject}}]</p>
+									</b>
+									<p class="broadcastText">{{selectedBroadcast.message}}</p>
 								</div>
 							</div>
-							<div id="broadResponse">
-								<input type="text" id="broadInput" [(ngModel)]="responseText">
-								<button class="button broadInputButton" (click)="respondToBroadcast()"><i class="fa fa-paper-plane"></i> Send</button>
+							<div class="medium-12 column" id="threadComment" *ngFor="let resp of broadcastResponses">
+								<div class="medium-2 column">
+									<img id="commentPic" [src]="resp.url" />
+									<br>
+								</div>
+								<div class="medium-10 column">
+									<p class="broadcastText">{{resp.fullName}}</p>
+									<p class="broadcastText">{{resp.response}}</p>
+								</div>
+							</div>
+						</div>
+						<div id="broadResponse">
+							<input type="text" id="broadInput" [(ngModel)]="responseText">
+							<button class="button broadInputButton" (click)="respondToBroadcast()">
+								<i class="fa fa-paper-plane"></i> Send</button>
 						</div>
 					</div>
 				</div>
@@ -273,14 +291,14 @@
 				</div>
 				<div class="medium-12 column" id="broadContent">
 					<div class="medium-3 medium-centered column" id="broadcastList">
-						<div id="messagesPanel" *ngFor="let num of testArray">
+						<div id="messagesPanel" (click)='viewUserMessages(user)' *ngFor="let user of messagesUsers">
 							<div class="medium-5 column">
-								<img id="messagesPic" [src]="model.user.url" />
+								<img id="messagesPic" [src]="user.url" />
 								<br>
 							</div>
 							<div class="medium-7 column" id="messagesInfo">
-								<p id="messagesText">[Member Name]</p>
-								<p id="messagesText">[Mood Status]</p>
+								<p id="messagesText">{{user.fullName}}</p>
+								<p id="messagesText">{{user.moodStatus}}</p>
 							</div>
 						</div>
 					</div>
@@ -291,15 +309,14 @@
 							</div>
 						</div>
 						<div id="messageResponse">
-							<input type="text" id="broadInput">
-							<button class="button broadInputButton">
+							<input type="text" id="broadInput"  maxlength="50" [(ngModel)]="typedMessage">
+							<button class="button broadInputButton" (click)="storeMessage(typedMessage,typedMessage,typedMessage)">
 								<i class="fa fa-paper-plane"></i> Send</button>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
+		<p>{{sendBroadcastS}}</p>
 	</div>
-
 </div>
