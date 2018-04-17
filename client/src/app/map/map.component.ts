@@ -579,6 +579,7 @@ export class MapComponent implements OnInit {
 			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
+				console.log("Clusters",this.loc.getClusters(nearbyUsers, 500));
 				this.maintainFilter();
 			}).catch((err) => {
 				console.error(err);

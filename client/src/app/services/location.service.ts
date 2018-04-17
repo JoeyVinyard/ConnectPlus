@@ -26,12 +26,12 @@ export class LocationService {
 				var d = this.getDistance({lat: nearby[i].lat,lon: nearby[i].lon},{lat: nearby[j].lat,lon: nearby[j].lon})
 				if(d < clusterDistance){
 					cluster.users.push(nearby[j]);
-					nearby.slice(j, 1);
+					nearby.splice(j, 1);
 				}
 			}
-			clusters.push(cluster);
+			if(cluster.users.length > 1)
+				clusters.push(cluster);
 		}
-		console.log(clusters);
 		return clusters;
 	}
 	getDistance(locOne, locTwo){
