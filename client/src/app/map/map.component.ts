@@ -23,6 +23,7 @@ export class MapComponent implements OnInit {
 	viewBroadcasts = false;
 	newBroadcast = false;
 	filterBroadcast = false;
+	sendBroadcastS = "";
 
 	viewMessages = false;
 
@@ -959,6 +960,7 @@ export class MapComponent implements OnInit {
 			this.broadcastText = "";
 			console.log("broadcast sent");
 			this.refreshBroadcasts(this.selectedBroadcast);
+			this.sendBroadcastS = "Broadcast successfully sent!";
 		}).catch((err) => {
 			console.error(err);
 		})
@@ -981,6 +983,8 @@ export class MapComponent implements OnInit {
 				var p = new Promise((good, bad) => {
 					this.refreshBroadcasts(this.selectedBroadcast);
 					good();	
+					
+			this.sendBroadcastS = "Broadcast successfully sent!";
 				}).then(() => {
 
 				})
@@ -1003,6 +1007,9 @@ export class MapComponent implements OnInit {
 			}
 		})
 
+	}
+	clearBroadcastFilter() {
+		this.filteredBroadcasts = this.broadcasts;
 	}
 
 	generateCommonMap() {
