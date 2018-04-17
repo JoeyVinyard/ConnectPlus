@@ -39,6 +39,7 @@ export class ListComponent implements OnInit {
 	viewBroadcasts = false;
 	newBroadcast = false;
 	filterBroadcast = false;
+	sendBroadcastS = "";
 
 	viewMessages = false;
 
@@ -965,6 +966,7 @@ export class ListComponent implements OnInit {
 			this.broadcastText = "";
 			console.log("broadcast sent");
 			this.refreshBroadcasts(this.selectedBroadcast);
+			this.sendBroadcastS = "Broadcast successfully sent!";
 		}).catch((err) => {
 			console.error(err);
 		})
@@ -986,7 +988,8 @@ export class ListComponent implements OnInit {
 				this.responseText = "";
 				var p = new Promise((good, bad) => {
 					this.refreshBroadcasts(this.selectedBroadcast);
-					good();	
+					good();
+					this.sendBroadcastS = "Broadcast successfully sent!";
 				}).then(() => {
 
 				})

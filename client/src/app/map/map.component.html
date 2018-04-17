@@ -41,7 +41,7 @@
 							<p id="SelectedLowerText">{{displayedUser.commons}}</p>
 						</div>
 						<div class="medium-6 column">
-							<button class="button selectedButton">
+							<button class="button selectedButton" (click)="initMessageThread(displayedUser.uid)">
 								<i class="fa fa-pencil"></i> Message</button>
 						</div>
 						<div class="medium-6 column">
@@ -291,14 +291,14 @@
 				</div>
 				<div class="medium-12 column" id="broadContent">
 					<div class="medium-3 medium-centered column" id="broadcastList">
-						<div id="messagesPanel" *ngFor="let num of testArray">
+						<div id="messagesPanel" (click)='viewUserMessages(user)' *ngFor="let user of messagesUsers">
 							<div class="medium-5 column">
-								<img id="messagesPic" [src]="model.user.url" />
+								<img id="messagesPic" [src]="user.url" />
 								<br>
 							</div>
 							<div class="medium-7 column" id="messagesInfo">
-								<p id="messagesText">[Member Name]</p>
-								<p id="messagesText">[Mood Status]</p>
+								<p id="messagesText">{{user.fullName}}</p>
+								<p id="messagesText">{{user.moodStatus}}</p>
 							</div>
 						</div>
 					</div>
@@ -309,8 +309,8 @@
 							</div>
 						</div>
 						<div id="messageResponse">
-							<input type="text" id="broadInput"  maxlength="50">
-							<button class="button broadInputButton" >
+							<input type="text" id="broadInput"  maxlength="50" [(ngModel)]="typedMessage">
+							<button class="button broadInputButton" (click)="storeMessage(typedMessage,typedMessage,typedMessage)">
 								<i class="fa fa-paper-plane"></i> Send</button>
 						</div>
 					</div>
