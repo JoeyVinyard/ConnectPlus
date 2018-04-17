@@ -12,6 +12,7 @@
 					<agm-marker *ngFor="let user of tier1" (markerClick)="viewUser(user)" [iconUrl]="tier1Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 					<agm-marker *ngFor="let user of tier2" (markerClick)="viewUser(user)" [iconUrl]="tier2Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 					<agm-marker *ngFor="let user of tier3" (markerClick)="viewUser(user)" [iconUrl]="tier3Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
+					<agm-marker *ngFor="let user of clustered" (markerClick)="viewUser(user)" [iconUrl]="Cluster" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 				</agm-map>
 			</div>
 

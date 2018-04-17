@@ -66,6 +66,8 @@ export class MapComponent implements OnInit {
 	tier1 = [];
 	tier2 = [];
 	tier3 = [];
+	clustered = [];
+	clusteredUsers = [];
 
 	messages = [];
 
@@ -284,6 +286,7 @@ export class MapComponent implements OnInit {
 	tier3Pin = ("../../assets/Tier3.png")
 	tier2Pin = ("../../assets/Tier2.png")
 	tier1Pin = ("../../assets/Tier1.png");
+	Cluster = ("../../assets/Cluster.png");
 
 	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
 	visibility;
@@ -484,6 +487,7 @@ export class MapComponent implements OnInit {
 			}
 			console.log("Filters Maintained: " + count)
 			this.generateCommonMap();
+
 		})
 	}
 
@@ -1013,7 +1017,7 @@ export class MapComponent implements OnInit {
 	}
 
 	generateCommonMap() {
-		console.log("i got called");
+		console.log("GenerateCommonMap Called");
 		this.auth.getUser().then((u) => {
 			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				//console.log("Nearby:", nearbyUsers);
@@ -1049,7 +1053,31 @@ export class MapComponent implements OnInit {
 				console.error(err);
 			})
 		})
-		//this.getCommon();		
+		//For Clustering
+		this.clustered = this.loc.getClusters(this.filteredUsers, 0.25);
+		console.log("Cluster Keys: " + Object.keys(this.clustered[0]));
+		console.log("Cluster Values: " + this.clustered);
+		var tempCluster = [];
+		this.clustered.forEach((cluster) =>{
+			if(cluster.users.length != 1){
+				// var index = this.clustered.indexOf(cluster);
+				// this.clustered.splice(index, 1);
+				tempCluster.push(cluster);
+			}
+			else{
+				console.log("IN ELSE")
+				// for(var i = 0; i < cluster.users.length; i++){
+				// 	var user = cluster.users[i].uid;
+				// 	console.log("USER: " + user)
+				// 	if(this.clusteredUsers.indexOf(user) == -1){
+				// 		this.clusteredUsers.push(user);
+				// 	}
+				// }
+			}
+		})
+		this.clustered = tempCluster;
+		console.log("New Clusters: " + this.clustered)
+		console.log("Clustered Users: " + this.clusteredUsers)
 	}
 	
 	getCommon() {
