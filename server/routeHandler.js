@@ -1326,13 +1326,16 @@ module.exports = {
 		var responseBody = Object.create(responseForm);
 		var uid = urlData[1];
 		var thread = urlData[2];
+		console.log("one")
 		if(!uid || !thread){
 			res.statusCode = 400;
 			responseBody.err = "No UID provided";
 			res.write(JSON.stringify(responseBody));
 			res.end();
+			console.log("two")
 			return;
 		}
+		console.log("it reached here")
 		firebase.database().ref("messages/"+uid+"/"+thread).set(" ").then((s) => {
 			firebase.database().ref("messages/"+thread+"/"+uid).set(" ").then((s) => {
 				responseBody.payload = Object.values(s.val());

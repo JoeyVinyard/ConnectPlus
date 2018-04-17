@@ -478,8 +478,11 @@ export class DatabaseService {
 		})
 	}
 	initMessageThread(uid, thread): Promise<any>{
+		
 		return new Promise((resolve, reject) => {
 			this.http.get(this.dbUrl+ "initMessageThread/"+uid+"/"+thread, this.httpOptions).subscribe((data) => {
+							console.log("reached here first")
+
 				if(data["payload"])
 					resolve(data["payload"]);
 				else
