@@ -68,6 +68,7 @@ export class MapComponent implements OnInit {
 	tier3 = [];
 	clustered = [];
 	clusteredUsers = [];
+	currentCluster = [];
 
 	messages = [];
 
@@ -247,6 +248,19 @@ export class MapComponent implements OnInit {
 
 	closeUser() {
 		this.userVisible = false;
+	}
+
+
+	clusterVisible = false;
+	viewCluster(cluster: any = {}){
+		this.clusterVisible = true;
+		console.log("viewCluster called")
+		this.currentCluster = cluster.users;
+
+	}
+
+	closeCluster(){
+		this.clusterVisible = false;
 	}
 
 	filterVisible = false;
@@ -1063,28 +1077,18 @@ export class MapComponent implements OnInit {
 			})
 		})
 		//For Clustering
-		this.clustered = this.loc.getClusters(this.filteredUsers, 0.25);
-		console.log("Cluster Keys: " + Object.keys(this.clustered[0]));
-		console.log("Cluster Values: " + this.clustered);
-		var tempCluster = [];
+		console.log("Filtered Users: " + this.filteredUsers)
+		this.clustered = this.loc.getClusters(this.filteredUsers, 1000);
+		// console.log("Cluster Keys: " + Object.keys(this.clustered[0]));
+		// console.log("Cluster Values: " + this.clustered);
+		this.clusteredUsers = [];
 		this.clustered.forEach((cluster) =>{
-			if(cluster.users.length != 1){
-				// var index = this.clustered.indexOf(cluster);
-				// this.clustered.splice(index, 1);
-				tempCluster.push(cluster);
-			}
-			else{
-				console.log("IN ELSE")
-				// for(var i = 0; i < cluster.users.length; i++){
-				// 	var user = cluster.users[i].uid;
-				// 	console.log("USER: " + user)
-				// 	if(this.clusteredUsers.indexOf(user) == -1){
-				// 		this.clusteredUsers.push(user);
-				// 	}
-				// }
-			}
+			console.log("Hit")
+			for(var i = 0; i < cluster.users.length; i++){
+				console.log("Hit In For")
+				this.clusteredUsers.push(cluster.users[i].uid)
+			}	
 		})
-		this.clustered = tempCluster;
 		console.log("New Clusters: " + this.clustered)
 		console.log("Clustered Users: " + this.clusteredUsers)
 	}
@@ -1185,13 +1189,13 @@ export class MapComponent implements OnInit {
 		var tempTier2 = [];
 		var tempTier3 = [];
 		Object.keys(allTotals).forEach((total) =>{
-			if(allTotals[total] <= cutoff){
+			if(allTotals[total] <= cutoff && this.clusteredUsers.indexOf(allUsers[total].uid) == -1){
 				this.tier3.push(allUsers[total])
 			}
-			else if(allTotals[total]  <= cutoff2){
+			else if(allTotals[total]  <= cutoff2 && this.clusteredUsers.indexOf(allUsers[total].uid) == -1){
 				this.tier2.push(allUsers[total])
 			}
-			else{
+			else if(this.clusteredUsers.indexOf(allUsers[total].uid) == -1){
 				this.tier1.push(allUsers[total])
 			}
 		})
