@@ -73,6 +73,7 @@ export class MapComponent implements OnInit {
 	displayedUserMessages: any = {};
 	messagesThereUID = [];
 	messagesUsers = [];
+	messagesArray = [];
 
 
 	refreshMap() {
@@ -125,7 +126,7 @@ export class MapComponent implements OnInit {
 		if (this.viewBroadcasts) {
 			this.viewBroadcasts = false;
 		}
-		this.getMessages()
+		this.getMessages();
 
 	}
 
@@ -1176,8 +1177,10 @@ export class MapComponent implements OnInit {
 
 	initMessageThread(Otheruid:string){
 		this.getMessages();
+		
 			this.db.initMessageThread(this.model.user.uid, Otheruid).then((success) => {
 				console.log("why")
+				
 			}).catch((err) => {
 				console.log(err);
 			})
@@ -1199,25 +1202,35 @@ export class MapComponent implements OnInit {
 		this.db.getMessageThread(uid, thread).then((messages) => {
 			console.log("got messages successfully")	
 			console.log(messages)			
+			// 	this.messagesArray = Object.keys(messages);
+
+			this.messages.forEach((mes) => {
+						console.log("fromeme", mes)
+			
+
+				});	
+
+
+
 		}).catch((err) => {
 			console.log(err);
 		})
 	}
 	getMessages(){
+		this.getMessageThread("","");
 		this.db.getMessages(this.model.user.uid).then((messages) => {
 			var here = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
-			console.log(messages)	
+			//console.log(messages)	
 			this.messagesThereUID = Object.keys(messages);
 
 			this.messagesThereUID.forEach((mes) => {
-						console.log(mes)
-						var i = 0;
+					//	console.log(mes)
 				this.db.getUser(mes).then((u) => {
-						this.messagesUsers[i] = u;	
-						i = i+1;
+						this.messagesUsers.push(u);	
 				})
 
-				});		
+				});	
+
 		
 		}).catch((err) => {
 			console.log(err);
@@ -1226,6 +1239,7 @@ export class MapComponent implements OnInit {
 	}
 
 	viewUserMessages(user: any = {}) {
+		console.log("yooooooo", this.messagesUsers);
 		this.displayedUserMessages = user;
 		this.displayedUserMessages.uid = user.uid;
 		this.displayedUserMessages.fullName = user.fullName;
