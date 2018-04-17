@@ -330,7 +330,7 @@
 				</div>
 				<div class="medium-12 column" id="broadContent">
 					<div class="medium-3 medium-centered column" id="broadcastList">
-						<div id="messagesPanel" (click)='viewUserMessages(user)' *ngFor="let user of messagesUsers">
+						<div id="messagesPanel" *ngFor="let user of messagesUsers">
 							<div class="medium-5 column">
 								<img id="messagesPic" [src]="user.url" />
 								<br>
