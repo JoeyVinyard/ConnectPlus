@@ -477,6 +477,16 @@ export class DatabaseService {
 			})
 		})
 	}
+	initMessageThread(uid, thread): Promise<any>{
+		return new Promise((resolve, reject) => {
+			this.http.get(this.dbUrl+ "initMessageThread/"+uid+"/"+thread, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		})
+	}
 
 	constructor(private http: HttpClient) {}
 

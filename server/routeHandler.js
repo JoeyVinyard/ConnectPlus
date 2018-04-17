@@ -1303,7 +1303,7 @@ module.exports = {
 		var responseBody = Object.create(responseForm);
 		var uid = urlData[1];
 		var thread = urlData[2];
-		if(!uid){
+		if(!uid || !thread){
 			res.statusCode = 400;
 			responseBody.err = "No UID provided";
 			res.write(JSON.stringify(responseBody));
@@ -1315,6 +1315,36 @@ module.exports = {
 			res.statusCode = 200;
 			res.write(JSON.stringify(responseBody));
 			res.end();
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
+	},
+	initMessageThread: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		var thread = urlData[2];
+		if(!uid || !thread){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("messages/"+uid+"/"+thread).set(" ").then((s) => {
+			firebase.database().ref("messages/"+thread+"/"+uid).set(" ").then((s) => {
+				responseBody.payload = Object.values(s.val());
+				res.statusCode = 200;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			}).catch((err) => {
+				responseBody.err = err;
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+			})
 		}).catch((err) => {
 			responseBody.err = err;
 			res.statusCode = 400;
