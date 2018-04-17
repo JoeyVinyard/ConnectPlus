@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverUrl: "http://cplusserver.herokuapp.com/"
+  serverUrl: "https://cplusserver.herokuapp.com/"
 };
