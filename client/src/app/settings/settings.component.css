@@ -216,6 +216,8 @@ img {
   color: white;
   font-weight: bold;
   position: relative;
+  min-height: 35vh;
+  height: auto;
 }
 
 #face-exp{
@@ -242,7 +244,8 @@ img {
 
 #subjectListContainer{
   overflow-y: scroll;
-  max-height: 150px;
+  /* max-height: 150px; */
+  height: 21vh;
   border: 1px white solid;
   border-radius: 25px;
   /* margin-bottom: 1rem; */
@@ -271,6 +274,15 @@ img {
   opacity: 0.8;
 }
 
+#currentListDiv{
+  width: 100%;
+  height: 18vh;
+  border: 1px solid white;
+  border-radius: 25px;
+  overflow: scroll;
+  margin-bottom: 5%;
+}
+
 .socialConnect{
   font-size: 1.5rem;
   margin: 0px;
@@ -290,6 +302,7 @@ img {
   color: white;
   border: 2px solid white;
   border-radius: 25px;
+  font-size: 1.05vw;
 }
 
 .socialButton:hover{

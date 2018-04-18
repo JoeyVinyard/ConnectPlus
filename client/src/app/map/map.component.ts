@@ -272,6 +272,9 @@ export class MapComponent implements OnInit {
 		this.clusterVisible = true;
 		console.log("viewCluster called")
 		this.currentCluster = cluster.users;
+		this.currentCluster.forEach((user) =>{
+			user.distanceInMiles = Math.round((user.distance / 5280) * 100) / 100;
+		})
 
 	}
 
@@ -1239,7 +1242,7 @@ export class MapComponent implements OnInit {
 		this.viewMessages = true;
 		var element = document.getElementById("messagesDiv")
 		element.scrollIntoView();
-		
+
 		// this.messagesUsers = [];
 		// this.getMessages();
 		if(!this.messageId.includes(Otheruid)){

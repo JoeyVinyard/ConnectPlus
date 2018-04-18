@@ -1197,10 +1197,6 @@ export class ListComponent implements OnInit {
 				// }
 			}
 		})
-		// console.log(allTotals);
-		// console.log("TIER 3: " + this.tier3);
-		// console.log("TIER 2: " + this.tier2);
-		// console.log("TIER 1: " + this.tier1);
 	}
 
 
