@@ -157,6 +157,10 @@
 	padding: 0px;
 }
 
+#broadcastMessage{
+	color: black;
+}
+
 #clusterContent{
 	height: 50vh;
 	background: #004E7F;
