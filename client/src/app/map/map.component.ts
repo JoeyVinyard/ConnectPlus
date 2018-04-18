@@ -80,6 +80,7 @@ export class MapComponent implements OnInit {
 	messagesThereUID = [];
 	messagesUsers = [];
 	messagesArray = [];
+	toWho:string;
 
 
 	refreshMap() {
@@ -132,6 +133,7 @@ export class MapComponent implements OnInit {
 		if (this.viewBroadcasts) {
 			this.viewBroadcasts = false;
 		}
+		this.messagesUsers = [];
 		this.getMessages();
 
 	}
@@ -1221,6 +1223,7 @@ export class MapComponent implements OnInit {
 
 
 	initMessageThread(Otheruid:string){
+		this.messagesUsers = [];
 		this.getMessages();
 		
 			this.db.initMessageThread(this.model.user.uid, Otheruid).then((success) => {
@@ -1232,25 +1235,31 @@ export class MapComponent implements OnInit {
 		
 
 	}
-	storeMessage(to:string, from:string, message:string){
-		from = "ZVmOhUAURNOD8t4zqunUdUtjc4B3"
-		to = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
-		this.db.storeMessage(to, from, message).then((success) => {				
+	storeMessage(message:string){
+		var from = this.model.user.uid;
+		var to = this.toWho
+		this.db.storeMessage(to, from, message).then((success) => {
+				this.typedMessage = "";	
+				this.getMessageThread(to)
 		}).catch((err) => {
 			console.log(err);
 		})
 	}
+	messageTo(to:string){
+		this.toWho = to;
+	}
 
-	getMessageThread(uid:string, thread:string){
-		uid = "ZVmOhUAURNOD8t4zqunUdUtjc4B3"
-		thread = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
+	getMessageThread(thread:string){
+		this.messageTo(thread);
+		var uid = this.model.user.uid;
 		this.db.getMessageThread(uid, thread).then((messages) => {
 			console.log("got messages successfully")	
 			console.log(messages)			
 			// 	this.messagesArray = Object.keys(messages);
-
-			this.messages.forEach((mes) => {
-						console.log("fromeme", mes)
+			this.messagesArray = [];
+			messages.forEach((mes) => {
+						//console.log("fromeme", mes.fromMe)
+						this.messagesArray.push(mes)
 			
 
 				});	
@@ -1262,7 +1271,6 @@ export class MapComponent implements OnInit {
 		})
 	}
 	getMessages(){
-		this.getMessageThread("","");
 		this.db.getMessages(this.model.user.uid).then((messages) => {
 			var here = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
 			//console.log(messages)	
