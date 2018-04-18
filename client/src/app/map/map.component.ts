@@ -66,6 +66,9 @@ export class MapComponent implements OnInit {
 	tier1 = [];
 	tier2 = [];
 	tier3 = [];
+	tier1S = [];
+	tier2S = [];
+	tier3S = [];
 	clustered = [];
 	clusteredUsers = [];
 	currentCluster = [];
@@ -1190,14 +1193,24 @@ export class MapComponent implements OnInit {
 		var tempTier2 = [];
 		var tempTier3 = [];
 		Object.keys(allTotals).forEach((total) =>{
-			if(allTotals[total] <= cutoff && this.clusteredUsers.indexOf(allUsers[total].uid) == -1){
-				this.tier3.push(allUsers[total])
+			if(allTotals[total] <= cutoff){
+				if(this.clusteredUsers.indexOf(allUsers[total].uid) == -1){
+					this.tier3.push(allUsers[total])
+				}
+				this.tier3S.push(allUsers[total])
+				
 			}
-			else if(allTotals[total]  <= cutoff2 && this.clusteredUsers.indexOf(allUsers[total].uid) == -1){
-				this.tier2.push(allUsers[total])
+			else if(allTotals[total]  <= cutoff2){
+				if(this.clusteredUsers.indexOf(allUsers[total].uid) == -1){
+					this.tier2.push(allUsers[total])
+				}
+				this.tier2S.push(allUsers[total])
 			}
-			else if(this.clusteredUsers.indexOf(allUsers[total].uid) == -1){
-				this.tier1.push(allUsers[total])
+			else{
+				if(this.clusteredUsers.indexOf(allUsers[total].uid) == -1){
+					this.tier1.push(allUsers[total])
+				}
+				this.tier1S.push(allUsers[total])
 			}
 		})
 		// console.log(allTotals);

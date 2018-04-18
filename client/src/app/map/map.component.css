@@ -15,6 +15,18 @@
 	opacity: 0.5;
 }
 
+.tier3{
+	background: #55C1FE;
+}
+
+.tier2{
+	background: #01A2FF;
+}
+
+.tier1{
+	background: #0076BB;
+}
+
 #title{
 	/* font-size: 2rem; */
 	font-size: 2vw;
