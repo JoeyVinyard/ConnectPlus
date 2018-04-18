@@ -330,7 +330,7 @@
 				</div>
 				<div class="medium-12 column" id="broadContent">
 					<div class="medium-3 medium-centered column" id="broadcastList">
-						<div id="messagesPanel" *ngFor="let user of messagesUsers">
+						<div id="messagesPanel" *ngFor="let user of messagesUsers" (click)="getMessageThread(user.uid)">
 							<div class="medium-5 column">
 								<img id="messagesPic" [src]="user.url" />
 								<br>
@@ -342,14 +342,14 @@
 						</div>
 					</div>
 					<div class="medium-9 column" id="messagesView">
-						<div id="messagesThread">
-							<div id="message" *ngFor="let m of testArray" [ngClass]="{'messageLeft' : m%2==0, 'messageRight' : m%2==1}">
-								<p>Message #{{m}}</p>
+						<div id="messagesThread" >
+							<div id="message" *ngFor="let m of messagesArray" [ngClass]="{'messageLeft' : m.fromMe, 'messageRight' : m.fromMe}">
+								<p>{{m.message}}</p>
 							</div>
 						</div>
 						<div id="messageResponse">
 							<input type="text" id="broadInput" maxlength="50" [(ngModel)]="typedMessage">
-							<button class="button broadInputButton" (click)="storeMessage(typedMessage,typedMessage,typedMessage)">
+							<button class="button broadInputButton" (click)="storeMessage(typedMessage)">
 								<i class="fa fa-paper-plane"></i> Send</button>
 						</div>
 					</div>
