@@ -82,7 +82,9 @@ export class MapComponent implements OnInit {
 	messagesThereUID = [];
 	messagesUsers = [];
 	messagesArray = [];
-	toWho: string;
+	toWho:string;
+	toWhoName:string;
+	messageId = [];
 
 
 	refreshMap() {
@@ -135,7 +137,11 @@ export class MapComponent implements OnInit {
 		if (this.viewBroadcasts) {
 			this.viewBroadcasts = false;
 		}
+		if(!this.viewMessages){
+			this.toWhoName  = ""
+		}
 		this.messagesUsers = [];
+		this.messagesArray = [];
 		this.getMessages();
 
 	}
@@ -1226,20 +1232,38 @@ export class MapComponent implements OnInit {
 	}
 
 
-	initMessageThread(Otheruid: string) {
-		this.messagesUsers = [];
-		this.getMessages();
-
-		this.db.initMessageThread(this.model.user.uid, Otheruid).then((success) => {
-			console.log("why")
-
-		}).catch((err) => {
-			console.log(err);
-		})
-
+	initMessageThread(Otheruid:string){
+		// this.messagesUsers = [];
+		// this.getMessages();
+		if(!this.messageId.includes(Otheruid)){
+			this.db.initMessageThread(this.model.user.uid, Otheruid).then((success) => {
+				console.log("why")
+				this.toggleMessages();
+				
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+		this.toggleMessages2(Otheruid);
+		
 
 	}
-	storeMessage(message: string) {
+	toggleMessages2(other:string) {
+		if(!this.viewMessages){
+			this.viewMessages = !this.viewMessages;
+
+		}
+		
+			this.messagesUsers = [];
+			this.messagesArray = [];
+			this.getMessages();
+			this.getMessageThread(other);
+		
+		if (this.viewBroadcasts) {
+			this.viewBroadcasts = false;
+		}
+	}
+	storeMessage(message:string){
 		var from = this.model.user.uid;
 		var to = this.toWho
 		this.db.storeMessage(to, from, message).then((success) => {
@@ -1251,10 +1275,20 @@ export class MapComponent implements OnInit {
 	}
 	messageTo(to: string) {
 		this.toWho = to;
+		this.db.getUser(to).then((u) => {
+			this.toWhoName = ": ";
+			this.toWhoName = this.toWhoName + u.fullName;
+	
+		})
+
 	}
 
-	getMessageThread(thread: string) {
+				
+		
+
+	getMessageThread(thread:string){
 		this.messageTo(thread);
+		this.messagesArray = [];
 		var uid = this.model.user.uid;
 		this.db.getMessageThread(uid, thread).then((messages) => {
 			console.log("got messages successfully")
@@ -1274,7 +1308,8 @@ export class MapComponent implements OnInit {
 			console.log(err);
 		})
 	}
-	getMessages() {
+	getMessages(){
+		this.messagesUsers = [];
 		this.db.getMessages(this.model.user.uid).then((messages) => {
 			var here = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
 			//console.log(messages)	
@@ -1283,7 +1318,8 @@ export class MapComponent implements OnInit {
 			this.messagesThereUID.forEach((mes) => {
 				//	console.log(mes)
 				this.db.getUser(mes).then((u) => {
-					this.messagesUsers.push(u);
+						this.messagesUsers.push(u);	
+						this.messageId.push(u.uid)
 				})
 
 			});
