@@ -15,6 +15,26 @@
 	opacity: 0.5;
 }
 
+.tier3{
+	background: #55C1FE;
+}
+
+.tier2{
+	background: #01A2FF;
+}
+
+.tier1{
+	background: #0076BB;
+}
+
+.tierC{
+	background: #004E7F;
+}
+
+.red{
+	background: red;
+}
+
 #title{
 	/* font-size: 2rem; */
 	font-size: 2vw;
@@ -165,7 +185,7 @@
 }
 
 #selectedUserInfo{
-	background: #0076BB;
+	/* background: #0076BB; */
 	border: 2px solid white;
 	border-radius: 25px;
 	width: 50%;
@@ -865,27 +885,30 @@
 }
 
 #message{
-  width: 25%;
-  height: auto;
-  color: #004E7F;
-  padding-left: 2.5%;
-  padding-top: 1%;
+	width: 25%;
+	height: auto;
+	color: #004E7F;
+	padding-left: 2.5%;
+	padding-top: 1%;
+	word-wrap: break-word;
 }
 
 .messageLeft{
-  margin-left: 5%;
-  background: #f4f4f4;
-  border: 2px solid #dbdbdb;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-  border-bottom-right-radius: 25px;
+	margin-left: 5%;
+	background: #f4f4f4;
+	border: 2px solid #dbdbdb;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+	border-bottom-right-radius: 25px;
+	margin-bottom: 1%;
 }
 
 .messageRight{
-  margin-left: 70%;
-  background: #01A2FF;
-  border: 2px solid #0076BB;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-  border-bottom-left-radius: 25px;
+	margin-left: 70%;
+	background: #01A2FF;
+	border: 2px solid #0076BB;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+	border-bottom-left-radius: 25px;
+	margin-bottom: 1%;
 }

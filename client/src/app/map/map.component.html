@@ -57,7 +57,7 @@
 				<!-- <div class="medium-3 column" class="hidden">A</div> -->
 				<div id="clusterContent" class="medium-12 column">
 					<div id="clusterList" class="medium-12 column">
-						<div id="clusterEntry" *ngFor="let obj of currentCluster" [ngClass]="{'tier1' : checkTier(obj)==1, 'tier2' : checkTier(obj)==2, 'tier3' : checkTier(obj)==3, 'red' : checkTier(obj)==4}">
+						<div id="clusterEntry" *ngFor="let obj of currentCluster" [ngClass]="{'tier1' : checkTier(obj)===1, 'tier2' : checkTier(obj)===2, 'tier3' : checkTier(obj)===3, 'red' : checkTier(obj)===4}">
 
 							<div class="medium-4 column" id="clusteredImageDiv">
 								<img id="clusterImage" [src]="obj.url">

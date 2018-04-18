@@ -1201,28 +1201,28 @@ export class MapComponent implements OnInit {
 		var cutoff2 = (((maxValue - minValue) / 3) * 2).toFixed(1);
 		// console.log("Cutoffs: " + cutoff + " " + cutoff2);
 		// console.log(allTotals);
-		var tempTier1 = [];
-		var tempTier2 = [];
-		var tempTier3 = [];
+		this.tier1S = [];
+		this.tier2S = [];
+		this.tier3S = [];
 		Object.keys(allTotals).forEach((total) => {
 			if (allTotals[total] <= cutoff) {
+				this.tier3S.push(allUsers[total].uid)
 				if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {
 					this.tier3.push(allUsers[total])
 				}
-				this.tier3S.push(allUsers[total].uid)
 
 			}
 			else if (allTotals[total] <= cutoff2) {
+				this.tier2S.push(allUsers[total].uid)
 				if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {
 					this.tier2.push(allUsers[total])
 				}
-				this.tier2S.push(allUsers[total].uid)
 			}
 			else {
+				this.tier1S.push(allUsers[total].uid)
 				if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {
 					this.tier1.push(allUsers[total])
 				}
-				this.tier1S.push(allUsers[total].uid)
 			}
 		})
 		// console.log(allTotals);
@@ -1233,6 +1233,13 @@ export class MapComponent implements OnInit {
 
 
 	initMessageThread(Otheruid:string){
+
+		//frontend scrolling
+		this.viewBroadcasts = false;
+		this.viewMessages = true;
+		var element = document.getElementById("messagesDiv")
+		element.scrollIntoView();
+		
 		// this.messagesUsers = [];
 		// this.getMessages();
 		if(!this.messageId.includes(Otheruid)){
