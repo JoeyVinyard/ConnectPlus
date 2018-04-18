@@ -1257,11 +1257,16 @@ export class ListComponent implements OnInit {
 			// 	this.messagesArray = Object.keys(messages);
 			this.messagesArray = [];
 			messages.forEach((mes) => {
-						//console.log("fromeme", mes.fromMe)
-						this.messagesArray.push(mes)
-			
+					//console.log("fromeme", mes.fromMe)
+				if(mes == " "){
+						
+				}
+				else{
+					this.messagesArray.push(mes)
+				}
+		
 
-				});	
+			});	
 
 
 
@@ -1272,8 +1277,9 @@ export class ListComponent implements OnInit {
 	getMessages(){
 		this.messagesUsers = [];
 		this.db.getMessages(this.model.user.uid).then((messages) => {
-			var here = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
 			//console.log(messages)	
+			this.messagesUsers = [];
+
 			this.messagesThereUID = Object.keys(messages);
 
 			this.messagesThereUID.forEach((mes) => {
@@ -1300,10 +1306,6 @@ export class ListComponent implements OnInit {
 		this.displayedUserMessages.moodStatus = user.moodStatus;
     
 	}
-
-
-
-
 
 }
 
