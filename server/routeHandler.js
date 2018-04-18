@@ -208,7 +208,7 @@ module.exports = {
 							lon: loc.val().lon
 						};
 						var d = distanceCalc.getDistance(c1,c2);
-						if(d <= feet && loc.val().uid != uid){
+						if(d <= (330 * feet) && loc.val().uid != uid){
 							nearbyUids.push({
 								uid: loc.val().uid,
 								distance: d,
