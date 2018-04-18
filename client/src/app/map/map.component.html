@@ -8,7 +8,7 @@
 			<div class="medium-12 column" id="innerMap" [ngClass]="{'' : !userVisible, 'opacity' : userVisible, '' : !filterVisible, 'opacity' : filterVisible, '' : !clusterVisible, 'opacity' : clusterVisible}">
 				<agm-map [latitude]="lat" [longitude]="lng" [zoomControl]="false" [mapTypeControl]="false" [scaleControl]="false" [streetViewControl]="false"
 				 [rotateControl]="false" [fullscreenControl]="false" [mapDraggable]="true" [scrollwheel]="false" [zoom]="zoom" [clickableIcons]="false">
-					<agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="userPin" (markerClick)="viewUser(model.user)"></agm-marker>
+					<agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="userPin"></agm-marker>
 					<agm-marker *ngFor="let user of tier1" (markerClick)="viewUser(user)" [iconUrl]="tier1Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 					<agm-marker *ngFor="let user of tier2" (markerClick)="viewUser(user)" [iconUrl]="tier2Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 					<agm-marker *ngFor="let user of tier3" (markerClick)="viewUser(user)" [iconUrl]="tier3Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
@@ -23,7 +23,7 @@
 			</div>
 			<div class="medium-12 column" id="selectedUser" [ngClass]="{'' : userVisible, 'none' : !userVisible}">
 				<!-- <div class="medium-3 column" class="hidden">A</div> -->
-				<div class="medium-12 column" id="selectedUserInfo">
+				<div class="medium-12 column" id="selectedUserInfo" [ngClass]="{'tier1' : checkTier(displayedUser)==1, 'tier2' : checkTier(displayedUser)==2, 'tier3' : checkTier(displayedUser)==3}">
 					<img id="listUser" [src]="displayedUser.url">
 					<br>
 
@@ -57,7 +57,7 @@
 				<!-- <div class="medium-3 column" class="hidden">A</div> -->
 				<div id="clusterContent" class="medium-12 column">
 					<div id="clusterList" class="medium-12 column">
-						<div id="clusterEntry" *ngFor="let obj of currentCluster">
+						<div id="clusterEntry" *ngFor="let obj of currentCluster" [ngClass]="{'tier1' : checkTier(obj)==1, 'tier2' : checkTier(obj)==2, 'tier3' : checkTier(obj)==3, 'red' : checkTier(obj)==4}">
 
 							<div class="medium-4 column" id="clusteredImageDiv">
 								<img id="clusterImage" [src]="obj.url">
@@ -343,7 +343,7 @@
 					</div>
 					<div class="medium-9 column" id="messagesView">
 						<div id="messagesThread" >
-							<div id="message" *ngFor="let m of messagesArray" [ngClass]="{'messageLeft' : m.fromMe, 'messageRight' : m.fromMe}">
+							<div id="message" *ngFor="let m of messagesArray" [ngClass]="{'messageLeft' : !m.fromMe, 'messageRight' : m.fromMe}">
 								<p>{{m.message}}</p>
 							</div>
 						</div>

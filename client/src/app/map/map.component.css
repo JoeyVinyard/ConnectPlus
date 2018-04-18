@@ -27,6 +27,14 @@
 	background: #0076BB;
 }
 
+.tierC{
+	background: #004E7F;
+}
+
+.red{
+	background: red;
+}
+
 #title{
 	/* font-size: 2rem; */
 	font-size: 2vw;
@@ -88,7 +96,7 @@
 }
 
 #selectedUserInfo{
-	background: #0076BB;
+	/* background: #0076BB; */
 	border: 2px solid white;
 	border-radius: 25px;
 	width: 50%;
@@ -138,7 +146,7 @@
 }
 
 #clusterList{
-	background: #0076BB;
+	/* background: #0076BB; */
 	border: 2px solid white;
 	border-radius: 25px;
 	/* width: 70%;
@@ -146,11 +154,12 @@
 	margin-top: 1rem; 
 	height: 37vh;
 	overflow: scroll;
+	padding: 0px;
 }
 
 #clusterContent{
 	height: 50vh;
-	background: #0076BB;
+	background: #004E7F;
 	border: 2px solid white;
 	border-radius: 25px;
 	width: 50%;
@@ -887,6 +896,7 @@ agm-map {
 	color: #004E7F;
 	padding-left: 2.5%;
 	padding-top: 1%;
+	word-wrap: break-word;
 }
 
 .messageLeft{
@@ -896,6 +906,7 @@ agm-map {
 	border-top-left-radius: 25px;
 	border-top-right-radius: 25px;
 	border-bottom-right-radius: 25px;
+	margin-bottom: 1%;
 }
 
 .messageRight{
@@ -905,4 +916,5 @@ agm-map {
 	border-top-left-radius: 25px;
 	border-top-right-radius: 25px;
 	border-bottom-left-radius: 25px;
+	margin-bottom: 1%;
 }
