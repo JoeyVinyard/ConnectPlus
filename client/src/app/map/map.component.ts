@@ -249,8 +249,7 @@ export class MapComponent implements OnInit {
 			this.displayedUser.distanceInMiles = 0;
 		var vis = this.commonMap.get(user.uid);
 		this.displayedUser.uid = user.uid;
-		this.displayedUser.commons = vis.FB + ": " + vis.facebookNum
-			+ "  " + vis.TW + ": " + vis.twitterNum
+		this.displayedUser.commons =  vis.TW + ": " + vis.twitterNum
 			+ "  " + vis.BB + ": " + vis.blackboardNum
 			+ "  " + vis.YT + ": " + vis.youtubeNum;
 
@@ -281,8 +280,7 @@ export class MapComponent implements OnInit {
 
 			var vis = this.commonMap.get(user.uid);
 			user.uid = user.uid;
-			user.commons = vis.FB + ": " + vis.facebookNum
-				+ "  " + vis.TW + ": " + vis.twitterNum
+			user.commons =  vis.TW + ": " + vis.twitterNum
 				+ "  " + vis.BB + ": " + vis.blackboardNum
 				+ "  " + vis.YT + ": " + vis.youtubeNum;
 

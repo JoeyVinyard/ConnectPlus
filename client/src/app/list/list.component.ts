@@ -198,8 +198,7 @@ export class ListComponent implements OnInit {
 			this.displayedUser.distanceInMiles = 0;
 		var vis = this.commonMap.get(user.uid);
 
-		this.displayedUser.commons = vis.FB + ": " + vis.facebookNum
-		+ "  " + vis.TW + ": " + vis.twitterNum
+		this.displayedUser.commons = vis.TW + ": " + vis.twitterNum
 		+ "  " + vis.BB + ": " + vis.blackboardNum
 		+ "  " + vis.YT + ": " + vis.youtubeNum;
 	
