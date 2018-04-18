@@ -486,7 +486,7 @@ majors: string[] = this.interestObj.majors;
 		window.location.href =
 		"https://accounts.google.com/o/oauth2/v2/auth" +
 		"?client_id=374666659146-c9n74gdloum89050ckabsfssh0oe4qkl.apps.googleusercontent.com" +
-		"&redirect_uri=http://localhost:4200/settings" +
+		"&redirect_uri=https://connectpl.us/settings" +
 		"&response_type=token" +
 		"&scope=https://www.googleapis.com/auth/youtube.readonly"
 	}

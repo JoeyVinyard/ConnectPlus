@@ -8,6 +8,7 @@ var server = module.exports = http.createServer((request, response) => {
 	if(request.headers.origin){
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200", 'always');
 		response.setHeader("Access-Control-Allow-Origin", "https://connecplus-c6ddf.firebaseapp.com", "always");
+		response.setHeader("Access-Control-Allow-Origin", "https://connectpl.us", "always");
 	}
 	response.setHeader('Access-Control-Allow-Headers', 'content-type');
 	response.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');

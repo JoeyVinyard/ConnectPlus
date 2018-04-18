@@ -232,7 +232,7 @@
 							<i class="fa fa-filter"></i> Filter</button>
 						<button class="button bHeaderButton" (click)="toggleNewBroadcast()">
 							<i class="fa fa-plus"></i> Add New</button>
-						<i class="fa fa-refresh" id="refreshBroadcasts" (click)="refreshBroadcasts()"></i>
+						<i class="fa fa-refresh" id="refreshBroadcasts" (click)="refreshBroadcasts(null)"></i>
 					</div>
 				</div>
 				<div class="medium-12 column" id="newBroadcast" [ngClass]="{' ' : newBroadcast, 'none' : !newBroadcast }">
@@ -276,7 +276,7 @@
 							<i class="fa fa-floppy-o"></i> Save</button>
 					</div>
 					<div class="medium-2 column">
-						<button class="button newBroadButton" (click)="clearBroadcasts()">
+						<button class="button newBroadButton" (click)="clearBroadcastFilter()">
 							<i class="fa fa-trash-o"></i> Clear</button>
 					</div>
 				</div>

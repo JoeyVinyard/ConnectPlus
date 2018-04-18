@@ -167,6 +167,10 @@ export class ListComponent implements OnInit {
 		//console.log("UpdateBroadInterests")
 	}
 
+	clearBroadcastFilter() {
+		this.filteredBroadcasts = this.broadcasts;
+	}
+
 	refreshBroadcasts(selectedBroadcast){
 		this.db.getNearbyBroadcasts(this.model.user.uid.toString()).then((broadcasts) => {
 			this.broadcasts = broadcasts;
