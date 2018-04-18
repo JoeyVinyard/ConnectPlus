@@ -1307,7 +1307,13 @@ export class MapComponent implements OnInit {
 			this.messagesArray = [];
 			messages.forEach((mes) => {
 				//console.log("fromeme", mes.fromMe)
-				this.messagesArray.push(mes)
+				if(mes == " "){
+						
+				}
+				else{
+					this.messagesArray.push(mes)
+				}
+		
 
 
 			});
