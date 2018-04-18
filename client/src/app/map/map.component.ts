@@ -78,6 +78,8 @@ export class MapComponent implements OnInit {
 	messagesUsers = [];
 	messagesArray = [];
 	toWho:string;
+	toWhoName:string;
+	messageId = [];
 
 
 	refreshMap() {
@@ -130,7 +132,11 @@ export class MapComponent implements OnInit {
 		if (this.viewBroadcasts) {
 			this.viewBroadcasts = false;
 		}
+		if(!this.viewMessages){
+			this.toWhoName  = ""
+		}
 		this.messagesUsers = [];
+		this.messagesArray = [];
 		this.getMessages();
 
 	}
@@ -1210,17 +1216,35 @@ export class MapComponent implements OnInit {
 
 
 	initMessageThread(Otheruid:string){
-		this.messagesUsers = [];
-		this.getMessages();
-		
+		// this.messagesUsers = [];
+		// this.getMessages();
+		if(!this.messageId.includes(Otheruid)){
 			this.db.initMessageThread(this.model.user.uid, Otheruid).then((success) => {
 				console.log("why")
+				this.toggleMessages();
 				
 			}).catch((err) => {
 				console.log(err);
 			})
+		}
+		this.toggleMessages2(Otheruid);
 		
 
+	}
+	toggleMessages2(other:string) {
+		if(!this.viewMessages){
+			this.viewMessages = !this.viewMessages;
+
+		}
+		
+			this.messagesUsers = [];
+			this.messagesArray = [];
+			this.getMessages();
+			this.getMessageThread(other);
+		
+		if (this.viewBroadcasts) {
+			this.viewBroadcasts = false;
+		}
 	}
 	storeMessage(message:string){
 		var from = this.model.user.uid;
@@ -1234,10 +1258,20 @@ export class MapComponent implements OnInit {
 	}
 	messageTo(to:string){
 		this.toWho = to;
+		this.db.getUser(to).then((u) => {
+			this.toWhoName = ": ";
+			this.toWhoName = this.toWhoName + u.fullName;
+	
+		})
+
 	}
+
+				
+		
 
 	getMessageThread(thread:string){
 		this.messageTo(thread);
+		this.messagesArray = [];
 		var uid = this.model.user.uid;
 		this.db.getMessageThread(uid, thread).then((messages) => {
 			console.log("got messages successfully")	
@@ -1258,6 +1292,7 @@ export class MapComponent implements OnInit {
 		})
 	}
 	getMessages(){
+		this.messagesUsers = [];
 		this.db.getMessages(this.model.user.uid).then((messages) => {
 			var here = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
 			//console.log(messages)	
@@ -1267,6 +1302,7 @@ export class MapComponent implements OnInit {
 					//	console.log(mes)
 				this.db.getUser(mes).then((u) => {
 						this.messagesUsers.push(u);	
+						this.messageId.push(u.uid)
 				})
 
 				});	
