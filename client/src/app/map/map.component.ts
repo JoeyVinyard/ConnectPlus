@@ -242,6 +242,8 @@ export class MapComponent implements OnInit {
 	userVisible = false;
 	//vis;
 	viewUser(user: any = {}) {
+		// this.clusterVisible = false;
+
 		this.userVisible = true;
 		this.displayedUser = user;
 		this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance / 5280) * 100) / 100;
@@ -629,7 +631,7 @@ export class MapComponent implements OnInit {
 			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
-				console.log("Clusters", this.loc.getClusters(nearbyUsers, 500));
+				// console.log("Clusters", this.loc.getClusters(nearbyUsers, 500));
 				this.maintainFilter();
 			}).catch((err) => {
 				console.error(err);
@@ -1113,8 +1115,7 @@ export class MapComponent implements OnInit {
 			})
 		})
 		//For Clustering
-		console.log("Filtered Users: " + this.filteredUsers)
-		this.clustered = this.loc.getClusters(this.filteredUsers, 1000);
+		this.clustered = this.loc.getClusters(this.filteredUsers.slice(), 1000);
 		// console.log("Cluster Keys: " + Object.keys(this.clustered[0]));
 		// console.log("Cluster Values: " + this.clustered);
 		this.clusteredUsers = [];
@@ -1217,6 +1218,7 @@ export class MapComponent implements OnInit {
 			allUsers[userF.uid] = userF;
 
 		});
+		console.log("allTotals: " + Object.keys(allTotals))
 		var cutoff = ((maxValue - minValue) / 3).toFixed(1);
 		var cutoff2 = (((maxValue - minValue) / 3) * 2).toFixed(1);
 		// console.log("Cutoffs: " + cutoff + " " + cutoff2);
@@ -1225,6 +1227,7 @@ export class MapComponent implements OnInit {
 		this.tier2S = [];
 		this.tier3S = [];
 		Object.keys(allTotals).forEach((total) => {
+			console.log("User")
 			if (allTotals[total] <= cutoff) {
 				this.tier3S.push(allUsers[total].uid)
 				if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {

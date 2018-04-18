@@ -585,6 +585,7 @@ majors: string[] = this.interestObj.majors;
 		this.currSubject = subject;
 		this.cs.getClasses(subject).then((classes) => {
 			this.classList = classes;
+			
 		}).catch((err) => {
 			console.log(err);
 		})
@@ -629,15 +630,17 @@ majors: string[] = this.interestObj.majors;
 
 
 	addClass(cl: String) {
-		this.db.addClass(this.model.user.uid, this.currSubject + " " + cl).then((success) => {
-			this.inSubject = false;
-			this.classList = [];
-			console.log("Added class:", success);
-
-			this.updateClasses();
-		}).catch((err) => {
-			console.log(err);
-		})
+		if(this.userClasses.indexOf(this.currSubject + " " + cl) == -1){
+			this.db.addClass(this.model.user.uid, this.currSubject + " " + cl).then((success) => {
+				this.inSubject = false;
+				this.classList = [];
+				console.log("Added class:", success);
+	
+				this.updateClasses();
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
 	}
 	deleteClass(cl: String) {
 		this.userClasses.splice(this.userClasses.indexOf(cl), 1);

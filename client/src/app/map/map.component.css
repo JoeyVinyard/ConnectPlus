@@ -91,7 +91,8 @@
 	float: center;
 	z-index: 5;
 	position: absolute;
-	width: 90vw;
+	width: 100%;
+	padding: 0px;
 	/* top:0; */
 }
 
@@ -100,7 +101,7 @@
 	border: 2px solid white;
 	border-radius: 25px;
 	width: 50%;
-	margin-left: 24%;
+	margin-left: 25%;
 	margin-top: 1rem;
 }
 
@@ -138,7 +139,7 @@
 
 #selectedCluster{
 	float: center;
-	z-index: 5;
+	z-index: 3;
 	position: absolute;
 	width: 100%;
 	/* top:0; */
@@ -168,11 +169,11 @@
 	border-radius: 25px;
 	width: 50%;
 	margin-left: 25%;
-	margin-right: 25vw;
 	margin-top: 1rem;
 }
 
 #clusterEntry{
+	/* background: #004E7F; */
 	height: 15vh;
 	align-content: left;
 	border-bottom: 2px solid white;
