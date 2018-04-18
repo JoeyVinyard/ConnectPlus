@@ -1065,6 +1065,7 @@ module.exports = {
 			return;
 		}
 		var uid = urlData[1];
+		var feet = urlData[2];
 		firebase.database().ref("locations/"+uid).once("value").then((baseLocation) => {
 			if(baseLocation.val() == null){
 				res.statusCode = 400;
@@ -1091,7 +1092,7 @@ module.exports = {
 								lon: loc.val().lon
 							};
 							var d = distanceCalc.getDistance(c1,c2);
-						if(d <= 15840 ){//3 miles
+						if(d <= feet ){//3 miles
 							firebase.database().ref("users/" + loc.val().uid).once("value").then((broadcastUser) => {
 								var obj = {
 									subject: loc.val().subject,
