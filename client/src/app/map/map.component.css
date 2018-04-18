@@ -15,6 +15,26 @@
 	opacity: 0.5;
 }
 
+.tier3{
+	background: #55C1FE;
+}
+
+.tier2{
+	background: #01A2FF;
+}
+
+.tier1{
+	background: #0076BB;
+}
+
+.tierC{
+	background: #004E7F;
+}
+
+.red{
+	background: red;
+}
+
 #title{
 	/* font-size: 2rem; */
 	font-size: 2vw;
@@ -76,7 +96,7 @@
 }
 
 #selectedUserInfo{
-	background: #0076BB;
+	/* background: #0076BB; */
 	border: 2px solid white;
 	border-radius: 25px;
 	width: 50%;
@@ -114,6 +134,83 @@
 	background: white;
 	color: #004E7F;
 	border: #004E7F solid 2px;
+}
+
+#selectedCluster{
+	float: center;
+	z-index: 5;
+	position: absolute;
+	width: 100%;
+	/* top:0; */
+	padding: 0px;
+}
+
+#clusterList{
+	/* background: #0076BB; */
+	border: 2px solid white;
+	border-radius: 25px;
+	/* width: 70%;
+	margin-left: 24%; */
+	margin-top: 1rem; 
+	height: 37vh;
+	overflow: scroll;
+	padding: 0px;
+}
+
+#broadcastMessage{
+	color: black;
+}
+
+#clusterContent{
+	height: 50vh;
+	background: #004E7F;
+	border: 2px solid white;
+	border-radius: 25px;
+	width: 50%;
+	margin-left: 25%;
+	margin-right: 25vw;
+	margin-top: 1rem;
+}
+
+#clusterEntry{
+	height: 15vh;
+	align-content: left;
+	border-bottom: 2px solid white;
+	text-align: left;
+}
+
+#clusteredImageDiv{
+	margin: 0px;
+	padding: 0px;
+	height: 15vh;
+}
+
+#clusterImage{
+	/* max-height: 90%;
+	/* max-width: height; */
+	/* max-width: auto; */
+	width: 7vw;
+	height: 7vw;
+	margin-left: 10%;
+	border: 2px solid white;
+	border-radius: 50%;
+	margin-top: 2.5%;
+	object-fit: cover;
+	pointer-events: none;
+}
+
+#clusterDivInfo{
+	padding: 0px;
+	margin: 0px;
+	text-align: left;
+}
+
+#clusterText{
+	font-size: 1rem;
+	color: white;
+	/* float: left; */
+	padding: 0px;
+	margin: 0px;
 }
 
 #filterSection{
@@ -803,6 +900,7 @@ agm-map {
 	color: #004E7F;
 	padding-left: 2.5%;
 	padding-top: 1%;
+	word-wrap: break-word;
 }
 
 .messageLeft{
@@ -812,6 +910,7 @@ agm-map {
 	border-top-left-radius: 25px;
 	border-top-right-radius: 25px;
 	border-bottom-right-radius: 25px;
+	margin-bottom: 1%;
 }
 
 .messageRight{
@@ -821,4 +920,5 @@ agm-map {
 	border-top-left-radius: 25px;
 	border-top-right-radius: 25px;
 	border-bottom-left-radius: 25px;
+	margin-bottom: 1%;
 }

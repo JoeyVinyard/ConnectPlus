@@ -8,10 +8,11 @@
 			<div class="medium-12 column" id="innerMap" [ngClass]="{'a' : !userVisible, 'opacity' : userVisible && filterVisible, 'b' : !filterVisible}">
 				<agm-map [latitude]="lat" [longitude]="lng" [zoomControl]="false" [mapTypeControl]="false" [scaleControl]="false" [streetViewControl]="false"
 				 [rotateControl]="false" [fullscreenControl]="false" [mapDraggable]="true" [scrollwheel]="false" [zoom]="zoom" [clickableIcons]="false">
-					<agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="userPin" (markerClick)="viewUser(model.user)"></agm-marker>
+					<agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="userPin"></agm-marker>
 					<agm-marker *ngFor="let user of tier1" (markerClick)="viewUser(user)" [iconUrl]="tier1Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 					<agm-marker *ngFor="let user of tier2" (markerClick)="viewUser(user)" [iconUrl]="tier2Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 					<agm-marker *ngFor="let user of tier3" (markerClick)="viewUser(user)" [iconUrl]="tier3Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
+					<agm-marker *ngFor="let user of clustered" (markerClick)="viewCluster(user)" [iconUrl]="Cluster" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 				</agm-map>
 			</div>
 
@@ -22,7 +23,7 @@
 			</div>
 			<div class="medium-12 column" id="selectedUser" [ngClass]="{'' : userVisible, 'none' : !userVisible}">
 				<!-- <div class="medium-3 column" class="hidden">A</div> -->
-				<div class="medium-12 column" id="selectedUserInfo">
+				<div class="medium-12 column" id="selectedUserInfo" [ngClass]="{'tier1' : checkTier(displayedUser)==1, 'tier2' : checkTier(displayedUser)==2, 'tier3' : checkTier(displayedUser)==3}">
 					<img id="listUser" [src]="displayedUser.url">
 					<br>
 
@@ -48,6 +49,44 @@
 							<button class="button selectedButton" (click)="closeUser()">
 								<i class="fa fa-times"></i> Close</button>
 						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="medium-12 column" id="selectedCluster" [ngClass]="{'' : clusterVisible, 'none' : !clusterVisible}">
+				<!-- <div class="medium-3 column" class="hidden">A</div> -->
+				<div id="clusterContent" class="medium-12 column">
+					<div id="clusterList" class="medium-12 column">
+						<div id="clusterEntry" *ngFor="let obj of currentCluster" [ngClass]="{'tier1' : checkTier(obj)==1, 'tier2' : checkTier(obj)==2, 'tier3' : checkTier(obj)==3, 'red' : checkTier(obj)==4}">
+
+							<div class="medium-4 column" id="clusteredImageDiv">
+								<img id="clusterImage" [src]="obj.url">
+							</div>
+							<div id="clusterDivInfo" class="medium-4 column">
+								<div class="medium-4 column" id="innerDiv">
+									<b>
+										<p id="clusterText">{{obj.firstName}} {{obj.lastName}}</p>
+									</b>
+								</div>
+								<div class="medium-4 column" id="innerDiv">
+									<p id="clusterText">{{obj.moodStatus}}</p>
+								</div>
+								<div class="medium-4 column" id="innerDiv">
+									<p id="clusterText">{{obj.distanceInMiles}} Miles</p>
+								</div>
+								<div class="medium-4 column" id="innerDiv">
+									<p id="SelectedLowerText">{{obj.commons}}</p>
+								</div>
+							</div>
+							<div class="medium-4 column">
+								<button class="button selectedButton" (click)="initMessageThread(obj.uid)">
+									<i class="fa fa-pencil"></i> Message</button>
+							</div>
+						</div>
+					</div>
+					<div class="medium-12 column">
+						<button class="button selectedButton" (click)="closeCluster()">
+							<i class="fa fa-times"></i> Close</button>
 					</div>
 				</div>
 			</div>
@@ -286,12 +325,12 @@
 			<div class="medium-12 medium-centered column" id="messagesDiv" [ngClass]="{' ' : viewMessages, 'none' : !viewMessages}">
 				<div>
 					<div class="medium-12 column" id="broadHeader">
-						<p id="bHeaderText">Current Messages</p>
+						<p id="bHeaderText">Current Messages{{toWhoName}}</p>
 					</div>
 				</div>
 				<div class="medium-12 column" id="broadContent">
 					<div class="medium-3 medium-centered column" id="broadcastList">
-						<div id="messagesPanel" (click)='viewUserMessages(user)' *ngFor="let user of messagesUsers">
+						<div id="messagesPanel" *ngFor="let user of messagesUsers" (click)="getMessageThread(user.uid)">
 							<div class="medium-5 column">
 								<img id="messagesPic" [src]="user.url" />
 								<br>
@@ -303,20 +342,20 @@
 						</div>
 					</div>
 					<div class="medium-9 column" id="messagesView">
-						<div id="messagesThread">
-							<div id="message" *ngFor="let m of testArray" [ngClass]="{'messageLeft' : m%2==0, 'messageRight' : m%2==1}">
-								<p>Message #{{m}}</p>
+						<div id="messagesThread" >
+							<div id="message" *ngFor="let m of messagesArray" [ngClass]="{'messageLeft' : !m.fromMe, 'messageRight' : m.fromMe}">
+								<p>{{m.message}}</p>
 							</div>
 						</div>
 						<div id="messageResponse">
-							<input type="text" id="broadInput"  maxlength="50" [(ngModel)]="typedMessage">
-							<button class="button broadInputButton" (click)="storeMessage(typedMessage,typedMessage,typedMessage)">
+							<input type="text" id="broadInput" maxlength="50" [(ngModel)]="typedMessage">
+							<button class="button broadInputButton" (click)="storeMessage(typedMessage)">
 								<i class="fa fa-paper-plane"></i> Send</button>
 						</div>
 					</div>
 				</div>
 			</div>
+			<p id="broadcastMessage">{{sendBroadcastS}}</p>
 		</div>
-		<p>{{sendBroadcastS}}</p>
 	</div>
 </div>

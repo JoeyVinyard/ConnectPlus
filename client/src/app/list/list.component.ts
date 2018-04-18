@@ -70,6 +70,15 @@ export class ListComponent implements OnInit {
 	tier2 = [];
 	tier3 = [];
 
+	typedMessage: ""
+	displayedUserMessages: any = {};
+	messagesThereUID = [];
+	messagesUsers = [];
+	messagesArray = [];
+	toWho:string;
+	toWhoName:string;
+	messageId = [];
+
 	refreshList() {
 		var ph;
 		this.auth.getUser().then((u) => {
@@ -124,6 +133,13 @@ export class ListComponent implements OnInit {
 		if (this.viewBroadcasts) {
 			this.viewBroadcasts = false;
 		}
+		if(!this.viewMessages){
+			this.toWhoName  = ""
+		}
+		this.messagesUsers = [];
+		this.messagesArray = [];
+		this.getMessages();
+
 	}
 
 	toggleNewBroadcast() {
@@ -505,6 +521,13 @@ export class ListComponent implements OnInit {
 		        this.model.moodStatus = localStorage.getItem("localMood");
 		        console.log(userData)
 		     })
+	   		this.db.getMessages(user.uid).then((messages) => {
+				if(messages){
+					Object.entries(messages)
+				}
+			}).catch((err) => {
+				console.error("Error getting messages", err);
+			})
 
 	    });
 
@@ -1165,6 +1188,122 @@ export class ListComponent implements OnInit {
 		console.log("TIER 2: " + this.tier2);
 		console.log("TIER 1: " + this.tier1);
 	}
+
+
+
+
+
+	initMessageThread(Otheruid:string){
+		// this.messagesUsers = [];
+		// this.getMessages();
+		if(!this.messageId.includes(Otheruid)){
+			this.db.initMessageThread(this.model.user.uid, Otheruid).then((success) => {
+				console.log("why")
+				this.toggleMessages();
+				
+			}).catch((err) => {
+				console.log(err);
+			})
+		}
+		this.toggleMessages2(Otheruid);
+		
+
+	}
+	toggleMessages2(other:string) {
+		if(!this.viewMessages){
+			this.viewMessages = !this.viewMessages;
+
+		}
+		
+			this.messagesUsers = [];
+			this.messagesArray = [];
+			this.getMessages();
+			this.getMessageThread(other);
+		
+		if (this.viewBroadcasts) {
+			this.viewBroadcasts = false;
+		}
+	}
+	storeMessage(message:string){
+		var from = this.model.user.uid;
+		var to = this.toWho
+		this.db.storeMessage(to, from, message).then((success) => {
+				this.typedMessage = "";	
+				this.getMessageThread(to)
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+	messageTo(to:string){
+		this.toWho = to;
+		this.db.getUser(to).then((u) => {
+			this.toWhoName = ": ";
+			this.toWhoName = this.toWhoName + u.fullName;
+	
+		})
+
+	}
+
+				
+		
+
+	getMessageThread(thread:string){
+		this.messageTo(thread);
+		this.messagesArray = [];
+		var uid = this.model.user.uid;
+		this.db.getMessageThread(uid, thread).then((messages) => {
+			console.log("got messages successfully")	
+			console.log(messages)			
+			// 	this.messagesArray = Object.keys(messages);
+			this.messagesArray = [];
+			messages.forEach((mes) => {
+						//console.log("fromeme", mes.fromMe)
+						this.messagesArray.push(mes)
+			
+
+				});	
+
+
+
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+	getMessages(){
+		this.messagesUsers = [];
+		this.db.getMessages(this.model.user.uid).then((messages) => {
+			var here = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
+			//console.log(messages)	
+			this.messagesThereUID = Object.keys(messages);
+
+			this.messagesThereUID.forEach((mes) => {
+					//	console.log(mes)
+				this.db.getUser(mes).then((u) => {
+						this.messagesUsers.push(u);	
+						this.messageId.push(u.uid)
+				})
+
+				});	
+
+		
+		}).catch((err) => {
+			console.log(err);
+		})
+
+	}
+
+	viewUserMessages(user: any = {}) {
+		console.log("yooooooo", this.messagesUsers);
+		this.displayedUserMessages = user;
+		this.displayedUserMessages.uid = user.uid;
+		this.displayedUserMessages.fullName = user.fullName;
+		this.displayedUserMessages.moodStatus = user.moodStatus;
+    
+	}
+
+
+
+
 
 }
 

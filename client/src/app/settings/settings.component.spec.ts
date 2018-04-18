@@ -251,7 +251,7 @@ describe('SettingsComponent', () => {
 		
 		
 // 	})
-it('should display proper errors given invalid first and last name', () => {
+	it('should display proper errors given invalid first and last name', () => {
 		//current passowrd empty error
 		component.genShow = true;
 		fixture.detectChanges();
@@ -272,7 +272,7 @@ it('should display proper errors given invalid first and last name', () => {
 		
 		
 	})
-it('should display proper errors when deleting account', () => {
+	it('should display proper errors when deleting account', () => {
 		//current passowrd empty error
 		component.delShow = true;
 		fixture.detectChanges();
@@ -286,12 +286,8 @@ it('should display proper errors when deleting account', () => {
 		
 	})
 
-
-
-
-
-
-
-
+	it('should have text box to input interests', () => {
+		expect(fixture.debugElement.query(By.css('interestInput'))).toBeTruthy;
+	})
 
 });
