@@ -274,7 +274,26 @@ export class MapComponent implements OnInit {
 		this.currentCluster = cluster.users;
 		this.currentCluster.forEach((user) =>{
 			user.distanceInMiles = Math.round((user.distance / 5280) * 100) / 100;
+			if (isNaN(user.distanceInMiles)){
+				user.distanceInMiles = 0;
+			}
+
+
+			var vis = this.commonMap.get(user.uid);
+			user.uid = user.uid;
+			user.commons = vis.FB + ": " + vis.facebookNum
+				+ "  " + vis.TW + ": " + vis.twitterNum
+				+ "  " + vis.BB + ": " + vis.blackboardNum
+				+ "  " + vis.YT + ": " + vis.youtubeNum;
+
+			vis.interestSub.forEach((value: string, key: string) => {
+				user.commons = user.commons + "  " + key + ": " + value;
+			});
+					this.checkTier(user);
+
+
 		})
+		
 
 	}
 
