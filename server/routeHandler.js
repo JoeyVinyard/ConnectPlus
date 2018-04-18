@@ -208,7 +208,7 @@ module.exports = {
 							lon: loc.val().lon
 						};
 						var d = distanceCalc.getDistance(c1,c2);
-						if(d <= (5280 * miles) && loc.val().uid != uid){
+						if(d <= feet && loc.val().uid != uid){
 							nearbyUids.push({
 								uid: loc.val().uid,
 								distance: d,
@@ -1092,7 +1092,7 @@ module.exports = {
 								lon: loc.val().lon
 							};
 							var d = distanceCalc.getDistance(c1,c2);
-						if(d <= feet ){//3 miles
+						if(d <= 15840 ){//3 miles
 							firebase.database().ref("users/" + loc.val().uid).once("value").then((broadcastUser) => {
 								var obj = {
 									subject: loc.val().subject,
