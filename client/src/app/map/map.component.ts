@@ -139,6 +139,7 @@ export class MapComponent implements OnInit {
 		}
 		if(!this.viewMessages){
 			this.toWhoName  = ""
+			this.toWho = ""
 		}
 		this.messagesUsers = [];
 		this.messagesArray = [];
@@ -1226,8 +1227,7 @@ export class MapComponent implements OnInit {
 		this.tier1S = [];
 		this.tier2S = [];
 		this.tier3S = [];
-		Object.keys(allTotals).forEach((total) => {
-			console.log("User")
+		Object.keys(allTotals).forEach((total) => {		
 			if (allTotals[total] <= cutoff) {
 				this.tier3S.push(allUsers[total].uid)
 				if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {
@@ -1261,7 +1261,7 @@ export class MapComponent implements OnInit {
 		this.viewBroadcasts = false;
 		this.viewMessages = true;
 		var element = document.getElementById("messagesDiv")
-		element.scrollIntoView();
+		setTimeout(function(){ element.scrollIntoView(); }, 250);
 
 		// this.messagesUsers = [];
 		// this.getMessages();
@@ -1305,6 +1305,7 @@ export class MapComponent implements OnInit {
 	}
 	messageTo(to: string) {
 		this.toWho = to;
+		// console.log("toWho: " + this.toWho)
 		this.db.getUser(to).then((u) => {
 			this.toWhoName = ": ";
 			this.toWhoName = this.toWhoName + u.fullName;

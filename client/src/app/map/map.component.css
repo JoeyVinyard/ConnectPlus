@@ -31,8 +31,12 @@
 	background: #004E7F;
 }
 
-.red{
-	background: red;
+.selected{
+	background: #01A2FF;
+}
+
+.notSelected{
+	background: transparent;
 }
 
 #title{
@@ -416,7 +420,7 @@
 }
 
 .mapButton:hover{
-    background-color: rgba(0, 118, 187, 0.75);
+    background-color: #0076BB;
     color: white;
 }
 

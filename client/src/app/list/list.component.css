@@ -31,8 +31,12 @@
 	background: #004E7F;
 }
 
-.red{
-	background: red;
+.selected{
+	background: #01A2FF;
+}
+
+.notSelected{
+	background: transparent;
 }
 
 #title{
@@ -57,6 +61,7 @@
 	margin-bottom: -50px;
 	overflow: scroll;
 	position: relative;
+	padding: 0px;
 
 }
 
@@ -92,6 +97,7 @@
 	height: 10%;
 	max-height: 10%;
 	overflow: hidden;
+	padding-bottom: 1%;
 	/* margin-left: 0.125rem; */
 	/* margin-right: 0.125rem; */
 }
@@ -106,6 +112,7 @@
 	height: 10%;
 	max-height: 10%;
 	overflow: hidden;
+	padding-bottom: 1%;
 }
 
 #tier3{
@@ -118,6 +125,7 @@
 	height: 10%;
 	max-height: 10%;
 	overflow: hidden;
+	padding-bottom: 1%;
 }
 
 #userDivInfo{
@@ -180,7 +188,8 @@
 	float: center;
 	z-index: 5;
 	position: absolute;
-	width: 90vw;
+	width: 100%;
+	padding: 0px;
 	/* top:0; */
 }
 
@@ -189,7 +198,7 @@
 	border: 2px solid white;
 	border-radius: 25px;
 	width: 50%;
-	margin-left: 24%;
+	margin-left: 25%;
 	margin-top: 1rem;
 }
 
@@ -414,7 +423,7 @@
 }
 
 .mapButton:hover{
-    background-color: rgba(0, 118, 187, 0.75);
+    background-color: #0076BB;
     color: white;
 }
 
