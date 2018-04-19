@@ -135,7 +135,7 @@ export class CreateProfileComponent implements OnInit {
 					this.model.user.filteredInterests = [""]
 					this.model.user.visibility = true;
 					this.db.createUser(this.model.user).then((data) => {
-						this.router.navigateByUrl('map');
+						this.router.navigateByUrl('settings');
 					}).catch((err) => {
 						this.errors.createError = "profile creation failed"
 						console.error(err);
