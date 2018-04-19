@@ -629,7 +629,7 @@ majors: string[] = this.interestObj.majors;
 
 
 	addClass(cl: String) {
-		if(this.userClasses.indexOf(this.currSubject + " " + cl) == -1){
+		if(!this.userClasses || this.userClasses.indexOf(this.currSubject + " " + cl) == -1){
 			this.db.addClass(this.model.user.uid, this.currSubject + " " + cl).then((success) => {
 				this.inSubject = false;
 				this.classList = [];
