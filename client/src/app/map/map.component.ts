@@ -86,6 +86,8 @@ export class MapComponent implements OnInit {
 	toWhoName:string;
 	messageId = [];
 
+	currentMessageThread: string;
+
 
 	refreshMap() {
 		this.auth.getUser().then((u) => {
@@ -612,7 +614,6 @@ export class MapComponent implements OnInit {
 				});
 			}
 		}, 3000);
-
 	}
 
 	ngOnInit() {
@@ -1116,7 +1117,7 @@ export class MapComponent implements OnInit {
 			})
 		})
 		//For Clustering
-		this.clustered = this.loc.getClusters(this.filteredUsers.slice(), 1000);
+		this.clustered = this.loc.getClusters(this.filteredUsers.slice(), (20-this.currentZoom)*40);
 		// console.log("Cluster Keys: " + Object.keys(this.clustered[0]));
 		// console.log("Cluster Values: " + this.clustered);
 		this.clusteredUsers = [];
@@ -1314,8 +1315,23 @@ export class MapComponent implements OnInit {
 
 	}
 
+	id;
 				
-		
+	changeCurThread(thread:string){
+		// console.log("Setting cur message thread to:", thread);
+		if(this.id)
+			clearInterval(this.id);
+		this.id = setInterval(this.messageRefresh, 5000, thread, this);
+	}
+
+
+	messageRefresh(thread: string, self: MapComponent){
+		// console.log("Cur thread:", thread);
+		if(thread){
+			// console.log("Refreshing");
+			self.getMessageThread(thread);
+		}
+	}
 
 	getMessageThread(thread:string){
 		this.messageTo(thread);
@@ -1328,19 +1344,12 @@ export class MapComponent implements OnInit {
 			this.messagesArray = [];
 			messages.forEach((mes) => {
 				//console.log("fromeme", mes.fromMe)
-				if(mes == " "){
-						
+				if(mes == " "){		
 				}
 				else{
 					this.messagesArray.push(mes)
 				}
-		
-
-
 			});
-
-
-
 		}).catch((err) => {
 			console.log(err);
 		})

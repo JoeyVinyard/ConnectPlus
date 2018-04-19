@@ -47,6 +47,11 @@ let DatabaseServiceStub = {
 			resolve({});
 		})
 	},
+	addFeedback(feedback:String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve({});
+		})
+	}
 	// deleteInterest(uid: String, inter: String): Promise<any>{
 	// 	return new Promise((resolve, reject) => {
 	// 		resolve({});
@@ -292,6 +297,35 @@ describe('SettingsComponent', () => {
 
 	it('should have text box to input interests', () => {
 		expect(fixture.debugElement.query(By.css('interestInput'))).toBeTruthy;
+	})
+
+
+
+
+	it('should send feedback', () => {
+		//current passowrd empty error
+		component.fedShow = true;
+		fixture.detectChanges();
+		var expectedError = "";
+		component.model.feedback = "hi i sent feedback";
+		component.addFeedback(component.model.feedback);
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#feedbackSuccess")).nativeElement.innerText).toEqual(expectedError);
+
+		
+	})
+
+	it('should send feedback error', () => {
+		//current passowrd empty error
+		component.fedShow = true;
+		fixture.detectChanges();
+		var expectedError = "Looks like you are tyring to submit nothing.";
+		component.model.feedback = "";
+		component.addFeedbacktester(component.model.feedback);
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#feedbackError")).nativeElement.innerText).toEqual(expectedError);
+
+		
 	})
 
 });

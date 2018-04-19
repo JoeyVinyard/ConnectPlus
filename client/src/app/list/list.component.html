@@ -360,6 +360,9 @@
 							<input type="text" id="broadInput" maxlength="50" [(ngModel)]="typedMessage">
 							<button class="button broadInputButton" (click)="storeMessage(typedMessage)">
 								<i class="fa fa-paper-plane"></i> Send</button>
+								<p id="messageError" class="error">{{errors.messageE}}</p>
+								<p id="messageSuccess" class="error">{{success.messageS}}</p>
+
 						</div>
 					</div>
 				</div>
