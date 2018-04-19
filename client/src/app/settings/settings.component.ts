@@ -187,7 +187,7 @@ majors: string[] = this.interestObj.majors;
 			reader.onload = (event: any) => { // called once readAsDataURL is completed
 				// this.url = event.target.result;
 				this.model.user.url = event.target.result;
-				this.updateInfo();
+				//this.updateInfo();
 				console.log(this.model.user.url);
 			}
 		}
