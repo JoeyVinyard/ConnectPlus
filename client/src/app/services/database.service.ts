@@ -491,6 +491,29 @@ export class DatabaseService {
 		})
 	}
 
+	storeFacebookID(id, uid): Promise<any>{
+		
+		return new Promise((resolve, reject) => {
+			this.http.get(this.dbUrl+ "storeFacebookID/"+uid+"/"+id, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			})
+		})
+	}
+
+	getFacebookID(uid, id): Promise<any> {
+		return new Promise((resolve, reject) => {
+			this.http.get(this.dbUrl+ "getFacebookID/"+uid, this.httpOptions).subscribe((data) => {
+				if(data["payload"])
+					resolve(data["payload"]);
+				else
+					reject(data["err"]);
+			});
+		})
+	}
+
 	constructor(private http: HttpClient) {}
 
 }

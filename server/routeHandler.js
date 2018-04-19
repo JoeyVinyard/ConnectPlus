@@ -1352,5 +1352,54 @@ module.exports = {
 			res.write(JSON.stringify(responseBody));
 			res.end();
 		})
+	},
+	storeFacebookID: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		var fid = urlData[2];
+		if(!uid || !fid){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("facebook-ids/" + uid).set(fid).then((s) => {
+			responseBody.payload = "Facebook stored";
+			res.statusCode = 200;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}).catch((err) => {
+			console.log(err);
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		});
+	},
+
+	getFacebookID: function(req, res, urlData){
+		var responseBody = Object.create(responseForm);
+		var uid = urlData[1];
+		if(!uid){
+			res.statusCode = 400;
+			responseBody.err = "No UID provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
+		firebase.database().ref("facebook-ids/"+uid).once("value").then((s) => {
+			responseBody.payload = s.val();
+			res.statusCode = 200;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		}).catch((err) => {
+			responseBody.err = err;
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+		})
 	}
+
 }

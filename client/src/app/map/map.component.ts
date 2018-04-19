@@ -7,6 +7,7 @@ import { Commonalities } from '../services/commonalities';
 import { DatabaseService } from '../services/database.service';
 import { LocationService } from '../services/location.service';
 import { ClassesService } from '../services/classes.service';
+import { FacebookService, LoginResponse, LoginOptions, UIResponse, UIParams, FBVideoComponent } from 'ngx-facebook';
 
 @Component({
 	selector: 'app-map',
@@ -564,7 +565,7 @@ export class MapComponent implements OnInit {
 	}
 
 
-	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService) {
+	constructor(private auth: AuthService, public pConfig: ParticlesConfigService, private router: Router, private db: DatabaseService, public loc: LocationService, private fb: FacebookService) {
 		this.auth.isAuthed().then((user) => {
 			this.model.user.uid = user.uid;
 		});
@@ -718,10 +719,41 @@ export class MapComponent implements OnInit {
 		});
 	}
 
+	handleError(error) {
+		console.error('Error processing action', error);
+	}
 	filterUsersBasedOnFacebook(num: number) {
-		return new Promise((mainResolve, mainReject) => {
+		const loginOptions: LoginOptions = {
+			enable_profile_selector: true,
+			return_scopes: true,
+			scope: 'public_profile,user_friends,email,pages_show_list'
+		};
+		
+		/*todo: Check if loggedin already */
+		this.fb.getLoginStatus().then(res => {
+			console.log(res.status);
+			if (res && res.status === 'unknown' || res.status === 'not_authorized') {
+				console.log("User is not logged into facebook, go to settings to use this feature");
+				return;
+				
+			} else {
+				this.fb.login(loginOptions).then((res: LoginResponse) => {
+					console.log('Logged in', res);
+				}).then(() => {
+					this.fb.api('/me/mutual_friends/').then((res: any) => {
+						console.log(res.id);
+						this.db.storeFacebookID(res.id, this.model.user.uid).then((data) => {
+							console.log(data);
+						}).catch((err) => {
+							console.error(err);
+						})
+						console.log('Got the users friends', res);
+					})
+				}).catch(this.handleError);
+			}
+		})
+		/*return new Promise((mainResolve, mainReject) => {
 			var filterUsersArray = [];
-			if (true /*check facebook thing*/) {
 
 				this.db.getFacebookFriends(this.model.user.uid).then((friends) => {
 					var friendMap = new Map();
@@ -790,7 +822,7 @@ export class MapComponent implements OnInit {
 					mainResolve("Facebook")
 				});
 			}
-		});
+		});*/
 	}
 
 	filterUsersBasedOnTwitter(num: number) {
