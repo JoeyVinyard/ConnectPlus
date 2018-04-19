@@ -30,7 +30,10 @@ let DatabaseServiceStub = {
 		return new Promise((resolve, reject) => {
 			resolve([]);
 		})
-	}
+	},
+	
+
+
 }
 let TwitterServiceStub = {
 	getFriends(screenName: string){}
@@ -118,6 +121,53 @@ describe('ListComponent', () => {
 
 	it('should show messaging feature', () => {
 		expect(fixture.debugElement.query(By.css('messagesPanel'))).toBeTruthy;
+	})
+	it('should store message should send', () => {
+		//current passowrd empty error
+		//component.viewMessages = true;
+		fixture.detectChanges();
+		var expectedError = "";
+		
+		var message = "hello"
+		component.model.user.uid = "ZVmOhUAURNOD8t4zqunUdUtjc4B3";
+		component.toWho = "c6y99EL6PkPPQW8bXd3gJR5KE2J3";
+
+		component.storeMessagetester(message);
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#messageError")).nativeElement.innerText).toEqual(expectedError);
+
+		
+	})
+	it('should get message should send', () => {
+		//current passowrd empty error
+		//component.viewMessages = true;
+		fixture.detectChanges();
+		var expectedError = "";
+		
+		var message = "hello"
+		component.model.user.uid = "ZVmOhUAURNOD8t4zqunUdUtjc4B3";
+		component.toWho = "c6y99EL6PkPPQW8bXd3gJR5KE2J3";
+
+		component.getMessagestester();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#messageError")).nativeElement.innerText).toEqual(expectedError);
+
+		
+	})
+	it('should get thread message should send', () => {
+		//current passowrd empty error
+		//component.viewMessages = true;
+		fixture.detectChanges();
+		var expectedError = "";
+		
+		var message = "hello"
+		component.model.user.uid = "ZVmOhUAURNOD8t4zqunUdUtjc4B3";
+		component.toWho = "c6y99EL6PkPPQW8bXd3gJR5KE2J3";
+
+		component.getMessageThreadtester(component.toWho);
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#messageError")).nativeElement.innerText).toEqual(expectedError);
+
 	})
 
 	it('should sort users by commonalities', () => {

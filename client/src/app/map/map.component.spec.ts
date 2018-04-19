@@ -10,8 +10,9 @@ import { User } from '../services/user';
 import { DatabaseService } from '../services/database.service';
 import { LocationService } from '../services/location.service';
 
-describe('Map Component', () => {
-
+describe('MapComponent', () => {
+let component: MapComponent;
+	let fixture: ComponentFixture<MapComponent>;
 	let users = [];
 	let map = {};
 	let distanceFilter = {};
@@ -26,8 +27,7 @@ describe('Map Component', () => {
 		.compileComponents();
 	}));
 
-	beforeEach(() => {});
-
+	
 	it('should load the map', () => {
 		expect(map).toBeTruthy();
 	})
