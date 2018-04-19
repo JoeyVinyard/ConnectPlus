@@ -153,7 +153,7 @@ describe('SettingsComponent', () => {
 		component.delShow = true;
 		component.faceShow = true;
 		component.twitShow = true;
-		component.linkShow = true;
+		component.youShow = true;
 		component.blackShow = true;
 		fixture.detectChanges();
 		expect(fixture.debugElement.queryAll(By.css('form')).length).toEqual(9);
@@ -171,7 +171,7 @@ describe('SettingsComponent', () => {
 		component.delShow = true;
 		component.faceShow = true;
 		component.twitShow = true;
-		component.linkShow = true;
+		component.youShow = true;
 		component.blackShow = true;
 		fixture.detectChanges();
 		expect(fixture.debugElement.queryAllNodes(By.css('#formTitle')).length).toEqual(13);
