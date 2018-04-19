@@ -1116,7 +1116,7 @@ export class MapComponent implements OnInit {
 			})
 		})
 		//For Clustering
-		this.clustered = this.loc.getClusters(this.filteredUsers.slice(), 1000);
+		this.clustered = this.loc.getClusters(this.filteredUsers.slice(), (20-this.currentZoom)*40);
 		// console.log("Cluster Keys: " + Object.keys(this.clustered[0]));
 		// console.log("Cluster Values: " + this.clustered);
 		this.clusteredUsers = [];
