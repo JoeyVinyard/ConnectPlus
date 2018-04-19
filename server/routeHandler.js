@@ -322,39 +322,6 @@ module.exports = {
 			res.end();
 		});
 	},
-	getYoutubeFriends: function(req, res, urlData){
-		var responseBody = Object.create(responseForm);
-		if(!urlData || !urlData[1]){
-			res.statusCode = 400;
-			responseBody.err = "No UID provided";
-			res.write(JSON.stringify(responseBody));
-			res.end();
-			return;
-		}
-		var uid = urlData[1];
-		firebase.database().ref("youtube-friends/"+uid).once("value").then((user) => {
-			var data = [];
-			if(!user.val()){
-				res.statusCode = 200;
-				responseBody.payload = data;
-				res.write(JSON.stringify(responseBody));
-				res.end();	
-				return;
-			}
-			var userFollowees = user.val().friends;
-
-			//var friendMap = new Map();
-			userFollowees.forEach((followee) => {
-				data.push(followee);
-
-			});
-
-			res.statusCode = 200;
-			responseBody.payload = data;
-			res.write(JSON.stringify(responseBody));
-			res.end();
-		});
-	},
 	getUsersWithCommonFacebookFriends: function(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		if(!urlData || !urlData[1]){
@@ -853,6 +820,13 @@ module.exports = {
 	storeYoutubeSubscribers(req, res, urlData){
 		var responseBody = Object.create(responseForm);
 		var subs = {};
+		if(urlData.length < 3){
+			responseBody.err = "No access token was given";
+			res.statusCode = 400;
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+		}
 		var uid = urlData[1];
 		var access_token = urlData[2];
 		if(!uid || !access_token){
@@ -870,7 +844,12 @@ module.exports = {
 			if(channel.data.nextPageToken)
 				getSubs(channel.data.nextPageToken);
 		}).catch((err) => {
-			console.log("Youtube Failed", err);
+			res.statusCode = 400;
+			responseBody.err = "No UID or access_token provided";
+			res.write(JSON.stringify(responseBody));
+			res.end();
+			return;
+			//console.log("Youtube Failed", err);
 		})
 		function getSubs(nextPage){
 			youtube.get("subscriptions?access_token="+access_token+"&part=snippet,contentDetails&mine=true&pageToken="+nextPage).then((channel) => {
@@ -909,6 +888,13 @@ module.exports = {
 			return;
 		}
 		firebase.database().ref("subscriptions/"+uid).once("value").then((s) => {
+			if(s.val() == null){
+				responseBody.err = "valid";
+				res.statusCode = 400;
+				res.write(JSON.stringify(responseBody));
+				res.end();
+				return;
+			}
 			responseBody.payload = s.val();
 			res.statusCode = 200;
 			res.write(JSON.stringify(responseBody));
@@ -975,7 +961,7 @@ module.exports = {
 		});
 		req.on('end', function () {
 			var data = JSON.parse(body);
-			if(!data || !data.feedback){
+			if(!data || !data.feedback || data.feedback == ""){
 				res.statusCode = 400;
 				responseBody.err = "Data not supplied";
 				res.write(JSON.stringify(responseBody));
@@ -987,6 +973,7 @@ module.exports = {
 				responseBody.payload = data;
 				res.write(JSON.stringify(responseBody));
 				res.end();
+				return;
 			}).catch((err) => {
 				console.error(err);
 				responseBody.err = err;
@@ -1008,7 +995,7 @@ module.exports = {
 		});
 		req.on('end', function() {
 			var data = JSON.parse(body);
-			if(!data || !data.uid){
+			if(!data || !data.uid || data.broadcast == "" || data.time < 1){
 				res.statusCode = 400;
 				responseBody.err = "Data or UID not supplied";
 				res.write(JSON.stringify(responseBody));
@@ -1096,6 +1083,13 @@ module.exports = {
 							var d = distanceCalc.getDistance(c1,c2);
 						if(d <= 15840 ){//3 miles
 							firebase.database().ref("users/" + loc.val().uid).once("value").then((broadcastUser) => {
+								if(broadcastUser.val() == null){
+									res.statusCode = 400;
+									responseBody.err = "Invalid UID";
+									res.write(JSON.stringify(responseBody));
+									res.end();
+									return;			
+								}
 								var obj = {
 									subject: loc.val().subject,
 									url: broadcastUser.val().url,
@@ -1196,7 +1190,7 @@ module.exports = {
 		});
 		req.on('end', function() {
 			var data = JSON.parse(body);
-			if(!data || !data.uid || !data.broadcastID){
+			if(!data || !data.uid || !data.broadcastID || data.response == "" || data.time < 1){
 				res.statusCode = 400;
 				responseBody.err = "Data or UID not supplied";
 				res.write(JSON.stringify(responseBody));
@@ -1220,9 +1214,9 @@ module.exports = {
 		var responseBody = Object.create(responseForm);
 		var uid = urlData[1];
 		var time = parseInt(urlData[2]);
-		if(!uid || !time){
+		if(!uid || !time || time < 1){
 			res.statusCode = 400;
-			responseBody.err = "No UID or Time provided";
+			responseBody.err = "Invalid UID or Time provided";
 			res.write(JSON.stringify(responseBody));
 			res.end();
 			return;
