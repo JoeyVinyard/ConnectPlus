@@ -47,6 +47,11 @@ let DatabaseServiceStub = {
 			resolve({});
 		})
 	},
+	addFeedback(feedback:String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve({});
+		})
+	}
 	// deleteInterest(uid: String, inter: String): Promise<any>{
 	// 	return new Promise((resolve, reject) => {
 	// 		resolve({});
@@ -301,9 +306,9 @@ describe('SettingsComponent', () => {
 		//current passowrd empty error
 		component.fedShow = true;
 		fixture.detectChanges();
-		var expectedError = "Thank you for your feedback. It has been sent to our developers.";
+		var expectedError = "";
 		component.model.feedback = "hi i sent feedback";
-		component.addFeedbacktester(component.model.feedback);
+		component.addFeedback(component.model.feedback);
 		fixture.detectChanges();
 		expect(fixture.debugElement.query(By.css("#feedbackSuccess")).nativeElement.innerText).toEqual(expectedError);
 

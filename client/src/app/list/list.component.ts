@@ -262,7 +262,11 @@ export class ListComponent implements OnInit {
 
 	}
 	errors = {
-		mood: ""
+		mood: "",
+		messageE: ""
+	}
+	success = {
+		messageS:""
 	}
 
 	moodChange() {
@@ -1307,6 +1311,8 @@ export class ListComponent implements OnInit {
 				})
 
 				});	
+			this.errors.messageE = ""
+			this.success.messageS = ""
 
 		
 		}).catch((err) => {
@@ -1314,6 +1320,26 @@ export class ListComponent implements OnInit {
 		})
 
 	}
+
+
+storeMessagetester(message:string){
+		var from = this.model.user.uid;
+		var to = this.toWho
+		
+	}
+
+getMessageThreadtester(thread:string){
+		this.messageTo(thread);
+		this.messagesArray = [];
+		var uid = this.model.user.uid;
+		
+	}
+getMessagestester(){
+		this.messagesUsers = [];
+		
+	}
+
+
 
 	viewUserMessages(user: any = {}) {
 		console.log("yooooooo", this.messagesUsers);
