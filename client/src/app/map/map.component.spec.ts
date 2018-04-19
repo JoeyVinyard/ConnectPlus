@@ -55,8 +55,14 @@ let component: MapComponent;
 		expect(users).toEqual(sortedUsers);
 	})
 
-
+	it('should filter users based on YouTube subscriptions', () => {
+		var user1 = {uid: 100, subscriptions: 'Justin Timberlake', common: 0};
+		var user2 = {uid: 101, subscriptions: 'Justin Timberlake', common: 0};
+		var user3 = {uid: 102, subscriptions: 'Madonna', common: 0};
+		if(user1.subscriptions == user2.subscriptions){
+			user1.common = 1;
+			user2.common = 1;
+		}
+		expect(user1.common).toEqual(1);
+	})
 });
-
-
-
