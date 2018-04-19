@@ -172,8 +172,8 @@
 								<i class="fa fa-times"></i>
 								<p>Not Connected</p>
 							</div>
-							<button (click) = "link_youtube()" class="button socialButton" id="link-con">Connect</button>
-							<button (click) = "unlink_youtube()" class="button socialButton" id="link-dis">Disconnect</button>
+							<button (click)="link_youtube()" class="button socialButton" id="link-con">Connect</button>
+							<button (click)="unlink_youtube()" class="button socialButton" id="link-dis">Disconnect</button>
 						</div>
 
 						<div id="blackboardInterface" class="medium-3 column social-expanded" *ngIf="blackInter">
@@ -182,12 +182,13 @@
 								<!-- List of subjects -->
 								<div id="subjectList" *ngIf="!inSubject">
 									<div id="subjectListContainer">
-										<p *ngFor="let subject of subjects" (click)="showClassList(subject.Abbreviation)" class="clickable" id="currentList"> 
+										<p *ngFor="let subject of subjects" (click)="showClassList(subject.Abbreviation)" class="clickable" id="currentList">
 											{{subject.Abbreviation}}
 										</p>
 
 									</div>
-									<p (click)="toggleAdd()" class="clickable"><i class="fa fa-times"></i> Close</p>
+									<p (click)="toggleAdd()" class="clickable">
+										<i class="fa fa-times"></i> Close</p>
 								</div>
 								<!-- Course list in subject -->
 								<div id="courseList" *ngIf="inSubject">
@@ -196,7 +197,8 @@
 											{{currSubject}} {{cl.Number}}
 										</p>
 									</div>
-									<p (click)="showSubjectList()" class="clickable"><i class="fa fa-arrow-left"></i> Back</p>
+									<p (click)="showSubjectList()" class="clickable">
+										<i class="fa fa-arrow-left"></i> Back</p>
 								</div>
 							</div>
 							<div *ngIf="inDelete">
@@ -208,16 +210,19 @@
 										{{cl}}
 									</p>
 								</div>
-								<p (click)="toggleDelete()" class="clickable"><i class="fa fa-times"></i> Close</p>
+								<p (click)="toggleDelete()" class="clickable">
+									<i class="fa fa-times"></i> Close</p>
 							</div>
 						</div>
 
 						<div class="medium-3 column social-expanded" id="black-exp" [ngClass]="{'hidden' : !blackShow, 'visible' : blackShow}">
 							<p>Blackboard</p>
-							<p id="currentClasses">Current Classes</p>
-							<p id="currentList" *ngFor="let cl of userClasses">
-								{{cl}}
-							</p>
+							<!-- <p id="currentClasses">Current Classes</p> -->
+							<div id="currentListDiv">
+								<p id="currentList" *ngFor="let cl of userClasses">
+									{{cl}}
+								</p>
+							</div>
 							<button class="button socialButton" id="black-con" (click)="toggleAdd()">Add Classes</button>
 							<button class="button socialButton" id="black-dis" (click)="toggleDelete()">Remove Classes</button>
 							<!-- Regular adding classes menu -->
@@ -240,48 +245,53 @@
 
 				<div id="interestContent" class="medium-12 medium-centered column" *ngIf="intShow">
 					<!-- <form (ngSubmit)="updateInfo()" #signupForm="ngForm"> -->
-						<div class="medium-5 column">
-							<select id="interestSelection" [(ngModel)]="model.interestSub">
-								<option value="Sports">Sports</option>
-								<option value="Music">Music Genres</option>
-								<option value="Animals">Animals</option>
-								<option value="Tv">TV Shows</option>
-								<option value="Movies">Movie Genres</option>
-								<option value="Hobbies">Hobbies</option>
-								<option value="Country">Country</option>
-								<option value="Foods">Foods</option>
-								<option value="Dance">Dance</option>
-								<option value="Languages">Languages</option>
-								<option value="FavArtists">FavArtists</option>
-								<option value="Majors">Major</option>
-							</select>
-						</div>
-						<div class="medium-6 column">
-								<input type="text" name="interestInput" id="interestInput" list="options" (click)="updateIntArray()" [(ngModel)]="model.interestSelected">
-								<datalist id="options">
-									<option *ngFor="let i of cIntArray" [value]="i">
-								</datalist>
-						</div>
-						<div class="medium-1 column">
-							<button id="interestButton" class="button" (click)="addInterest(model.interestSub,model.interestSelected)"><i class="fa fa-plus"></i></button>
-						</div>
-						<div id="displayInterests" class="medium-12 column">
-							<div class="medium-3 column interestPanel"*ngFor="let category of arrayOfInterestKeys" >
-								<b><p class="interestTitle" >{{category}}</p></b>
-								<div class="interestList">
-									<div class="interestDiv" *ngFor="let interest of getArrayInter(category)">
-										<div class="medium-9 column iInterestDiv">
-												<p class="iInterest">{{interest}}</p>
-										</div>
-										<div class="medium-3 column iDeleteDiv">
-												<i class="fa fa-times iDelete" (click)="deleteInterest(category,interest)"></i>
-										</div>
-										<!-- <p class="iInterest">{{interest}} <i class="fa fa-times iDelete" (click)="deleteInterest(category,interest)"></i></p> -->
+					<div class="medium-5 column">
+						<select id="interestSelection" [(ngModel)]="model.interestSub">
+							<option value="Sports">Sports</option>
+							<option value="Music">Music Genres</option>
+							<option value="Animals">Animals</option>
+							<option value="Tv">TV Shows</option>
+							<option value="Movies">Movie Genres</option>
+							<option value="Hobbies">Hobbies</option>
+							<option value="Country">Country</option>
+							<option value="Foods">Foods</option>
+							<option value="Dance">Dance</option>
+							<option value="Languages">Languages</option>
+							<option value="Artists">Favorite Artists</option>
+							<option value="Majors">Major</option>
+						</select>
+					</div>
+					<div class="medium-6 column">
+						<input type="text" name="interestInput" id="interestInput" list="options" (click)="updateIntArray()" [(ngModel)]="model.interestSelected">
+						<datalist id="options">
+							<option *ngFor="let i of cIntArray" [value]="i">
+						</datalist>
+					</div>
+					<div class="medium-1 column">
+						<button id="interestButton" class="button" (click)="addInterest(model.interestSub,model.interestSelected)">
+							<i class="fa fa-plus"></i>
+						</button>
+					</div>
+					<div id="displayInterests" class="medium-12 column">
+						<div class="medium-3 column interestPanel" *ngFor="let category of arrayOfInterestKeys">
+							<b>
+								<p class="interestTitle">{{category}}</p>
+							</b>
+							<div class="interestList">
+								<div class="interestDiv" *ngFor="let interest of getArrayInter(category)">
+									<div class="medium-9 column iInterestDiv">
+										<p class="iInterest">{{interest}}</p>
 									</div>
+									<div class="medium-3 column iDeleteDiv">
+										<i class="fa fa-times iDelete" (click)="deleteInterest(category,interest)"></i>
+									</div>
+									<!-- <p class="iInterest">{{interest}} <i class="fa fa-times iDelete" (click)="deleteInterest(category,interest)"></i></p> -->
 								</div>
-								<p class="button iClear"(click)="clearAllCatInterests(category)"><i class="fa fa-trash-o"></i> Clear All</p>
 							</div>
+							<p class="button iClear" (click)="clearAllCatInterests(category)">
+								<i class="fa fa-trash-o"></i> Clear All</p>
 						</div>
+					</div>
 				</div>
 
 			</div>
@@ -298,8 +308,8 @@
 					<div class="medium-12 column">
 						<textarea class="textInput" rows="4" cols="50" [(ngModel)]="model.feedback">></textarea>
 					</div>
-					<p class="success">{{success.feedbackS}}</p>
-					<p class="error">{{errors.feedbackE}}</p>
+					<p id="feedbackSuccess" class="success">{{success.feedbackS}}</p>
+					<p id="feedbackError" class="error">{{errors.feedbackE}}</p>
 					<button (click)="addFeedback(model.feedback)" class="button saveButton">Submit</button>
 				</div>
 			</div>

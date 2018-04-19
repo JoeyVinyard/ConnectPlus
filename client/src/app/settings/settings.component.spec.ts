@@ -47,6 +47,11 @@ let DatabaseServiceStub = {
 			resolve({});
 		})
 	},
+	addFeedback(feedback:String): Promise<any>{
+		return new Promise((resolve, reject) => {
+			resolve({});
+		})
+	}
 	// deleteInterest(uid: String, inter: String): Promise<any>{
 	// 	return new Promise((resolve, reject) => {
 	// 		resolve({});
@@ -153,10 +158,10 @@ describe('SettingsComponent', () => {
 		component.delShow = true;
 		component.faceShow = true;
 		component.twitShow = true;
-		component.linkShow = true;
+		component.youShow = true;
 		component.blackShow = true;
 		fixture.detectChanges();
-		expect(fixture.debugElement.queryAll(By.css('form')).length).toEqual(9);
+		expect(fixture.debugElement.queryAll(By.css('form')).length).toEqual(8);
 	});
 	it('should not load form labels when sections are collapsed', () => {
 		expect(fixture.debugElement.queryAllNodes(By.css('#formTitle')).length).toEqual(0);
@@ -171,7 +176,7 @@ describe('SettingsComponent', () => {
 		component.delShow = true;
 		component.faceShow = true;
 		component.twitShow = true;
-		component.linkShow = true;
+		component.youShow = true;
 		component.blackShow = true;
 		fixture.detectChanges();
 		expect(fixture.debugElement.queryAllNodes(By.css('#formTitle')).length).toEqual(13);
@@ -286,8 +291,41 @@ describe('SettingsComponent', () => {
 		
 	})
 
+	it('should have a dropdown menu from which to select categories', () => {
+		expect(fixture.debugElement.query(By.css('interestSelection'))).toBeTruthy;
+	})
+
 	it('should have text box to input interests', () => {
 		expect(fixture.debugElement.query(By.css('interestInput'))).toBeTruthy;
+	})
+
+
+
+
+	it('should send feedback', () => {
+		//current passowrd empty error
+		component.fedShow = true;
+		fixture.detectChanges();
+		var expectedError = "";
+		component.model.feedback = "hi i sent feedback";
+		component.addFeedback(component.model.feedback);
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#feedbackSuccess")).nativeElement.innerText).toEqual(expectedError);
+
+		
+	})
+
+	it('should send feedback error', () => {
+		//current passowrd empty error
+		component.fedShow = true;
+		fixture.detectChanges();
+		var expectedError = "Looks like you are tyring to submit nothing.";
+		component.model.feedback = "";
+		component.addFeedbacktester(component.model.feedback);
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#feedbackError")).nativeElement.innerText).toEqual(expectedError);
+
+		
 	})
 
 });

@@ -86,6 +86,8 @@ export class MapComponent implements OnInit {
 	toWhoName:string;
 	messageId = [];
 
+	currentMessageThread: string;
+
 
 	refreshMap() {
 		this.auth.getUser().then((u) => {
@@ -139,6 +141,7 @@ export class MapComponent implements OnInit {
 		}
 		if(!this.viewMessages){
 			this.toWhoName  = ""
+			this.toWho = ""
 		}
 		this.messagesUsers = [];
 		this.messagesArray = [];
@@ -236,12 +239,14 @@ export class MapComponent implements OnInit {
 
 	zoomMap() {
 		this.zoom = this.currentZoom;
-
+		this.refreshMap();
 	}
 
 	userVisible = false;
 	//vis;
 	viewUser(user: any = {}) {
+		// this.clusterVisible = false;
+
 		this.userVisible = true;
 		this.displayedUser = user;
 		this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance / 5280) * 100) / 100;
@@ -249,8 +254,7 @@ export class MapComponent implements OnInit {
 			this.displayedUser.distanceInMiles = 0;
 		var vis = this.commonMap.get(user.uid);
 		this.displayedUser.uid = user.uid;
-		this.displayedUser.commons = vis.FB + ": " + vis.facebookNum
-			+ "  " + vis.TW + ": " + vis.twitterNum
+		this.displayedUser.commons =  vis.TW + ": " + vis.twitterNum
 			+ "  " + vis.BB + ": " + vis.blackboardNum
 			+ "  " + vis.YT + ": " + vis.youtubeNum;
 
@@ -272,6 +276,27 @@ export class MapComponent implements OnInit {
 		this.clusterVisible = true;
 		console.log("viewCluster called")
 		this.currentCluster = cluster.users;
+		this.currentCluster.forEach((user) =>{
+			user.distanceInMiles = Math.round((user.distance / 5280) * 100) / 100;
+			if (isNaN(user.distanceInMiles)){
+				user.distanceInMiles = 0;
+			}
+
+
+			var vis = this.commonMap.get(user.uid);
+			user.uid = user.uid;
+			user.commons =  vis.TW + ": " + vis.twitterNum
+				+ "  " + vis.BB + ": " + vis.blackboardNum
+				+ "  " + vis.YT + ": " + vis.youtubeNum;
+
+			vis.interestSub.forEach((value: string, key: string) => {
+				user.commons = user.commons + "  " + key + ": " + value;
+			});
+					this.checkTier(user);
+
+
+		})
+		
 
 	}
 
@@ -589,7 +614,6 @@ export class MapComponent implements OnInit {
 				});
 			}
 		}, 3000);
-
 	}
 
 	ngOnInit() {
@@ -609,7 +633,7 @@ export class MapComponent implements OnInit {
 			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
-				console.log("Clusters", this.loc.getClusters(nearbyUsers, 500));
+				// console.log("Clusters", this.loc.getClusters(nearbyUsers, 500));
 				this.maintainFilter();
 			}).catch((err) => {
 				console.error(err);
@@ -1093,8 +1117,7 @@ export class MapComponent implements OnInit {
 			})
 		})
 		//For Clustering
-		console.log("Filtered Users: " + this.filteredUsers)
-		this.clustered = this.loc.getClusters(this.filteredUsers, 1000);
+		this.clustered = this.loc.getClusters(this.filteredUsers.slice(), (20-this.currentZoom)*40);
 		// console.log("Cluster Keys: " + Object.keys(this.clustered[0]));
 		// console.log("Cluster Values: " + this.clustered);
 		this.clusteredUsers = [];
@@ -1197,32 +1220,33 @@ export class MapComponent implements OnInit {
 			allUsers[userF.uid] = userF;
 
 		});
+		console.log("allTotals: " + Object.keys(allTotals))
 		var cutoff = ((maxValue - minValue) / 3).toFixed(1);
 		var cutoff2 = (((maxValue - minValue) / 3) * 2).toFixed(1);
 		// console.log("Cutoffs: " + cutoff + " " + cutoff2);
 		// console.log(allTotals);
-		var tempTier1 = [];
-		var tempTier2 = [];
-		var tempTier3 = [];
-		Object.keys(allTotals).forEach((total) => {
+		this.tier1S = [];
+		this.tier2S = [];
+		this.tier3S = [];
+		Object.keys(allTotals).forEach((total) => {		
 			if (allTotals[total] <= cutoff) {
+				this.tier3S.push(allUsers[total].uid)
 				if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {
 					this.tier3.push(allUsers[total])
 				}
-				this.tier3S.push(allUsers[total].uid)
 
 			}
 			else if (allTotals[total] <= cutoff2) {
+				this.tier2S.push(allUsers[total].uid)
 				if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {
 					this.tier2.push(allUsers[total])
 				}
-				this.tier2S.push(allUsers[total].uid)
 			}
 			else {
+				this.tier1S.push(allUsers[total].uid)
 				if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {
 					this.tier1.push(allUsers[total])
 				}
-				this.tier1S.push(allUsers[total].uid)
 			}
 		})
 		// console.log(allTotals);
@@ -1233,6 +1257,13 @@ export class MapComponent implements OnInit {
 
 
 	initMessageThread(Otheruid:string){
+
+		//frontend scrolling
+		this.viewBroadcasts = false;
+		this.viewMessages = true;
+		var element = document.getElementById("messagesDiv")
+		setTimeout(function(){ element.scrollIntoView(); }, 250);
+
 		// this.messagesUsers = [];
 		// this.getMessages();
 		if(!this.messageId.includes(Otheruid)){
@@ -1275,6 +1306,7 @@ export class MapComponent implements OnInit {
 	}
 	messageTo(to: string) {
 		this.toWho = to;
+		// console.log("toWho: " + this.toWho)
 		this.db.getUser(to).then((u) => {
 			this.toWhoName = ": ";
 			this.toWhoName = this.toWhoName + u.fullName;
@@ -1283,8 +1315,23 @@ export class MapComponent implements OnInit {
 
 	}
 
+	id;
 				
-		
+	changeCurThread(thread:string){
+		// console.log("Setting cur message thread to:", thread);
+		if(this.id)
+			clearInterval(this.id);
+		this.id = setInterval(this.messageRefresh, 5000, thread, this);
+	}
+
+
+	messageRefresh(thread: string, self: MapComponent){
+		// console.log("Cur thread:", thread);
+		if(thread){
+			// console.log("Refreshing");
+			self.getMessageThread(thread);
+		}
+	}
 
 	getMessageThread(thread:string){
 		this.messageTo(thread);
@@ -1297,13 +1344,12 @@ export class MapComponent implements OnInit {
 			this.messagesArray = [];
 			messages.forEach((mes) => {
 				//console.log("fromeme", mes.fromMe)
-				this.messagesArray.push(mes)
-
-
+				if(mes == " "){		
+				}
+				else{
+					this.messagesArray.push(mes)
+				}
 			});
-
-
-
 		}).catch((err) => {
 			console.log(err);
 		})

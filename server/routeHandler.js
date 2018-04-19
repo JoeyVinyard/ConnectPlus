@@ -185,7 +185,7 @@ module.exports = {
 			return;
 		}
 		var uid = urlData[1];
-		var miles = urlData[2];
+		var feet = urlData[2];
 		firebase.database().ref("locations/"+uid).once("value").then((baseLocation) => {
 			if(baseLocation.val() == null){
 				res.statusCode = 400;
@@ -202,13 +202,16 @@ module.exports = {
 				firebase.database().ref("locations").once("value").then((s) => {
 					res.statusCode=200;
 					var nearbyUids = [];
+					console.log("Distance to beat:", 710 * feet, "Selection:", feet);
 					s.forEach((loc) => {
 						var c2 = {
 							lat: loc.val().lat,
 							lon: loc.val().lon
 						};
 						var d = distanceCalc.getDistance(c1,c2);
-						if(d <= (5280 * miles) && loc.val().uid != uid){
+
+						if(d <= (710 * feet) && loc.val().uid != uid){
+							console.log("distance", d);
 							nearbyUids.push({
 								uid: loc.val().uid,
 								distance: d,
@@ -724,6 +727,7 @@ module.exports = {
 				res.end();
 				return;
 			}
+			
 			firebase.database().ref("interests/"+data.uid+"/"+data.category).push(data.inter).then(() => {
 				res.statusCode = 200;
 				responseBody.payload = data;

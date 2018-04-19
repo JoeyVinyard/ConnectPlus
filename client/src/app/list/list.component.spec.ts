@@ -30,7 +30,10 @@ let DatabaseServiceStub = {
 		return new Promise((resolve, reject) => {
 			resolve([]);
 		})
-	}
+	},
+	
+
+
 }
 let TwitterServiceStub = {
 	getFriends(screenName: string){}
@@ -115,4 +118,74 @@ describe('ListComponent', () => {
 	it('should allow return to map', () => {
 		expect(fixture.debugElement.queryAll(By.css('.selectedButton')).length).toEqual(3);
 	});
+
+	it('should show messaging feature', () => {
+		expect(fixture.debugElement.query(By.css('messagesPanel'))).toBeTruthy;
+	})
+	it('should store message should send', () => {
+		//current passowrd empty error
+		//component.viewMessages = true;
+		fixture.detectChanges();
+		var expectedError = "";
+		
+		var message = "hello"
+		component.model.user.uid = "ZVmOhUAURNOD8t4zqunUdUtjc4B3";
+		component.toWho = "c6y99EL6PkPPQW8bXd3gJR5KE2J3";
+
+		component.storeMessagetester(message);
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#messageError")).nativeElement.innerText).toEqual(expectedError);
+
+		
+	})
+	it('should get message should send', () => {
+		//current passowrd empty error
+		//component.viewMessages = true;
+		fixture.detectChanges();
+		var expectedError = "";
+		
+		var message = "hello"
+		component.model.user.uid = "ZVmOhUAURNOD8t4zqunUdUtjc4B3";
+		component.toWho = "c6y99EL6PkPPQW8bXd3gJR5KE2J3";
+
+		component.getMessagestester();
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#messageError")).nativeElement.innerText).toEqual(expectedError);
+
+		
+	})
+	it('should get thread message should send', () => {
+		//current passowrd empty error
+		//component.viewMessages = true;
+		fixture.detectChanges();
+		var expectedError = "";
+		
+		var message = "hello"
+		component.model.user.uid = "ZVmOhUAURNOD8t4zqunUdUtjc4B3";
+		component.toWho = "c6y99EL6PkPPQW8bXd3gJR5KE2J3";
+
+		component.getMessageThreadtester(component.toWho);
+		fixture.detectChanges();
+		expect(fixture.debugElement.query(By.css("#messageError")).nativeElement.innerText).toEqual(expectedError);
+
+	})
+
+	it('should sort users by commonalities', () => {
+		expect(fixture.debugElement.query(By.css('threadPic'))).toBeTruthy;
+	})
+
+	it('should show sorted users in order', () => {
+		expect(fixture.debugElement.query(By.css('userDivImg'))).toBeTruthy;
+	})
+
+	it('should filter users based on YouTube subscriptions', () => {
+		var user1 = {uid: 100, subscriptions: 'Justin Timberlake', common: 0};
+		var user2 = {uid: 101, subscriptions: 'Justin Timberlake', common: 0};
+		var user3 = {uid: 102, subscriptions: 'Madonna', common: 0};
+		if(user1.subscriptions == user2.subscriptions){
+			user1.common = 1;
+			user2.common = 1;
+		}
+		expect(user1.common).toEqual(1);
+	})
 });

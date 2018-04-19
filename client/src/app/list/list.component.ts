@@ -69,6 +69,10 @@ export class ListComponent implements OnInit {
 	tier1 = [];
 	tier2 = [];
 	tier3 = [];
+	tier1S = [];
+	tier2S = [];
+	tier3S = [];
+	currentTier = 0;
 
 	typedMessage: ""
 	displayedUserMessages: any = {};
@@ -135,6 +139,7 @@ export class ListComponent implements OnInit {
 		}
 		if(!this.viewMessages){
 			this.toWhoName  = ""
+			this.toWho = ""
 		}
 		this.messagesUsers = [];
 		this.messagesArray = [];
@@ -198,8 +203,7 @@ export class ListComponent implements OnInit {
 			this.displayedUser.distanceInMiles = 0;
 		var vis = this.commonMap.get(user.uid);
 
-		this.displayedUser.commons = vis.FB + ": " + vis.facebookNum
-		+ "  " + vis.TW + ": " + vis.twitterNum
+		this.displayedUser.commons = vis.TW + ": " + vis.twitterNum
 		+ "  " + vis.BB + ": " + vis.blackboardNum
 		+ "  " + vis.YT + ": " + vis.youtubeNum;
 	
@@ -262,7 +266,11 @@ export class ListComponent implements OnInit {
 
 	}
 	errors = {
-		mood: ""
+		mood: "",
+		messageE: ""
+	}
+	success = {
+		messageS:""
 	}
 
 	moodChange() {
@@ -293,7 +301,7 @@ export class ListComponent implements OnInit {
 
 	zoomMap() {
 		this.zoom = this.currentZoom;
-
+		this.refreshList();
 	}
 
 	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
@@ -1122,7 +1130,7 @@ export class ListComponent implements OnInit {
 		})
 	}
 
-	generateTiers(){
+	generateTiers() {
 		this.tier1 = [];
 		this.tier2 = [];
 		this.tier3 = [];
@@ -1156,11 +1164,11 @@ export class ListComponent implements OnInit {
 			tempTotal += (intCatNum + intSubNum);
 
 			// allTotals.push(tempTotal);
-			if(minValue == null || tempTotal < minValue){
+			if (minValue == null || tempTotal < minValue) {
 				minValue = tempTotal;
 				minUid = userF.uid;
 			}
-			else if(maxValue == null || tempTotal > maxValue){
+			else if (maxValue == null || tempTotal > maxValue) {
 				maxValue = tempTotal;
 				maxUid = userF.uid;
 			}
@@ -1173,31 +1181,44 @@ export class ListComponent implements OnInit {
 		var cutoff2 = (((maxValue - minValue) / 3) * 2).toFixed(1);
 		// console.log("Cutoffs: " + cutoff + " " + cutoff2);
 		// console.log(allTotals);
-		var tempTier1 = [];
-		var tempTier2 = [];
-		var tempTier3 = [];
-		Object.keys(allTotals).forEach((total) =>{
-			if(allTotals[total] <= cutoff){
-				this.tier3.push(allUsers[total])
+		this.tier1S = [];
+		this.tier2S = [];
+		this.tier3S = [];
+		Object.keys(allTotals).forEach((total) => {
+			if (allTotals[total] <= cutoff) {
+				this.tier3S.push(allUsers[total].uid)
+				// if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {
+					this.tier3.push(allUsers[total])
+				// }
+
 			}
-			else if(allTotals[total]  <= cutoff2){
-				this.tier2.push(allUsers[total])
+			else if (allTotals[total] <= cutoff2) {
+				this.tier2S.push(allUsers[total].uid)
+				// if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {
+					this.tier2.push(allUsers[total])
+				// }
 			}
-			else{
-				this.tier1.push(allUsers[total])
+			else {
+				this.tier1S.push(allUsers[total].uid)
+				// if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {
+					this.tier1.push(allUsers[total])
+				// }
 			}
 		})
-		// console.log(allTotals);
-		console.log("TIER 3: " + this.tier3);
-		console.log("TIER 2: " + this.tier2);
-		console.log("TIER 1: " + this.tier1);
 	}
 
 
 
 
 
+
 	initMessageThread(Otheruid:string){
+
+		this.viewBroadcasts = false;
+		this.viewMessages = true;
+		var element = document.getElementById("messagesDiv")
+		setTimeout(function(){ element.scrollIntoView(); }, 250);
+		
 		// this.messagesUsers = [];
 		// this.getMessages();
 		if(!this.messageId.includes(Otheruid)){
@@ -1261,11 +1282,16 @@ export class ListComponent implements OnInit {
 			// 	this.messagesArray = Object.keys(messages);
 			this.messagesArray = [];
 			messages.forEach((mes) => {
-						//console.log("fromeme", mes.fromMe)
-						this.messagesArray.push(mes)
-			
+					//console.log("fromeme", mes.fromMe)
+				if(mes == " "){
+						
+				}
+				else{
+					this.messagesArray.push(mes)
+				}
+		
 
-				});	
+			});	
 
 
 
@@ -1276,8 +1302,9 @@ export class ListComponent implements OnInit {
 	getMessages(){
 		this.messagesUsers = [];
 		this.db.getMessages(this.model.user.uid).then((messages) => {
-			var here = "c6y99EL6PkPPQW8bXd3gJR5KE2J3"
 			//console.log(messages)	
+			this.messagesUsers = [];
+
 			this.messagesThereUID = Object.keys(messages);
 
 			this.messagesThereUID.forEach((mes) => {
@@ -1288,6 +1315,8 @@ export class ListComponent implements OnInit {
 				})
 
 				});	
+			this.errors.messageE = ""
+			this.success.messageS = ""
 
 		
 		}).catch((err) => {
@@ -1295,6 +1324,26 @@ export class ListComponent implements OnInit {
 		})
 
 	}
+
+
+storeMessagetester(message:string){
+		var from = this.model.user.uid;
+		var to = this.toWho
+		
+	}
+
+getMessageThreadtester(thread:string){
+		this.messageTo(thread);
+		this.messagesArray = [];
+		var uid = this.model.user.uid;
+		
+	}
+getMessagestester(){
+		this.messagesUsers = [];
+		
+	}
+
+
 
 	viewUserMessages(user: any = {}) {
 		console.log("yooooooo", this.messagesUsers);
@@ -1306,6 +1355,30 @@ export class ListComponent implements OnInit {
 	}
 
 
+	checkTier(user: any = {}) {
+		var uid = user.uid;
+		// console.log("checkTier: " + uid)
+		if (this.tier1S.indexOf(uid) != -1) {
+			// console.log("Tier 1")
+			this.currentTier = 1;
+			return 1;
+		}
+		else if (this.tier2S.indexOf(uid) != -1) {
+			// console.log("Tier 2")
+			this.currentTier = 2;
+			return 2;
+		}
+		else if (this.tier3S.indexOf(uid) != -1) {
+			// console.log("Tier 3")
+			this.currentTier = 3;
+			return 3;
+		}
+		else{
+			this.currentTier = 4;
+			return 4;
+		}
+
+	}
 
 
 
