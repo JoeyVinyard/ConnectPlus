@@ -106,7 +106,7 @@ export class SettingsComponent implements OnInit {
 		else if (this.model.interestSub == "Languages") {
 			this.cIntArray = this.languages;
 		}
-		else if (this.model.interestSub == "FavoriteArtists") {
+		else if (this.model.interestSub == "Artists") {
 			this.cIntArray = this.FavoriteArtists;
 		}
 		else if (this.model.interestSub == "Majors") {
@@ -840,7 +840,7 @@ majors: string[] = this.interestObj.majors;
 		this.allMap.set("Tv", this.interestObj.tvShows)
 		this.allMap.set("Sports", this.interestObj.sports)
 		this.allMap.set("Music", this.interestObj.musicGenre)
-		this.allMap.set("FavoriteArtists", this.interestObj.FavoriteArtists)
+		this.allMap.set("Artists", this.interestObj.FavoriteArtists)
 		this.allMap.set("Dance", this.interestObj.dance)
 		this.allMap.set("Foods", this.interestObj.foods)
 		this.allMap.set("Languages", this.interestObj.languages)

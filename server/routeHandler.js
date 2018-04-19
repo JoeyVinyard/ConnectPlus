@@ -727,6 +727,7 @@ module.exports = {
 				res.end();
 				return;
 			}
+			
 			firebase.database().ref("interests/"+data.uid+"/"+data.category).push(data.inter).then(() => {
 				res.statusCode = 200;
 				responseBody.payload = data;
