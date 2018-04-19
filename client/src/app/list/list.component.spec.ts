@@ -168,6 +168,13 @@ describe('ListComponent', () => {
 		fixture.detectChanges();
 		expect(fixture.debugElement.query(By.css("#messageError")).nativeElement.innerText).toEqual(expectedError);
 
-		
+
+
+	it('should sort users by commonalities', () => {
+		expect(fixture.debugElement.query(By.css('threadPic'))).toBeTruthy;
+	})
+
+	it('should show sorted users in order', () => {
+		expect(fixture.debugElement.query(By.css('userDivImg'))).toBeTruthy;
 	})
 });
