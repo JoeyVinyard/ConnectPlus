@@ -115,4 +115,8 @@ describe('ListComponent', () => {
 	it('should allow return to map', () => {
 		expect(fixture.debugElement.queryAll(By.css('.selectedButton')).length).toEqual(3);
 	});
+
+	it('should show messaging feature', () => {
+		expect(fixture.debugElement.query(By.css('messagesPanel'))).toBeTruthy;
+	})
 });

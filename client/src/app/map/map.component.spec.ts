@@ -1,12 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { MapComponent } from './map.component';
+import { FormsModule }   from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AuthService } from '../services/auth.service';
+import { ParticlesConfigService } from '../services/particles-config.service';
+import { User } from '../services/user';
+import { DatabaseService } from '../services/database.service';
+import { LocationService } from '../services/location.service';
+
 describe('Map Component', () => {
 
 	let users = [];
 	let map = {};
 	let distanceFilter = {};
 	let moodStatus = "";
+	let messages = "";
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
@@ -32,5 +42,9 @@ describe('Map Component', () => {
 	it('should change mood status', () => {
 		moodStatus = "Away";
 		expect(moodStatus).toEqual("Away");
+	})
+
+	it('should show messaging feature', () => {
+		expect(messages).toBeTruthy;
 	})
 });
