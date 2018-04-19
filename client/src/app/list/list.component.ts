@@ -293,7 +293,7 @@ export class ListComponent implements OnInit {
 
 	zoomMap() {
 		this.zoom = this.currentZoom;
-
+		this.refreshList();
 	}
 
 	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
