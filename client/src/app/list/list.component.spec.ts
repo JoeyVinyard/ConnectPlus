@@ -119,4 +119,12 @@ describe('ListComponent', () => {
 	it('should show messaging feature', () => {
 		expect(fixture.debugElement.query(By.css('messagesPanel'))).toBeTruthy;
 	})
+
+	it('should sort users by commonalities', () => {
+		expect(fixture.debugElement.query(By.css('threadPic'))).toBeTruthy;
+	})
+
+	it('should show sorted users in order', () => {
+		expect(fixture.debugElement.query(By.css('userDivImg'))).toBeTruthy;
+	})
 });
