@@ -286,7 +286,7 @@
 						</div>
 					</div>
 					<div class="medium-7 column" id="threadView">
-						<div id="threadExpanded" [ngClass]="{' ' : selectedBroadcast.hasOwnProperty('url'), 'hidden' : !selectedBroadcast.hasOwnProperty('url') }">
+						<div id="threadExpanded" [ngClass]="{' ' : selectedBroadcast.hasOwnProperty('uid'), 'hidden' : !selectedBroadcast.hasOwnProperty('uid') }">
 							<div class="medium-12 column" id="threadHeader">
 								<div class="medium-3 column">
 									<img id="threadPic" [src]="selectedBroadcast.url" />
