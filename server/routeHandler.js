@@ -202,13 +202,16 @@ module.exports = {
 				firebase.database().ref("locations").once("value").then((s) => {
 					res.statusCode=200;
 					var nearbyUids = [];
+					console.log("Distance to beat:", 710 * feet, "Selection:", feet);
 					s.forEach((loc) => {
 						var c2 = {
 							lat: loc.val().lat,
 							lon: loc.val().lon
 						};
 						var d = distanceCalc.getDistance(c1,c2);
-						if(d <= (330 * feet) && loc.val().uid != uid){
+
+						if(d <= (710 * feet) && loc.val().uid != uid){
+							console.log("distance", d);
 							nearbyUids.push({
 								uid: loc.val().uid,
 								distance: d,

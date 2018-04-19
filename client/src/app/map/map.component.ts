@@ -237,7 +237,7 @@ export class MapComponent implements OnInit {
 
 	zoomMap() {
 		this.zoom = this.currentZoom;
-
+		this.refreshMap();
 	}
 
 	userVisible = false;
