@@ -106,8 +106,8 @@ export class SettingsComponent implements OnInit {
 		else if (this.model.interestSub == "Languages") {
 			this.cIntArray = this.languages;
 		}
-		else if (this.model.interestSub == "FavArtists") {
-			this.cIntArray = this.favArtists;
+		else if (this.model.interestSub == "FavoriteArtists") {
+			this.cIntArray = this.FavoriteArtists;
 		}
 		else if (this.model.interestSub == "Majors") {
 			this.cIntArray = this.majors;
@@ -126,7 +126,7 @@ export class SettingsComponent implements OnInit {
 dance: string[] = this.interestObj.dance;
 foods: string[] = this.interestObj.foods;
 languages: string[] = this.interestObj.languages;
-favArtists: string[] = this.interestObj.favArtists;
+FavoriteArtists: string[] = this.interestObj.FavoriteArtists;
 majors: string[] = this.interestObj.majors;
 
 
@@ -169,7 +169,6 @@ majors: string[] = this.interestObj.majors;
 	//Invisibility Toggle 0=Invisible, 4hour, 12hour, 24hour, 100=Visible
 	visibility = 0;
 	// visibility = this.model.user.visability;
-
 	currSubject: String;
 	subjects = [];
 	classList = [];
@@ -670,7 +669,6 @@ majors: string[] = this.interestObj.majors;
 		this.allMap.get(sub).forEach((interests) => {
 			verify.set(interests, 1);
 			// console.log(interests)
-
 		});
 		//console.log("can find?", this.getArrayInter12(sub))
 		console.log("looking through here ", verify)
@@ -740,7 +738,6 @@ majors: string[] = this.interestObj.majors;
 			this.arrayOfInterestKeys = Object.keys(this.interestList);
 			console.log(this.arrayOfInterestKeys)
 			//this.getArrayOfInterestKeys();
-
 		}).catch((err) => {
 			console.log(err);
 		})
@@ -750,7 +747,6 @@ majors: string[] = this.interestObj.majors;
 	// 	this.interestSubArray = Object.values(this.interestList[sub]);
 	// 	//console.log("what cause problems: ", this.interestSubArray)
 	// 	return this.interestSubArray;
-
 
 	// }
 	getArrayInter(sub: string): string[] {
@@ -844,7 +840,7 @@ majors: string[] = this.interestObj.majors;
 		this.allMap.set("Tv", this.interestObj.tvShows)
 		this.allMap.set("Sports", this.interestObj.sports)
 		this.allMap.set("Music", this.interestObj.musicGenre)
-		this.allMap.set("FavArtists", this.interestObj.favArtists)
+		this.allMap.set("FavoriteArtists", this.interestObj.FavoriteArtists)
 		this.allMap.set("Dance", this.interestObj.dance)
 		this.allMap.set("Foods", this.interestObj.foods)
 		this.allMap.set("Languages", this.interestObj.languages)
