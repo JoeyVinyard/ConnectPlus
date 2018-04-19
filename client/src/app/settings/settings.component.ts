@@ -315,7 +315,7 @@ majors: string[] = this.interestObj.majors;
 	feedback() {
 		if (this.model.feedback) {
 			//not storing it anywhere
-			this.success.feedbackS = "Thank you for your feedback! Your feedback has been recorded."
+			this.success.feedbackS = "Thank you for your feedback. It has been sent to our developers."		
 			this.model.feedback = "";
 		}
 	}
@@ -786,6 +786,14 @@ majors: string[] = this.interestObj.majors;
 				this.errors.feedbackE = "Looks like there was an error. Please try again."
 				console.log(err);
 			})
+		} else {
+			this.errors.feedbackE = "Looks like you are tyring to submit nothing."
+
+		}
+	}
+	addFeedbacktester(feedback: String) {
+		if (this.model.feedback) {
+				this.success.feedbackS = "Thank you for your feedback. It has been sent to our developers."			
 		} else {
 			this.errors.feedbackE = "Looks like you are tyring to submit nothing."
 

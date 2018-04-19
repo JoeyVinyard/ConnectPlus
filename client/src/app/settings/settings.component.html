@@ -308,8 +308,8 @@
 					<div class="medium-12 column">
 						<textarea class="textInput" rows="4" cols="50" [(ngModel)]="model.feedback">></textarea>
 					</div>
-					<p class="success">{{success.feedbackS}}</p>
-					<p class="error">{{errors.feedbackE}}</p>
+					<p id="feedbackSuccess" class="success">{{success.feedbackS}}</p>
+					<p id="feedbackError" class="error">{{errors.feedbackE}}</p>
 					<button (click)="addFeedback(model.feedback)" class="button saveButton">Submit</button>
 				</div>
 			</div>
