@@ -139,6 +139,7 @@ export class ListComponent implements OnInit {
 		}
 		if(!this.viewMessages){
 			this.toWhoName  = ""
+			this.toWho = ""
 		}
 		this.messagesUsers = [];
 		this.messagesArray = [];
@@ -1208,7 +1209,7 @@ export class ListComponent implements OnInit {
 		this.viewBroadcasts = false;
 		this.viewMessages = true;
 		var element = document.getElementById("messagesDiv")
-		element.scrollIntoView();
+		setTimeout(function(){ element.scrollIntoView(); }, 250);
 		
 		// this.messagesUsers = [];
 		// this.getMessages();

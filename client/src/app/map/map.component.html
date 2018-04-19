@@ -23,7 +23,7 @@
 			</div>
 			<div class="medium-12 column" id="selectedUser" [ngClass]="{'' : userVisible, 'none' : !userVisible}">
 				<!-- <div class="medium-3 column" class="hidden">A</div> -->
-				<div class="medium-12 column" id="selectedUserInfo" [ngClass]="{'tier1' : checkTier(displayedUser)==1, 'tier2' : checkTier(displayedUser)==2, 'tier3' : checkTier(displayedUser)==3}">
+				<div class="medium-12 column" id="selectedUserInfo" [ngClass]="{'tier1' : currentTier==1, 'tier2' : currentTier==2, 'tier3' : currentTier==3}">
 					<img id="listUser" [src]="displayedUser.url">
 					<br>
 
@@ -43,7 +43,7 @@
 						</div>
 						<div class="medium-6 column">
 							<button class="button selectedButton" (click)="initMessageThread(displayedUser.uid)">
-								<i class="fa fa-pencil"></i> Message</button>
+									<i class="fa fa-comment"></i> Message</button>
 						</div>
 						<div class="medium-6 column">
 							<button class="button selectedButton" (click)="closeUser()">
@@ -57,7 +57,7 @@
 				<!-- <div class="medium-3 column" class="hidden">A</div> -->
 				<div id="clusterContent" class="medium-12 column">
 					<div id="clusterList" class="medium-12 column">
-						<div id="clusterEntry" *ngFor="let obj of currentCluster" [ngClass]="{'tier1' : checkTier(obj)===1, 'tier2' : checkTier(obj)===2, 'tier3' : checkTier(obj)===3, 'red' : checkTier(obj)===4}">
+						<div id="clusterEntry" *ngFor="let obj of currentCluster" [ngClass]="{'tier1' : checkTier(obj)===1, 'tier2' : checkTier(obj)===2, 'tier3' : checkTier(obj)===3}">
 
 							<div class="medium-4 column" id="clusteredImageDiv">
 								<img id="clusterImage" [src]="obj.url">
@@ -77,8 +77,8 @@
 								
 							</div>
 							<div class="medium-4 column">
-								<button class="button selectedButton" (click)="initMessageThread(obj.uid)">
-									<i class="fa fa-pencil"></i> Message</button>
+								<button class="button selectedButton" (click)="viewUser(obj)">
+										<i class="fa fa-eye"></i> View</button>
 							</div>
 						</div>
 					</div>
@@ -97,7 +97,7 @@
 					<div class="medium-10 column">
 						<select id="filterSelect" [(ngModel)]="currentFilter">
 							<option selected="true" disabled="disabled">Select a Filter</option>
-							<option value="Facebook">Facebook</option>
+							<!-- <option value="Facebook">Facebook</option> -->
 							<option value="Twitter">Twitter</option>
 							<option value="Youtube">Youtube</option>
 							<option value="Blackboard">Blackboard</option>
@@ -208,7 +208,7 @@
 					<button class="button" (click)="toggleBroadcasts()" [ngClass]="{' ' : !viewBroadcasts, 'is-active' : viewBroadcasts}">
 						<i class="fa fa-bullhorn"></i> Broadcasts</button>
 					<button class="button" (click)="toggleMessages()" [ngClass]="{' ' : !viewMessages, 'is-active' : viewMessages}">
-						<i class="fa fa-comment"></i> Messages</button>
+							<i class="fa fa-comments"></i> Messages</button>
 				</div>
 			</div>
 			<!-- Broadcasting Section -->
@@ -286,7 +286,7 @@
 						</div>
 					</div>
 					<div class="medium-7 column" id="threadView">
-						<div id="threadExpanded" [ngClass]="{' ' : selectedBroadcast.hasOwnProperty('url'), 'hidden' : !selectedBroadcast.hasOwnProperty('url') }">
+						<div id="threadExpanded" [ngClass]="{' ' : selectedBroadcast.hasOwnProperty('uid'), 'hidden' : !selectedBroadcast.hasOwnProperty('uid') }">
 							<div class="medium-12 column" id="threadHeader">
 								<div class="medium-3 column">
 									<img id="threadPic" [src]="selectedBroadcast.url" />
@@ -328,7 +328,7 @@
 				</div>
 				<div class="medium-12 column" id="broadContent">
 					<div class="medium-3 medium-centered column" id="broadcastList">
-						<div id="messagesPanel" *ngFor="let user of messagesUsers" (click)="getMessageThread(user.uid)">
+						<div id="messagesPanel" *ngFor="let user of messagesUsers" (click)="getMessageThread(user.uid)" [ngClass]="{'notSelected' : toWho!=user.uid, 'selected' : toWho==user.uid}">
 							<div class="medium-5 column">
 								<img id="messagesPic" [src]="user.url" />
 								<br>

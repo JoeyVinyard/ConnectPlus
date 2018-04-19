@@ -139,6 +139,7 @@ export class MapComponent implements OnInit {
 		}
 		if(!this.viewMessages){
 			this.toWhoName  = ""
+			this.toWho = ""
 		}
 		this.messagesUsers = [];
 		this.messagesArray = [];
@@ -242,6 +243,8 @@ export class MapComponent implements OnInit {
 	userVisible = false;
 	//vis;
 	viewUser(user: any = {}) {
+		// this.clusterVisible = false;
+
 		this.userVisible = true;
 		this.displayedUser = user;
 		this.displayedUser.distanceInMiles = Math.round((this.displayedUser.distance / 5280) * 100) / 100;
@@ -629,7 +632,7 @@ export class MapComponent implements OnInit {
 			this.db.getNearbyUsers(u.uid, 20 - this.currentZoom).then((nearbyUsers) => {
 				console.log("Nearby:", nearbyUsers);
 				this.nearbyUsers = nearbyUsers;
-				console.log("Clusters", this.loc.getClusters(nearbyUsers, 500));
+				// console.log("Clusters", this.loc.getClusters(nearbyUsers, 500));
 				this.maintainFilter();
 			}).catch((err) => {
 				console.error(err);
@@ -1113,8 +1116,7 @@ export class MapComponent implements OnInit {
 			})
 		})
 		//For Clustering
-		console.log("Filtered Users: " + this.filteredUsers)
-		this.clustered = this.loc.getClusters(this.filteredUsers, 1000);
+		this.clustered = this.loc.getClusters(this.filteredUsers.slice(), 1000);
 		// console.log("Cluster Keys: " + Object.keys(this.clustered[0]));
 		// console.log("Cluster Values: " + this.clustered);
 		this.clusteredUsers = [];
@@ -1217,6 +1219,7 @@ export class MapComponent implements OnInit {
 			allUsers[userF.uid] = userF;
 
 		});
+		console.log("allTotals: " + Object.keys(allTotals))
 		var cutoff = ((maxValue - minValue) / 3).toFixed(1);
 		var cutoff2 = (((maxValue - minValue) / 3) * 2).toFixed(1);
 		// console.log("Cutoffs: " + cutoff + " " + cutoff2);
@@ -1224,7 +1227,7 @@ export class MapComponent implements OnInit {
 		this.tier1S = [];
 		this.tier2S = [];
 		this.tier3S = [];
-		Object.keys(allTotals).forEach((total) => {
+		Object.keys(allTotals).forEach((total) => {		
 			if (allTotals[total] <= cutoff) {
 				this.tier3S.push(allUsers[total].uid)
 				if (this.clusteredUsers.indexOf(allUsers[total].uid) == -1) {
@@ -1258,7 +1261,7 @@ export class MapComponent implements OnInit {
 		this.viewBroadcasts = false;
 		this.viewMessages = true;
 		var element = document.getElementById("messagesDiv")
-		element.scrollIntoView();
+		setTimeout(function(){ element.scrollIntoView(); }, 250);
 
 		// this.messagesUsers = [];
 		// this.getMessages();
@@ -1302,6 +1305,7 @@ export class MapComponent implements OnInit {
 	}
 	messageTo(to: string) {
 		this.toWho = to;
+		// console.log("toWho: " + this.toWho)
 		this.db.getUser(to).then((u) => {
 			this.toWhoName = ": ";
 			this.toWhoName = this.toWhoName + u.fullName;
