@@ -1328,19 +1328,12 @@ export class MapComponent implements OnInit {
 			this.messagesArray = [];
 			messages.forEach((mes) => {
 				//console.log("fromeme", mes.fromMe)
-				if(mes == " "){
-						
+				if(mes == " "){		
 				}
 				else{
 					this.messagesArray.push(mes)
 				}
-		
-
-
 			});
-
-
-
 		}).catch((err) => {
 			console.log(err);
 		})

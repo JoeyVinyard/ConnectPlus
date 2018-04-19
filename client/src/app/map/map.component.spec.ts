@@ -10,13 +10,15 @@ import { User } from '../services/user';
 import { DatabaseService } from '../services/database.service';
 import { LocationService } from '../services/location.service';
 
-describe('Map Component', () => {
-
+describe('MapComponent', () => {
+let component: MapComponent;
+	let fixture: ComponentFixture<MapComponent>;
 	let users = [];
 	let map = {};
 	let distanceFilter = {};
 	let moodStatus = "";
 	let messages = "";
+	let sortedUsers = [];
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
@@ -25,8 +27,7 @@ describe('Map Component', () => {
 		.compileComponents();
 	}));
 
-	beforeEach(() => {});
-
+	
 	it('should load the map', () => {
 		expect(map).toBeTruthy();
 	})
@@ -43,8 +44,54 @@ describe('Map Component', () => {
 		moodStatus = "Away";
 		expect(moodStatus).toEqual("Away");
 	})
-
 	it('should show messaging feature', () => {
 		expect(messages).toBeTruthy;
 	})
+	it('should sort members on map based on commonalities', () => {
+		expect(sortedUsers).toBeTruthy;
+	})
+	it('should show sorted members on map', () => {
+		sortedUsers = users;
+		expect(users).toEqual(sortedUsers);
+	})
+
+
+
+	
+
+
+
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
