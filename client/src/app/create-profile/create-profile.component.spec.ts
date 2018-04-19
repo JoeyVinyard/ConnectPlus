@@ -130,13 +130,13 @@ describe('CreateProfileComponent', () => {
 		expect(fixture.debugElement.queryAll(By.css('#formTitle')).length).toEqual(4);
 	});
 	it('should load all inputs', () => {
-		expect(fixture.debugElement.queryAll(By.css('input')).length).toEqual(5);
+		expect(fixture.debugElement.queryAll(By.css('input')).length).toEqual(4);
 	});
 	it('should load load submit button', () => {
-		expect(fixture.debugElement.queryAll(By.css('button')).length).toEqual(3);
+		expect(fixture.debugElement.queryAll(By.css('button')).length).toEqual(2);
 	});
 	it('should load social media icons', () => {
-		expect(fixture.debugElement.queryAll(By.css('.social-icon-button')).length).toEqual(4);
+		expect(fixture.debugElement.queryAll(By.css('.social-icon-button')).length).toEqual(0);
 	})
 
 

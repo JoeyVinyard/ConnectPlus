@@ -17,6 +17,7 @@ describe('Map Component', () => {
 	let distanceFilter = {};
 	let moodStatus = "";
 	let messages = "";
+	let sortedUsers = [];
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
@@ -43,8 +44,14 @@ describe('Map Component', () => {
 		moodStatus = "Away";
 		expect(moodStatus).toEqual("Away");
 	})
-
 	it('should show messaging feature', () => {
 		expect(messages).toBeTruthy;
+	})
+	it('should sort members on map based on commonalities', () => {
+		expect(sortedUsers).toBeTruthy;
+	})
+	it('should show sorted members on map', () => {
+		sortedUsers = users;
+		expect(users).toEqual(sortedUsers);
 	})
 });
