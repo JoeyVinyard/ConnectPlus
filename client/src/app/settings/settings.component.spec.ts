@@ -153,10 +153,10 @@ describe('SettingsComponent', () => {
 		component.delShow = true;
 		component.faceShow = true;
 		component.twitShow = true;
-		component.linkShow = true;
+		component.youShow = true;
 		component.blackShow = true;
 		fixture.detectChanges();
-		expect(fixture.debugElement.queryAll(By.css('form')).length).toEqual(9);
+		expect(fixture.debugElement.queryAll(By.css('form')).length).toEqual(8);
 	});
 	it('should not load form labels when sections are collapsed', () => {
 		expect(fixture.debugElement.queryAllNodes(By.css('#formTitle')).length).toEqual(0);
@@ -171,7 +171,7 @@ describe('SettingsComponent', () => {
 		component.delShow = true;
 		component.faceShow = true;
 		component.twitShow = true;
-		component.linkShow = true;
+		component.youShow = true;
 		component.blackShow = true;
 		fixture.detectChanges();
 		expect(fixture.debugElement.queryAllNodes(By.css('#formTitle')).length).toEqual(13);
@@ -284,6 +284,10 @@ describe('SettingsComponent', () => {
 		expect(fixture.debugElement.query(By.css("#deleterError")).nativeElement.innerText).toEqual(expectedError);
 		
 		
+	})
+
+	it('should have a dropdown menu from which to select categories', () => {
+		expect(fixture.debugElement.query(By.css('interestSelection'))).toBeTruthy;
 	})
 
 	it('should have text box to input interests', () => {
