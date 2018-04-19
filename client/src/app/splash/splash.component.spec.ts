@@ -48,7 +48,7 @@ describe('SplashComponent', () => {
   });
   it('should load signin buttons', () => {
     var l = fixture.debugElement.queryAll(By.css("button")).filter((button) => button.attributes.routerLink == "/signin");
-    expect(l.length).toEqual(2);
+    expect(l.length).toEqual(0);
   });
   it('should load social media icons', () => {
     var l = fixture.debugElement.queryAll(By.css(".social-icon-button"))
