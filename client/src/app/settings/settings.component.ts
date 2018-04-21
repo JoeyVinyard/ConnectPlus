@@ -772,18 +772,23 @@ majors: string[] = this.interestObj.majors;
 
 	addFeedback(feedback: String) {
 		if (this.model.feedback) {
+			this.success.feedbackS = "";
+			this.errors.feedbackE = ""
 			this.db.addFeedback(feedback).then((success) => {
 				this.model.feedback = "";
+				this.errors.feedbackE = ""
 				this.success.feedbackS = "Thank you for your feedback. It has been sent to our developers."
 				//this.interestList = [];
 				console.log("why")
 
 			}).catch((err) => {
+				this.success.feedbackS = "";
 				this.errors.feedbackE = "Looks like there was an error. Please try again."
 				console.log(err);
 			})
 		} else {
 			this.errors.feedbackE = "Looks like you are tyring to submit nothing."
+			this.success.feedbackS = "";
 
 		}
 	}
