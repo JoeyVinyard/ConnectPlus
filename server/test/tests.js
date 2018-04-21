@@ -585,9 +585,9 @@ describe('HTTP Unit Tests', function () {
 	});
 
 	describe('Sprint 3 Story 1',function(){
-		it('Should return 400 With no UID Given', function(done) {
+		it('Should return 400 With invalid UID', function(done) {
 			var options = {
-				url: 'http://localhost:3000/storeTwitterFollowees/',
+				url: 'http://localhost:3000/storeYoutubeSubscribers/asdf',
 				headers: {
 					'Content-Type': 'text/plain'
 				},
@@ -599,19 +599,58 @@ describe('HTTP Unit Tests', function () {
 			});
 
 		});
-		it('Should return 200 When given valid friends object and uid', function(done) {
-			var friends = {
-				friends: {
-					friend: "a"
-				},
-				uid: testID
-			}
+		it('Should return 400 With no Access Token Given', function(done) {
 			var options = {
-				url: 'http://localhost:3000/storeTwitterFollowees/',
+				url: 'http://localhost:3000/storeYoutubeSubscribers/' + testID,
 				headers: {
 					'Content-Type': 'text/plain'
 				},
-				body: JSON.stringify(friends)
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Should return 400 With invalid Access Token Given', function(done) {
+			var options = {
+				url: 'http://localhost:3000/storeYoutubeSubscribers/asdf/asdf',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+	});
+	describe('Sprint 3 Story 2',function(){
+		var subscriptionID = "ZVmOhUAURNOD8t4zqunUdUtjc4B3";
+		it('Should return 400 With invalid UID', function(done) {
+			var options = {
+				url: 'http://localhost:3000/getYoutubeSubscriptions/asdf',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Should return 200 with valid UID', function(done) {
+			var options = {
+				url: 'http://localhost:3000/getYoutubeSubscriptions/' + subscriptionID,
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
 			};
 			request.get(options, function(err, res, body){
 				expect(res.statusCode).to.equals(200);
@@ -619,25 +658,347 @@ describe('HTTP Unit Tests', function () {
 			});
 
 		});
-		it('Should return 200 When given invalid UID', function(done) {
-			var friends = {
-				friends: {
-					friend: "a"
-				},
-				uid: "asdfasdf"
-			}
+		it('Should return 400 With invalid URL', function(done) {
 			var options = {
-				url: 'http://localhost:3000/storeTwitterFollowees/',
+				url: 'http://localhost:3000/storeYoutubeSubscribers/asdf/asdf',
 				headers: {
 					'Content-Type': 'text/plain'
 				},
-				body: JSON.stringify(friends)
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+	});
+	describe('Sprint 3 Story 3',function(){
+
+		var broadcastObjectInvalid = {
+				time: 0,
+				lat: 0,
+				lon: 0,
+				uid: "asdf",
+				broadcast: "",
+				subject: ""
+			}
+
+		var broadcastObjectEmpty = {
+				time: 1,
+				lat: 0,
+				lon: 0,
+				uid: testID,
+				broadcast: "",
+				subject: ""
+			}
+			var broadcastObject = {
+				time: 1,
+				lat: 0,
+				lon: 0,
+				uid: testID,
+				broadcast: "This is a test Broadcast",
+				subject: ""
+			}	
+		it('Should return 400 With invalid UID', function(done) {
+			var options = {
+				url: 'http://localhost:3000/storeBroadcast/' + JSON.stringify(broadcastObjectInvalid),
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+
+		it('Should return 400 With empty Broadcast', function(done) {
+			var options = {
+				url: 'http://localhost:3000/storeBroadcast/' + JSON.stringify(broadcastObjectEmpty),
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+
+		it('Should return 200 with valid Broadcast', function(done) {
+			var options = {
+				url: 'http://localhost:3000/storeBroadcast/' + JSON.stringify(broadcastObject),
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+	});
+	describe('Sprint 3 Story 4',function(){
+		it('Should return 400 With invalid UID', function(done) {
+			var options = {
+				url: 'http://localhost:3000/getNearbyBroadcasts/asdfasdf',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Should return 200 With valid UID', function(done) {
+			var options = {
+				url: 'http://localhost:3000/getNearbyBroadcasts/asdf',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
 			};
 			request.get(options, function(err, res, body){
 				expect(res.statusCode).to.equals(200);
 				done();
 			});
 
+		});
+
+		it('Payload does not equal null with valid UID', function(done) {
+			var options = {
+				url: 'http://localhost:3000/getNearbyBroadcasts/asdf',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				assert.notEqual(JSON.parse(body).payload, null);
+				done();
+			});
+
+		});
+	});
+	describe('Sprint 3 Story 5',function(){
+			var broadcastObjectInvalid = {
+				time: 0,
+				lat: 0,
+				lon: 0,
+				uid: "asdf",
+				response: "",
+				subject: ""
+			}
+
+		var broadcastObjectEmpty = {
+				time: 1,
+				lat: 0,
+				lon: 0,
+				uid: testID,
+				response: "",
+				subject: ""
+			}
+			var broadcastObject = {
+				time: 1,
+				lat: 0,
+				lon: 0,
+				uid: testID,
+				response: "This is a test Broadcast",
+				subject: ""
+			}	
+		it('Should return 400 With invalid UID', function(done) {
+			var options = {
+				url: 'http://localhost:3000/storeResponse/' + JSON.stringify(broadcastObjectInvalid),
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+
+		it('Should return 400 With empty Response', function(done) {
+			var options = {
+				url: 'http://localhost:3000/storeResponse/' + JSON.stringify(broadcastObjectEmpty),
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+
+		it('Should return 200 with valid Response', function(done) {
+			var options = {
+				url: 'http://localhost:3000/storeResponse/' + JSON.stringify(broadcastObject),
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});		
+	});
+	describe('Sprint 3 Story 8',function(){
+		var emptyfeedback = {
+			feedback: ""
+		}
+		var veryemptyfeedback = {
+			
+		}
+		var validfeedback = {
+			feedback: "this is feedback!"
+		}
+		it('Should return 400 With invalid Feedback', function(done) {
+			var options = {
+				url: 'http://localhost:3000/addFeedback/' + JSON.stringify(emptyfeedback),
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.post(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Should return 200 With valid feedback', function(done) {
+			var options = {
+				url: 'http://localhost:3000/addFeedback/' + JSON.stringify(validfeedback),
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.post(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Should return 400 With very empty feedback', function(done) {
+			var options = {
+				url: 'http://localhost:3000/addFeedback/' + JSON.stringify(veryemptyfeedback),
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.post(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+	});
+	describe('Sprint 3 Story 9',function(){
+		it('Should return 400 With invalid UID', function(done) {
+			var options = {
+				url: 'http://localhost:3000/scheduleVisibility/asdf/asdf',
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Should return 400 With invalid number of arguments', function(done) {
+			var options = {
+				url: 'http://localhost:3000/scheduleVisibility/' + testID,
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Should return 400 With invalid time', function(done) {
+			var options = {
+				url: 'http://localhost:3000/scheduleVisibility/' + testID + "/-1",
+				headers: {
+					'Content-Type': 'text/plain'
+				},
+				body: '{}'
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+	});
+
+	describe('Sprint 3User Story Fifteen',function(){
+		it('Should return 400 With no UID Given', function(done) {
+			var options = {
+				url: 'http://localhost:3000/getNearbyUsers/',
+				headers: {
+					'Content-Type': 'text/plain'
+				}
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(400);
+				done();
+			});
+
+		});
+		it('Input: Valid UID | Output: 200 Status Code, non null response body', function(done){
+			var options = {
+				url: 'http://localhost:3000/getNearbyUsers/' + testID,
+				headers: {
+					'Content-Type': 'text/plain'
+				}
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equals(200);
+				assert.notEqual(JSON.parse(body).payload, null);
+				done();
+			});
+
+		});
+		it("Input: Invalid UID | Output: 400 Status Code", function(done) {
+			var options = {
+				url: 'http://localhost:3000/getNearbyUsers/' + "asdfasdf",
+				headers: {
+					'Content-Type': 'text/plain'
+				}
+			};
+			request.get(options, function(err, res, body){
+				expect(res.statusCode).to.equal(400);
+				
+				done();
+			});
 		});
 	});
 });

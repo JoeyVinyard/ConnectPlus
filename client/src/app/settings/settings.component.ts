@@ -520,7 +520,7 @@ majors: string[] = this.interestObj.majors;
 		const loginOptions: LoginOptions = {
 			enable_profile_selector: true,
 			return_scopes: true,
-			scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
+			scope: 'public_profile,user_friends,email,pages_show_list'
 		};
 		console.log(this.returnLoginStatus());
 		/*todo: Check if loggedin already */
@@ -530,9 +530,9 @@ majors: string[] = this.interestObj.majors;
 				this.fb.login(loginOptions).then((res: LoginResponse) => {
 					console.log('Logged in', res);
 				}).then(() => {
-					this.fb.api('/me/taggable_friends?limit=5000').then((res: any) => {
-						console.log(res);
-						this.db.storeFacebookFriends(res.data, this.model.user.uid).then((data) => {
+					this.fb.api('/me').then((res: any) => {
+						console.log(res.id);
+						this.db.storeFacebookID(res.id, this.model.user.uid).then((data) => {
 							console.log(data);
 						}).catch((err) => {
 							console.error(err);
@@ -629,7 +629,7 @@ majors: string[] = this.interestObj.majors;
 
 
 	addClass(cl: String) {
-		if(this.userClasses.indexOf(this.currSubject + " " + cl) == -1){
+		if(!this.userClasses || this.userClasses.indexOf(this.currSubject + " " + cl) == -1){
 			this.db.addClass(this.model.user.uid, this.currSubject + " " + cl).then((success) => {
 				this.inSubject = false;
 				this.classList = [];
