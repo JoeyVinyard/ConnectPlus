@@ -54,7 +54,6 @@ let component: MapComponent;
 		sortedUsers = users;
 		expect(users).toEqual(sortedUsers);
 	})
-
 	it('should filter users based on YouTube subscriptions', () => {
 		var user1 = {uid: 100, subscriptions: 'Justin Timberlake', common: 0};
 		var user2 = {uid: 101, subscriptions: 'Justin Timberlake', common: 0};
@@ -64,5 +63,25 @@ let component: MapComponent;
 			user2.common = 1;
 		}
 		expect(user1.common).toEqual(1);
+	})
+	it('should find overlapping users based on location', () => {
+		var user1 = {uid: 100, lat: 40.428644, lon: -86.914284, found: 0};
+		var user2 = {uid: 101, lat: 40.428644, lon: -86.914284, found: 0};
+		var user3 = {uid: 102, lat: 50.428644, lon: -87.914284, found: 0};
+		if(user1.lat == user2.lat && user1.lon == user2.lon){
+			user1.found = 1;
+			user2.found = 1;
+		}
+		expect(user1.found).toEqual(1);
+	})
+
+	it('should cluster overlapping users', () => {
+		var user1 = {uid: 100, lat: 40.428644, lon: -86.914284, cluster: 0};
+		var user2 = {uid: 101, lat: 40.428644, lon: -86.914284, cluster: 0};
+		if(user1.lat == user2.lat && user1.lon == user2.lon){
+			user1.cluster = 1;
+			user2.cluster = 1;
+		}
+		expect(user1.cluster).toEqual(1);
 	})
 });

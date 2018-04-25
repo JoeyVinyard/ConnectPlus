@@ -520,7 +520,7 @@ majors: string[] = this.interestObj.majors;
 		const loginOptions: LoginOptions = {
 			enable_profile_selector: true,
 			return_scopes: true,
-			scope: 'public_profile,user_friends,email,pages_show_list,read_custom_friendlists'
+			scope: 'public_profile,user_friends,email,pages_show_list'
 		};
 		console.log(this.returnLoginStatus());
 		/*todo: Check if loggedin already */
@@ -530,9 +530,9 @@ majors: string[] = this.interestObj.majors;
 				this.fb.login(loginOptions).then((res: LoginResponse) => {
 					console.log('Logged in', res);
 				}).then(() => {
-					this.fb.api('/me/taggable_friends?limit=5000').then((res: any) => {
-						console.log(res);
-						this.db.storeFacebookFriends(res.data, this.model.user.uid).then((data) => {
+					this.fb.api('/me').then((res: any) => {
+						console.log(res.id);
+						this.db.storeFacebookID(res.id, this.model.user.uid).then((data) => {
 							console.log(data);
 						}).catch((err) => {
 							console.error(err);
@@ -772,18 +772,23 @@ majors: string[] = this.interestObj.majors;
 
 	addFeedback(feedback: String) {
 		if (this.model.feedback) {
+			this.success.feedbackS = "";
+			this.errors.feedbackE = ""
 			this.db.addFeedback(feedback).then((success) => {
 				this.model.feedback = "";
+				this.errors.feedbackE = ""
 				this.success.feedbackS = "Thank you for your feedback. It has been sent to our developers."
 				//this.interestList = [];
 				console.log("why")
 
 			}).catch((err) => {
+				this.success.feedbackS = "";
 				this.errors.feedbackE = "Looks like there was an error. Please try again."
 				console.log(err);
 			})
 		} else {
 			this.errors.feedbackE = "Looks like you are tyring to submit nothing."
+			this.success.feedbackS = "";
 
 		}
 	}
