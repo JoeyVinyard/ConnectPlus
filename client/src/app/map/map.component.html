@@ -7,7 +7,7 @@
 		<div class="medium-12 column" id="mapView">
 			<div class="medium-12 column" id="innerMap" [ngClass]="{'' : !userVisible, 'opacity' : userVisible, '' : !filterVisible, 'opacity' : filterVisible, '' : !clusterVisible, 'opacity' : clusterVisible}">
 				<agm-map [latitude]="lat" [longitude]="lng" [zoomControl]="false" [mapTypeControl]="false" [scaleControl]="false" [streetViewControl]="false"
-				 [rotateControl]="false" [fullscreenControl]="false" [mapDraggable]="true" [scrollwheel]="false" [zoom]="zoom" [clickableIcons]="false">
+				 [rotateControl]="false" [fullscreenControl]="false" [mapDraggable]="false" [scrollwheel]="false" [zoom]="zoom" [clickableIcons]="false">
 					<agm-marker [latitude]="lat" [longitude]="lng" [iconUrl]="userPin"></agm-marker>
 					<agm-marker *ngFor="let user of tier1" (markerClick)="viewUser(user)" [iconUrl]="tier1Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
 					<agm-marker *ngFor="let user of tier2" (markerClick)="viewUser(user)" [iconUrl]="tier2Pin" [latitude]="user.lat" [longitude]="user.lon"></agm-marker>
